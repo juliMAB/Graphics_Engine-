@@ -4,10 +4,9 @@
 //#include <glew.h>
 #include <GLFW/glfw3.h>
 
-namespace Graficos1 {
 
 	Window::Window() {
-
+		_window=NULL;
 	}
 	Window::~Window() {
 
@@ -44,4 +43,3 @@ namespace Graficos1 {
 	GLFWwindow* Window::GetWindow() {
 		return _window;
 	}
-}

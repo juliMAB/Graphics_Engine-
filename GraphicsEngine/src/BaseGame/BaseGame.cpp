@@ -3,7 +3,7 @@
 #include <time.h>
 //#include <glew.h>
 #include <glfw/glfw3.h>
-
+#include "../Window/Window.h"
 #include "../Exports/Exports.h"
 
 	GameBase::GameBase() {
