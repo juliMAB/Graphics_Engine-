@@ -158,7 +158,7 @@
   <ItemGroup>
     <ClInclude Include="src\BaseGame\BaseGame.h" />
     <ClInclude Include="src\Exports\Exports.h" />
-    <ClInclude Include="Window.h" />
+    <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
