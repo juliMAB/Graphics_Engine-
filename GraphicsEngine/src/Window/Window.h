@@ -1,13 +1,7 @@
-#include <GLFW/glfw3.h>
 #ifndef WINDOW_H
 #define WINDOW_H
-
-#ifdef GraficosEngine_Exports
-#define GraficosEngine_API __declspec(dllexport) //Especifica clase para exportacion
-#else
-#define GraficosEngine_API __declspec(dllimport) //Especifica clase para importacion
-#endif
-namespace Graficos1 {
+#include <GLFW/glfw3.h>
+#include "src/Exports/Exports.h"
 
 	class GraficosEngine_API Window {
 		GLFWwindow* _window;
@@ -23,6 +17,6 @@ namespace Graficos1 {
 		GLFWwindow* GetWindow();
 	};
 
-}
+
 
 #endif
