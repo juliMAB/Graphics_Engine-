@@ -1,19 +1,18 @@
 #ifndef GAME_H
 #define GAME_H
-//#include "GameBase/GameBase.h"
+#include "../../../GraphicsEngine/src/BaseGame/BaseGame.h"
 
-namespace Graficos1 {
 
-	class Game {
+	class Game : GameBase {
 		
 	public:
 		Game();
 		~Game();
 		void Play();
-		void Start();
-		void Update();
-		void End();
+		void Start() override;
+		void Update() override;
+		void End() override;
 	};
 
-}
+
 #endif
