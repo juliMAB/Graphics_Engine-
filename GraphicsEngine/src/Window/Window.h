@@ -1,7 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
-#include "glew.h"
-#include "GLFW/glfw3.h"
+struct GLFWwindow;
+struct GLFWmonitor;
 #include "../Exports/Exports.h"
 
 	class GraficosEngine_API Window {

@@ -1,7 +1,7 @@
 #include "BaseGame.h"
 #include <iostream>
 #include <time.h>
-//#include <glew.h>
+#include <glew.h>
 #include <glfw/glfw3.h>
 #include "../Window/Window.h"
 #include "../Exports/Exports.h"
@@ -27,7 +27,7 @@
 
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-		_window->MakeWindow(1366, 768, "Coco", NULL);
+		_window->MakeWindow(1365, 768, "Sauron", NULL);
 
 		int bufferWidth;
 		int bufferHeight;

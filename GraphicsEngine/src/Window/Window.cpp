@@ -1,8 +1,8 @@
 #include "Window.h"
 #include <iostream>
 
-//#include <glew.h>
-#include <GLFW/glfw3.h>
+#include "glew.h"
+#include "GLFW/glfw3.h"
 
 
 	Window::Window() {

@@ -1,6 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
-#include "../../../GraphicsEngine/src/BaseGame/BaseGame.h"
+#include "BaseGame/BaseGame.h"
 
 
 	class Game : GameBase {

@@ -102,7 +102,7 @@
       <AdditionalDependencies>GraphicsEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\Win32\Debug\Motor32.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
+      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\Win32\Debug\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
