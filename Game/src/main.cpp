@@ -1,6 +1,7 @@
 #include "Game/Game.h"
 #include <iostream>
-int main(void) {
+
+int main() {
 	Game* g = new Game();
 	if (g) {
 		g->Start();
@@ -8,4 +9,5 @@ int main(void) {
 		g->End();
 		delete g;
 	}
+	return 0;
 }
