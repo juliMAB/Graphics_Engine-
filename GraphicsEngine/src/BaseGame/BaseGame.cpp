@@ -22,13 +22,17 @@ void BaseGame::RunGame() {
 }
 void BaseGame::Awake() {
 	if (!glfwInit())
-		return;
+		Exit();
+	
 	_window->Awake();
 	_renderer->Awake(_window);
 }
 void BaseGame::Start() {
 	_window->Start();
+	if (!glewInit())
+		return;
 	_renderer->Start();
+
 }
 void BaseGame::Update() {
 	while (!glfwWindowShouldClose(_window->GetWindow())) {

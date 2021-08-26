@@ -5,9 +5,6 @@ Window::Window() {
 }
 void Window::Awake() {
 	_window = glfwCreateWindow(640, 480, "SauronAndFeloz->Stefano(true)", NULL, NULL);
-	if (_window) {
-		int a = 10;
-	}
 }
 void Window::Start() {
 	if (!_window) {
