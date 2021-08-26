@@ -15,5 +15,6 @@ public:
 
 	// --------------------
 	void DrawTriangle(float size);
+	void SetClearWindow(float r, float g, float b, float a);
 };
 #endif

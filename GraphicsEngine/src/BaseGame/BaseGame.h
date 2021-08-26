@@ -9,7 +9,7 @@ private:
 	Renderer* _renderer;
 public:
 	BaseGame();
-	 ~BaseGame();
+	~BaseGame();
 	void RunGame();
 
 	void Awake();
