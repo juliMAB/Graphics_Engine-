@@ -24,6 +24,7 @@ void BaseGame::Awake() {
 	if (!glfwInit())
 		return;
 	_window->Awake();
+	_renderer->Awake(_window);
 }
 void BaseGame::Start() {
 	_window->Start();
