@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>{c56e9b70-cd20-4829-87ba-ce08007a1eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\Shaders">
+      <UniqueIdentifier>{a08730fe-af8c-40f6-98cf-0541f05a000c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame\BaseGame.cpp">
@@ -38,5 +44,10 @@
     <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\FragmentShader.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
