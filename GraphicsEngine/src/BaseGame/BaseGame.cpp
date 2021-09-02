@@ -17,16 +17,18 @@ BaseGame::~BaseGame() {
 void BaseGame::Awake() {
 	if (!glfwInit())
 		Exit();
-	
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	_window->Awake();
 	_renderer->Awake(_window);
 }
 void BaseGame::Start() {
 	_window->Start();
-	if (!glewInit())
-		return;
+	
+	if (glewInit())
+		int a = 1;
 	_renderer->Start();
-
 }
 void BaseGame::Update() {
 	while (!glfwWindowShouldClose(_window->GetWindow())) {

@@ -1,7 +1,7 @@
 #ifndef EXPORTS_H
 #define EXPORTS_H
-#include "glew.h"
-#include "glfw3.h"
+#include "../GLEW/glew.h"
+#include "../GLFW/glfw3.h"
 
 #ifdef GraficosEngine_API
 #define GraficosEngine_API __declspec(dllexport) //Especifica clase para exportacion

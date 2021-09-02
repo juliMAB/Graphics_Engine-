@@ -96,13 +96,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;GraficosEngine_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLAD</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLEW</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLEW;$(SolutionDir)GraphicsEngine\lib\GLAD</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
