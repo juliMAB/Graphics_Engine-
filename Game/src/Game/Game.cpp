@@ -4,6 +4,14 @@ Game::Game() {
 }
 Game::~Game() {
 }
+
+void Game::Init() {
+	Awake();
+	Start();
+}
 void Game::Play() {
-	RunGame();
+	Update();
+}
+void Game::End() {
+	
 }

@@ -7,6 +7,8 @@ class Game : BaseGame {
 public:
 	Game();
 	~Game();
+	void Init();
 	void Play();
+	void End();
 };
 #endif

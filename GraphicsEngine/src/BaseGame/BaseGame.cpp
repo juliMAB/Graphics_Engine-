@@ -14,12 +14,6 @@ BaseGame::~BaseGame() {
 		delete _renderer;
 	}
 }
-void BaseGame::RunGame() {
-	Awake();
-	Start();
-	Update();
-	Exit();
-}
 void BaseGame::Awake() {
 	if (!glfwInit())
 		Exit();

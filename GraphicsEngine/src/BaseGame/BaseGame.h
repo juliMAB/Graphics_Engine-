@@ -10,7 +10,6 @@ private:
 public:
 	BaseGame();
 	~BaseGame();
-	void RunGame();
 
 	void Awake();
 	void Start();

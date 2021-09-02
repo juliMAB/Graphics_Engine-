@@ -2,10 +2,12 @@
 #include <iostream>
 
 int main() {
-	Game* g = new Game();
-	if (g) {
-		g->Play();
-		delete g;		
-	}	
+    Game* game = new Game();
+    if (game) {
+        game->Init();
+        game->Play();
+        game->End();
+        delete game;
+    }
 	return 0;
 }
