@@ -1,6 +1,5 @@
 #ifndef GAMEBASE_H
 #define GAMEBASE_H
-#include "../Window/Window.h"
 #include "../Renderer/Renderer.h"
 
 class GraficosEngine_API BaseGame {

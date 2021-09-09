@@ -49,5 +49,8 @@
     <None Include="Shaders\FragmentShader.shader">
       <Filter>res\Shaders</Filter>
     </None>
+    <None Include="Shaders\VertexShader.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
