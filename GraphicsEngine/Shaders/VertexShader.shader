@@ -1,25 +1,11 @@
-#ifndef VERTEXSHADER_H
-#define VERTEXSHADER_H
+#version 330 core
+layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aColor;
 
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <glm\gtc\type_ptr.hpp>
+out vec3 ourColor;
 
-
-	// Vertex Shader
-	static const char* vShader = "					\n\
-#version 330										\n\
-layout(location = 0) in vec3 pos;					\n\
-layout(location = 1) in vec3 colorrrr;				\n\
-layout(location = 2) in vec2 tex;					\n\
-uniform mat4 model;									\n\
-out vec4 vColor;									\n\
-out vec2 TexCoord;									\n\
-void main(){										\n\
-	gl_Position =  model * vec4(pos, 1.0f);			\n\
-	vColor = vec4(colorrrr, 1.0f);					\n\
-	TexCoord = tex;									\n\
-}";
-
-
-#endif
+void main()
+{
+    gl_Position = vec4(aPos, 1.0);
+    ourColor = aColor;
+}
