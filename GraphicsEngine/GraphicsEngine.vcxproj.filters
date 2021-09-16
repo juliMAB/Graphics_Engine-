@@ -62,9 +62,6 @@
     <ClInclude Include="src\Input\Input.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="src\Maths\Math.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\FragmentShader.shader">
