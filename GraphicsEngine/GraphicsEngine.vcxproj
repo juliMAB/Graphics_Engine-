@@ -167,13 +167,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\BaseGame\BaseGame.cpp" />
+    <ClCompile Include="src\Entity\Entity.cpp" />
+    <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Shape\Shape.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BaseGame\BaseGame.h" />
+    <ClInclude Include="src\Entity\Entity.h" />
     <ClInclude Include="src\Exports\Exports.h" />
+    <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Maths\Math.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
