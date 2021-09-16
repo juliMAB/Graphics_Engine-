@@ -8,5 +8,9 @@
 #else
 #define GraficosEngine_API __declspec(dllimport) //Especifica clase para importacion
 #endif
-
+struct Color {
+	float r;
+	float g;
+	float b;
+};
 #endif
