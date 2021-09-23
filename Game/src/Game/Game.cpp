@@ -8,6 +8,7 @@ Game::~Game() {
 void Game::Init() {
 	Awake();
 	Start();
+	Play();
 }
 void Game::Play() {
 	Update();
