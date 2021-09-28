@@ -102,7 +102,7 @@
       <SubSystem>
       </SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLEW</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLEW;$(SolutionDir)GraphicsEngine\Lib\GLM\glm</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;glew32s.lib</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
