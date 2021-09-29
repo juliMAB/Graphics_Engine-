@@ -13,6 +13,7 @@ Window::Window() {
 void Window::Awake() {
 	_window = glfwCreateWindow(640, 480, "SauronAndFeloz", NULL, NULL);
 }
+
 void Window::Start() {
 	if (!_window) {
 		Exit();
@@ -29,6 +30,15 @@ void Window::Exit() {
 void Window::PoolEvents() {
 	glfwPollEvents();
 }
+int Window::MakeWindow(int w, int h, std::string name)
+{
+	_window = glfwCreateWindow(w, h, name.c_str(), NULL, NULL);
+	if (!_window) {
+		std::cout << "Fail to create GLFW window" << std::endl;
+		return 0;
+	}
+	return 1;
+}
 void Window::SwapBuffers(){
 	glfwSwapBuffers(_window);
 }
@@ -37,4 +47,10 @@ GLFWwindow* Window::GetWindow() {
 }
 void Window::ResizeWindow(int width, int height) {
 	glfwSetWindowSize(_window, width, height);
+}
+
+void Window::ClearWindow(float r, float g, float b, float a)
+{
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(r, g, b, a);
 }
