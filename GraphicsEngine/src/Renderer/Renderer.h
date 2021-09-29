@@ -33,15 +33,12 @@ public:
 	void Awake(Window* window);
 	void Start();
 	void Update();
-	void Exit();
-	void BeginDrawing();
 	// --------------------
 	void SetClearWindow(float r, float g, float b, float a);
 	void ClearWindow();
 	void ShadersStart();
 	std::string ReadVertexShader();
 	std::string ReadFragmentShader();
-	void ShadersUpdate();
 	void SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource);
 	void SetFragmentShader(unsigned int &fragmentShader, const char* fragmentShaderSource);
 	void LinkShaders(unsigned int vertexShader, unsigned int fragmentShader);

@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../../Lib/GLM/gtc/type_ptr.hpp"
 
-
 static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 static glm::mat4 view = glm::mat4(1.0f);
 Renderer::Renderer() {
@@ -17,19 +16,12 @@ void Renderer::Awake(Window* window) {
 }
 void Renderer::Start() {
 	ShadersStart();
-	view = glm::lookAt(glm::vec3(0, 0, -15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	view = glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	projection = glm::mat4(1.0f);
-	//projectionMatrix = glm::ortho(0.0f, (float)currentWindow->getWidth(), 0.0f, (float)currentWindow->getHeight(), 0.1f, 100.0f);
 	projection = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
 }
 void Renderer::Update() {
 	SetClearWindow(1, 1, 1, 1);
-}
-void Renderer::Exit() {
-
-}
-void Renderer::BeginDrawing() {
-	
 }
 void Renderer::SetClearWindow(float r, float g, float b, float a) {
 	glClearColor(r, g, b, a);
@@ -91,11 +83,6 @@ void Renderer::ShadersStart() {
 	SetVertexShader(vertexShader, vertexShaderSource);
 	SetFragmentShader(fragmentShader, fragmentShaderSource);
 	LinkShaders(vertexShader, fragmentShader);
-	//SetTriangle();
-
-}
-void Renderer::ShadersUpdate() {
-	
 }
 void Renderer::SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource) {
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -141,44 +128,6 @@ void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShade
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
-//void Renderer::DrawTriangle() {
-//	glUseProgram(programShader);
-//	glBindVertexArray(VAO);
-//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
-//}
-//void Renderer::SetTriangle() {
-//	float vertices[] = {
-//		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
-//		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom right
-//		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-//		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f  // top left 
-//	};
-//	unsigned int indices[] = {  // note that we start from 0!
-//		0, 1, 3,  // first Triangle
-//		1, 2, 3   // second Triangle
-//	};
-//	
-//	glGenVertexArrays(1, &VAO);
-//	glGenBuffers(1, &VBO);
-//	glGenBuffers(1, &EBO);
-//
-//	glBindVertexArray(VAO);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-//	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-//
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-//
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-//	glEnableVertexAttribArray(0);
-//
-//	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-//	glEnableVertexAttribArray(1);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glBindVertexArray(0);
-//}
 void Renderer::SetBuffers(int tam, float* verts, uint& vbo, uint& vao) {
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -226,9 +175,5 @@ void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, u
 	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 	glUseProgram(0);
 }
-
 uint Renderer::GetShader() { return programShader; }
-
-void Renderer::SwapBuffers() {
-	glfwSwapBuffers(_window->GetWindow());
-}
+void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }

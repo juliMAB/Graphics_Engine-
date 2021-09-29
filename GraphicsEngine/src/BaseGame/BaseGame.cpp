@@ -68,11 +68,8 @@ bool BaseGame::GlewStart()
 }
 void BaseGame::End()
 {
-	_renderer->Exit();
 	glfwTerminate();
 }
-
-
 void BaseGame::Exit() {
 	_window->Exit();
 }
@@ -82,9 +79,7 @@ Window* BaseGame::GetWindow() {
 Renderer* BaseGame::GetRenderer() {
 	return _renderer;
 }
-void BaseGame::ClearWindow(float r, float g, float b, float a) {
-	_window->ClearWindow(r, g, b, a);
-}
+void BaseGame::ClearWindow(float r, float g, float b, float a) { _window->ClearWindow(r, g, b, a); }
 bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
 bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyRelease(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }

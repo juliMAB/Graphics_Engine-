@@ -127,15 +127,3 @@ void Entity::SetScale(float x, float y, float z)
 	matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
 	UpdateMatrixData();
 }
-//Renderer* Entity::GetRenderer() {
-//	return _renderer;
-//}
-//void Entity::SetRenderer(Renderer* rend) {
-//	_renderer = rend;
-//}
-//void Entity::DrawTriangle(Triangle triangle, Color color) {
-//	
-//}
-//void Entity::SetTriangle() {
-//	
-//}

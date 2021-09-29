@@ -48,8 +48,8 @@ protected:
 	uint _uniformView;
 	uint _uniformProjection;
 	
-public:
 	Renderer* GetRenderer();
+public:
 	void SetRenderer(Renderer* r);
 	//void DrawTriangle(Triangle triangle, Color color);
 	//void SetTriangle();
@@ -59,20 +59,16 @@ public:
 
 	Transform transform;
 	Matrix matrix;
-
-	//void SetCanDraw(bool cd);
-	//virtual void SetAffectedByLight(bool abl);
 	
-	//pos
 	virtual void SetPos(float x, float y, float z);
 	virtual void SetPos(glm::vec3 pos);
 	virtual void SetRotX(float x);
 	virtual void SetRotY(float y);
 	virtual void SetRotZ(float z);
-	//rotation
+
 	virtual void SetRotations(float x, float y, float z);
 	virtual void SetRotations(glm::vec3 rotation);
-	//scale
+
 	virtual void SetScale(float x, float y, float z);
 };
 
