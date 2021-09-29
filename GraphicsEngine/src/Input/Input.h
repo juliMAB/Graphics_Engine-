@@ -59,7 +59,8 @@ public:
 		KEY_DOWN = 264,
 		KEY_UP = 265,
 	};
-	
+	static void CheckClearInputList();
+	static void StartInputSystem();
 	static bool IsKeyDown(KeyCode key);
 	static bool IsKeyRelease(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
