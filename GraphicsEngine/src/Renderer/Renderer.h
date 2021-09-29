@@ -7,25 +7,33 @@
 #include <sstream>
 #include <iostream>
 
+static enum TypeShader {
+	Colour,
+	Texture
+};
+enum TypeShape {
+	Triangle, Quad
+};
+typedef unsigned int uint;
 class GraficosEngine_API Renderer {
 private:
 	const std::string vertexPath = "../GraphicsEngine/Shaders/VertexShader.shader";
 	const std::string fragmentPath = "../GraphicsEngine/Shaders/FragmentShader.shader";
-		
-	Window* _window;
-	unsigned int buffer;
-	unsigned int programShader;
-	unsigned int VBO, VAO, EBO;
 
+	Window* _window;
+	//unsigned int buffer;
+	unsigned int programShader;
+	//unsigned int VBO, VAO, EBO;
 public:
 	Renderer();
+	~Renderer();
 	void Awake(Window* window);
 	void Start();
 	void Update();
 	void Exit();
 	void BeginDrawing();
 	// --------------------
-	void DrawTriangle(float size);
+	//void DrawTriangle(float size);
 	void SetClearWindow(float r, float g, float b, float a);
 	void ClearWindow();
 	void ShadersStart();
@@ -35,7 +43,12 @@ public:
 	void SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource);
 	void SetFragmentShader(unsigned int &fragmentShader, const char* fragmentShaderSource);
 	void LinkShaders(unsigned int vertexShader, unsigned int fragmentShader);
-	void DrawTriangle();
-	void SetTriangle();
+	//void DrawTriangle();
+	//void SetTriangle();
+	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
+	void SetIndex(int tam, uint* indexs, uint& ibo);
+	void Setattributes(uint location, int size, int stride, int offset);
+	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
+	uint GetShader() { return programShader; };
 };
 #endif

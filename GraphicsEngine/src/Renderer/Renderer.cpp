@@ -3,11 +3,10 @@
 
 Renderer::Renderer() {
 	_window = nullptr;
-	buffer = 0;
 	programShader = NULL;
-	VBO = NULL;
-	VAO = NULL;
-	EBO = NULL;
+}
+Renderer::~Renderer()
+{
 }
 void Renderer::Awake(Window* window) {
 	_window = window;
@@ -17,7 +16,7 @@ void Renderer::Start() {
 }
 void Renderer::Update() {
 	SetClearWindow(1, 1, 1, 1);
-	DrawTriangle();
+	//DrawTriangle();
 }
 void Renderer::Exit() {
 
@@ -76,11 +75,16 @@ void Renderer::ShadersStart() {
 	
 	unsigned int vertexShader = NULL;
 	unsigned int fragmentShader = NULL;
-	
+
+	programShader = glCreateProgram();
+	if (!programShader) {
+		std::cout << "Error creating the shader program!" << std::endl;
+		return;
+	}
 	SetVertexShader(vertexShader, vertexShaderSource);
 	SetFragmentShader(fragmentShader, fragmentShaderSource);
 	LinkShaders(vertexShader, fragmentShader);
-	SetTriangle();
+	//SetTriangle();
 }
 void Renderer::ShadersUpdate() {
 	
@@ -129,41 +133,87 @@ void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShade
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
-void Renderer::DrawTriangle() {
-	glUseProgram(programShader);
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
+//void Renderer::DrawTriangle() {
+//	glUseProgram(programShader);
+//	glBindVertexArray(VAO);
+//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);	
+//}
+//void Renderer::SetTriangle() {
+//	float vertices[] = {
+//		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
+//		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom right
+//		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
+//		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f  // top left 
+//	};
+//	unsigned int indices[] = {  // note that we start from 0!
+//		0, 1, 3,  // first Triangle
+//		1, 2, 3   // second Triangle
+//	};
+//	
+//	glGenVertexArrays(1, &VAO);
+//	glGenBuffers(1, &VBO);
+//	glGenBuffers(1, &EBO);
+//
+//	glBindVertexArray(VAO);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+//
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+//
+//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+//	glEnableVertexAttribArray(0);
+//
+//	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+//	glEnableVertexAttribArray(1);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//	glBindVertexArray(0);
+//}
+void Renderer::SetBuffers(int tam, float* verts, uint& vbo, uint& vao) {
+	glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
+
+	glGenBuffers(1, &vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
+	glBufferData(GL_ARRAY_BUFFER, tam, verts, GL_STATIC_DRAW);
+
 }
-void Renderer::SetTriangle() {
-	float vertices[] = {
-		 0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,  // top right
-		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom right
-		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-		-0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 0.0f  // top left 
-	};
-	unsigned int indices[] = {  // note that we start from 0!
-		0, 1, 3,  // first Triangle
-		1, 2, 3   // second Triangle
-	};
-	
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+void Renderer::SetIndex(int tam, uint* indexs, uint& ibo) {
+	glGenBuffers(1, &ibo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
+}
+void Renderer::Setattributes(uint location, int size, int stride, int offset) {
+	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
+	glEnableVertexAttribArray(location);
+}
+void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
 
-	glBindVertexArray(VAO);
+	uint useTextureLoc = glGetUniformLocation(programShader, "useTexture");
+	glUseProgram(programShader);
+	if (t == TypeShader::Colour)
+		glUniform1i(useTextureLoc, false);
+	else
+		glUniform1i(useTextureLoc, true);
 
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	uint affectedByLightLocation = glGetUniformLocation(programShader, "afectedByLight");
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	glEnable(GL_DEPTH_TEST);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	if (shape == TypeShape::Triangle)
+		glDrawArrays(GL_TRIANGLES, 0, verts);
+	else
+		glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
 }

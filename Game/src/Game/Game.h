@@ -3,12 +3,13 @@
 #include "BaseGame/BaseGame.h"
 
 class Game : BaseGame {
-
+	Shape* _shape;
 public:
 	Game();
 	~Game();
 	void Init();
-	void Play();
-	void End();
+	void Start() override;
+	void End() override;
+	void Update() override;
 };
 #endif
