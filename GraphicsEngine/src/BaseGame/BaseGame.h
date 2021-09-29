@@ -7,21 +7,25 @@ class GraficosEngine_API BaseGame {
 private:
 	Window* _window;
 	Renderer* _renderer;
+	
+	void UpdateEngine();
+	bool GlewStart();
+	void Exit();
+	Window* GetWindow();
 public:
+	Renderer* GetRenderer();
 	BaseGame();
 	~BaseGame();
-
-	void Awake();
-	int StartEngine(int width, int height, const char* windowName);
-	void UpdateEngine();
 	virtual void Start() = 0;
-	bool GlewStart();
 	virtual void Update() = 0;
-	void virtual End() = 0;
-	void Exit();
-	
+	virtual void Draw() = 0;
+	virtual void End() = 0;
+
+	int StartEngine(int width, int height, const char* windowName);
+	bool IsKeyDown(Input::KeyCode key);
+	bool IsKeyRelease(Input::KeyCode key);
+	bool IsKeyUp(Input::KeyCode key);
+	void ClearWindow(float r, float g, float b, float a);
 	// --------------------
-	Window* GetWindow();
-	Renderer* GetRenderer();
 };
 #endif

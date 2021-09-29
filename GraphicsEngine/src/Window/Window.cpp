@@ -10,10 +10,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 Window::Window() {
 	_window = nullptr;
 }
-void Window::Awake() {
-	_window = glfwCreateWindow(640, 480, "SauronAndFeloz", NULL, NULL);
-}
-
 void Window::Start() {
 	if (!_window) {
 		Exit();
@@ -38,9 +34,6 @@ int Window::MakeWindow(int w, int h, std::string name)
 		return 0;
 	}
 	return 1;
-}
-void Window::SwapBuffers(){
-	glfwSwapBuffers(_window);
 }
 GLFWwindow* Window::GetWindow() {
 	return _window;

@@ -17,7 +17,6 @@ void Renderer::Start() {
 }
 void Renderer::Update() {
 	SetClearWindow(1, 1, 1, 1);
-	//DrawTriangle();
 }
 void Renderer::Exit() {
 
@@ -216,4 +215,10 @@ void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc) {
 	glUseProgram(GetShader());
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUseProgram(0);
+}
+
+uint Renderer::GetShader() { return programShader; }
+
+void Renderer::SwapBuffers() {
+	glfwSwapBuffers(_window->GetWindow());
 }

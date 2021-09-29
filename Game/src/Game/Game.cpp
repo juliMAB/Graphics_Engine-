@@ -1,5 +1,8 @@
 #include "Game.h"
 
+float rotation = 0;
+float rotationForce = 2;
+bool auxCheck = false;
 Game::Game() {
 }
 Game::~Game() {
@@ -7,33 +10,44 @@ Game::~Game() {
 
 void Game::Init() {
 	StartEngine(1920/2, 1080/2, "SauronTeAmo");
-	//-------------------------------------------
-	_shape = new Shape(GetRenderer());
-	_shape->InitShape(TypeShape::Triangle, TypeShader::Colour);
-	//_shape->SetScale(0.1f, 0.1f, 0.1f);
-	//_shape->SetPos(-0.2f, -0.2f, 0.0f);
-	//_shape->SetRotations(90.0f, 0, 0);
-	_shape->SetRotZ(90.0f);
-
-	//-----------------------------------------
+	End();
 }
+
 void Game::Start()
 {
-	UpdateEngine();
+	//StartEngine(1920 / 2, 1080 / 2, "SauronTeAmo");
+	//End();
 }
-
 void Game::End() {
-	Exit();
+	std::cout << "\n\nEnd.\n\n";
 }
-float xd=0;
 void Game::Update()
 {
-	xd += 0.01f;
-	std::cout << "debug" << std::endl;
-	GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
-	//_shape->SetRotations(xd, xd, xd);
-	//_shape->SetRotX(xd);
-	_shape->SetRotZ(xd);
+	if (!auxCheck) {
+		auxCheck = true;
+		_shape = new Shape(GetRenderer());
+		_shape->InitShape(TypeShape::Triangle, TypeShader::Colour);
+		_shape->SetRotZ(90.0f);
+	}
+	
+	if (IsKeyRelease(Input::KEY_LEFT)) {
+		rotation += rotationForce;
+	}
+	if (IsKeyRelease(Input::KEY_RIGHT)) {
+		rotation -= rotationForce;
+	}
+	if (IsKeyRelease(Input::KEY_A)) {
+		rotation += rotationForce;
+		// mover a la izq
+	}
+	if (IsKeyRelease(Input::KEY_D)) {
+		rotation -= rotationForce;
+		// mover a la der
+	}
+	_shape->SetRotZ(rotation);
+}
+void Game::Draw() {
+	ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
+	_shape->SetRotZ(rotation);
 	_shape->DrawShape();
-	GetWindow()->SwapBuffers();
 }

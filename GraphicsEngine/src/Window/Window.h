@@ -9,14 +9,12 @@ private:
 public:
 	Window();
 
-	void Awake();
 	void Start();
 	void Update();
 	void Exit();
 
 	// --------------------
 	int MakeWindow(int w, int h, std::string name);
-	void SwapBuffers();
 	void PoolEvents();
 	GLFWwindow* GetWindow();
 	void ResizeWindow(int width, int height);
