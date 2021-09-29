@@ -23,24 +23,66 @@ void BaseGame::Awake() {
 	_window->Awake();
 	_renderer->Awake(_window);
 }
-void BaseGame::Start() {
-	_window->Start();
-	
-	if (glewInit())
-		int a = 1;
-	_renderer->Start();
-}
-void BaseGame::Update() {
-	while (!glfwWindowShouldClose(_window->GetWindow())) {
-		_window->Update();
-		_renderer->Update();
-		_window->PoolEvents();
-		_window->SwapBuffers();
+int BaseGame::StartEngine(int width, int height, const char* windowName)
+{
+	if (!glfwInit()) {
+		std::cout << "GLFW Initialization failed" << std::endl;
+		glfwTerminate();
+		return 0;
 	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+	_window->MakeWindow(width, height, windowName);
+	//_window->Start();
+
+	int bufferWidth;
+	int bufferHeight;
+	glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
+
+	_window->Start();
+	Input::SetWindow(_window);
+	Input::StartInputSystem();
+
+	if (!GlewStart()) {
+		glfwTerminate();
+		return 0;
+	}
+	//enable or disable server - side GL capabilities
+	glEnable(GL_DEPTH);
+
+}
+void BaseGame::UpdateEngine()
+{
+	while (!glfwWindowShouldClose(_window->GetWindow())) {
+		Update();	
+		Input::CheckClearInputList();
+		glfwPollEvents();
+	}
+}
+
+bool BaseGame::GlewStart()
+{
+	_window->Start();
+	if (glewInit())
+		return false;
+	_renderer->Start();
+	return true;
+}
+void BaseGame::End()
+{
+	_renderer->Exit();
+	glfwTerminate();
 }
 void BaseGame::Exit() {
 	_window->Exit();
 }
 Window* BaseGame::GetWindow() {
 	return _window;
+}
+Renderer* BaseGame::GetRenderer() {
+	return _renderer;
 }

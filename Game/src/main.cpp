@@ -5,7 +5,7 @@ int main() {
     Game* game = new Game();
     if (game) {
         game->Init();
-        game->Play();
+        game->Start();
         game->End();
         delete game;
     }

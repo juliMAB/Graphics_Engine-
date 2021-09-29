@@ -42,12 +42,10 @@ protected:
 	void UpdateMatrixData();
 	void UpdateTransformsData();
 	typedef unsigned int uint;
-	uint _uniformModel;
-	uint _uniformView;
-	uint _uniformProjection;
-	uint _positionLocation;
-	uint _texLocation;
-	uint _normalLocation;
+	const static uint _positionLocation = 0;
+	const static uint _positionColor = 1;
+	uint transformLoc;
+	
 public:
 	Renderer* GetRenderer();
 	void SetRenderer(Renderer* r);
