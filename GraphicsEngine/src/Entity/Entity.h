@@ -45,6 +45,8 @@ protected:
 	const static uint _positionLocation = 0;
 	const static uint _positionColor = 1;
 	uint transformLoc;
+	uint _uniformView;
+	uint _uniformProjection;
 	
 public:
 	Renderer* GetRenderer();

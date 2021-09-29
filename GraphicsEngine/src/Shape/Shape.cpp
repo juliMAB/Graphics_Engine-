@@ -5,6 +5,7 @@
 #include "../GLM/gtc/type_ptr.hpp"
 
 
+
 	static float triangleVerticesCol[18] = {
 		0.0f, 0.5f, 0.0f,	/**/ 1.0f, 0.0f, 0.0f,/* 0.0f, 0.0f,*/
 		0.5f, -0.5f, 0.0f,	/**/ 0.0f, 1.0f, 0.0f,/* 0.0f, 0.0f,*/
@@ -65,7 +66,7 @@
 
 	void Shape::DrawShape() 
 	{
-		GetRenderer()->UpdateMVP(matrix.model, transformLoc);
+		GetRenderer()->UpdateMVP(matrix.model, transformLoc, _uniformView, _uniformProjection);
 		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
 	}
 
@@ -85,6 +86,8 @@
 		typeOfShape = type;
 		typeShader = t;
 		vertexColorLocation = glGetUniformLocation(GetRenderer()->GetShader(), "ourColor");
+		_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
+		_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
 		glUseProgram(GetRenderer()->GetShader());
 		//glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 		switch (type) {

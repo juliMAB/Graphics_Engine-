@@ -28,6 +28,7 @@ void Game::Update()
 		_shape = new Shape(GetRenderer());
 		_shape->InitShape(TypeShape::Triangle, TypeShader::Colour);
 		_shape->SetRotZ(90.0f);
+		//_shape->SetPos(10, 10, 10);
 	}
 	
 	if (IsKeyRelease(Input::KEY_LEFT)) {

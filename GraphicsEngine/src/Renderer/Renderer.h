@@ -8,6 +8,8 @@
 #include <sstream>
 #include <iostream>
 
+
+
 static enum TypeShader {
 	Colour,
 	Texture
@@ -47,8 +49,8 @@ public:
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
-	void UpdateMVP(glm::mat4 model, uint transformLoc);
 	uint GetShader();
 	void SwapBuffers();
+	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection);
 };
 #endif

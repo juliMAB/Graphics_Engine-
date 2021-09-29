@@ -16,7 +16,8 @@
 		uint _ibo;
 
 		uint vertexColorLocation;
-
+		uint _uniformView;
+		uint _uniformProjection;
 	public:
 		Shape(Renderer* rend);
 		~Shape();

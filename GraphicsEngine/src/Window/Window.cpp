@@ -28,6 +28,7 @@ void Window::PoolEvents() {
 }
 int Window::MakeWindow(int w, int h, std::string name)
 {
+	_width = w, _height = h;
 	_window = glfwCreateWindow(w, h, name.c_str(), NULL, NULL);
 	if (!_window) {
 		std::cout << "Fail to create GLFW window" << std::endl;
@@ -46,4 +47,14 @@ void Window::ClearWindow(float r, float g, float b, float a)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(r, g, b, a);
+}
+
+int Window::GetHeight()
+{
+	return _height;
+}
+
+int Window::GetWidth()
+{
+	return _width;
 }

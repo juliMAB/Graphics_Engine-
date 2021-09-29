@@ -2,6 +2,9 @@
 #include <iostream>
 #include "../../Lib/GLM/gtc/type_ptr.hpp"
 
+
+static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
+static glm::mat4 view = glm::mat4(1.0f);
 Renderer::Renderer() {
 	_window = nullptr;
 	programShader = NULL;
@@ -14,6 +17,10 @@ void Renderer::Awake(Window* window) {
 }
 void Renderer::Start() {
 	ShadersStart();
+	view = glm::lookAt(glm::vec3(0, 0, -15), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	projection = glm::mat4(1.0f);
+	//projectionMatrix = glm::ortho(0.0f, (float)currentWindow->getWidth(), 0.0f, (float)currentWindow->getHeight(), 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
 }
 void Renderer::Update() {
 	SetClearWindow(1, 1, 1, 1);
@@ -85,6 +92,7 @@ void Renderer::ShadersStart() {
 	SetFragmentShader(fragmentShader, fragmentShaderSource);
 	LinkShaders(vertexShader, fragmentShader);
 	//SetTriangle();
+
 }
 void Renderer::ShadersUpdate() {
 	
@@ -211,9 +219,11 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
-void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc) {
+void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection) {
 	glUseProgram(GetShader());
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
 	glUseProgram(0);
 }
 

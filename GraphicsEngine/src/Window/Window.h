@@ -6,6 +6,7 @@
 class GraficosEngine_API Window {
 private:
 	GLFWwindow* _window;
+	int _width,_height;
 public:
 	Window();
 
@@ -19,5 +20,7 @@ public:
 	GLFWwindow* GetWindow();
 	void ResizeWindow(int width, int height);
 	void ClearWindow(float r, float g, float b, float a);
+	int GetHeight();
+	int GetWidth();
 };
 #endif

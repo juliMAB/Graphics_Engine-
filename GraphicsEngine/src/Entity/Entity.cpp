@@ -13,6 +13,8 @@ Entity::Entity(Renderer* rend) {
 
 	transform.rotationQuaternion = glm::quat(0, 0, 0, 1);
 	transformLoc = glGetUniformLocation(GetRenderer()->GetShader(), "transform");
+	_uniformProjection = glGetUniformLocation(GetRenderer()->GetShader(), "projection");
+	_uniformView = glGetUniformLocation(GetRenderer()->GetShader(), "view");
 	SetPos(0.0f, 0.0f, 0.0f);
 	SetRotations(0, 0, 0);
 	SetScale(1.0f, 1.0f, 1.0f);
