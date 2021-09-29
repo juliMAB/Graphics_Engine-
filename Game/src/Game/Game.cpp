@@ -10,14 +10,16 @@ void Game::Init() {
 	//-------------------------------------------
 	_shape = new Shape(GetRenderer());
 	_shape->InitShape(TypeShape::Triangle, TypeShader::Colour);
-	//_shape->SetScale(0.33f, 0.33f, 0.33f);
-	//_shape->SetPos(-1.0f, -1, 5);
+	//_shape->SetScale(0.1f, 0.1f, 0.1f);
+	//_shape->SetPos(-0.2f, -0.2f, 0.0f);
+	//_shape->SetRotations(90.0f, 0, 0);
+	_shape->SetRotZ(90.0f);
+
 	//-----------------------------------------
 }
 void Game::Start()
 {
 	UpdateEngine();
-	
 }
 
 void Game::End() {
@@ -26,7 +28,12 @@ void Game::End() {
 float xd=0;
 void Game::Update()
 {
-	GetWindow()->ClearWindow(xd, xd, xd, 1.0f);
+	xd += 0.01f;
+	std::cout << "debug" << std::endl;
+	GetWindow()->ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
+	//_shape->SetRotations(xd, xd, xd);
+	//_shape->SetRotX(xd);
+	_shape->SetRotZ(xd);
 	_shape->DrawShape();
 	GetWindow()->SwapBuffers();
 }

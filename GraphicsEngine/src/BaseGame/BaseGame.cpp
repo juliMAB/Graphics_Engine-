@@ -63,12 +63,7 @@ void BaseGame::UpdateEngine()
 		glfwPollEvents();
 	}
 }
-void BaseGame::Start() {
-	_window->Start();
-	if (glewInit())
-		int a = 1;
-	_renderer->Start();
-}
+
 bool BaseGame::GlewStart()
 {
 	_window->Start();

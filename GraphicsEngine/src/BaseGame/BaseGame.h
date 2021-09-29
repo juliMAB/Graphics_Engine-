@@ -18,7 +18,6 @@ public:
 	bool GlewStart();
 	virtual void Update() = 0;
 	void virtual End() = 0;
-
 	void Exit();
 	
 	// --------------------

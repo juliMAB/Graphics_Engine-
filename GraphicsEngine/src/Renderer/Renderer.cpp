@@ -1,5 +1,6 @@
 ﻿#include "Renderer.h"
 #include <iostream>
+#include "../../Lib/GLM/gtc/type_ptr.hpp"
 
 Renderer::Renderer() {
 	_window = nullptr;
@@ -191,29 +192,28 @@ void Renderer::Setattributes(uint location, int size, int stride, int offset) {
 	glEnableVertexAttribArray(location);
 }
 void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
+	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
 
-	uint useTextureLoc = glGetUniformLocation(programShader, "useTexture");
 	glUseProgram(programShader);
-	if (t == TypeShader::Colour)
-		glUniform1i(useTextureLoc, false);
-	else
-		glUniform1i(useTextureLoc, true);
-
-	uint affectedByLightLocation = glGetUniformLocation(programShader, "afectedByLight");
 
 	glEnable(GL_DEPTH_TEST);
 
 	if (shape == TypeShape::Triangle)
-		glDrawArrays(GL_TRIANGLES, 0, verts);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 	else
 		glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
+void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc) {
+	glUseProgram(GetShader());
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUseProgram(0);
 }

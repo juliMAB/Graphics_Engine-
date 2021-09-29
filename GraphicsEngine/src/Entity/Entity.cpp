@@ -12,6 +12,7 @@ Entity::Entity(Renderer* rend) {
 	matrix.scale = glm::mat4(1.0f);
 
 	transform.rotationQuaternion = glm::quat(0, 0, 0, 1);
+	transformLoc = glGetUniformLocation(GetRenderer()->GetShader(), "transform");
 	SetPos(0.0f, 0.0f, 0.0f);
 	SetRotations(0, 0, 0);
 	SetScale(1.0f, 1.0f, 1.0f);
@@ -89,6 +90,7 @@ void Entity::SetRotX(float x) {
 	UpdateMatrixData();
 	UpdateTransformsData();
 }
+
 void Entity::SetRotY(float y) {
 	transform.rotation.y = y;
 	transform.localRotation.y = y;

@@ -15,7 +15,7 @@
 		uint _vao;
 		uint _ibo;
 
-		
+		uint vertexColorLocation;
 
 	public:
 		Shape(Renderer* rend);

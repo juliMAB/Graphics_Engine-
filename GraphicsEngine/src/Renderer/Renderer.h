@@ -2,6 +2,7 @@
 #define RENDERER_H
 #include "../Exports/Exports.h"
 #include "../Window/Window.h"
+#include "../GLM/mat4x4.hpp"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -49,6 +50,7 @@ public:
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
+	void UpdateMVP(glm::mat4 model, uint transformLoc);
 	uint GetShader() { return programShader; };
 };
 #endif
