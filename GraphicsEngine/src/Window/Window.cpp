@@ -42,18 +42,15 @@ GLFWwindow* Window::GetWindow() {
 void Window::ResizeWindow(int width, int height) {
 	glfwSetWindowSize(_window, width, height);
 }
-
 void Window::ClearWindow(float r, float g, float b, float a)
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glClearColor(r, g, b, a);
 }
-
 int Window::GetHeight()
 {
 	return _height;
 }
-
 int Window::GetWidth()
 {
 	return _width;
