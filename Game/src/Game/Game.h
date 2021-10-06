@@ -4,6 +4,7 @@
 
 class Game : BaseGame {
 	Shape* _shape;
+	Shape* _shape2;
 public:
 	Game();
 	~Game();

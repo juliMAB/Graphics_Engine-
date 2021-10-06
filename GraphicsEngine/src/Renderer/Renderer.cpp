@@ -147,7 +147,7 @@ void Renderer::Setattributes(uint location, int size, int stride, int offset) {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 	glEnableVertexAttribArray(location);
 }
-void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
+void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs) {
 	
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -168,11 +168,14 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
-void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection) {
+void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color) {
 	glUseProgram(GetShader());
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glm::vec3 newColor=glm::vec3(color.r,color.g,color.b);
+	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
+	glUniform1fv(uniformAlpha, 1, &color.a);
 	glUseProgram(0);
 }
 uint Renderer::GetShader() { return programShader; }

@@ -19,14 +19,6 @@ private:
 		glm::vec3 rotation;
 		glm::vec3 scale;
 		glm::quat rotationQuaternion;
-
-		glm::vec3 localPosition;
-		glm::vec3 localRotation;
-		glm::vec3 localScale;
-
-		glm::vec3 forward;
-		glm::vec3 up;
-		glm::vec3 right;
 	};
 	struct Matrix {
 		glm::mat4 model;
@@ -35,6 +27,7 @@ private:
 		glm::mat4 rotationY;
 		glm::mat4 rotationZ;
 		glm::mat4 scale;
+		glm::vec4 color;
 	};
 protected:
 	glm::vec3 _worldUp;
@@ -47,6 +40,8 @@ protected:
 	uint transformLoc;
 	uint _uniformView;
 	uint _uniformProjection;
+	uint _uniformColor;
+	uint _uniformAlpha;
 	
 	Renderer* GetRenderer();
 public:
@@ -70,6 +65,8 @@ public:
 	virtual void SetRotations(glm::vec3 rotation);
 
 	virtual void SetScale(float x, float y, float z);
+
+	//virtual void SetColor(float r, float g, float b);
 };
 
 #endif

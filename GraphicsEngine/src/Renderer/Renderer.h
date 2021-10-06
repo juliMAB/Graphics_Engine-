@@ -10,10 +10,6 @@
 
 
 
-static enum TypeShader {
-	Colour,
-	Texture
-};
 enum TypeShape {
 	Triangle, Quad
 };
@@ -24,9 +20,7 @@ private:
 	const std::string fragmentPath = "../GraphicsEngine/Shaders/FragmentShader.shader";
 
 	Window* _window;
-	//unsigned int buffer;
-	unsigned int programShader;
-	//unsigned int VBO, VAO, EBO;
+	uint programShader;
 public:
 	Renderer();
 	~Renderer();
@@ -45,9 +39,9 @@ public:
 	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
-	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
+	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	uint GetShader();
 	void SwapBuffers();
-	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection);
+	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
 };
 #endif
