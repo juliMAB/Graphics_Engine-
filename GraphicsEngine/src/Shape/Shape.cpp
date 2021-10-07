@@ -29,8 +29,9 @@
 	TypeShape typeOfShape;
 	uint tamVerts;
 
-	Shape::Shape(Renderer* rend) : Entity(rend) 
+	Shape::Shape(Renderer* rend, TypeShape typeShape) : Entity(rend)
 	{
+		InitShape(typeShape);
 	}
 	Shape::~Shape() {
 		glDeleteVertexArrays(1, &_vao);

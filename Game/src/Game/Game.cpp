@@ -31,18 +31,11 @@ void Game::Update()
 {
 	if (!auxCheck) {
 		auxCheck = true;
-		_shape = new Shape(GetRenderer());
-		_shape->InitShape(TypeShape::Triangle);
+		_shape = new Shape(GetRenderer(), TypeShape::Triangle);
 		_shape->SetPos(position, position, position);
 		_shape->SetRotZ(rotation);
 		_shape->SetScale(scale, scale, scale);
-		_shape->SetColor(1.0f, 0.0f, 1.0f);
-		/*_shape2 = new Shape(GetRenderer());
-		_shape2->InitShape(TypeShape::Triangle);
-		_shape->SetPos(3.0f, position, position);
-		_shape2->SetRotZ(rotation);
-		_shape2->SetScale(scale, scale, scale);
-		_shape2->SetColor(0.0f, 0.0f, 1.0f);*/
+		_shape->SetColor(1.0f, 0.0f, 1.0f);		
 	}
 	
 	if (IsKeyRelease(Input::KEY_UP)) {

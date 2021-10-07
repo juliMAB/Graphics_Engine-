@@ -9,15 +9,15 @@
 #include <iostream>
 
 
-
 enum TypeShape {
 	Triangle, Quad
 };
 typedef unsigned int uint;
 class GraficosEngine_API Renderer {
 private:
-	const std::string vertexPath = "../GraphicsEngine/Shaders/VertexShader.shader";
-	const std::string fragmentPath = "../GraphicsEngine/Shaders/FragmentShader.shader";
+
+	const std::string vertexPath = "Shaders/VertexShader.shader";
+	const std::string fragmentPath = "Shaders/FragmentShader.shader";
 
 	Window* _window;
 	uint programShader;

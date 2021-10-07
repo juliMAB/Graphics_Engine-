@@ -19,7 +19,7 @@
 		//uint _uniformView;
 		//uint _uniformProjection;
 	public:
-		Shape(Renderer* rend);
+		Shape(Renderer* rend, TypeShape typeShape);
 		~Shape();
 		void DrawShape();
 		int GetVerticesArrLenght();
