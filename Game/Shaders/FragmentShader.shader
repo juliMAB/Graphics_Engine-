@@ -8,5 +8,5 @@ out vec4 FragColor;
 
 void main()
 {
-    FragColor = vec4(ourColor * color, alpha);
+    FragColor = vec4(ourColor * color, 0.2f);
 }

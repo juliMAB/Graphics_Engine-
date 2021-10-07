@@ -21,12 +21,12 @@
 	public:
 		Shape(Renderer* rend, TypeShape typeShape);
 		~Shape();
+		void InitShape(TypeShape type);
 		void DrawShape();
 		int GetVerticesArrLenght();
 		int GetVerticesTam();
 		float* GetVertices();
 		float GetVertexIndex(int ind);
-		void InitShape(TypeShape type);
 		void SetColor(float r, float g, float b);
 		void SetColor(float r, float g, float b, float a);
 		void SetColor(glm::vec3 color, float alpha);

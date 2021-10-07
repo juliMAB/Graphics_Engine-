@@ -14,11 +14,17 @@ Game::Game() {}
 Game::~Game() {}
 void Game::Init() {
 	StartEngine(1920/2, 1080/2, "In Lovyng");
+	
 	End();
 }
-void Game::Start()
-{
-
+void Game::Start() {
+		auxCheck = true;
+		_shape = new Shape(GetRenderer(), TypeShape::Triangle);
+		_shape->SetPos(position, position, position);
+		_shape->SetRotZ(rotation);
+		_shape->SetScale(scale, scale, scale);
+		_shape->SetColor(0.2f, 0.0f, 0.2f,0.2f);
+		_shape2 = new Shape(GetRenderer(), TypeShape::Triangle);
 }
 void Game::End() {
 	if(_shape!=NULL) {
@@ -29,14 +35,6 @@ void Game::End() {
 }
 void Game::Update()
 {
-	if (!auxCheck) {
-		auxCheck = true;
-		_shape = new Shape(GetRenderer(), TypeShape::Triangle);
-		_shape->SetPos(position, position, position);
-		_shape->SetRotZ(rotation);
-		_shape->SetScale(scale, scale, scale);
-		_shape->SetColor(1.0f, 0.0f, 1.0f);		
-	}
 	
 	if (IsKeyRelease(Input::KEY_UP)) {
 		_shape->SetPos(_shape->transform.position.x, _shape->transform.position.y + movForce, _shape->transform.position.z);
@@ -71,4 +69,5 @@ void Game::Update()
 void Game::Draw() {
 	ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
 	_shape->DrawShape();
+	_shape2->DrawShape();
 }

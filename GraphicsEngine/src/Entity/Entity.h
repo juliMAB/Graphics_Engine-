@@ -65,6 +65,7 @@ public:
 	virtual void SetRotations(glm::vec3 rotation);
 
 	virtual void SetScale(float x, float y, float z);
+	void SetScale(float scale);
 
 	//virtual void SetColor(float r, float g, float b);
 };

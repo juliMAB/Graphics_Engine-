@@ -42,6 +42,7 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 	}
 	//enable or disable server - side GL capabilities
 	glEnable(GL_DEPTH);
+	Start();
 	UpdateEngine();
 }
 void BaseGame::UpdateEngine()

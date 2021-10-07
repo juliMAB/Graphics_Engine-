@@ -121,3 +121,9 @@ void Entity::SetScale(float x, float y, float z)
 	matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
 	UpdateMatrixData();
 }
+void Entity::SetScale(float scale)
+{
+	transform.scale = { scale,scale,scale };
+	matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
+	UpdateMatrixData();
+}

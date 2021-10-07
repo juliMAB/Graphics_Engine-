@@ -6,10 +6,10 @@
 
 
 
-	static float triangleVerticesCol[18] = {
-		0.0f, 0.5f, 0.0f,	/**/ 1.0f, 1.0f, 1.0f,/* 0.0f, 0.0f,*/
-		0.5f, -0.5f, 0.0f,	/**/ 1.0f, 1.0f, 1.0f,/* 0.0f, 0.0f,*/
-		-0.5f, -0.5f, 0.0f,	/**/ 1.0f, 1.0f, 1.0f,/* 0.0f, 0.0f */
+	static float triangleVerticesCol[] = {
+		 0.0f,  0.5f, 0.0f, /**/ 1.0f, 1.0f, 1.0f, 0.0f, /* 0.0f, 0.0f,*/
+		 0.5f, -0.5f, 0.0f, /**/ 1.0f, 1.0f, 1.0f, 0.0f, /* 0.0f, 0.0f,*/
+		-0.5f, -0.5f, 0.0f, /**/ 1.0f, 1.0f, 1.0f, 0.0f  /* 0.0f, 0.0f */
 	};
 
 	static float quadVerticesCol[32] = {
@@ -76,8 +76,14 @@
 		}
 		_renderer->SetBuffers(GetVerticesTam(), _vb, _vbo, _vao);
 
-		_renderer->Setattributes(_positionLocation, 3, 6, 0);
-		_renderer->Setattributes(1, 3, 6, 3);
+		_renderer->Setattributes(_positionLocation, 3, 7, 0);
+		_renderer->Setattributes(1, 4, 7, 3);
+
+		// Default Attributes:
+		SetPos(0, 0, 0);
+		SetRotations(0, 0, 0);
+		SetScale(3);
+		SetColor(1, 0, 0, 1);
 	}
 	void Shape::SetColor(float r, float g, float b)
 	{
