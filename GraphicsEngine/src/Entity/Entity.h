@@ -42,6 +42,7 @@ protected:
 	uint _uniformProjection;
 	uint _uniformColor;
 	uint _uniformAlpha;
+	uint _texLocation;
 	
 	Renderer* GetRenderer();
 public:

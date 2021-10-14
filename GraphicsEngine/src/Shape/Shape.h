@@ -3,9 +3,10 @@
 
 #include "../Exports/Exports.h"
 #include "../Entity/Entity.h"
+#include "../Texture/Texture.h"
 
-//#define TRIANGLE 0x0004
-//#define QUAD 0x0007
+#define TRIANGLE 0x0004
+#define QUAD 0x0007
 
 
 	typedef unsigned int uint;
@@ -15,6 +16,13 @@
 		uint _vao;
 		uint _ibo;
 
+
+		uint _textureID;
+		int  _width;
+		int  _height;
+		int  _bitDepth;
+		bool _usingTexture;
+		Texture* _texture;
 		//uint vertexColorLocation;
 		//uint _uniformView;
 		//uint _uniformProjection;
@@ -22,6 +30,7 @@
 		Shape(Renderer* rend, TypeShape typeShape);
 		~Shape();
 		void InitShape(TypeShape type);
+		unsigned int* GetIndexs();
 		void DrawShape();
 		int GetVerticesArrLenght();
 		int GetVerticesTam();
@@ -31,6 +40,7 @@
 		void SetColor(float r, float g, float b, float a);
 		void SetColor(glm::vec3 color, float alpha);
 		void SetColor(glm::vec4 color);
+		void LoadTexture(const char* path, const char* name);
 	};
 
 #endif

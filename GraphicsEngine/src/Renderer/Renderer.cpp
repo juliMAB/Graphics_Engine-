@@ -168,6 +168,32 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
+void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t) {
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
+
+	uint useTextureLoc = glGetUniformLocation(GetShader(), "useTexture");
+	glUseProgram(GetShader());
+	if (t == TypeShader::Colour)
+		glUniform1i(useTextureLoc, false);
+	else
+		glUniform1i(useTextureLoc, true);
+
+	glEnable(GL_DEPTH_TEST);
+	
+	/*if (shape == TypeShape::Triangle)
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+	else*/
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+		glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
 void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color) {
 	glUseProgram(GetShader());
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));

@@ -12,6 +12,10 @@
 enum TypeShape {
 	Triangle, Quad
 };
+static enum class TypeShader {
+	Colour,
+	Texture
+};
 typedef unsigned int uint;
 class GraficosEngine_API Renderer {
 private:
@@ -40,6 +44,7 @@ public:
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
+	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 	uint GetShader();
 	void SwapBuffers();
 	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
