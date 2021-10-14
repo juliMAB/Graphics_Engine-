@@ -20,12 +20,12 @@ void Game::Init() {
 void Game::Start() {
 		auxCheck = true;
 		_shape = new Shape(GetRenderer(), TypeShape::Quad);
-		_shape->SetPos(position, position, position);
-		_shape->SetRotZ(rotation);
-		_shape->SetScale(scale, scale, scale);
-		_shape->SetColor(1.0f, 0.0f, 0.0f,1.0f);
-		_shape2 = new Shape(GetRenderer(), TypeShape::Quad);
-		_shape2->LoadTexture("res/", "a.png");
+		//_shape->SetPos(position, position, position);
+		//_shape->SetRotZ(rotation);
+		//_shape->SetScale(scale, scale, scale);
+		//_shape->SetColor(1.0f, 0.0f, 0.0f,1.0f);
+		//_shape2 = new Shape(GetRenderer(), TypeShape::Quad);
+		_shape->LoadTexture("res/", "a.png");
 }
 void Game::End() {
 	if(_shape!=NULL) {

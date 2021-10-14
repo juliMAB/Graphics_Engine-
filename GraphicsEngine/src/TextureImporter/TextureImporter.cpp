@@ -58,7 +58,7 @@ bool TextureImporter::LoadTexture(const std::string& path, const std::string& te
 	El código debería verse similar a la configuración del método de envoltura:*/
 
 	//seria diferente forma de visualizar.
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	if (channels == 4) //dependiendo de los canales, va a usar para rgba o rgb, sino se rompe todo.

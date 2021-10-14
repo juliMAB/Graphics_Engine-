@@ -183,11 +183,7 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 
 	glEnable(GL_DEPTH_TEST);
 	
-	/*if (shape == TypeShape::Triangle)
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-	else*/
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-		glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
