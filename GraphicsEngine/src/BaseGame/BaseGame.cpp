@@ -3,6 +3,7 @@
 BaseGame::BaseGame() {
 	_window = new Window();
 	_renderer = new Renderer();
+	_time = new Time();
 }
 BaseGame::~BaseGame() {
 	if (_window != nullptr) {
@@ -48,6 +49,7 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 void BaseGame::UpdateEngine()
 {
 	while (!glfwWindowShouldClose(_window->GetWindow())) {
+		_time->Update();
 		Update();	
 		Input::CheckClearInputList();
 		glfwPollEvents();

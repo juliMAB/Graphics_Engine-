@@ -48,5 +48,6 @@ public:
 	uint GetShader();
 	void SwapBuffers();
 	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
+
 };
 #endif

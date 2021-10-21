@@ -4,21 +4,21 @@ float deg2rad = ( 3.14f* 2.0f) / 360.0f;
 Entity::Entity(Renderer* rend) {
 	_renderer = rend;
 
-	matrix.model = glm::mat4(1.0f);
-	matrix.translate = glm::mat4(1.0f);
-	matrix.rotationX = glm::mat4(1.0f);
-	matrix.rotationY = glm::mat4(1.0f);
-	matrix.rotationZ = glm::mat4(1.0f);
-	matrix.color = glm::vec4(1.0f);
-	matrix.scale = glm::mat4(1.0f);
+	model = glm::mat4(1.0f);
+	translate = glm::mat4(1.0f);
+	rotationX = glm::mat4(1.0f);
+	rotationY = glm::mat4(1.0f);
+	rotationZ = glm::mat4(1.0f);
+	color = glm::vec4(1.0f);
+	scaleMat = glm::mat4(1.0f);
 
-	transform.rotationQuaternion = glm::quat(0, 0, 0, 1);
+	rotationQuaternion = glm::quat(0, 0, 0, 1);
 	transformLoc = glGetUniformLocation(GetRenderer()->GetShader(), "transform");
 	_uniformProjection = glGetUniformLocation(GetRenderer()->GetShader(), "projection");
 	_uniformView = glGetUniformLocation(GetRenderer()->GetShader(), "view");
 	_uniformColor = glGetUniformLocation(GetRenderer()->GetShader(), "color");
 	_uniformAlpha = glGetUniformLocation(GetRenderer()->GetShader(), "alpha");
-	SetPos(0.0f, 0.0f, 0.0f);
+	SetPos(0.0f, 0.0f);
 	SetRotations(0, 0, 0);
 	SetScale(1.0f, 1.0f, 1.0f);
 }
@@ -32,7 +32,7 @@ Renderer* Entity::GetRenderer() {
 	return _renderer;
 }
 void Entity::UpdateMatrixData() {
-	matrix.model = matrix.translate * matrix.rotationX * matrix.rotationY * matrix.rotationZ * matrix.scale;
+	model = translate * rotationX * rotationY * rotationZ * scaleMat;
 }
 
 glm::quat EulerToQuat(glm::vec3 euler) {
@@ -74,40 +74,43 @@ glm::vec3 QuatXVec(glm::quat quat, glm::vec3 vec) {
 	return res;
 }
 void Entity::UpdateTransformsData() {
-	transform.rotationQuaternion = EulerToQuat(transform.rotation);
+	rotationQuaternion = EulerToQuat(rotation);
 }
-void Entity::SetPos(float x, float y, float z) {
-	transform.position = { x, y, z };
-	matrix.translate = glm::translate(glm::mat4(1.0f), transform.position);
+void Entity::SetPos(float x, float y) {
+	position = { x, y, 0.0f };
+	translate = glm::translate(glm::mat4(1.0f), position);
 	UpdateMatrixData();
 }
-void Entity::SetPos(glm::vec3 pos) {
-	SetPos(pos.x, pos.y, pos.z);
+void Entity::SetPos(glm::vec2 pos) {
+	SetPos(pos.x, pos.y);
 }
 void Entity::SetRotX(float x) {
-	transform.rotation.x = x;
-	matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+	rotation.x = x;
+	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 	UpdateMatrixData();
 	UpdateTransformsData();
 }
 
 void Entity::SetRotY(float y) {
-	transform.rotation.y = y;
-	matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+	rotation.y = y;
+	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 	UpdateMatrixData();
 	UpdateTransformsData();
 }
 void Entity::SetRotZ(float z) {
-	transform.rotation.z = z;
-	matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+	rotation.z = z;
+	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 	UpdateMatrixData();
 	UpdateTransformsData();
 }
 void Entity::SetRotations(float x, float y, float z) {
-	transform.rotation = glm::vec3(x, y, z);
-	matrix.rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
-	matrix.rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-	matrix.rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
+	x += 180.0f;	// Todo: Fix
+	y += 180.0f;
+	
+	rotation = glm::vec3(x, y, z);
+	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
+	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
+	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 	UpdateMatrixData();
 	UpdateTransformsData();
 }
@@ -117,13 +120,13 @@ void Entity::SetRotations(glm::vec3 rotation)
 }
 void Entity::SetScale(float x, float y, float z)
 {
-	transform.scale = { x, y, z };
-	matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
+	scale = { x, y, z };
+	scaleMat = glm::scale(glm::mat4(1.0f), scale);
 	UpdateMatrixData();
 }
-void Entity::SetScale(float scale)
+void Entity::SetScale(float newScale)
 {
-	transform.scale = { scale,scale,scale };
-	matrix.scale = glm::scale(glm::mat4(1.0f), transform.scale);
+	scale = { newScale,newScale,newScale };
+	scaleMat = glm::scale(glm::mat4(1.0f), scale);
 	UpdateMatrixData();
 }

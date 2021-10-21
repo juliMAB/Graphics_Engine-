@@ -194,6 +194,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="src\TextureImporter\stb_image.cpp" />
     <ClCompile Include="src\TextureImporter\TextureImporter.cpp" />
     <ClCompile Include="src\Texture\Texture.cpp" />
+    <ClCompile Include="src\Time\Time.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +209,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\TextureImporter\stb_image.h" />
     <ClInclude Include="src\TextureImporter\TextureImporter.h" />
     <ClInclude Include="src\Texture\Texture.h" />
+    <ClInclude Include="src\Time\Time.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>

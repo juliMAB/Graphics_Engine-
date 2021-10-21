@@ -9,38 +9,34 @@
 #define QUAD 0x0007
 
 
-	typedef unsigned int uint;
-	class GraficosEngine_API Shape : public Entity {
-		float* _vb;
-		uint _vbo;
-		uint _vao;
-		uint _ibo;
+typedef unsigned int uint;
+class GraficosEngine_API Shape : public Entity {
+	float* shapeVertices;
+	uint _vbo;
+	uint _vao;
+	uint _ibo;
 
-
-		uint _textureID;
-		int  _width;
-		int  _height;
-		int  _bitDepth;
-		bool _usingTexture;
-		Texture* _texture;
-		//uint vertexColorLocation;
-		//uint _uniformView;
-		//uint _uniformProjection;
-	public:
-		Shape(Renderer* rend, TypeShape typeShape);
-		~Shape();
-		void InitShape(TypeShape type);
-		unsigned int* GetIndexs();
-		void DrawShape();
-		int GetVerticesArrLenght();
-		int GetVerticesTam();
-		float* GetVertices();
-		float GetVertexIndex(int ind);
-		void SetColor(float r, float g, float b);
-		void SetColor(float r, float g, float b, float a);
-		void SetColor(glm::vec3 color, float alpha);
-		void SetColor(glm::vec4 color);
-		void LoadTexture(const char* path, const char* name);
-	};
+	uint _textureID;
+	int  _width;
+	int  _height;
+	int  _bitDepth;
+	bool _usingTexture;
+	Texture* _texture;
+public:
+	Shape(Renderer* rend, TypeShape typeShape);
+	~Shape();
+	void InitShape(TypeShape type);
+	void DrawShape();
+	int GetVerticesArrLenght();
+	int GetVerticesTam();
+	float* GetVertices();
+	float GetVertexIndex(int ind);
+	void SetColor(float r, float g, float b);
+	void SetColor(float r, float g, float b, float a);
+	void SetColor(glm::vec3 color, float alpha);
+	void SetColor(glm::vec4 color);
+	void LoadTexture(const char* path, const char* name);
+	void setShape(glm::vec2 pos, float width, float height);
+};
 
 #endif

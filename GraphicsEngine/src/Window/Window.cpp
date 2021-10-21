@@ -28,7 +28,8 @@ void Window::PoolEvents() {
 }
 int Window::MakeWindow(int w, int h, std::string name)
 {
-	_width = w, _height = h;
+	_width = w;
+	_height = h;
 	_window = glfwCreateWindow(w, h, name.c_str(), NULL, NULL);
 	if (!_window) {
 		std::cout << "Fail to create GLFW window" << std::endl;

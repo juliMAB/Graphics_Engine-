@@ -3,11 +3,12 @@
 #include "../Renderer/Renderer.h"
 #include "../Input/Input.h"
 #include "../Shape/Shape.h"
+#include "../Time/Time.h"
 class GraficosEngine_API BaseGame {
 private:
 	Window* _window;
 	Renderer* _renderer;
-	
+	Time* _time;
 	void UpdateEngine();
 	bool GlewStart();
 	void Exit();
