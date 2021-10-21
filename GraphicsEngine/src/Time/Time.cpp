@@ -24,5 +24,5 @@ float Time::GetScale() {
 	return _scale;
 }
 void Time::SetScale(float scale) {
-	scale = scale;
+	_scale = scale;
 }
