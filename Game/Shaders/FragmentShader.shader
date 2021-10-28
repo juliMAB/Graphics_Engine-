@@ -2,7 +2,7 @@
 in vec3 ourColor;
 in vec2 TexCoord;
 
-uniform float alpha = 1.0f;
+uniform float alpha;
 uniform bool useTexture = false;
 
 out vec4 FragColor;

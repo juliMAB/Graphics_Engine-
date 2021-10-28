@@ -17,7 +17,7 @@ static enum class TypeShader {
 	Texture
 };
 typedef unsigned int uint;
-class GraficosEngine_API Renderer {
+static class GraficosEngine_API Renderer {
 private:
 
 	const std::string vertexPath = "Shaders/VertexShader.shader";

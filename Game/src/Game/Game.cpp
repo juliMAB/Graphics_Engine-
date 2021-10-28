@@ -20,7 +20,7 @@ void Game::Init() {
 void Game::Start() {
 	auxCheck = true;
 	_shape = new Shape(GetRenderer(), TypeShape::Quad);
-	_shape->LoadTexture("res/", "a.png");
+	_shape->LoadTexture("res/", "c.png");
 
 	//_shape2 = new Shape(GetRenderer(), TypeShape::Quad);
 	//_shape2->LoadTexture("res/", "b.png");

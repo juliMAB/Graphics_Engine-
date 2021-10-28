@@ -19,6 +19,9 @@ void Renderer::Start() {
 	view = glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	projection = glm::mat4(1.0f);
 	projection = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 void Renderer::Update() {
 	SetClearWindow(1, 1, 1, 1);
@@ -74,7 +77,7 @@ void Renderer::ShadersStart() {
 	
 	unsigned int vertexShader = NULL;
 	unsigned int fragmentShader = NULL;
-
+	
 	programShader = glCreateProgram();
 	if (!programShader) {
 		std::cout << "Error creating the shader program!" << std::endl;
@@ -156,8 +159,6 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 
 	glUseProgram(programShader);
 
-	glEnable(GL_DEPTH_TEST);
-
 	if (shape == TypeShape::Triangle)
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 	else
@@ -180,8 +181,6 @@ void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, fl
 		glUniform1i(useTextureLoc, false);
 	else
 		glUniform1i(useTextureLoc, true);
-
-	glEnable(GL_DEPTH_TEST);
 	
 	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 
