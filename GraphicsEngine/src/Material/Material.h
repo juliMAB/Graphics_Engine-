@@ -4,7 +4,7 @@
 #include "../Exports/Exports.h"
 #include "../Renderer/Renderer.h"
 #include "../GLM/vec3.hpp"
-
+//https://learnopengl.com/Lighting/Materials
 	typedef unsigned int uint;
 	class GraficosEngine_API  Material {
 		float _specularIntensity;
