@@ -27,7 +27,7 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	_window->MakeWindow(width, height, windowName);
+	_window = new Window(width, height, windowName);
 	_renderer->Awake(_window);
 	int bufferWidth;
 	int bufferHeight;

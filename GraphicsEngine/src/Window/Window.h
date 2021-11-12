@@ -7,20 +7,20 @@ class GraficosEngine_API Window {
 private:
 	GLFWwindow* _window;
 	int _width,_height;
+	int MakeWindow(int w, int h, std::string name);
 public:
 	Window();
+	Window(int w, int h, std::string name);
 
 	void Start();
 	void Update();
 	void Exit();
 
 	// --------------------
-	int MakeWindow(int w, int h, std::string name);
-	void PoolEvents();
+	
 	GLFWwindow* GetWindow();
 	void ResizeWindow(int width, int height);
 	void ClearWindow(float r, float g, float b, float a);
-	int GetHeight();
-	int GetWidth();
+	int GetHeight(); int GetWidth();
 };
 #endif

@@ -10,6 +10,10 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 Window::Window() {
 	_window = nullptr;
 }
+Window::Window(int w, int h, std::string name)
+{
+	MakeWindow(w, h, name);
+}
 void Window::Start() {
 	if (!_window) {
 		Exit();
@@ -22,9 +26,6 @@ void Window::Update() {
 }
 void Window::Exit() {
 	glfwTerminate();
-}
-void Window::PoolEvents() {
-	glfwPollEvents();
 }
 int Window::MakeWindow(int w, int h, std::string name)
 {
