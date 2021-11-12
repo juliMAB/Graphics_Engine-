@@ -43,11 +43,11 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 	}
 	//enable or disable server - side GL capabilities
 	glEnable(GL_DEPTH);
-	Start();
 	UpdateEngine();
 }
 void BaseGame::UpdateEngine()
 {
+	init();
 	while (!glfwWindowShouldClose(_window->GetWindow())) {
 		_time->Update();
 		Update();	
@@ -57,6 +57,7 @@ void BaseGame::UpdateEngine()
 		_renderer->SwapBuffers();
 	}
 	Exit();
+	Deinit();
 }
 void BaseGame::Draw() {
 	
@@ -69,7 +70,7 @@ bool BaseGame::GlewStart()
 	_renderer->Start();
 	return true;
 }
-void BaseGame::End()
+void BaseGame::Deinit()
 {
 	glfwTerminate();
 }

@@ -17,10 +17,10 @@ public:
 	Renderer* GetRenderer();
 	BaseGame();
 	~BaseGame();
-	virtual void Start() = 0;
+	virtual void init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
-	virtual void End() = 0;
+	virtual void Deinit() = 0;
 
 	int StartEngine(int width, int height, const char* windowName);
 	bool IsKeyDown(Input::KeyCode key);
