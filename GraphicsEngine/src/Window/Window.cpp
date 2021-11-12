@@ -20,6 +20,7 @@ void Window::Start() {
 		return;
 	}
 	glfwMakeContextCurrent(_window);
+	std::cout << "glfw Make Context Current" << std::endl;
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 }
 void Window::Update() {
@@ -36,6 +37,7 @@ int Window::MakeWindow(int w, int h, std::string name)
 		std::cout << "Fail to create GLFW window" << std::endl;
 		return 0;
 	}
+	std::cout << "glfw Create window" << std::endl;
 	return 1;
 }
 GLFWwindow* Window::GetWindow() {
