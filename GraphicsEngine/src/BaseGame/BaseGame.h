@@ -27,6 +27,7 @@ public:
 	bool IsKeyRelease(Input::KeyCode key);
 	bool IsKeyUp(Input::KeyCode key);
 	void ClearWindow(float r, float g, float b, float a);
+	double getCurrentTime();
 	// --------------------
 };
 #endif

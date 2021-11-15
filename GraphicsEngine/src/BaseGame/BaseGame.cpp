@@ -84,6 +84,10 @@ Renderer* BaseGame::GetRenderer() {
 	return _renderer;
 }
 void BaseGame::ClearWindow(float r, float g, float b, float a) { _window->ClearWindow(r, g, b, a); }
+double BaseGame::getCurrentTime()
+{
+	return glfwGetTime();
+}
 bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
 bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyRelease(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
