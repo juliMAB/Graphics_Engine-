@@ -8,9 +8,8 @@ class Game : BaseGame {
 public:
 	Game();
 	~Game();
-	void Init();
-	void Start() override;
-	void End() override;
+	void Init() override;
+	void Deinit() override;
 	void Update() override;
 	void Draw() override;
 };

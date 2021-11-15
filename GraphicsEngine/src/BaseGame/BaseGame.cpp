@@ -47,7 +47,6 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 }
 void BaseGame::UpdateEngine()
 {
-	init();
 	while (!glfwWindowShouldClose(_window->GetWindow())) {
 		_time->Update();
 		Update();	

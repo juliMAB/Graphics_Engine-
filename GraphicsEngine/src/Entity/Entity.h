@@ -36,6 +36,8 @@ protected:
 	uint _uniformColor;
 	uint _uniformAlpha;
 	uint _texLocation;
+
+	uint _vao, _vbo, _ebo, _vertices;
 	
 public:
 	//--PosRotScale---

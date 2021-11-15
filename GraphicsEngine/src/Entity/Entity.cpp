@@ -12,24 +12,17 @@ Entity::Entity(Renderer* rend) {
 	color = glm::vec4(1.0f);
 	scaleMat = glm::mat4(1.0f);
 
-	rotationQuaternion = glm::quat(0, 0, 0, 1);
-	transformLoc = glGetUniformLocation(GetRenderer()->GetShader(), "transform");
-	_uniformProjection = glGetUniformLocation(GetRenderer()->GetShader(), "projection");
-	_uniformView = glGetUniformLocation(GetRenderer()->GetShader(), "view");
-	_uniformColor = glGetUniformLocation(GetRenderer()->GetShader(), "color");
-	_uniformAlpha = glGetUniformLocation(GetRenderer()->GetShader(), "alpha");
+	transformLoc = glGetUniformLocation(_renderer->GetShader(), "transform");
+	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
+	_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
+	_uniformColor = glGetUniformLocation(_renderer->GetShader(), "color");
+	_uniformAlpha = glGetUniformLocation(_renderer->GetShader(), "alpha");
 	SetPos(0.0f, 0.0f);
 	SetRotations(0, 0, 0);
 	SetScale(1.0f, 1.0f, 1.0f);
 }
 Entity::~Entity() {
 
-}
-void Entity::SetRenderer(Renderer* r) {
-	_renderer = r;
-}
-Renderer* Entity::GetRenderer() {
-	return _renderer;
 }
 void Entity::UpdateMatrixData() {
 	model = translate * rotationX * rotationY * rotationZ * scaleMat;
@@ -99,20 +92,17 @@ void Entity::SetRotX(float x) {
 	rotation.x = x;
 	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 	UpdateMatrixData();
-	UpdateTransformsData();
 }
 
 void Entity::SetRotY(float y) {
 	rotation.y = y;
 	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 	UpdateMatrixData();
-	UpdateTransformsData();
 }
 void Entity::SetRotZ(float z) {
 	rotation.z = z;
 	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 	UpdateMatrixData();
-	UpdateTransformsData();
 }
 void Entity::SetRotations(float x, float y, float z) {
 	x += 180.0f;	// Todo: Fix
@@ -123,7 +113,6 @@ void Entity::SetRotations(float x, float y, float z) {
 	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 	UpdateMatrixData();
-	UpdateTransformsData();
 }
 void Entity::SetRotations(glm::vec3 rotation)
 {

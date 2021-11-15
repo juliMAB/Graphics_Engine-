@@ -44,14 +44,14 @@ Shape::~Shape() {
 }
 void Shape::DrawShape() 
 {
-	GetRenderer()->UpdateMVP(model, transformLoc, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
+	_renderer->UpdateMVP(model, transformLoc, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
 	if (_usingTexture) {
 		_texture->UseTexture();
-		GetRenderer()->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts, TypeShader::Texture);
+		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts, TypeShader::Texture);
 		_texture->StopTexture();
 	}
 	else
-		GetRenderer()->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts);
+		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts);
 }
 int Shape::GetVerticesArrLenght() {
 	return tamVerts / sizeof(float);
