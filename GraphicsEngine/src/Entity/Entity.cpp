@@ -73,9 +73,7 @@ glm::vec3 QuatXVec(glm::quat quat, glm::vec3 vec) {
 	res.z = (xz2 - wy2) * vec.x + (yz2 + wx2) * vec.y + (1.0f - (xx2 + yy2)) * vec.z;
 	return res;
 }
-void Entity::UpdateTransformsData() {
-	rotationQuaternion = EulerToQuat(rotation);
-}
+//------------set Pos----------------------------
 void Entity::SetPos(float x, float y) {
 	position = { x, y, 0.0f };
 	translate = glm::translate(glm::mat4(1.0f), position);
@@ -84,6 +82,19 @@ void Entity::SetPos(float x, float y) {
 void Entity::SetPos(glm::vec2 pos) {
 	SetPos(pos.x, pos.y);
 }
+void Entity::SetPos(float x, float y, float z)
+{
+	position = { x, y, z };
+	translate = glm::translate(glm::mat4(1.0f), position);
+	UpdateMatrixData();
+}
+void Entity::SetPos(glm::vec3 pos)
+{
+	SetPos(pos.x, pos.y, pos.z);
+}
+//-----------------------------------------------
+//------------set Rot----------------------------
+
 void Entity::SetRotX(float x) {
 	rotation.x = x;
 	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -117,6 +128,10 @@ void Entity::SetRotations(float x, float y, float z) {
 void Entity::SetRotations(glm::vec3 rotation)
 {
 	SetRotations(rotation.x, rotation.y, rotation.z);	
+}
+void Entity::SetScale(glm::vec3 scale)
+{
+	this->scale = scale;
 }
 void Entity::SetScale(float x, float y, float z)
 {
