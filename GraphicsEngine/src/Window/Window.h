@@ -13,8 +13,6 @@ public:
 	Window(int w, int h, std::string name);
 
 	void Start();
-	void Update();
-	void Exit();
 
 	// --------------------
 	

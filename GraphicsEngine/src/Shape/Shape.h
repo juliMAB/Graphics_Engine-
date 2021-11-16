@@ -4,17 +4,15 @@
 #include "../Exports/Exports.h"
 #include "../Entity/Entity.h"
 #include "../Texture/Texture.h"
+#include "../Entity2D/Entity2D.h"
 
 #define TRIANGLE 0x0004
 #define QUAD 0x0007
 
 
 typedef unsigned int uint;
-class GraficosEngine_API Shape : public Entity {
+class GraficosEngine_API Shape : public Entity2D {
 	float* shapeVertices;
-	uint _vbo;
-	uint _vao;
-	uint _ibo;
 
 	uint _textureID;
 	int  _width;

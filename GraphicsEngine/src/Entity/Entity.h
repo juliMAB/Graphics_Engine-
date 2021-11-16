@@ -15,13 +15,13 @@ protected:
 	glm::mat4 rotationX;
 	glm::mat4 rotationY;
 	glm::mat4 rotationZ;
-	glm::mat4 scaleMat;
+	glm::mat4 scaleMat4;
 	//----model-------
 	glm::mat4 model;
 	//--PosRotScale---
-	glm::vec3 v3pos;
-	glm::vec3 v3rot;
-	glm::vec3 v3scale;
+	glm::vec3 pos;
+	glm::vec3 rot;
+	glm::vec3 scale;
 	//----Color-------
 	glm::vec4 color;
 	//----------------
@@ -43,9 +43,9 @@ public:
 	//--PosRotScale---
 	glm::vec3 position;
 	glm::vec3 rotation;
-	glm::vec3 scale;
+	glm::vec3 scale4;
 	//---C y D----------
-	Entity(Renderer* rend);
+	Entity();
 	~Entity();
 	//------------------
 	//----SetPos--------
@@ -62,9 +62,9 @@ public:
 	void SetRotZ(float z);
 	//------------------
 	//----SetScale------
-	void SetScale(glm::vec3 scale);
+	void SetScale(glm::vec3 scale4);
 	void SetScale(float x, float y, float z);
-	void SetScale(float scale);
+	void SetScale(float scale4);
 };
 
 #endif

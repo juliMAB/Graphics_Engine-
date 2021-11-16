@@ -7,6 +7,12 @@ static glm::mat4 view = glm::mat4(1.0f);
 Renderer::Renderer() {
 	_window = nullptr;
 	programShader = NULL;
+	Start();
+}
+Renderer::Renderer(Window* window) {
+	_window = window;
+	programShader = NULL;
+	Start();
 }
 Renderer::~Renderer()
 {
@@ -77,7 +83,7 @@ void Renderer::ShadersStart() {
 	
 	unsigned int vertexShader = NULL;
 	unsigned int fragmentShader = NULL;
-	
+
 	programShader = glCreateProgram();
 	if (!programShader) {
 		std::cout << "Error creating the shader program!" << std::endl;

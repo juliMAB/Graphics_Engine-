@@ -1,31 +1,30 @@
 #include "Entity.h"
 
 float deg2rad = ( 3.14f* 2.0f) / 360.0f;
-Entity::Entity(Renderer* rend) {
-	_renderer = rend;
-
-	model = glm::mat4(1.0f);
+Entity::Entity() {
+	
+	_renderer = NULL;
+	// mat4 para armar la model.
 	translate = glm::mat4(1.0f);
 	rotationX = glm::mat4(1.0f);
 	rotationY = glm::mat4(1.0f);
 	rotationZ = glm::mat4(1.0f);
-	color = glm::vec4(1.0f);
-	scaleMat = glm::mat4(1.0f);
-
-	transformLoc = glGetUniformLocation(_renderer->GetShader(), "transform");
-	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
-	_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
-	_uniformColor = glGetUniformLocation(_renderer->GetShader(), "color");
-	_uniformAlpha = glGetUniformLocation(_renderer->GetShader(), "alpha");
+	scaleMat4 = glm::mat4(1.0f);
+	//----model-------
+	model = glm::mat4(1.0f);
+	//--PosRotScale---
 	SetPos(0.0f, 0.0f);
 	SetRotations(0, 0, 0);
 	SetScale(1.0f, 1.0f, 1.0f);
+	//----Color-------
+	color = glm::vec4(1.0f);
+	//----------------
 }
 Entity::~Entity() {
 
 }
 void Entity::UpdateMatrixData() {
-	model = translate * rotationX * rotationY * rotationZ * scaleMat;
+	model = translate * rotationX * rotationY * rotationZ * scaleMat4;
 }
 
 glm::quat EulerToQuat(glm::vec3 euler) {
@@ -118,19 +117,19 @@ void Entity::SetRotations(glm::vec3 rotation)
 {
 	SetRotations(rotation.x, rotation.y, rotation.z);	
 }
-void Entity::SetScale(glm::vec3 scale)
+void Entity::SetScale(glm::vec3 scale4)
 {
-	this->scale = scale;
+	this->scale4 = scale4;
 }
 void Entity::SetScale(float x, float y, float z)
 {
-	scale = { x, y, z };
-	scaleMat = glm::scale(glm::mat4(1.0f), scale);
+	scale4 = { x, y, z };
+	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
 	UpdateMatrixData();
 }
 void Entity::SetScale(float newScale)
 {
-	scale = { newScale,newScale,newScale };
-	scaleMat = glm::scale(glm::mat4(1.0f), scale);
+	scale4 = { newScale,newScale,newScale };
+	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
 	UpdateMatrixData();
 }

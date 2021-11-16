@@ -75,7 +75,7 @@ namespace glm
 	}
 
 	template<typename T, qualifier Q>
-	GLM_FUNC_QUALIFIER mat<4, 4, T, Q> scale(mat<4, 4, T, Q> const& m, vec<3, T, Q> const& v)
+	GLM_FUNC_QUALIFIER mat<4, 4, T, Q> scale4(mat<4, 4, T, Q> const& m, vec<3, T, Q> const& v)
 	{
 		mat<4, 4, T, Q> Result;
 		Result[0] = m[0] * v[0];

@@ -9,10 +9,11 @@ private:
 	Window* _window;
 	Renderer* _renderer;
 	Time* _time;
-	void UpdateEngine();
+	Input* _input;
 	bool GlewStart();
-	void Exit();
+	void DeinitEngine();
 	Window* GetWindow();
+	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
 public:
 	Renderer* GetRenderer();
 	BaseGame();

@@ -16,7 +16,7 @@ public:
 	float GetTime();
 	
 	float GetScale();
-	void SetScale(float scale);
+	void SetScale(float scale4);
 };
 
 

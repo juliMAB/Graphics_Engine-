@@ -23,6 +23,6 @@ float Time::GetTime() {
 float Time::GetScale() {
 	return _scale;
 }
-void Time::SetScale(float scale) {
-	_scale = scale;
+void Time::SetScale(float scale4) {
+	_scale = scale4;
 }

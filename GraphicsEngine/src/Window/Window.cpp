@@ -7,6 +7,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
+
 Window::Window() {
 	_window = nullptr;
 }
@@ -15,19 +16,10 @@ Window::Window(int w, int h, std::string name)
 	MakeWindow(w, h, name);
 }
 void Window::Start() {
-	if (!_window) {
-		Exit();
-		return;
-	}
 	glfwMakeContextCurrent(_window);
 	std::cout << "glfw Make Context Current" << std::endl;
-	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
 }
-void Window::Update() {
-}
-void Window::Exit() {
-	glfwTerminate();
-}
+
 int Window::MakeWindow(int w, int h, std::string name)
 {
 	_width = w;

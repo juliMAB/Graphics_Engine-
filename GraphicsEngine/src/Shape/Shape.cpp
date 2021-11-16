@@ -11,7 +11,7 @@ uint posIndexs[] = {
 
 TypeShape typeOfShape;
 uint tamVerts;
-Shape::Shape(Renderer* rend, TypeShape typeShape) : Entity(rend)
+Shape::Shape(Renderer* rend, TypeShape typeShape)
 {
 	switch (typeShape) {
 	case Triangle:
@@ -47,11 +47,11 @@ void Shape::DrawShape()
 	_renderer->UpdateMVP(model, transformLoc, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
 	if (_usingTexture) {
 		_texture->UseTexture();
-		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts, TypeShader::Texture);
+		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ebo, shapeVertices, tamVerts, TypeShader::Texture);
 		_texture->StopTexture();
 	}
 	else
-		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, shapeVertices, tamVerts);
+		_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ebo, shapeVertices, tamVerts);
 }
 int Shape::GetVerticesArrLenght() {
 	return tamVerts / sizeof(float);
@@ -76,7 +76,7 @@ void Shape::InitShape(TypeShape type) {
 	glUseProgram(_renderer->GetShader());
 
 	_renderer->SetBuffers(GetVerticesTam(), shapeVertices, _vbo, _vao);
-	_renderer->SetIndex(GetVerticesTam(), posIndexs, _ibo);
+	_renderer->SetIndex(GetVerticesTam(), posIndexs, _ebo);
 	_renderer->Setattributes(_posLocation, 2, 8, 0);
 	_renderer->Setattributes(_posColor   , 4, 8, 2);
 	_renderer->Setattributes(_postexture , 2, 8, 6);

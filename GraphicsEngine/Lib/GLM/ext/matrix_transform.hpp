@@ -92,7 +92,7 @@ namespace glm
 	/// @see - scale(vec<3, T, Q> const& v)
 	/// @see <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl2.1/xhtml/glScale.xml">glScale man page</a>
 	template<typename T, qualifier Q>
-	GLM_FUNC_DECL mat<4, 4, T, Q> scale(
+	GLM_FUNC_DECL mat<4, 4, T, Q> scale4(
 		mat<4, 4, T, Q> const& m, vec<3, T, Q> const& v);
 
 	/// Build a right handed look at view matrix.

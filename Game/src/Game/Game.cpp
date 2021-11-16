@@ -10,11 +10,10 @@ glm::vec3 scale = { 1, 1, 1 };
 float scaleForce = 0.2f;
 bool auxCheck = false;
 
-Game::Game() {}
+Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
-	StartEngine(960, 540, "In Lovyng");
-	auxCheck = true;
+	
 	_shape = new Shape(GetRenderer(), TypeShape::Quad);
 	_shape->LoadTexture("res/", "c.png");
 }

@@ -24,9 +24,10 @@ private:
 	const std::string fragmentPath = "Shaders/FragmentShader.shader";
 
 	Window* _window;
-	uint programShader;
+	unsigned int programShader;
 public:
 	Renderer();
+	Renderer(Window* window);
 	~Renderer();
 	void Awake(Window* window);
 	void Start();
