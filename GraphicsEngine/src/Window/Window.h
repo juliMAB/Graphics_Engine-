@@ -18,7 +18,6 @@ public:
 	
 	GLFWwindow* GetWindow();
 	void ResizeWindow(int width, int height);
-	void ClearWindow(float r, float g, float b, float a);
 	int GetHeight(); int GetWidth();
 };
 #endif

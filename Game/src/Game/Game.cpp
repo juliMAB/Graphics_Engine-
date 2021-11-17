@@ -13,9 +13,8 @@ bool auxCheck = false;
 Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
-	
-	_shape = new Shape(GetRenderer(), TypeShape::Quad);
-	_shape->LoadTexture("res/", "c.png");
+	_shape = new Shape(GetRenderer(), TypeShape::Triangle);
+	backgroundColor = { 0.5f,0.5f,0.5f,1 };
 }
 
 void Game::Deinit() {
@@ -35,7 +34,6 @@ void Game::Update()
 	
 }
 void Game::Draw() {
-	ClearWindow(0.5f, 0.5f, 0.5f, 1.0f);
-	//_shape->DrawShape();
+	_shape->Draw();
 	//_shape2->DrawShape();
 }

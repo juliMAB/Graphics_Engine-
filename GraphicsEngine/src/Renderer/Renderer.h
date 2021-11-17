@@ -10,7 +10,7 @@
 
 
 enum TypeShape {
-	Triangle, Quad
+	Triangle=3, Quad
 };
 static enum class TypeShader {
 	Colour,
@@ -25,30 +25,32 @@ private:
 
 	Window* _window;
 	unsigned int programShader;
-public:
-	Renderer();
-	Renderer(Window* window);
-	~Renderer();
-	void Awake(Window* window);
 	void Start();
-	void Update();
-	// --------------------
-	void SetClearWindow(float r, float g, float b, float a);
-	void ClearWindow();
-	void ShadersStart();
+	//-------Shaders Staff----------
 	std::string ReadVertexShader();
 	std::string ReadFragmentShader();
 	void SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource);
 	void SetFragmentShader(unsigned int &fragmentShader, const char* fragmentShaderSource);
 	void LinkShaders(unsigned int vertexShader, unsigned int fragmentShader);
+	void ShadersStart();
+	//--------------------------------
+public:
+	//----- C y D -------
+	Renderer(Window* window);
+	~Renderer();
+	//----- C y D -------
+	// --------------------
+	void CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO);
 	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
+	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
+	void Draw(uint vertices);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 	uint GetShader();
 	void SwapBuffers();
-	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
+	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
 
 };
 #endif

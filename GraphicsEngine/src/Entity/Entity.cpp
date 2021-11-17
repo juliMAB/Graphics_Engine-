@@ -12,13 +12,14 @@ Entity::Entity() {
 	scaleMat4 = glm::mat4(1.0f);
 	//----model-------
 	model = glm::mat4(1.0f);
-	//--PosRotScale---
-	SetPos(0.0f, 0.0f);
-	SetRotations(0, 0, 0);
-	SetScale(1.0f, 1.0f, 1.0f);
 	//----Color-------
 	color = glm::vec4(1.0f);
 	//----------------
+	_vao = 0;
+	_vbo = 0;
+	_ebo = 0; 
+	_vertices = 0;
+	
 }
 Entity::~Entity() {
 
@@ -67,8 +68,8 @@ glm::vec3 QuatXVec(glm::quat quat, glm::vec3 vec) {
 }
 //------------set Pos----------------------------
 void Entity::SetPos(float x, float y) {
-	position = { x, y, 0.0f };
-	translate = glm::translate(glm::mat4(1.0f), position);
+	pos = { x, y, 0.0f };
+	translate = glm::translate(glm::mat4(1.0f), pos);
 	UpdateMatrixData();
 }
 void Entity::SetPos(glm::vec2 pos) {
@@ -76,8 +77,8 @@ void Entity::SetPos(glm::vec2 pos) {
 }
 void Entity::SetPos(float x, float y, float z)
 {
-	position = { x, y, z };
-	translate = glm::translate(glm::mat4(1.0f), position);
+	pos = { x, y, z };
+	translate = glm::translate(glm::mat4(1.0f), pos);
 	UpdateMatrixData();
 }
 void Entity::SetPos(glm::vec3 pos)
@@ -88,18 +89,18 @@ void Entity::SetPos(glm::vec3 pos)
 //------------set Rot----------------------------
 
 void Entity::SetRotX(float x) {
-	rotation.x = x;
+	rot.x = x;
 	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 	UpdateMatrixData();
 }
 
 void Entity::SetRotY(float y) {
-	rotation.y = y;
+	rot.y = y;
 	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 	UpdateMatrixData();
 }
 void Entity::SetRotZ(float z) {
-	rotation.z = z;
+	rot.z = z;
 	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
 	UpdateMatrixData();
 }
@@ -107,7 +108,6 @@ void Entity::SetRotations(float x, float y, float z) {
 	x += 180.0f;	// Todo: Fix
 	y += 180.0f;
 	
-	rotation = glm::vec3(x, y, z);
 	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
 	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
 	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
@@ -119,17 +119,49 @@ void Entity::SetRotations(glm::vec3 rotation)
 }
 void Entity::SetScale(glm::vec3 scale4)
 {
-	this->scale4 = scale4;
+	this->scale = scale4;
+	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
+	UpdateMatrixData();
 }
 void Entity::SetScale(float x, float y, float z)
 {
-	scale4 = { x, y, z };
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
+	scale = { x, y, z };
+	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale);
 	UpdateMatrixData();
 }
 void Entity::SetScale(float newScale)
 {
-	scale4 = { newScale,newScale,newScale };
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
+	scale = { newScale,newScale,newScale };
+	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale);
 	UpdateMatrixData();
+}
+
+void Entity::SetColor(glm::vec4 color)
+{
+	this->color = color;
+}
+
+void Entity::SetColor(float r, float g, float b, float a)
+{
+	color = glm::vec4(r, g, b, a);
+}
+
+glm::vec4 Entity::getColor()
+{
+	return color;
+}
+
+glm::vec3 Entity::getPos()
+{
+	return pos;
+}
+
+glm::vec3 Entity::getRot()
+{
+	return rot;
+}
+
+glm::vec3 Entity::getScale()
+{
+	return scale;
 }

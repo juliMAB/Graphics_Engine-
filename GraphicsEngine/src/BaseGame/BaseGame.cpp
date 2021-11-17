@@ -13,43 +13,15 @@ BaseGame::~BaseGame() {
 		delete _renderer;
 	}
 }
-//bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowName)
-//{
-//	if (!glfwInit()) {
-//		std::cout << "GLFW Initialization failed" << std::endl;
-//		glfwTerminate();
-//		return false;
-//	}
-//
-//	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-//	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-//	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-//
-//	_window = new Window(windowSizeX, windowSizeY, windowName);
-//	_renderer->Awake(_window);
-//	int bufferWidth;
-//	int bufferHeight;
-//	glfwGetFramebufferSize(_window->GetWindow(), &bufferWidth, &bufferHeight);
-//
-//	_window->Start();
-//	Input::SetWindow(_window);
-//	Input::StartInputSystem();
-//
-//	if (!GlewStart()) {
-//		glfwTerminate();
-//		return false;
-//	}
-//	//enable or disable server - side GL capabilities
-//	glEnable(GL_DEPTH);
-//
-//	_renderer = new Renderer();
-//
-//	_input = new Input();
-//
-//	_time = new Time();
-//
-//	return true;
-//}
+void BaseGame::StartDraw()
+{
+	glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+void BaseGame::EndDraw()
+{
+	_renderer->SwapBuffers();
+}
 int BaseGame::StartEngine(int width, int height, const char* windowName)
 {
 	if (InitEngine(width, height, windowName))
@@ -60,21 +32,14 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 			Update();
 			Input::CheckClearInputList();
 			glfwPollEvents();
+			StartDraw();
 			Draw();
-			_renderer->SwapBuffers();
+			EndDraw();
 		}
 	}
 	Deinit();
 	DeinitEngine();
 	return 0;
-}
-bool BaseGame::GlewStart()
-{
-	_window->Start();
-	if (glewInit())
-		return false;
-	_renderer->Start();
-	return true;
 }
 void BaseGame::DeinitEngine()
 {
@@ -85,6 +50,7 @@ Window* BaseGame::GetWindow() {
 }
 bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowName)
 {
+	std::cout << "Initing Engine" << std::endl;
 	if (!glfwInit())
 		return false;
 
@@ -109,12 +75,12 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 
 	_time = new Time();
 
+	std::cout << "End Init Engine" << std::endl;
 	return true;
 }
 Renderer* BaseGame::GetRenderer() {
 	return _renderer;
 }
-void BaseGame::ClearWindow(float r, float g, float b, float a) { _window->ClearWindow(r, g, b, a); }
 double BaseGame::getCurrentTime()
 {
 	return glfwGetTime();

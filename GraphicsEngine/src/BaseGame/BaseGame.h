@@ -10,24 +10,28 @@ private:
 	Renderer* _renderer;
 	Time* _time;
 	Input* _input;
-	bool GlewStart();
 	void DeinitEngine();
 	Window* GetWindow();
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
+protected:
+	glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
+	//----------C y D------------
 	BaseGame();
 	~BaseGame();
+	//-----------Main Loop-------
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void Deinit() = 0;
-
+	//---------------------------
+	void StartDraw();
+	void EndDraw();
 	int StartEngine(int width, int height, const char* windowName);
 	bool IsKeyDown(Input::KeyCode key);
 	bool IsKeyRelease(Input::KeyCode key);
 	bool IsKeyUp(Input::KeyCode key);
-	void ClearWindow(float r, float g, float b, float a);
 	double getCurrentTime();
 	// --------------------
 };

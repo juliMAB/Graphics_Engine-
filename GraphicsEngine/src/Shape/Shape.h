@@ -12,29 +12,13 @@
 
 typedef unsigned int uint;
 class GraficosEngine_API Shape : public Entity2D {
-	float* shapeVertices;
-
-	uint _textureID;
-	int  _width;
-	int  _height;
-	int  _bitDepth;
-	bool _usingTexture;
-	Texture* _texture;
 public:
 	Shape(Renderer* rend, TypeShape typeShape);
 	~Shape();
-	void InitShape(TypeShape type);
-	void DrawShape();
-	int GetVerticesArrLenght();
-	int GetVerticesTam();
-	float* GetVertices();
-	float GetVertexIndex(int ind);
-	void SetColor(float r, float g, float b);
-	void SetColor(float r, float g, float b, float a);
-	void SetColor(glm::vec3 color, float alpha);
-	void SetColor(glm::vec4 color);
-	void LoadTexture(const char* path, const char* name);
-	void setShape(glm::vec2 pos, float width, float height);
+	//void InitShape(TypeShape type);
+	void Draw();
+	//void LoadTexture(const char* path, const char* name);
+	//void SetShader();
 };
 
 #endif
