@@ -13,5 +13,5 @@ void main()
 {
     gl_Position = projection * view * transform * vec4(aPos, 1.0);
     TexCoord = tex;
-    vertexColor = vec4(aColor.x, 0.0, 0.0, 1.0); // set the output variable to a dark-red color
+    vertexColor = vec4(aColor.x, aColor.y, aColor.z, 1.0); // set the output variable to a dark-red color
 }

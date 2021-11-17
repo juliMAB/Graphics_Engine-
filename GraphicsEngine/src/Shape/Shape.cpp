@@ -49,12 +49,12 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	_renderer->BindBuffer(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
 	
 	glUseProgram(_renderer->GetShader());
-	_uniformPos        = glGetUniformLocation(_renderer->GetShader(), "transform");
-	_uniformColor      = glGetUniformLocation(_renderer->GetShader(), "color");
+	_uniformPos        = glGetUniformLocation(_renderer->GetShader(), "transform" );
+	_uniformColor      = glGetUniformLocation(_renderer->GetShader(), "color"	  );
 	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
-	_uniformView       = glGetUniformLocation(_renderer->GetShader(), "view");
-	_uniformAlpha      = glGetUniformLocation(_renderer->GetShader(), "alpha");
-	_texLocation       = glGetAttribLocation (_renderer->GetShader(), "tex");
+	_uniformView       = glGetUniformLocation(_renderer->GetShader(), "view"	  );
+	_uniformAlpha      = glGetUniformLocation(_renderer->GetShader(), "alpha"	  );
+	_texLocation       = glGetAttribLocation (_renderer->GetShader(), "tex"		  );
 	uint _useTexture   = glGetUniformLocation(_renderer->GetShader(), "useTexture");
 	glUniform1i(_useTexture, false);
 	glUseProgram(_renderer->GetShader());

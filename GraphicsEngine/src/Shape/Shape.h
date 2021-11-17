@@ -15,10 +15,7 @@ class GraficosEngine_API Shape : public Entity2D {
 public:
 	Shape(Renderer* rend, TypeShape typeShape);
 	~Shape();
-	//void InitShape(TypeShape type);
 	void Draw();
-	//void LoadTexture(const char* path, const char* name);
-	//void SetShader();
 };
 
 #endif
