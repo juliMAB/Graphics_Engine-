@@ -160,8 +160,10 @@ void Renderer::Setattributes(uint location, int size, int stride, int offset) {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 	glEnableVertexAttribArray(location);
 }
-void Renderer::Draw(uint vertices)
+void Renderer::Draw(uint vertices, uint _vao)
 {
+	glBindVertexArray(_vao);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
 void Renderer::Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs) {
@@ -211,7 +213,6 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glm::vec3 newColor=glm::vec3(color.r,color.g,color.b);
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
-	glUseProgram(0);
 }
 uint Renderer::GetShader() { return programShader; }
 void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }

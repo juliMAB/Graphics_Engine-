@@ -45,7 +45,7 @@ public:
 	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
-	void Draw(uint vertices);
+	void Draw(uint vertices, uint _vao);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 	uint GetShader();

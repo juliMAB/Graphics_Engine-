@@ -34,12 +34,12 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	case Quad:
 		shapeVertices = new float [tamVerts] {
 			// positions             colors                 texture coords
-			 0.5f,  0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, // top right
-			 0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 0.0f, // bottom right
-			-0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 0.0f, // bottom left
-			-0.5f,  0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  // top left 
+			 0.5f,  0.5f, /**/ 0.0f, 0.0f, 0.0f, 0.0f, /**/ 1.0f, 1.0f, // top right
+			 0.5f, -0.5f, /**/ 0.0f, 0.0f, 0.0f, 0.0f, /**/ 1.0f, 0.0f, // bottom right
+			-0.5f, -0.5f, /**/ 0.0f, 0.0f, 0.0f, 0.0f, /**/ 0.0f, 0.0f, // bottom left
+			-0.5f,  0.5f, /**/ 0.0f, 0.0f, 0.0f, 0.0f, /**/ 0.0f, 1.0f  // top left 
 		};
-		indices = new uint[indicesTam]{ 0, 1, 2, 1, 2, 3 };
+		indices = new uint[indicesTam]{ 0, 1, 2, 2, 3, 0 };
 		break;
 	default:
 		shapeVertices = new float [tamVerts];
@@ -49,17 +49,19 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	_renderer->BindBuffer(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
 	
 	glUseProgram(_renderer->GetShader());
-	_uniformPos = glGetUniformLocation(_renderer->GetShader(), "transform");
-	_uniformColor = glGetUniformLocation(_renderer->GetShader(), "color");
+	_uniformPos        = glGetUniformLocation(_renderer->GetShader(), "transform");
+	_uniformColor      = glGetUniformLocation(_renderer->GetShader(), "color");
 	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
-	_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
-	_uniformAlpha = glGetUniformLocation(_renderer->GetShader(), "alpha");
-	_texLocation = glGetAttribLocation(_renderer->GetShader(), "tex");
+	_uniformView       = glGetUniformLocation(_renderer->GetShader(), "view");
+	_uniformAlpha      = glGetUniformLocation(_renderer->GetShader(), "alpha");
+	_texLocation       = glGetAttribLocation (_renderer->GetShader(), "tex");
+	uint _useTexture   = glGetUniformLocation(_renderer->GetShader(), "useTexture");
+	glUniform1i(_useTexture, false);
 	glUseProgram(_renderer->GetShader());
 	
-	_renderer->Setattributes(0, 2, tam1Vert, 0);
-	_renderer->Setattributes(1, 4, tam1Vert, 3);
-	//_renderer->Setattributes(2, 2, tam1Vert, 7);
+	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
+	_renderer->Setattributes(_posColor   , 4, tam1Vert, 2);
+	_renderer->Setattributes(_postexture , 2, tam1Vert, 6);
 
 	delete[] indices;
 	delete[] shapeVertices;
@@ -72,7 +74,7 @@ Shape::~Shape() {
 void Shape::Draw() 
 {
 	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
-		_renderer->Draw(indicesTam);
+		_renderer->Draw(indicesTam,_vao);
 }
 //void Shape::InitShape(TypeShape type) {
 //	typeOfShape = type;
