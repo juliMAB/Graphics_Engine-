@@ -3,6 +3,7 @@
 #include "../Renderer/Renderer.h"
 #include "../Input/Input.h"
 #include "../Shape/Shape.h"
+#include "../Sprite/Sprite.h"
 #include "../Time/Time.h"
 class GraficosEngine_API BaseGame {
 private:

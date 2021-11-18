@@ -16,6 +16,7 @@ void Game::Init() {
 	_shape = new Shape(GetRenderer(), TypeShape::Quad);
 	_shape->SetColor(1, 0, 0, 1);
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
+	_sprite = new Sprite(GetRenderer(), "res/c.png");
 }
 
 void Game::Deinit() {
@@ -23,9 +24,9 @@ void Game::Deinit() {
 		delete _shape;
 		_shape = nullptr;
 	}
-	if (_shape2 != nullptr) {
-		delete _shape2;
-		_shape2 = nullptr;
+	if (_sprite != nullptr) {
+		delete _sprite;
+		_sprite = nullptr;
 	}
 	std::cout << "\n\nEnd.\n\n";
 }
@@ -35,6 +36,6 @@ void Game::Update()
 	
 }
 void Game::Draw() {
-	_shape->Draw();
-	//_shape2->DrawShape();
+	//_shape->Draw();
+	_sprite->Draw();
 }

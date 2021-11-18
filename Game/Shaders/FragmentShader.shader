@@ -13,6 +13,6 @@ void main()
 	if (useTexture == false)
 		FragColor = vec4(vertexColor * vec4(color,alpha));
 	else
-		FragColor = texture(theTexture, TexCoord) * vec4(vertexColor);
+		FragColor = texture(theTexture, TexCoord) * vec4(vertexColor * vec4(color, alpha));
 
 }

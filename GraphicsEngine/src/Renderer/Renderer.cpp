@@ -176,5 +176,15 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
 }
+void Renderer::DeleteBuffers(uint _vao, uint _vbo, uint _ebo)
+{
+	glDeleteVertexArrays(1, &_vao);
+	glDeleteBuffers(1, &_vbo);
+	glDeleteBuffers(1, &_ebo);
+}
+void Renderer::DeleteExtraBuffer(int size, uint buffer)
+{
+	glDeleteBuffers(size, &buffer);
+}
 uint Renderer::GetShader() { return programShader; }
 void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }

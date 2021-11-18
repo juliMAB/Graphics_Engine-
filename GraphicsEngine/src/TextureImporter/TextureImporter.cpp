@@ -20,15 +20,10 @@ static bool NameContainsOnlyASCII(std::string textureName) {
 	return containsOnlyASCII;
 }
 
-bool TextureImporter::LoadTexture(const std::string& path, const std::string& textureName, unsigned char* data, uint& texture, int width, int height, int channels) {
+bool TextureImporter::LoadTexture(const std::string& path, unsigned char* data, uint& texture, int& width, int& height, int& channels) {
 	stbi_set_flip_vertically_on_load(false);
 
-	if (!NameContainsOnlyASCII(textureName)) 
-	{
-		std::cout << "Cant load textures with non ascii name: " << textureName << std::endl;
-		return false;
-	}
-	std::string pathName = path + textureName;
+	std::string pathName = path;
 	data = stbi_load(pathName.c_str(), &width, &height, &channels, 0);
 
 	if (!data) 
@@ -63,8 +58,12 @@ bool TextureImporter::LoadTexture(const std::string& path, const std::string& te
 
 	if (channels == 4) //dependiendo de los canales, va a usar para rgba o rgb, sino se rompe todo.
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-	else
+	else if (channels == 3)
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	else if (channels == 2)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	else if (channels == 1)
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_R, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 	//Esto generará automáticamente todos los mapas MIP necesarios para la textura enlazada actualmente.
 	glGenerateMipmap(GL_TEXTURE_2D);
 

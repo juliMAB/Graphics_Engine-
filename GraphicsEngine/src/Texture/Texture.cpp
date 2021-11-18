@@ -2,25 +2,38 @@
 #include "../GLEW/glew.h"
 #include <iostream>
 
-Texture::Texture(const std::string path, const std::string name) {
+Texture::Texture(const std::string path)
+{
 	_textureID = 0;
 	_width = 0;
 	_height = 0;
 	_bitDepth = 0;
 	_channels = 0;
 	_path = path;
-	_name = name;
+	if (TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels))
+	{
+		std::cout << "Texture load suscefully" << std::endl;
+		return;
+	}
+	else
+	{
+		std::cout << "Texture load FAIL" << std::endl;
+		return;
+	}
 }
 Texture::~Texture() {
 	ClearTexture();
 }
-bool Texture::LoadTexture() {
-	return TextureImporter::LoadTexture(_path, _name, _texData, _textureID, _width, _height, _channels);
+uint Texture::GetID()
+{
+	return _textureID;
 }
-bool Texture::LoadTexture(const std::string path, const std::string name) {
+bool Texture::LoadTexture() {
+	return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels);
+}
+bool Texture::LoadTexture(const std::string path) {
 	_path = path;
-	_name = name;
-	return TextureImporter::LoadTexture(_path, _name, _texData, _textureID, _width, _height, _channels);
+	return TextureImporter::LoadTexture(_path, _texData, _textureID, _width, _height, _channels);
 }
 void Texture::UseTexture() {
 	glEnable(GL_TEXTURE_2D);
