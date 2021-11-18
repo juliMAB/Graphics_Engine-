@@ -16,8 +16,8 @@ void Game::Init() {
 	_shape = new Shape(GetRenderer(), TypeShape::Quad);
 	_shape->SetColor(1, 0, 0, 1);
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
-	//_sprite = new Sprite(GetRenderer(), "res/c.png");
-	_pj = new Sprite(GetRenderer(), "res/d.png");
+	_sprite = new Sprite(GetRenderer(), "res/c.png");
+	//_pj = new Sprite(GetRenderer(), "res/d.png");
 }
 
 void Game::Deinit() {
@@ -37,6 +37,6 @@ void Game::Update()
 	
 }
 void Game::Draw() {
-	//_shape->Draw();
-	_pj->Draw();
+	_sprite->Draw();
+	//_pj->Draw();
 }

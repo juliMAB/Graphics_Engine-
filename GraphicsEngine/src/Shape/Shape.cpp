@@ -54,7 +54,7 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 	_uniformView       = glGetUniformLocation(_renderer->GetShader(), "view"	  );
 	_uniformAlpha      = glGetUniformLocation(_renderer->GetShader(), "alpha"	  );
-	_texLocation       = glGetAttribLocation (_renderer->GetShader(), "tex"		  );
+	_UniformTexLocation       = glGetAttribLocation (_renderer->GetShader(), "tex");
 	uint _useTexture   = glGetUniformLocation(_renderer->GetShader(), "useTexture");
 	glUniform1i(_useTexture, false);
 	glUseProgram(_renderer->GetShader());

@@ -52,6 +52,7 @@ public:
 	uint GetShader();
 	void SwapBuffers();
 	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
+	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color, uint uniformTex, uint textureID);
 	void DeleteBuffers(uint _vao, uint _vbo, uint _ebo);
 	void DeleteExtraBuffer(int size, uint buffer);
 	void BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType);

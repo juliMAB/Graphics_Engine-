@@ -10,7 +10,6 @@ class GraficosEngine_API Texture {
 private:
 	int _bitDepth;
 	int _channels;
-	unsigned char* _texData;
 	std::string _path;
 public:
 	int _width;
@@ -19,12 +18,9 @@ public:
 	Texture(const std::string path);
 	~Texture();
 
-	uint GetID();
-	bool LoadTexture();
 	bool LoadTexture(const std::string path);
 	void UseTexture();
 	void StopTexture();
-	void ClearTexture();
 };
 
 #endif

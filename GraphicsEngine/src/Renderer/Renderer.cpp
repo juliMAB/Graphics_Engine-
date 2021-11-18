@@ -180,6 +180,18 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
 }
+void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color,uint uniformTex,uint textureID) {
+	glUseProgram(GetShader());
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
+	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
+	glUniform1fv(uniformAlpha, 1, &color.a);
+	glBindTexture(GL_TEXTURE_2D, textureID);
+	glUniform1f(uniformTex, (GLfloat)textureID);
+}
 void Renderer::DeleteBuffers(uint _vao, uint _vbo, uint _ebo)
 {
 	glDeleteVertexArrays(1, &_vao);

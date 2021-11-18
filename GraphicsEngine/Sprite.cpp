@@ -4,6 +4,7 @@ const int tamVerts = 32;//4 * tam1Vert;
 const int indicesTam = 6;
 Sprite::Sprite(Renderer* render, std::string filePathImage)
 {
+	std::cout << "-------Create new Sprite:-------"<<std::endl;
 	_renderer = render;
 	int tam1Vert = 8;
 	float vertex [tamVerts]= 
@@ -25,10 +26,9 @@ Sprite::Sprite(Renderer* render, std::string filePathImage)
 	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
 	_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
 	_uniformAlpha = glGetUniformLocation(_renderer->GetShader(), "alpha");
-	_texLocation = glGetAttribLocation(_renderer->GetShader(), "theTexture");
+	_UniformTexLocation = glGetUniformLocation(_renderer->GetShader(), "theTexture");
 	uint _useTexture = glGetUniformLocation(_renderer->GetShader(), "useTexture");
 	glUniform1i(_useTexture, true);
-	glUseProgram(_renderer->GetShader());
 
 	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
 	_renderer->Setattributes(_posColor, 4, tam1Vert, 2);
@@ -52,6 +52,7 @@ Sprite::Sprite(Renderer* render, std::string filePathImage)
 
 
 	_texture = new Texture(filePathImage);
+	std::cout  << "-----End Create new Sprite-------"<<std::endl<<std::endl;
 }
 Sprite::~Sprite() {
 	delete _texture;
@@ -71,12 +72,9 @@ void Sprite::SetSprite(const std::string path) {
 }
 void Sprite::Draw()
 {
-	unsigned int texture = GetCurrentTextureIDToDraw();
-	glBindTexture(GL_TEXTURE_2D, texture);
-	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
-	//glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
-	glUniform1f(_texLocation, (GLfloat)_texture->_textureID);
-	_renderer->Draw(indicesTam,_vao);
+	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color,_UniformTexLocation,_texture->_textureID);
+	
+	_renderer->Draw(indicesTam, _vao);
 }
 uint Sprite::GetCurrentTextureIDToDraw()
 {
@@ -89,7 +87,7 @@ uint Sprite::GetCurrentTextureIDToDraw()
 				BindCustomUVCoords(i);
 				lastCoordIndex = i;
 			}
-			return animations[i]->GetTexture()->GetID();
+			return animations[i]->GetTexture()->_textureID;
 		}
 	}
 	if (animations.size() > 0) BindCustomUVCoords(lastCoordIndex);

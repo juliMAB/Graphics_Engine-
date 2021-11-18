@@ -20,7 +20,8 @@ static bool NameContainsOnlyASCII(std::string textureName) {
 	return containsOnlyASCII;
 }
 
-bool TextureImporter::LoadTexture(const std::string& path, unsigned char* data, uint& texture, int& width, int& height, int& channels) {
+bool TextureImporter::LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels) {
+	unsigned char* data;
 	stbi_set_flip_vertically_on_load(false);
 
 	std::string pathName = path;
@@ -32,8 +33,6 @@ bool TextureImporter::LoadTexture(const std::string& path, unsigned char* data, 
 		return false;
 	}
 		
-	
-
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
@@ -69,6 +68,7 @@ bool TextureImporter::LoadTexture(const std::string& path, unsigned char* data, 
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	stbi_image_free(data);
+	std::cout << " W: "<<width<< " H: "<<height<< " Ch: "<< channels << std::endl;
 	return true;
 }
 

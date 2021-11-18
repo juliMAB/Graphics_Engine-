@@ -35,7 +35,7 @@ protected:
 	uint _uniformProjection;
 	uint _uniformColor;
 	uint _uniformAlpha;
-	uint _texLocation;
+	uint _UniformTexLocation;
 
 	uint _vao, _vbo, _ebo, _vertices;
 	
