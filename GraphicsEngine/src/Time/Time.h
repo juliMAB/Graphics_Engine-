@@ -1,19 +1,19 @@
 ﻿#ifndef TIME_H
 #define TIME_H
 #include "../Exports/Exports.h"
-static class GraficosEngine_API Time {
+class GraficosEngine_API Time {
 private:
-	float _deltaTime;
 	float _unscaleDeltaTime;
 	float _scale;
 	float _onTime;
 
 public:
+	static float _deltaTime;
 	Time();
 	~Time();
 	void Update();
-	float GetDeltaTime();
 	float GetTime();
+	static float GetDeltaTime();
 	
 	float GetScale();
 	void SetScale(float scale4);

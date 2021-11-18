@@ -8,13 +8,13 @@
 typedef unsigned int uint;
 class GraficosEngine_API Texture {
 private:
-	int _width;
-	int _height;
 	int _bitDepth;
 	int _channels;
 	unsigned char* _texData;
 	std::string _path;
 public:
+	int _width;
+	int _height;
 	uint _textureID;
 	Texture(const std::string path);
 	~Texture();

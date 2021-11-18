@@ -1,6 +1,6 @@
 ﻿#include "Time.h"
+float Time::_deltaTime = 0;
 Time::Time() {
-	_deltaTime = 0;
 	_unscaleDeltaTime = 0;
 	_scale = 1;
 	_onTime = 0;
@@ -14,11 +14,12 @@ void Time::Update() {
 	_deltaTime = (_onTime - lastTime) * _scale;
 	_unscaleDeltaTime = _deltaTime;
 }
-float Time::GetDeltaTime() {
-	return _deltaTime;
-}
 float Time::GetTime() {
 	return _onTime;
+}
+float Time::GetDeltaTime()
+{
+	return _deltaTime;
 }
 float Time::GetScale() {
 	return _scale;

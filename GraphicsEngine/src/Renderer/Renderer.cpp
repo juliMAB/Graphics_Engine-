@@ -160,6 +160,10 @@ void Renderer::Setattributes(uint location, int size, int stride, int offset) {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 	glEnableVertexAttribArray(location);
 }
+void Renderer::CreateExtraBuffer(unsigned int& buffer, int size)
+{
+	glGenBuffers(size, &buffer);
+}
 void Renderer::Draw(uint vertices, uint _vao)
 {
 	glBindVertexArray(_vao);
@@ -185,6 +189,11 @@ void Renderer::DeleteBuffers(uint _vao, uint _vbo, uint _ebo)
 void Renderer::DeleteExtraBuffer(int size, uint buffer)
 {
 	glDeleteBuffers(size, &buffer);
+}
+void Renderer::BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeOfData, data, bufferType);
 }
 uint Renderer::GetShader() { return programShader; }
 void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }

@@ -74,7 +74,6 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	Input::SetWindow(_window);
 
 	_time = new Time();
-
 	std::cout << "End Init Engine" << std::endl;
 	return true;
 }

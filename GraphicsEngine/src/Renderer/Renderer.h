@@ -45,6 +45,7 @@ public:
 	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
+	void CreateExtraBuffer(unsigned int& buffer, int size);
 	void Draw(uint vertices, uint _vao);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
@@ -53,5 +54,6 @@ public:
 	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color);
 	void DeleteBuffers(uint _vao, uint _vbo, uint _ebo);
 	void DeleteExtraBuffer(int size, uint buffer);
+	void BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType);
 };
 #endif

@@ -32,6 +32,22 @@ Sprite::Sprite(Renderer* render, std::string filePathImage)
 
 	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
 	_renderer->Setattributes(_posColor, 4, tam1Vert, 2);
+	baseUVCoords[0] = { 1.0f, 1.0f };
+	baseUVCoords[1] = { 1.0f, 0.0f };
+	baseUVCoords[2] = { 0.0f, 0.0f };
+	baseUVCoords[3] = { 0.0f, 1.0f };
+
+	float UVs[8] =
+	{
+		baseUVCoords[0].x, baseUVCoords[0].y,
+		baseUVCoords[1].x, baseUVCoords[1].y,
+		baseUVCoords[2].x, baseUVCoords[2].y,
+		baseUVCoords[3].x, baseUVCoords[3].y
+	};
+	_renderer->CreateExtraBuffer(bufferPosUVs, 1);
+	_renderer->BindExtraBuffer(bufferPosUVs, UVs, sizeof(UVs), GL_DYNAMIC_DRAW);
+	
+	
 	_renderer->Setattributes(_postexture, 2, tam1Vert, 6);
 
 
@@ -55,8 +71,51 @@ void Sprite::SetSprite(const std::string path) {
 }
 void Sprite::Draw()
 {
+	unsigned int texture = GetCurrentTextureIDToDraw();
+	glBindTexture(GL_TEXTURE_2D, texture);
 	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
-	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
+	//glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
 	glUniform1f(_texLocation, (GLfloat)_texture->_textureID);
 	_renderer->Draw(indicesTam,_vao);
+}
+uint Sprite::GetCurrentTextureIDToDraw()
+{
+	for (unsigned int i = 0; i < animations.size(); i++)
+	{
+		if (animations[i]->playing)
+		{
+			if (animations[i]->Update())
+			{
+				BindCustomUVCoords(i);
+				lastCoordIndex = i;
+			}
+			return animations[i]->GetTexture()->GetID();
+		}
+	}
+	if (animations.size() > 0) BindCustomUVCoords(lastCoordIndex);
+	else BindBaseUVCoords();
+	return _texture->_textureID;
+}
+void Sprite::BindCustomUVCoords(int i)
+{
+	glm::vec2* uv = animations[i]->getCurrentFramesCoordinates();
+	float UVs[8] =
+	{
+		uv[0].x, uv[0].y, // top right
+		uv[1].x, uv[1].y, // bottom right
+		uv[2].x, uv[2].y, // bottom left
+		uv[3].x, uv[3].y, // top left 
+	};
+	_renderer->BindExtraBuffer(bufferPosUVs, UVs, sizeof(UVs), GL_DYNAMIC_DRAW);
+}
+void Sprite::BindBaseUVCoords()
+{
+	float UVs[8] =
+	{
+		baseUVCoords[0].x, baseUVCoords[0].y,
+		baseUVCoords[1].x, baseUVCoords[1].y,
+		baseUVCoords[2].x, baseUVCoords[2].y,
+		baseUVCoords[3].x, baseUVCoords[3].y
+	};
+	_renderer->BindExtraBuffer(bufferPosUVs, UVs, sizeof(UVs), GL_STATIC_DRAW);
 }

@@ -5,6 +5,8 @@
 class Game : BaseGame {
 	Shape* _shape;
 	Sprite* _sprite;
+	Sprite* _pj;
+
 public:
 	Game();
 	~Game();

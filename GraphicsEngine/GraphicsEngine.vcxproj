@@ -200,6 +200,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Animation\Animation.h" />
+    <ClInclude Include="src\Atlas\Atlas.h" />
     <ClInclude Include="src\BaseGame\BaseGame.h" />
     <ClInclude Include="src\Entity2D\Entity2D.h" />
     <ClInclude Include="src\Entity\Entity.h" />
