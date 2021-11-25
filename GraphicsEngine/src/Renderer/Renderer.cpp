@@ -167,7 +167,6 @@ void Renderer::CreateExtraBuffer(unsigned int& buffer, int size)
 void Renderer::Draw(uint vertices, uint _vao)
 {
 	glBindVertexArray(_vao);
-	//glDrawArrays(GL_TRIANGLES, 0, 3);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
 

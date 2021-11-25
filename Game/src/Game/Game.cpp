@@ -39,4 +39,5 @@ void Game::Update()
 void Game::Draw() {
 	_sprite->Draw();
 	//_pj->Draw();
+	//_shape->Draw();
 }

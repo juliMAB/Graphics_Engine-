@@ -10,12 +10,14 @@
 class GraficosEngine_API Sprite : public Entity2D {
 private:
 	Texture* _texture;
-	glm::vec2 _pos;
-	glm::vec2 _size;
 	uint bufferPosUVs = 0;
 	glm::vec2 baseUVCoords[4];
 	std::vector<Animation*> animations;
 	int lastCoordIndex = 0;
+
+	
+	void SetUniforms();
+	void DrawTexturePart();
 public:
 	Sprite(Renderer* render, std::string filePathImage);
 	~Sprite();
@@ -24,6 +26,7 @@ public:
 	uint GetCurrentTextureIDToDraw();
 	void BindCustomUVCoords(int i);
 	void BindBaseUVCoords();
+
 	
 };
 
