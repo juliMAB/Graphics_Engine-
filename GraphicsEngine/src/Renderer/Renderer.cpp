@@ -169,6 +169,19 @@ void Renderer::Draw(uint vertices, uint _vao)
 	glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
+void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs) {
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_DRAW_BUFFER);
+	glUseProgram(GetShader());
+	glEnable(GL_DEPTH_TEST);
+	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
 
 void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color) {
 	glUseProgram(GetShader());
@@ -191,6 +204,7 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glUniform1f(uniformTex, (GLfloat)textureID);
 }
+
 void Renderer::DeleteBuffers(uint _vao, uint _vbo, uint _ebo)
 {
 	glDeleteVertexArrays(1, &_vao);

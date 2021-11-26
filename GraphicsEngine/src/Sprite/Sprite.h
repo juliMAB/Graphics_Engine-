@@ -9,24 +9,26 @@
 #include "../Animation/Animation.h"
 class GraficosEngine_API Sprite : public Entity2D {
 private:
-	Texture* _texture;
-	uint bufferPosUVs = 0;
-	glm::vec2 baseUVCoords[4];
-	std::vector<Animation*> animations;
-	int lastCoordIndex = 0;
-
 	
+	Texture* _texture;
+
+	Animation* _animation;
+
+	bool _settedAnimsValues;
+
 	void SetUniforms();
 	void DrawTexturePart();
 public:
 	Sprite(Renderer* render, std::string filePathImage);
 	~Sprite();
 	void SetSprite(const std::string path);
+	void SetShader();
 	void Draw();
-	uint GetCurrentTextureIDToDraw();
-	void BindCustomUVCoords(int i);
-	void BindBaseUVCoords();
+	void StartUseAnimation();
 
+	void AddAnimation(int rows, int cols, float duration);
+
+	void UpdateAnimation(float timer);
 	
 };
 

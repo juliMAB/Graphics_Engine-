@@ -16,8 +16,10 @@ void Game::Init() {
 	_shape = new Shape(GetRenderer(), TypeShape::Quad);
 	_shape->SetColor(1, 0, 0, 1);
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
-	_sprite = new Sprite(GetRenderer(), "res/c.png");
-	//_pj = new Sprite(GetRenderer(), "res/d.png");
+	//_sprite = new Sprite(GetRenderer(), "res/c.png");
+	_pj = new Sprite(GetRenderer(), "res/d.png");
+	_pj->StartUseAnimation();
+	_pj->AddAnimation(8, 4, 3);
 }
 
 void Game::Deinit() {
@@ -33,11 +35,11 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	
+	_pj->UpdateAnimation(Time::GetDeltaTime());
 	
 }
 void Game::Draw() {
-	_sprite->Draw();
-	//_pj->Draw();
+	//_sprite->Draw();
+	_pj->Draw();
 	//_shape->Draw();
 }

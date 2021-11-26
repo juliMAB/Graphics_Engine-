@@ -47,6 +47,7 @@ public:
 	void Setattributes(uint location, int size, int stride, int offset);
 	void CreateExtraBuffer(unsigned int& buffer, int size);
 	void Draw(uint vertices, uint _vao);
+	void Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 	uint GetShader();

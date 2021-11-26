@@ -1,67 +1,77 @@
-#include "Animation.h"
-Animation::Animation() {
-	texture = nullptr;
-}
-Animation::~Animation() {
-	for (unsigned int i = 0; i < framesCoordinates.size(); i++)
+#include "animation.h"
+#include <iostream>
+
+
+	Animation::Animation()
 	{
-		delete[] framesCoordinates[i];
+		currentTime = 0;
+		currentFrame = 0;
+		length = 1000;
+		frames = std::vector<Frame>();
 	}
-}
-void Animation::SetAnimation() {
-	
-}
-bool Animation::Update() {
-	_time += Time::GetDeltaTime() * _speed;
-	if (_time > _frameTime)
+
+	Animation::~Animation()
 	{
-		_time -= _frameTime;
-		_actualFrame++;
-		if (_actualFrame == framesCoordinates.size())
+		frames.clear();
+	}
+
+	void Animation::Update(float timer)
+	{
+		currentTime += timer;
+		while (currentTime > length)
 		{
-			_actualFrame = 0;
-			if (repeat)
-			{
-				playing = true;
-			}
-			else
-			{
-				playing = false;
-			}
+			currentTime -= length;
 		}
-		return true;
+
+		float frameLength = length / frames.size();
+		currentFrame = static_cast<int>(currentTime / frameLength);
 	}
-	return false;
-}
-void Animation::setAnimation(Texture* animationAtlasData, int columns, int rows)
-{
-	texture = animationAtlasData;
-	float spriteWidth = texture->_width / columns;
-	float spriteHeight = texture->_height / rows;
-	for (int i = 0; i < rows; i++)
+
+	void Animation::AddFrame(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float duration, int frameCount)
 	{
-		for (int j = 0; j < columns; j++)
+		length = duration / 1000;
+		float frameXIndex = 0;
+
+		for (int i = 0; i < frameCount; i++)
 		{
-			glm::vec2* newCoord = new glm::vec2[4];
-			newCoord[0].x = (spriteWidth + (spriteWidth * j)) / texture->_width;			// top right
-			newCoord[0].y = (spriteHeight * i) / texture->_height;						// top right
-			newCoord[1].x = (spriteWidth + (spriteWidth * j)) / texture->_width; 		// bottom right
-			newCoord[1].y = (spriteHeight + (spriteHeight * i)) / texture->_height;		// bottom right
-			newCoord[2].x = (spriteWidth * j) / texture->_width;							// bottom left
-			newCoord[2].y = (spriteHeight + (spriteHeight * i)) / texture->_height;		// bottom left
-			newCoord[3].x = (spriteWidth * j) / texture->_width;							// top left 
-			newCoord[3].y = (spriteHeight * i) / texture->_height;						// top left 
-			framesCoordinates.push_back(newCoord);
+			Frame frame;
+
+			frame.GetUVCords()[0].u = (frameWidth * (frameX + 1)) / textureWidth;
+			frame.GetUVCords()[0].v = (frameHeight / textureHeight) * frameY;
+
+			frame.GetUVCords()[1].u = (frameWidth * (frameX + 1)) / textureWidth;
+			frame.GetUVCords()[1].v = (frameHeight / textureHeight) * (frameY - 1);
+
+			frame.GetUVCords()[2].u = (frameWidth * frameX) / textureWidth;
+			frame.GetUVCords()[2].v = (frameHeight / textureHeight) * (frameY - 1);
+
+			frame.GetUVCords()[3].u = (frameWidth * frameX) / textureWidth;
+			frame.GetUVCords()[3].v = (frameHeight / textureHeight) * frameY;
+
+			frames.push_back(frame);
+			frameXIndex += frameWidth;
 		}
 	}
-}
 
-glm::vec2* Animation::getCurrentFramesCoordinates()
-{
-	return framesCoordinates[_actualFrame];
-}
+	int Animation::GetCurrentFrame()
+	{
+		return currentFrame;
+	}
 
-Texture* Animation::GetTexture()
-{
-	return texture;
-}
+	std::vector<Frame> Animation::GetFrames()
+	{
+		return frames;
+	}
+
+	Frame::Frame()
+	{
+	}
+
+	Frame::~Frame()
+	{
+	}
+
+	UVCords* Frame::GetUVCords()
+	{
+		return uvcords;
+	}
