@@ -19,7 +19,7 @@ void Game::Init() {
 	//_sprite = new Sprite(GetRenderer(), "res/c.png");
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->StartUseAnimation();
-	_pj->AddAnimation(8, 4, 3);
+	_pj->AddAnimation(2, 3, 1.0f);
 }
 
 void Game::Deinit() {
@@ -35,8 +35,11 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	_pj->UpdateAnimation(Time::GetDeltaTime());
-	
+	_pj->UpdateAnimation(Time::_deltaTime);
+	if (Input::IsKeyRelease(Input::KEY_G))
+	{
+		std::cout <<"Time: " << Time::_deltaTime << std::endl;
+	}
 }
 void Game::Draw() {
 	//_sprite->Draw();

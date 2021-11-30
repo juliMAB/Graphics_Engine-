@@ -5,18 +5,13 @@ class GraficosEngine_API Time {
 private:
 	float _unscaleDeltaTime;
 	float _scale;
-	float _onTime;
-
+	double _lastTime;
 public:
 	static float _deltaTime;
 	Time();
 	~Time();
 	void Update();
-	float GetTime();
-	static float GetDeltaTime();
-	
-	float GetScale();
-	void SetScale(float scale4);
+	void SetScale(float scale);
 };
 
 
