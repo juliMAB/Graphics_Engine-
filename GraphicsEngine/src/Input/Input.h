@@ -61,12 +61,14 @@ public:
 		KEY_DOWN = GLFW_KEY_DOWN,
 		KEY_UP = GLFW_KEY_UP,
 	};
-	static void CheckClearInputList();
+	//static void CheckClearInputList();
 	static void StartInputSystem();
 	static bool IsKeyDown(KeyCode key);
-	static bool IsKeyRelease(KeyCode keyCode);
+	static bool IsKeyPress(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
+	//static int GetState(KeyCode keyCode);
 	static void SetWindow(Window* _window);
-	static int GetActualKey();
+	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	//static int GetActualKey();
 };
 #endif

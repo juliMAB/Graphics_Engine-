@@ -58,31 +58,19 @@ void Game::Deinit() {
 void Game::Update()
 {	
 	//_pj->UpdateAnimation(_time->_deltaTime);
-	Collision::CollisionUpdate(_pj, _sprite);
+	//Collision::CollisionUpdate(_pj, _sprite);
 
-	if (Input::IsKeyRelease(Input::KEY_G))
+	if (Input::IsKeyDown(Input::KEY_G))
 	{
-		_pj->_hasCollider = !_pj->_hasCollider;
+		std::cout << "Down" << std::endl;
 	}
-	if (Input::IsKeyRelease(Input::KEY_A))
+	if (Input::IsKeyPress(Input::KEY_G))
 	{
-		_pj->SetPos(_pj->getPos().x+ (movForce* _time->_deltaTime), _pj->getPos().y);
-		//_pj->UpdateAnimation(_time->_deltaTime, Left);
+		std::cout << "Press" << std::endl;
 	}
-	else if (Input::IsKeyRelease(Input::KEY_D))
+	if (Input::IsKeyUp(Input::KEY_G))
 	{
-		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime), _pj->getPos().y);
-		//_pj->UpdateAnimation(_time->_deltaTime, Right);
-	}
-	else if (Input::IsKeyRelease(Input::KEY_W))
-	{
-		_pj->SetPos(_pj->getPos().x , _pj->getPos().y + (movForce * _time->_deltaTime));
-		//_pj->UpdateAnimation(_time->_deltaTime, Up);
-	}
-	else if (Input::IsKeyRelease(Input::KEY_S))
-	{
-		_pj->SetPos(_pj->getPos().x, _pj->getPos().y - (movForce * _time->_deltaTime));
-		//_pj->UpdateAnimation(_time->_deltaTime, Down);
+		std::cout << "Up" << std::endl;
 	}
 }
 void Game::Draw() {

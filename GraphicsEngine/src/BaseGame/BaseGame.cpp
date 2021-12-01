@@ -30,7 +30,6 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 		while (!glfwWindowShouldClose(_window->GetWindow())) {
 			_time->Update();
 			Update();
-			Input::CheckClearInputList();
 			glfwPollEvents();
 			StartDraw();
 			Draw();
@@ -72,8 +71,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	_renderer = new Renderer(_window);
 
 	Input::SetWindow(_window);
-	Input::CheckClearInputList();
-
+	Input::StartInputSystem();
 	_time = new Time();
 	std::cout << "End Init Engine" << std::endl;
 	return true;
@@ -86,5 +84,5 @@ double BaseGame::getCurrentTime()
 	return glfwGetTime();
 }
 bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
-bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyRelease(key); }
+bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPress(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
