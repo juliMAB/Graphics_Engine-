@@ -187,6 +187,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\BaseGame\BaseGame.cpp" />
+    <ClCompile Include="src\Collision\Collision.cpp" />
     <ClCompile Include="src\Entity2D\Entity2D.cpp" />
     <ClCompile Include="src\Entity\Entity.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
@@ -202,6 +203,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Animation\Animation.h" />
     <ClInclude Include="src\Atlas\Atlas.h" />
     <ClInclude Include="src\BaseGame\BaseGame.h" />
+    <ClInclude Include="src\Collision\Collision.h" />
     <ClInclude Include="src\Entity2D\Entity2D.h" />
     <ClInclude Include="src\Entity\Entity.h" />
     <ClInclude Include="src\Exports\Exports.h" />

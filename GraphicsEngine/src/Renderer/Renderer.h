@@ -44,7 +44,7 @@ public:
 	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
 	void BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices);
-	void BindIndexes(unsigned int& EBO, int tam, unsigned int* indexs);
+	void BindIndexes(uint& EBO, int tam, uint* indexs);
 	void BindBuffer2(uint& VAO, uint& VBO, int tam, uint* vertices);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);

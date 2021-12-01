@@ -167,5 +167,5 @@ glm::vec3 Entity::getScale()
 }
 void Entity::Draw(uint shaderId)
 {
-	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, tam, vertex, shaderId);
+	//_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, tam, vertex, shaderId);
 }

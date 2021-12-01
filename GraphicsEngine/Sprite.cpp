@@ -1,17 +1,9 @@
 #include "src/Sprite/Sprite.h"
 
 
-const int tamVerts = 32;//4 * tam1Vert;
+
 int tam1Vert = 8;
 
-	static float verteces[] =
-	{
-		// positions             colors                 texture coords
-		0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, // DownRight
-		0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 0.0f, // TopRight
-	   -0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 0.0f, // TopLeft
-	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  //  DownLeft
-	};
 Sprite::Sprite(Renderer* render, std::string filePathImage)
 {
 	_animation = nullptr;
@@ -29,8 +21,6 @@ void Sprite::SetAttributers()
 void Sprite::Init(Renderer* render, std::string filePathImage)
 {
 	_renderer = render;
-	vertex = verteces;
-	tam = sizeof(verteces);
 	_texture = new Texture(filePathImage);
 	InitBinds();
 	SetUniforms();
@@ -39,8 +29,8 @@ void Sprite::Init(Renderer* render, std::string filePathImage)
 void Sprite::InitBinds()
 {
 	indicesTam = 6;
-	uint indices[]{ 0, 1, 2, 2, 3, 0 };
-	_renderer->BindBuffer2(_vao, _vbo, tam, vertex);
+	uint indices[]{ 0, 1, 3, 1, 2, 3 };
+	_renderer->BindBuffer2(_vao, _vbo, sizeof(vertex), vertex);
 	_renderer->BindIndexes(_ebo, sizeof(indices), indices);
 }
 Sprite::~Sprite() {
@@ -84,7 +74,8 @@ void Sprite::Draw()
 	glUseProgram(shaderId);
 	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
 	SetShader();
-	Entity::Draw(shaderId);
+	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, shaderId);
+	//Entity::Draw(shaderId);
 }
 
 void Sprite::StartUseAnimation() {

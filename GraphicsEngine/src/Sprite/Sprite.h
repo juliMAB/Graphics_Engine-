@@ -13,11 +13,18 @@ enum class ORDER
 	RIGHTtoLEFT,
 	UPtoDOWN
 };
+const int tamVerts = 32;//4 * tam1Vert;
 class GraficosEngine_API Sprite : public Entity2D {
 private:
-	
 	Texture* _texture;
-
+	float vertex[tamVerts]
+	{
+		// positions             colors                 texture coords
+		0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, // DownRight
+		0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 0.0f, // TopRight
+	   -0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 0.0f, // TopLeft
+	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  //  DownLeft
+	};
 	Animation* _animation;
 	bool _settedAnimsValues;
 

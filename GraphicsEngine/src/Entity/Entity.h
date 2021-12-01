@@ -25,7 +25,7 @@ protected:
 	//----Color-------
 	glm::vec4 color;
 	//----------------
-	float* vertex;
+	
 	//----------------
 
 	void UpdateMatrixData();

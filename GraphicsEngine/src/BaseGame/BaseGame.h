@@ -5,6 +5,7 @@
 #include "../Shape/Shape.h"
 #include "../Sprite/Sprite.h"
 #include "../Time/Time.h"
+#include "../Collision/Collision.h"
 class GraficosEngine_API BaseGame {
 private:
 	Window* _window;
