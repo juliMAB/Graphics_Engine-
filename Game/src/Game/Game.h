@@ -6,6 +6,7 @@ class Game : BaseGame {
 	Shape* _shape;
 	Sprite* _sprite;
 	Sprite* _pj;
+	Input* input;
 
 public:
 	Game();

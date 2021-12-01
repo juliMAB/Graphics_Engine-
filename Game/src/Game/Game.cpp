@@ -8,6 +8,7 @@ float movForce = 0.5f;
 
 glm::vec3 scale = { 1, 1, 1 };
 float scaleForce = 0.2f;
+float scale1=0;
 bool auxCheck = false;
 
 Game::Game() { StartEngine(960, 540, "In Lovyng"); }
@@ -18,8 +19,10 @@ void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
 	//_sprite = new Sprite(GetRenderer(), "res/c.png");
 	_pj = new Sprite(GetRenderer(), "res/d.png");
-	_pj->StartUseAnimation();
-	_pj->AddAnimation(2, 3, 1.0f);
+	_pj->SetPos(0.0f, 0.0f, 0.0f);
+	_pj->SetScale(10.0f, 10.0f, 1.0f);
+	//_pj->StartUseAnimation();
+	_pj->AddAnimation(4, 8, 6.0f,ORDER::RIGHTtoLEFT);
 }
 
 void Game::Deinit() {
@@ -35,10 +38,12 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	_pj->UpdateAnimation(Time::_deltaTime);
+	_pj->UpdateAnimation(_time->_deltaTime);
 	if (Input::IsKeyRelease(Input::KEY_G))
 	{
-		std::cout <<"Time: " << Time::_deltaTime << std::endl;
+		scale1 += scaleForce;
+		_pj->SetScale(scale1);
+		std::cout <<"Time: " << _time->_deltaTime << std::endl;
 	}
 }
 void Game::Draw() {

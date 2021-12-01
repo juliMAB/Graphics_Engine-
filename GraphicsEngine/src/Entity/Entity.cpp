@@ -18,7 +18,7 @@ Entity::Entity() {
 	_vao = 0;
 	_vbo = 0;
 	_ebo = 0; 
-	_vertices = 0;
+	indicesTam = 0;
 	
 }
 Entity::~Entity() {
@@ -164,4 +164,8 @@ glm::vec3 Entity::getRot()
 glm::vec3 Entity::getScale()
 {
 	return scale;
+}
+void Entity::Draw(uint shaderId)
+{
+	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, tam, vertex, shaderId);
 }

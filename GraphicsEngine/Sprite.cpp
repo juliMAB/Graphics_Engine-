@@ -1,9 +1,10 @@
 #include "src/Sprite/Sprite.h"
 
 
-const int indicesTam = 6;
 const int tamVerts = 32;//4 * tam1Vert;
-	float vertex[32] =
+int tam1Vert = 8;
+
+	static float verteces[] =
 	{
 		// positions             colors                 texture coords
 		0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, //
@@ -13,28 +14,35 @@ const int tamVerts = 32;//4 * tam1Vert;
 	};
 Sprite::Sprite(Renderer* render, std::string filePathImage)
 {
-	_animation = NULL;
+	_animation = nullptr;
+	_texture = nullptr;
 	std::cout << "-------Create new Sprite:-------"<<std::endl;
-
-
-	_renderer = render;
-	int tam1Vert = 8;
-	
-	uint indices [indicesTam]={ 0, 1, 2, 2, 3, 0 };
-	
-	_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
-	_renderer->BindBuffer(_vao, _vbo, _ebo, vertex, sizeof(vertex), indices, sizeof(indices));
-
-	SetUniforms();
-
+	Init(render, filePathImage);
+	std::cout  << "-----End Create new Sprite-------"<<std::endl<<std::endl;
+}
+void Sprite::SetAttributers()
+{
 	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
 	_renderer->Setattributes(_posColor, 4, tam1Vert, 2);
 	_renderer->Setattributes(_postexture, 2, tam1Vert, 6);
-
-
+}
+void Sprite::Init(Renderer* render, std::string filePathImage)
+{
+	_renderer = render;
+	vertex = verteces;
+	tam = sizeof(verteces);
 	_texture = new Texture(filePathImage);
-
-	std::cout  << "-----End Create new Sprite-------"<<std::endl<<std::endl;
+	//_animation = new Animation();
+	InitBinds();
+	SetUniforms();
+	SetAttributers();
+}
+void Sprite::InitBinds()
+{
+	indicesTam = 6;
+	uint indices[]{ 0, 1, 2, 2, 3, 0 };
+	_renderer->BindBuffer2(_vao, _vbo, tam, vertex);
+	_renderer->BindIndexes(_ebo, sizeof(indices), indices);
 }
 Sprite::~Sprite() {
 	_renderer->DeleteBuffers(_vao, _vbo, _ebo);
@@ -57,6 +65,10 @@ void Sprite::SetSprite(const std::string path) {
 }
 void Sprite::SetShader()
 {
+	glBindVertexArray(_vao);
+	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
+	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertex, GL_STATIC_DRAW);
 	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
 	unsigned int colorLoc = glGetUniformLocation(_renderer->GetShader(), "color");
 	glUniform3fv(colorLoc, 1, glm::value_ptr(newColor));
@@ -69,23 +81,34 @@ void Sprite::SetShader()
 }
 void Sprite::Draw()
 {
-	glUseProgram(_renderer->GetShader());
-	glEnable(GL_TEXTURE_2D);
-	//
-	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color);
-
+	uint shaderId = _renderer->GetShader();
+	glUseProgram(shaderId);
+	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
 	SetShader();
-	DrawTexturePart();
-	//_renderer->Draw2(indicesTam, _vao,_vbo,_ebo,vertex,tamVerts);
-
-	_renderer->Draw(tamVerts, _vao);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisable(GL_TEXTURE_2D);
+	Entity::Draw(shaderId);
 }
 
 void Sprite::StartUseAnimation() {
-	if (_animation == NULL) {
+	if (_animation == nullptr) {
 		_animation = new Animation();
+		return;
+	}
+
+	std::cout << "The sprite already has animation " << std::endl;
+}
+void Sprite::StartUseAnimation(int rows, int cols, float duration) {
+	if (_animation == nullptr) {
+		_animation = new Animation();
+		AddAnimation(rows, cols, duration);
+		return;
+	}
+
+	std::cout << "The sprite already has animation " << std::endl;
+}
+void Sprite::StartUseAnimation(int rows, int cols, float duration,ORDER o) {
+	if (_animation == nullptr) {
+		_animation = new Animation();
+		AddAnimation(rows, cols, duration,o);
 		return;
 	}
 
@@ -93,11 +116,43 @@ void Sprite::StartUseAnimation() {
 }
 void Sprite::AddAnimation(int rows, int cols, float duration)
 {
+	if (_animation == nullptr) {
+		_animation = new Animation();
+	}
+	std::cout << "Creating animation"<< std::endl;
 	for (int i = 0; i < rows; i++)
 	{
 		for (int j = 0; j < cols; j++)
 		{
-			_animation->AddFrame(i, j, _texture->_width / cols, _texture->_height / rows, _texture->_width, _texture->_height, duration, rows*cols);
+			_animation->AddFrame(i, j, _texture->_width / cols, _texture->_height / rows, _texture->_width, _texture->_height, duration);
+		
+		}
+	}
+}
+
+void Sprite::AddAnimation(int rows, int cols, float duration, ORDER o)
+{
+	if (_animation == nullptr) {
+		_animation = new Animation();
+	}
+	std::cout << "Creating animation" << std::endl;
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			switch (o)
+			{
+			case ORDER::RIGHTtoLEFT:
+				_animation->AddFrame(j, i, _texture->_width / cols, _texture->_height / rows, _texture->_width, _texture->_height, duration);
+				break;
+			case ORDER::UPtoDOWN:
+				_animation->AddFrame(i, j, _texture->_width / cols, _texture->_height / rows, _texture->_width, _texture->_height, duration);
+				break;
+			default:
+				_animation->AddFrame(j, i, _texture->_width / cols, _texture->_height / rows, _texture->_width, _texture->_height, duration);
+				break;
+			}
+
 		}
 	}
 }
@@ -121,7 +176,12 @@ void Sprite::UpdateAnimation(float timer)
 			f.GetUVCords()[2].u, f.GetUVCords()[2].v,
 			f.GetUVCords()[3].u, f.GetUVCords()[3].v
 		};
-
+		/*for (int i = 0; i < tam1Vert; i=+2)
+		{
+			int xd = (tam1Vert*(i+1)) - (2);
+			vertex[xd] = uvCoords[i];
+			vertex[xd+1] = uvCoords[i+1];
+		}*/
 		vertex[6] = uvCoords[0];
 		vertex[14] = uvCoords[2];
 		vertex[22] = uvCoords[4];

@@ -27,7 +27,8 @@ public:
 
 	void Update(float timer);
 	void AddFrame(float frameX, float frameY, float frameWidth, float frameHeight,
-		float textureWidth, float textureHeight, float duration, int frameCount);
+		float textureWidth, float textureHeight, float duration);
+	void AddFrame2(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float duration);
 	int GetCurrentFrame();
 	std::vector<Frame> GetFrames();
 

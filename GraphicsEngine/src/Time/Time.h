@@ -7,7 +7,7 @@ private:
 	float _scale;
 	double _lastTime;
 public:
-	static float _deltaTime;
+	float _deltaTime;
 	Time();
 	~Time();
 	void Update();

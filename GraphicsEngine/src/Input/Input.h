@@ -67,5 +67,6 @@ public:
 	static bool IsKeyRelease(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
 	static void SetWindow(Window* _window);
+	static int GetActualKey();
 };
 #endif

@@ -43,11 +43,15 @@ public:
 	void CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO);
 	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
+	void BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices);
+	void BindIndexes(unsigned int& EBO, int tam, unsigned int* indexs);
+	void BindBuffer2(uint& VAO, uint& VBO, int tam, uint* vertices);
 	void SetIndex(int tam, uint* indexs, uint& ibo);
 	void Setattributes(uint location, int size, int stride, int offset);
 	void CreateExtraBuffer(unsigned int& buffer, int size);
 	void Draw(uint vertices, uint _vao);
 	void Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
+	void DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs);
 	void Draw(TypeShape shape, int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, TypeShader t);
 	uint GetShader();

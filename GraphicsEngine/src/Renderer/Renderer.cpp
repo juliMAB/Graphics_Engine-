@@ -1,6 +1,7 @@
 ﻿#include "Renderer.h"
 #include <iostream>
 #include "../../Lib/GLM/gtc/type_ptr.hpp"
+#include "../Animation/Animation.h"
 
 static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
 static glm::mat4 view = glm::mat4(1.0f);
@@ -151,6 +152,22 @@ void Renderer::BindBuffer(uint vao, uint vbo, uint ebo, float* vertices, uint si
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndices, indices, GL_STATIC_DRAW);
 }
+void Renderer::BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices)
+{
+	glGenVertexArrays(1, &VAO);
+	glGenBuffers(1, &VBO);
+
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
+}
+void Renderer::BindIndexes(uint& EBO, int tam, uint* indexs)
+{
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
+}
 void Renderer::SetIndex(int tam, uint* indexs, uint& ibo) {
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
@@ -166,7 +183,7 @@ void Renderer::CreateExtraBuffer(unsigned int& buffer, int size)
 }
 void Renderer::Draw(uint vertices, uint _vao)
 {
-	glBindVertexArray(_vao);
+	//glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
 void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs) {
@@ -177,6 +194,32 @@ void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, fl
 	glUseProgram(GetShader());
 	glEnable(GL_DEPTH_TEST);
 	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
+void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId)
+{
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertexs, GL_STATIC_DRAW);
+
+	unsigned int modelLoc = glGetUniformLocation(shaderId, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
+	unsigned int viewLoc = glGetUniformLocation(shaderId, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+	unsigned int projectionLoc = glGetUniformLocation(shaderId, "projection");
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	if (vertices == 3)
+		glDrawArrays(GL_TRIANGLES, 0, vertices);
+	else
+		glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
+
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

@@ -9,12 +9,12 @@ class GraficosEngine_API BaseGame {
 private:
 	Window* _window;
 	Renderer* _renderer;
-	Time* _time;
 	Input* _input;
 	void DeinitEngine();
 	Window* GetWindow();
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
 protected:
+	Time* _time;
 	glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();

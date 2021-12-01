@@ -30,3 +30,7 @@ bool Input::IsKeyUp(KeyCode keyCode) {
 void Input::SetWindow(Window* _window) {
 	window = _window;
 }
+int Input::GetActualKey()
+{
+	return glfwGetKey(window->GetWindow(), KEY_P);
+}

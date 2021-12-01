@@ -25,6 +25,9 @@ protected:
 	//----Color-------
 	glm::vec4 color;
 	//----------------
+	float* vertex;
+	//----------------
+
 	void UpdateMatrixData();
 	
 	const static uint _posLocation = 0;
@@ -37,7 +40,7 @@ protected:
 	uint _uniformAlpha;
 	uint _UniformTexLocation;
 
-	uint _vao, _vbo, _ebo, _vertices;
+	uint _vao, _vbo, _ebo, tam, indicesTam;
 	
 public:
 	//---C y D----------
@@ -70,6 +73,7 @@ public:
 	glm::vec3 getPos();
 	glm::vec3 getRot();
 	glm::vec3 getScale();
+	void Draw(uint shaderId);
 };
 
 #endif
