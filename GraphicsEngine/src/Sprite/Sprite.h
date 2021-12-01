@@ -38,11 +38,15 @@ public:
 
 	void StartUseAnimation(int rows, int cols, float duration, ORDER o);
 
-	void AddAnimation(int rows, int cols, float duration);
+	void SetAnimations(int rows, int cols, float duration);
 
-	void AddAnimation(int rows, int cols, float duration, ORDER o);
+	void SetAnimations(int rows, int cols, float duration, ORDER o);
 
 	void UpdateAnimation(float timer);
+
+	void UpdateAnimation(float timer, int action);
+
+	int SetAction(int firtsFrame, int lastFrame);
 	
 };
 

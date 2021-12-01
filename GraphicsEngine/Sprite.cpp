@@ -7,10 +7,10 @@ int tam1Vert = 8;
 	static float verteces[] =
 	{
 		// positions             colors                 texture coords
-		0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, //
-		0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 0.0f, // 
-	   -0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 0.0f, // 
-	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  // 
+		0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 1.0f, // DownRight
+		0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 1.0f, 0.0f, // TopRight
+	   -0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 0.0f, // TopLeft
+	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  //  DownLeft
 	};
 Sprite::Sprite(Renderer* render, std::string filePathImage)
 {
@@ -32,7 +32,6 @@ void Sprite::Init(Renderer* render, std::string filePathImage)
 	vertex = verteces;
 	tam = sizeof(verteces);
 	_texture = new Texture(filePathImage);
-	//_animation = new Animation();
 	InitBinds();
 	SetUniforms();
 	SetAttributers();
@@ -99,7 +98,7 @@ void Sprite::StartUseAnimation() {
 void Sprite::StartUseAnimation(int rows, int cols, float duration) {
 	if (_animation == nullptr) {
 		_animation = new Animation();
-		AddAnimation(rows, cols, duration);
+		SetAnimations(rows, cols, duration);
 		return;
 	}
 
@@ -108,13 +107,13 @@ void Sprite::StartUseAnimation(int rows, int cols, float duration) {
 void Sprite::StartUseAnimation(int rows, int cols, float duration,ORDER o) {
 	if (_animation == nullptr) {
 		_animation = new Animation();
-		AddAnimation(rows, cols, duration,o);
+		SetAnimations(rows, cols, duration,o);
 		return;
 	}
 
 	std::cout << "The sprite already has animation " << std::endl;
 }
-void Sprite::AddAnimation(int rows, int cols, float duration)
+void Sprite::SetAnimations(int rows, int cols, float duration)
 {
 	if (_animation == nullptr) {
 		_animation = new Animation();
@@ -130,7 +129,7 @@ void Sprite::AddAnimation(int rows, int cols, float duration)
 	}
 }
 
-void Sprite::AddAnimation(int rows, int cols, float duration, ORDER o)
+void Sprite::SetAnimations(int rows, int cols, float duration, ORDER o)
 {
 	if (_animation == nullptr) {
 		_animation = new Animation();
@@ -155,6 +154,7 @@ void Sprite::AddAnimation(int rows, int cols, float duration, ORDER o)
 
 		}
 	}
+	UpdateAnimation(0);
 }
 
 void Sprite::UpdateAnimation(float timer)
@@ -165,36 +165,21 @@ void Sprite::UpdateAnimation(float timer)
 	_animation->Update(timer);
 
 	int currFrame = _animation->GetCurrentFrame();
-	if (currFrame != 0)
-	{
-		Frame f = _animation->GetFrames()[currFrame];
+	_animation->SetCurrentFrame(currFrame, vertex);
+}
+void Sprite::UpdateAnimation(float timer,int action)
+{
+	if (!_animation)
+		return;
 
-		float uvCoords[]
-		{
-			f.GetUVCords()[0].u, f.GetUVCords()[0].v,
-			f.GetUVCords()[1].u, f.GetUVCords()[1].v,
-			f.GetUVCords()[2].u, f.GetUVCords()[2].v,
-			f.GetUVCords()[3].u, f.GetUVCords()[3].v
-		};
-		/*for (int i = 0; i < tam1Vert; i=+2)
-		{
-			int xd = (tam1Vert*(i+1)) - (2);
-			vertex[xd] = uvCoords[i];
-			vertex[xd+1] = uvCoords[i+1];
-		}*/
-		vertex[6] = uvCoords[0];
-		vertex[14] = uvCoords[2];
-		vertex[22] = uvCoords[4];
-		vertex[30] = uvCoords[6];
+	_animation->UpdateAction(timer, action);
 
-		vertex[7] = uvCoords[1];
-		vertex[15] = uvCoords[3];
-		vertex[23] = uvCoords[5];
-		vertex[31] = uvCoords[7];
-
-		/*render->BindTextureBuffer(VBO, sizeof(uvCoords), uvCoords);
-		BindAttrib();*/
-	}
+	int currFrame = _animation->GetCurrentFrame();
+	_animation->SetCurrentFrame(currFrame, vertex);
+}
+int Sprite::SetAction(int firtsFrame,int lastFrame)
+{
+	return _animation->SetAnAction(firtsFrame, lastFrame);
 }
 
 void Sprite::SetUniforms()

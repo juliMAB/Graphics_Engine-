@@ -206,7 +206,7 @@ void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsign
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertexs, GL_STATIC_DRAW);
 
-	unsigned int modelLoc = glGetUniformLocation(shaderId, "model");
+	unsigned int modelLoc = glGetUniformLocation(shaderId, "transform");
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 	unsigned int viewLoc = glGetUniformLocation(shaderId, "view");

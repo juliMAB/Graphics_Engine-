@@ -30,13 +30,19 @@ public:
 		float textureWidth, float textureHeight, float duration);
 	void AddFrame2(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float duration);
 	int GetCurrentFrame();
+	void SetCurrentFrame(int frame, float* vertex);
+	int SetAnAction(int firstFrame, int LastFrame);
+	void UpdateAction(float time, int action);
 	std::vector<Frame> GetFrames();
 
 private:
 	float currentTime;
 	int currentFrame;
 	float length;
+	float actionLength;
+	int lastAction;
 	std::vector<Frame> frames;
+	std::vector<std::vector<Frame>> actions;
 };
 
 	
