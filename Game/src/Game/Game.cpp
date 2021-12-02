@@ -23,16 +23,19 @@ Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
-	//_shape = new Shape(GetRenderer(), TypeShape::Quad);
-	//_shape->SetColor(1, 0, 0, 1);
+	_shape = new Shape(GetRenderer(), TypeShape(4));
+	_shape->SetColor(1, 0, 0, 1);
+	_shape->SetPos(0.0f, 0.0f, 0.0f);
+	_shape->SetScale(1.0f, 1.0f, 1.0f);
 	_sprite = new Sprite(GetRenderer(), "res/b.png");
-	_sprite->SetPos(5.0f, 0.0f, 0.0f);
-	_sprite->SetScale(1.0f, 1.0f, 1.0f);
+	//_sprite->SetPos(0.0f, 0.0f, 0.0f);
+	//_sprite->SetScale(1.0f, 1.0f, 1.0f);
+	/*
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
 	_pj->StartUseAnimation();
-	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);
+	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);*/
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -59,22 +62,9 @@ void Game::Update()
 {	
 	//_pj->UpdateAnimation(_time->_deltaTime);
 	//Collision::CollisionUpdate(_pj, _sprite);
-
-	if (Input::IsKeyDown(Input::KEY_G))
-	{
-		std::cout << "Down" << std::endl;
-	}
-	if (Input::IsKeyPress(Input::KEY_G))
-	{
-		std::cout << "Press" << std::endl;
-	}
-	if (Input::IsKeyUp(Input::KEY_G))
-	{
-		std::cout << "Up" << std::endl;
-	}
 }
 void Game::Draw() {
-	_sprite->Draw();
-	_pj->Draw();
-	//_shape->Draw();
+	//_sprite->Draw();
+	//_pj->Draw();
+	_shape->Draw();
 }

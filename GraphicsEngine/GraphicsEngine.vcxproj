@@ -218,8 +218,10 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\FragmentShader.shader" />
-    <None Include="Shaders\VertexShader.shader" />
+    <None Include="Shaders\SolidFragmentShader.shader" />
+    <None Include="Shaders\SolidVertexShader.shader" />
+    <None Include="Shaders\TextureFragmentShader.shader" />
+    <None Include="Shaders\TextureVertexShader.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

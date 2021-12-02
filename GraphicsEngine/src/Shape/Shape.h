@@ -13,7 +13,10 @@
 typedef unsigned int uint;
 class GraficosEngine_API Shape : public Entity2D {
 public:
+	//float* shapeVertices;
 	Shape(Renderer* rend, TypeShape typeShape);
+	void InitBinds(int vertices);
+	void InitShape(int vertices);
 	~Shape();
 	void Draw();
 };

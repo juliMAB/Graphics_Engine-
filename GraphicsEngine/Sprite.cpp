@@ -59,23 +59,22 @@ void Sprite::SetShader()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
 	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertex, GL_STATIC_DRAW);
 	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
-	unsigned int colorLoc = glGetUniformLocation(_renderer->GetShader(), "color");
+	unsigned int colorLoc = glGetUniformLocation(_renderer->GetShaderT(), "color");
 	glUniform3fv(colorLoc, 1, glm::value_ptr(newColor));
 
-	unsigned int alphaLoc = glGetUniformLocation(_renderer->GetShader(), "alpha");
+	unsigned int alphaLoc = glGetUniformLocation(_renderer->GetShaderT(), "alpha");
 	glUniform1fv(alphaLoc, 1, &(color.a));
 
-	unsigned int textureLoc = glGetUniformLocation(_renderer->GetShader(), "theTexture");
+	unsigned int textureLoc = glGetUniformLocation(_renderer->GetShaderT(), "theTexture");
 	glUniform1f(textureLoc, _texture->_textureID);
 }
 void Sprite::Draw()
 {
-	uint shaderId = _renderer->GetShader();
+	uint shaderId = _renderer->GetShaderT();
 	glUseProgram(shaderId);
 	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
 	SetShader();
 	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, shaderId);
-	//Entity::Draw(shaderId);
 }
 
 void Sprite::StartUseAnimation() {
@@ -175,14 +174,14 @@ int Sprite::SetAction(int firtsFrame,int lastFrame)
 
 void Sprite::SetUniforms()
 {
-	glUseProgram(_renderer->GetShader());
-	_uniformPos = glGetUniformLocation(_renderer->GetShader(), "transform");
-	_uniformColor = glGetUniformLocation(_renderer->GetShader(), "color");
-	_uniformProjection = glGetUniformLocation(_renderer->GetShader(), "projection");
-	_uniformView = glGetUniformLocation(_renderer->GetShader(), "view");
-	_uniformAlpha = glGetUniformLocation(_renderer->GetShader(), "alpha");
-	_UniformTexLocation = glGetUniformLocation(_renderer->GetShader(), "theTexture");
-	uint _useTexture = glGetUniformLocation(_renderer->GetShader(), "useTexture");
+	glUseProgram(_renderer->GetShaderT());
+	_uniformPos = glGetUniformLocation(_renderer->GetShaderT(), "transform");
+	_uniformColor = glGetUniformLocation(_renderer->GetShaderT(), "color");
+	_uniformProjection = glGetUniformLocation(_renderer->GetShaderT(), "projection");
+	_uniformView = glGetUniformLocation(_renderer->GetShaderT(), "view");
+	_uniformAlpha = glGetUniformLocation(_renderer->GetShaderT(), "alpha");
+	_UniformTexLocation = glGetUniformLocation(_renderer->GetShaderT(), "theTexture");
+	uint _useTexture = glGetUniformLocation(_renderer->GetShaderT(), "useTexture");
 	glUniform1i(_useTexture, true);
 }
 

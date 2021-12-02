@@ -8,7 +8,8 @@ static glm::mat4 view = glm::mat4(1.0f);
 //-----C y D---------------------------
 Renderer::Renderer(Window* window) {
 	_window = window;
-	programShader = NULL;
+	programShaderT = NULL;
+	programShaderS = NULL;
 	Start();
 }
 Renderer::~Renderer()
@@ -28,13 +29,13 @@ void Renderer::Start() {
 	std::cout << "End Start Renderer" << std::endl << std::endl;
 }
 
-std::string Renderer::ReadVertexShader() {
+std::string Renderer::ReadVertexShader(std::string vPath) {
 	std::string vertexCode;
 	std::ifstream vShaderFile;
 
 	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try	{
-		vShaderFile.open(vertexPath);
+		vShaderFile.open(vPath);
 		std::stringstream vShaderStream, fShaderStream;
 
 		vShaderStream << vShaderFile.rdbuf();
@@ -46,13 +47,13 @@ std::string Renderer::ReadVertexShader() {
 	}
 	return vertexCode;
 }
-std::string Renderer::ReadFragmentShader() {
+std::string Renderer::ReadFragmentShader(std::string fPath) {
 	std::string fragmentCode;
 	std::ifstream fShaderFile;
 
 	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try	{
-		fShaderFile.open(fragmentPath);
+		fShaderFile.open(fPath);
 		std::stringstream vShaderStream, fShaderStream;
 		fShaderStream << fShaderFile.rdbuf();
 		fShaderFile.close();
@@ -64,23 +65,41 @@ std::string Renderer::ReadFragmentShader() {
 	return fragmentCode;	
 }
 void Renderer::ShadersStart() {
-	std::string vShaderSource = ReadVertexShader();
-	std::string fShaderSource = ReadFragmentShader();
+	std::string vShaderSourceT = ReadVertexShader(vertexPathT);
+	std::string fShaderSourceT = ReadFragmentShader(fragmentPathT);
 	
-	const char* vertexShaderSource = vShaderSource.c_str();
-	const char* fragmentShaderSource = fShaderSource.c_str();
-	
-	unsigned int vertexShader = NULL;
-	unsigned int fragmentShader = NULL;
+	std::string vShaderSourceS = ReadVertexShader(vertexPathS);
+	std::string fShaderSourceS = ReadFragmentShader(fragmentPathS);
 
-	programShader = glCreateProgram();
-	if (!programShader) {
-		std::cout << "Error creating the shader program!" << std::endl;
+	const char* vertexShaderSourceT = vShaderSourceT.c_str();
+	const char* fragmentShaderSourceT = fShaderSourceT.c_str();
+	
+	const char* vertexShaderSourceS = vShaderSourceS.c_str();
+	const char* fragmentShaderSourceS = fShaderSourceS.c_str();
+
+	unsigned int vertexShaderT = NULL;
+	unsigned int fragmentShaderT = NULL;
+
+	unsigned int vertexShaderS = NULL;
+	unsigned int fragmentShaderS = NULL;
+
+	programShaderT = glCreateProgram();
+	programShaderS = glCreateProgram();
+	if (!programShaderT) {
+		std::cout << "Error creating the shader Texture program!" << std::endl;
 		return;
 	}
-	SetVertexShader(vertexShader, vertexShaderSource);
-	SetFragmentShader(fragmentShader, fragmentShaderSource);
-	LinkShaders(vertexShader, fragmentShader);
+	if (!programShaderS) {
+		std::cout << "Error creating the shader Solid program!" << std::endl;
+		return;
+	}
+	SetVertexShader(vertexShaderT, vertexShaderSourceT);
+	SetFragmentShader(fragmentShaderT, fragmentShaderSourceT);
+	LinkShaders(vertexShaderT, fragmentShaderT, programShaderT);
+
+	SetVertexShader(vertexShaderS, vertexShaderSourceS);
+	SetFragmentShader(fragmentShaderT, fragmentShaderSourceS);
+	LinkShaders(vertexShaderS, fragmentShaderS, programShaderS);
 }
 void Renderer::SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource) {
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -110,7 +129,7 @@ void Renderer::SetFragmentShader(unsigned int &fragmentShader, const char* fragm
 		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
 }
-void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShader) {
+void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShader,uint& programShader) {
 	programShader = glCreateProgram();
 	glAttachShader(programShader, vertexShader);
 	glAttachShader(programShader, fragmentShader);
@@ -162,6 +181,16 @@ void Renderer::BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
 }
+void Renderer::BindBaseBufferRequest(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices)
+{
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeOfVertices, vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndices, indices, GL_STATIC_DRAW);
+}
 void Renderer::BindIndexes(uint& EBO, int tam, uint* indexs)
 {
 	glGenBuffers(1, &EBO);
@@ -186,12 +215,12 @@ void Renderer::Draw(uint vertices, uint _vao)
 	//glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
-void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs) {
+void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs,uint shader) {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_DRAW_BUFFER);
-	glUseProgram(GetShader());
+	glUseProgram(shader);
 	glEnable(GL_DEPTH_TEST);
 	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
@@ -225,9 +254,23 @@ void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsign
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
+void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID)
+{
+	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "model");
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
-void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color) {
-	glUseProgram(GetShader());
+	unsigned int viewLoc = glGetUniformLocation(usedShaderID, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+
+	unsigned int projectionLoc = glGetUniformLocation(usedShaderID, "projection");
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
+}
+
+void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color,uint shader) {
+	glUseProgram(shader);
 	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
 	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
@@ -235,8 +278,8 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
 }
-void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color,uint uniformTex,uint textureID) {
-	glUseProgram(GetShader());
+void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color,uint uniformTex,uint textureID, uint shader) {
+	glUseProgram(shader);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
@@ -263,5 +306,6 @@ void Renderer::BindExtraBuffer(unsigned int buffer, float* data, unsigned int si
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeOfData, data, bufferType);
 }
-uint Renderer::GetShader() { return programShader; }
+uint Renderer::GetShaderT() { return programShaderT; }
+uint Renderer::GetShaderS() { return programShaderS; }
 void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }
