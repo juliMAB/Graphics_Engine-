@@ -27,15 +27,18 @@ void Game::Init() {
 	//_shape->SetColor(1, 0, 0, 1);
 	//_shape->SetPos(0.0f, 0.0f, 0.0f);
 	//_shape->SetScale(1.0f, 1.0f, 1.0f);
+	_pixel = new Sprite(GetRenderer(), "res/p1.png");
+	_pixel->SetPos(-5.0f, 0.0f, 0.0f);
+	_pixel->SetScale(2.0f);
+	_pixel->SetColor(115.0f /255.0f, 155.0f / 255.0f, 208.0f / 255.0f, 0.5f);
 	_sprite = new Sprite(GetRenderer(), "res/b.png");
 	_sprite->SetPos(5.0f, 0.0f, 0.0f);
 	_sprite->SetScale(1.0f, 1.0f, 1.0f);
-	
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
 	_pj->StartUseAnimation();
-	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);
+	_pj->SetAnimations(4, 8, 1.0f,ORDER::RIGHTtoLEFT);
 	
 	Down = _pj->SetAction(0, 7);
 	Left=_pj->SetAction(8, 15);
@@ -89,5 +92,6 @@ void Game::Update()
 void Game::Draw() {
 	_sprite->Draw();
 	_pj->Draw();
+	_pixel->Draw();
 	//_shape->Draw();
 }
