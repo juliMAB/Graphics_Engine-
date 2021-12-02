@@ -23,28 +23,28 @@ Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
-	_shape = new Shape(GetRenderer(), TypeShape(4));
-	_shape->SetColor(1, 0, 0, 1);
-	_shape->SetPos(0.0f, 0.0f, 0.0f);
-	_shape->SetScale(1.0f, 1.0f, 1.0f);
+	//_shape = new Shape(GetRenderer(), TypeShape(4));
+	//_shape->SetColor(1, 0, 0, 1);
+	//_shape->SetPos(0.0f, 0.0f, 0.0f);
+	//_shape->SetScale(1.0f, 1.0f, 1.0f);
 	_sprite = new Sprite(GetRenderer(), "res/b.png");
-	//_sprite->SetPos(0.0f, 0.0f, 0.0f);
-	//_sprite->SetScale(1.0f, 1.0f, 1.0f);
-	/*
+	_sprite->SetPos(5.0f, 0.0f, 0.0f);
+	_sprite->SetScale(1.0f, 1.0f, 1.0f);
+	
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
 	_pj->StartUseAnimation();
-	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);*/
+	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);
 	
 	for (int i = 0; i < 4; i++)
 	{
 		//_pj->SetAction(i*8, (i*8)+8);
 	}
-	//Down = _pj->SetAction(0, 7);
-	//Left=_pj->SetAction(8, 15);
-	//Right=_pj->SetAction(16,23);
-	//Up=_pj->SetAction(24, 31);
+	Down = _pj->SetAction(0, 7);
+	Left=_pj->SetAction(8, 15);
+	Right=_pj->SetAction(16,23);
+	Up=_pj->SetAction(24, 31);
 }
 
 void Game::Deinit() {
@@ -60,11 +60,30 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	//_pj->UpdateAnimation(_time->_deltaTime);
-	//Collision::CollisionUpdate(_pj, _sprite);
+	Collision::CollisionUpdate(_pj, _sprite);
+	if (Input::IsKeyPress(Input::KEY_A))
+	{
+		_pj->SetPos(_pj->getPos().x + (movForce * _time->_deltaTime), _pj->getPos().y);
+		_pj->UpdateAnimation(_time->_deltaTime, Left);
+	}
+	else if (Input::IsKeyPress(Input::KEY_D))
+	{
+		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime), _pj->getPos().y);
+		_pj->UpdateAnimation(_time->_deltaTime, Right);
+	}
+	else if (Input::IsKeyPress(Input::KEY_W))
+	{
+		_pj->SetPos(_pj->getPos().x, _pj->getPos().y + (movForce * _time->_deltaTime));
+		_pj->UpdateAnimation(_time->_deltaTime, Up);
+	}
+	else if (Input::IsKeyPress(Input::KEY_S))
+	{
+		_pj->SetPos(_pj->getPos().x, _pj->getPos().y - (movForce * _time->_deltaTime));
+		_pj->UpdateAnimation(_time->_deltaTime, Down);
+	}
 }
 void Game::Draw() {
-	//_sprite->Draw();
-	//_pj->Draw();
-	_shape->Draw();
+	_sprite->Draw();
+	_pj->Draw();
+	//_shape->Draw();
 }

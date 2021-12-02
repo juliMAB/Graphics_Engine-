@@ -256,7 +256,7 @@ void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsign
 }
 void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID)
 {
-	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "model");
+	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "transform");
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
 	unsigned int viewLoc = glGetUniformLocation(usedShaderID, "view");

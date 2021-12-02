@@ -46,16 +46,19 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	//_renderer->BindBuffer(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
 	
 	
-	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
-	_renderer->Setattributes(_posColor   , 4, tam1Vert, 2);
 
 	glUseProgram(_renderer->GetShaderS());
 	_uniformPos        = glGetUniformLocation(_renderer->GetShaderS(), "transform" );
 	_uniformColor      = glGetUniformLocation(_renderer->GetShaderS(), "color"	  );
 	_uniformProjection = glGetUniformLocation(_renderer->GetShaderS(), "projection");
 	_uniformView       = glGetUniformLocation(_renderer->GetShaderS(), "view"	  );
-	_uniformAlpha      = glGetUniformLocation(_renderer->GetShaderS(), "a"	  );
+	_uniformAlpha      = glGetUniformLocation(_renderer->GetShaderS(), "alpha"	  );
+	uint _useTexture = glGetUniformLocation(_renderer->GetShaderS(), "useTexture");
+	glUniform1i(_useTexture, false);
+	
 	glUseProgram(_renderer->GetShaderS());
+	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
+	_renderer->Setattributes(_posColor   , 4, tam1Vert, 3);
 }
 void Shape::InitBinds(int vertices)
 {
@@ -405,10 +408,7 @@ void Shape::Draw()
 		uint shaderId = _renderer->GetShaderS();
 		glUseProgram(shaderId);
 		glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
-		unsigned int colorLoc = glGetUniformLocation(_renderer->GetShaderS(), "color");
-		glUniform3fv(colorLoc, 1, glm::value_ptr(newColor));
-
-		unsigned int alphaLoc = glGetUniformLocation(_renderer->GetShaderS(), "a");
-		glUniform1fv(alphaLoc, 1, &(color.a));
+		glUniform3fv(_uniformColor, 1, glm::value_ptr(newColor));
+		glUniform1fv(_uniformAlpha, 1, &(color.a));
 		_renderer->DrawShape(model, _vao, indicesTam, shaderId);
 }
