@@ -26,6 +26,30 @@ void Sprite::Init(Renderer* render, std::string filePathImage)
 	SetUniforms();
 	SetAttributers();
 }
+void Sprite::FlipHorizontal()
+{
+	UVCords a,b,c,d;
+	a = { vertex[6], vertex[7] };
+	b = { vertex[14], vertex[15] };
+	c = { vertex[22], vertex[23] };
+	d = { vertex[30], vertex[31] };
+	vertex[6]  = d.u; vertex[7]  = d.v;
+	vertex[14] = c.u; vertex[15] = c.v;
+	vertex[22] = b.u; vertex[23] = b.v;
+	vertex[30] = a.u; vertex[31] = a.v;
+}
+void Sprite::FlipVertical()
+{
+	UVCords a, b, c, d;
+	a = { vertex[6], vertex[7] };
+	b = { vertex[14], vertex[15] };
+	c = { vertex[22], vertex[23] };
+	d = { vertex[30], vertex[31] };
+	vertex[6] = b.u; vertex[7] = b.v;
+	vertex[14] = a.u; vertex[15] = a.v;
+	vertex[22] = d.u; vertex[23] = d.v;
+	vertex[30] = c.u; vertex[31] = c.v;
+}
 void Sprite::InitBinds()
 {
 	indicesTam = 6;

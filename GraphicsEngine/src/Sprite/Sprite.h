@@ -34,6 +34,8 @@ public:
 	Sprite(Renderer* render, std::string filePathImage);
 	void SetAttributers();
 	void Init(Renderer* render, std::string filePathImage);
+	void FlipHorizontal();
+	void FlipVertical();
 	void InitBinds();
 	~Sprite();
 	void SetSprite(const std::string path);

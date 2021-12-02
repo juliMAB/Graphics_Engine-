@@ -37,10 +37,6 @@ void Game::Init() {
 	_pj->StartUseAnimation();
 	_pj->SetAnimations(4, 8, 10.0f,ORDER::RIGHTtoLEFT);
 	
-	for (int i = 0; i < 4; i++)
-	{
-		//_pj->SetAction(i*8, (i*8)+8);
-	}
 	Down = _pj->SetAction(0, 7);
 	Left=_pj->SetAction(8, 15);
 	Right=_pj->SetAction(16,23);
@@ -80,6 +76,14 @@ void Game::Update()
 	{
 		_pj->SetPos(_pj->getPos().x, _pj->getPos().y - (movForce * _time->_deltaTime));
 		_pj->UpdateAnimation(_time->_deltaTime, Down);
+	}
+	else if (Input::IsKeyDown(Input::KEY_Z))
+	{
+		_sprite->FlipHorizontal();
+	}
+	else if (Input::IsKeyDown(Input::KEY_X))
+	{
+		_sprite->FlipVertical();
 	}
 }
 void Game::Draw() {
