@@ -30,9 +30,6 @@ protected:
 
 	void UpdateMatrixData();
 	
-	const static uint _posLocation = 0;
-	const static uint _posColor = 1;
-	const static uint _postexture= 2;
 	uint _uniformPos;
 	uint _uniformView;
 	uint _uniformProjection;

@@ -23,10 +23,10 @@ Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
-	//_shape = new Shape(GetRenderer(), TypeShape(4));
-	//_shape->SetColor(1, 0, 0, 1);
-	//_shape->SetPos(0.0f, 0.0f, 0.0f);
-	//_shape->SetScale(1.0f, 1.0f, 1.0f);
+	_shape = new Shape(GetRenderer(), TypeShape(5));
+	_shape->SetColor(1, 1, 1, 1);
+	_shape->SetPos(0.0f, 0.0f, 0.0f);
+	_shape->SetScale(2.0f, 2.0f, 2.0f);
 	_pixel = new Sprite(GetRenderer(), "res/p1.png");
 	_pixel->SetPos(-5.0f, 0.0f, 0.0f);
 	_pixel->SetScale(2.0f);
@@ -93,5 +93,5 @@ void Game::Draw() {
 	_sprite->Draw();
 	_pj->Draw();
 	_pixel->Draw();
-	//_shape->Draw();
+	_shape->Draw();
 }

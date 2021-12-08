@@ -53,9 +53,14 @@ public:
 	void Setattributes(uint location, int size, int stride, int offset);
 	void CreateExtraBuffer(unsigned int& buffer, int size);
 	void Draw(uint vertices, uint _vao);
+	void Draw(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, uint shader);
 	void Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, uint shader);
 	void DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
+	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, float* vertexs, uint tamVertsBit, uint* indices, uint tamIndicesBit, int cantVertices, unsigned int shaderId);
+	void DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId);
+	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
 	void DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID);
+	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader);
 	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color, uint shader);
 	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color, uint uniformTex, uint textureID, uint shader);
 	void SwapBuffers();

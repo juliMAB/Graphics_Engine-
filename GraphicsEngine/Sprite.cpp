@@ -2,7 +2,6 @@
 
 
 
-int tam1Vert = 8;
 
 Sprite::Sprite(Renderer* render, std::string filePathImage)
 {
@@ -14,9 +13,10 @@ Sprite::Sprite(Renderer* render, std::string filePathImage)
 }
 void Sprite::SetAttributers()
 {
-	_renderer->Setattributes(_posLocation, 2, tam1Vert, 0);
-	_renderer->Setattributes(_posColor, 4, tam1Vert, 2);
-	_renderer->Setattributes(_postexture, 2, tam1Vert, 6);
+	int tam1Vert = 8;
+	_renderer->Setattributes(0, 2, tam1Vert, 0);
+	_renderer->Setattributes(1, 4, tam1Vert, 2);
+	_renderer->Setattributes(2, 2, tam1Vert, 6);
 }
 void Sprite::Init(Renderer* render, std::string filePathImage)
 {

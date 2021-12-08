@@ -98,7 +98,7 @@ void Renderer::ShadersStart() {
 	LinkShaders(vertexShaderT, fragmentShaderT, programShaderT);
 
 	SetVertexShader(vertexShaderS, vertexShaderSourceS);
-	SetFragmentShader(fragmentShaderT, fragmentShaderSourceS);
+	SetFragmentShader(fragmentShaderS, fragmentShaderSourceS);
 	LinkShaders(vertexShaderS, fragmentShaderS, programShaderS);
 }
 void Renderer::SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource) {
@@ -215,6 +215,20 @@ void Renderer::Draw(uint vertices, uint _vao)
 	//glBindVertexArray(_vao);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
+void Renderer::Draw(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs,uint shader) {
+
+	glBindVertexArray(vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
+	glUseProgram(shader);
+	glEnable(GL_DEPTH_TEST);
+	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glUseProgram(0);
+}
 void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs,uint shader) {
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -254,6 +268,16 @@ void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsign
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glUseProgram(0);
 }
+void Renderer::DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, float* vertexs, uint tamVertsBit, uint* indices, uint tamIndicesBit,int cantVertices, unsigned int shaderId)
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, cantVertices, GL_UNSIGNED_INT, 0);
+}
+void Renderer::DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId)
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, cantIndexes, GL_UNSIGNED_INT, 0);
+}
 void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID)
 {
 	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "transform");
@@ -268,7 +292,13 @@ void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int v
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 }
-
+void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader) {
+	glUseProgram(shader);
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glUseProgram(0);
+}
 void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color,uint shader) {
 	glUseProgram(shader);
 	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
