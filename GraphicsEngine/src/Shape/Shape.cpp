@@ -116,6 +116,8 @@ void Shape::initVerts(int vertices)
 	float acumXvar = -0.5f;
 	float acumYvar = -0.0f;
 	bool goingUp=true;
+	int spikeTop = 0;
+	int spikeDown = 0;
 	//este for es para todos los vertices de la parte de arriba de la figura.
 	for (int i = 2; i < cantVertTop+2; i++)
 	{
@@ -125,6 +127,7 @@ void Shape::initVerts(int vertices)
 
 		if (cantVertTop%2 != 0) //para saber si es impar, lo que significa que va a tener punta y solo va a subir y bajar.
 		{
+			
 			//set de y
 			if (acumYvar < 0.5f && goingUp)
 			{
@@ -132,6 +135,8 @@ void Shape::initVerts(int vertices)
 				if (acumYvar >= 0.5f)
 				{
 					goingUp = false;
+					spikeTop = i;
+					shapeVertices[(i * tam1Vert)] = 0.0f;
 				}
 				shapeVertices[(i * tam1Vert) + 1] = acumYvar;
 			}
@@ -187,6 +192,7 @@ void Shape::initVerts(int vertices)
 		shapeVertices[i * tam1Vert] = acumXvar;
 		if (cantVertDown % 2 != 0) //para saber si es impar, lo que significa que va a tener punta y solo va a subir y bajar.
 		{
+			spikeDown = true;
 			//set de y
 			if (!goingUp)
 			{
@@ -195,6 +201,8 @@ void Shape::initVerts(int vertices)
 				if (acumYvar == -0.5f)
 				{
 					goingUp = true;
+					spikeDown = i;
+					shapeVertices[(i * tam1Vert)] = 0.0f;
 				}
 			}
 			else if (goingUp)
@@ -224,6 +232,7 @@ void Shape::initVerts(int vertices)
 		}
 	}
 	//por ultimo extrudeamos las puntas. para esto uso la hipotenusa que es y = x*x + r*r(radio)(0.5f).
+	float r = 0.5f;
 	for (int i = 2; i < vertices; i++)
 	{
 		if (i < midVert)
@@ -231,11 +240,27 @@ void Shape::initVerts(int vertices)
 			if (shapeVertices[(i * tam1Vert)] < 0)
 			{
 				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f*0.5f)-(shapeVertices[(i * tam1Vert)]* shapeVertices[(i * tam1Vert)]));
-				//shapeVertices[(i * tam1Vert)] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)+1] * shapeVertices[(i * tam1Vert)+1]));
+				//shapeVertices[(i * tam1Vert)] = sqrtf((shapeVertices[(i * tam1Vert)+1] * shapeVertices[(i * tam1Vert)+1])- (0.5f * 0.5f));
+				/*float dotX = (-sqrtf(+(r * r) - (shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1])));
+				float dotY = (+sqrtf((r * r) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)])));
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert) + 1] = dotY;*/
+			}
+			else if  (shapeVertices[(i * tam1Vert)] > 0)
+			{
+				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				//shapeVertices[(i * tam1Vert)] = sqrtf((shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1]) - (0.5f * 0.5f));
+				/*float dotX = (+sqrtf(+(r * r) - (shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1])));
+				float dotY = (+sqrtf((r * r) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)])));
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert) + 1] = dotY;*/
 			}
 			else
 			{
-				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				float dotX = 0.0f;
+				float dotY = 0.5f;
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert) + 1] = dotY;
 			}
 		}
 		if (i>midVert)
@@ -243,10 +268,27 @@ void Shape::initVerts(int vertices)
 			if (shapeVertices[(i * tam1Vert)] < 0)
 			{
 				shapeVertices[(i * tam1Vert) + 1] = -sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				//shapeVertices[(i * tam1Vert)] = sqrtf((shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1]) - (0.5f * 0.5f));
+				/*float dotX = (-sqrtf(+(r * r) - (shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1])));
+				float dotY = (-sqrtf((r * r) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)])));
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert) + 1] = dotY;*/
+			}
+			else if (shapeVertices[(i * tam1Vert)] > 0)
+			{
+
+				shapeVertices[(i * tam1Vert) + 1] = -sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				/*float dotX = sqrtf(+(r * r) - (shapeVertices[(i * tam1Vert) + 1] * shapeVertices[(i * tam1Vert) + 1]));
+				float dotY = -sqrtf((r * r) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert)+1] = dotY;*/
 			}
 			else
 			{
-				shapeVertices[(i * tam1Vert) + 1] = -sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
+				float dotX = 0.0f;
+				float dotY = -0.5f;
+				shapeVertices[(i * tam1Vert)] = dotX;
+				shapeVertices[(i * tam1Vert) + 1] = dotY;
 			}
 		}
 		
@@ -357,18 +399,20 @@ void Shape::InitBinds(int vertices)
 }
 void Shape::CrazyFunc()
 {
+	srand(time(NULL));
 	//esta funcion solo se puede aplicar en initBinds y es para testear.
 	int a = tamVerts / tam1Vert;
 	int x = 0;
 	for (int i = 0; i < a; i++)
 	{
-		shapeVertices[(i * tam1Vert) + 3] = (float)((rand() % 10) / 10.0f);
-		shapeVertices[(i * tam1Vert) + 4] = (float)((rand() % 10) / 10.0f);
-		shapeVertices[(i * tam1Vert) + 5] = (float)((rand() % 10) / 10.0f);
+		shapeVertices[(i * tam1Vert) + 3] = (float)((rand() % 100) / 100.0f);
+		shapeVertices[(i * tam1Vert) + 4] = (float)((rand() % 100) / 100.0f);
+		shapeVertices[(i * tam1Vert) + 5] = (float)((rand() % 100) / 100.0f);
 	}
 	shapeVertices[3] = 1.0f;
 	shapeVertices[4] = 0.0f;
 	shapeVertices[5] = 0.0f;
+	_renderer->BindBaseBufferRequest(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
 }
 void Shape::InitShape(int vertices) {
 	tamVerts = vertices * tam1Vert;
@@ -392,6 +436,7 @@ void Shape::InitShape(int vertices) {
 		shapeVertices[ 1 * tam1Vert   ] = -0.5f;
 		shapeVertices[(1 * tam1Vert)+1] = 0.0f;
 		int midVert;
+		int midmidVert;
 		//preguntar si int/int da float.
 		if (vertices%2==0)
 		{
@@ -405,7 +450,6 @@ void Shape::InitShape(int vertices) {
 		shapeVertices[(midVert * tam1Vert) +1] = 0.0f;
 		if (vertices % 2 == 0)
 		{
-			int midmidVert;
 			midmidVert = (midVert + 1) / 2;
 			shapeVertices[midmidVert * tam1Vert] = 0.0f;
 			shapeVertices[(midmidVert * tam1Vert) + 1] = 0.5f;

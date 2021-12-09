@@ -4,7 +4,7 @@
 class Atlas
 {
 public:
-	Atlas(int cols, int rows, int offsetX, int offsetY, int duration, int frameCount)
+	Atlas(int cols, int rows, int offsetX, int offsetY, float duration, int frameCount)
 	{
 		this->cols = cols;
 		this->rows = rows;
@@ -26,7 +26,7 @@ private:
 	int offsetY = 0;
 	int width = 0;
 	int height = 0;
-	int duration = 1;
+	float duration = 1;
 	int frameCount = 1;
 	bool useSize = false;
 	friend class Animation;

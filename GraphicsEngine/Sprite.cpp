@@ -27,6 +27,7 @@ void Sprite::AddAnimation(Atlas atlas, float speed)
 	anim.push_back(a);
 
 	Frame f = anim[animIndex]->GetFrames()[0];
+	//cambiar nombre de BindTexture.
 	BindTexture(f);
 }
 void Sprite::Init(Renderer* render, std::string filePathImage,bool flip)

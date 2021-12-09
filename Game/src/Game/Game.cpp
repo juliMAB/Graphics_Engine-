@@ -24,7 +24,7 @@ Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
 	
-	_shape = new Shape(GetRenderer(), TypeShape(10));
+	_shape = new Shape(GetRenderer(), TypeShape(32));
 	_shape->SetColor(1, 0.5, 0, 1.0f);
 	_shape->SetPos(0.0f, 0.0f, 0.0f);
 	_shape->SetScale(5.0f, 5.0f, 5.0f);
@@ -48,17 +48,17 @@ void Game::Init() {
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
 
 	//------anims pj--------------
-	Atlas atlaspj = Atlas(8, 4, 0, 0, 1, 8);
-	_pj->AddAnimation(atlaspj, 10.f);
+	Atlas atlaspj = Atlas(8, 4, 0, 0, .1f, 8);
+	_pj->AddAnimation(atlaspj, 1.f);
 
-	atlaspj = Atlas(8, 4, 0, 1, 1, 8);
-	_pj->AddAnimation(atlaspj, 10.f);
+	atlaspj = Atlas(8, 4, 0, 1, .1f, 8);
+	_pj->AddAnimation(atlaspj, 1.f);
 
-	atlaspj = Atlas(8, 4, 0, 2, 1, 8);
-	_pj->AddAnimation(atlaspj, 10.f);
+	atlaspj = Atlas(8, 4, 0, 2, .1f, 8);
+	_pj->AddAnimation(atlaspj, 1.f);
 
-	atlaspj = Atlas(8, 4, 0, 3, 1, 8);
-	_pj->AddAnimation(atlaspj, 10.f);
+	atlaspj = Atlas(8, 4, 0, 3, .1f, 8);
+	_pj->AddAnimation(atlaspj, 1.f);
 }
 
 void Game::Deinit() {
@@ -76,7 +76,7 @@ void Game::Update()
 {	
 	if (Input::IsKeyDown(Input::KEY_ENTER))
 	{
-		_shape->ConsoleData();
+		_shape->CrazyFunc();
 	}
 	if (Input::IsKeyPress(Input::KEY_A))
 	{
@@ -120,5 +120,5 @@ void Game::Draw() {
 	_amugus->Draw();
 	_pj->Draw();
 	_pixel->Draw();
-	_shape->Draw();
+	//_shape->Draw();
 }

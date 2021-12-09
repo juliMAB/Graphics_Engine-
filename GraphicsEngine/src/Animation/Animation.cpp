@@ -37,10 +37,12 @@
 	}
 	bool Animation::Update2(float timer)
 	{
+		//correguir el tema del sangrado y la speed.
 		currentTime += timer * speed;
-		if (currentTime > 1.0f)
+		if (currentTime > length)
 		{
-			currentTime = 0;
+			currentTime -= length;
+			//currentTime = 0;
 			currentFrame++;
 			if (currentFrame == frames.size())
 			{
@@ -98,6 +100,7 @@
 	}
 	void Animation::AddFrames(Atlas atlas)
 	{
+		length = atlas.duration;
 		if (atlas.useSize)
 		{
 			atlas.width = (int)(texture->_width / atlas.cols);
