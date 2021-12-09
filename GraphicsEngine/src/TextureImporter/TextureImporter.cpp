@@ -20,9 +20,9 @@ static bool NameContainsOnlyASCII(std::string textureName) {
 	return containsOnlyASCII;
 }
 
-bool TextureImporter::LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels) {
+bool TextureImporter::LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels,bool flip) {
 	unsigned char* data;
-	stbi_set_flip_vertically_on_load(false);
+	stbi_set_flip_vertically_on_load(flip);
 
 	std::string pathName = path;
 	data = stbi_load(pathName.c_str(), &width, &height, &channels, 0);

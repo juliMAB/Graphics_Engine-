@@ -2,7 +2,7 @@
 #include "../GLEW/glew.h"
 #include <iostream>
 
-Texture::Texture(const std::string path)
+Texture::Texture(const std::string path,bool flip)
 {
 	std::cout << "-----Create new Texture-----"<<std::endl;
 	_textureID = 0;
@@ -11,7 +11,7 @@ Texture::Texture(const std::string path)
 	_bitDepth = 0;
 	_channels = 0;
 	_path = path;
-	if (TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels))
+	if (TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels, flip))
 	{
 		std::cout << "Texture load suscefully" << std::endl;
 	}
@@ -30,9 +30,9 @@ Texture::~Texture() {
 	_path = " ";
 }
 
-bool Texture::LoadTexture(const std::string path) {
+bool Texture::LoadTexture(const std::string path, bool flip) {
 	_path = path;
-	return TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels);
+	return TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels, flip);
 }
 void Texture::UseTexture() {
 	glEnable(GL_TEXTURE_2D);

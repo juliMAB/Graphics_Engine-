@@ -8,7 +8,7 @@
 typedef unsigned int uint;
 class GraficosEngine_API TextureImporter {
 public:
-	static bool LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels);
+	static bool LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels,bool flip);
 };
 
 #endif

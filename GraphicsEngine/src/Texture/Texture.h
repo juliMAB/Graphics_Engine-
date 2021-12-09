@@ -15,10 +15,10 @@ public:
 	int _width;
 	int _height;
 	uint _textureID;
-	Texture(const std::string path);
+	Texture(const std::string path,bool flip);
 	~Texture();
 
-	bool LoadTexture(const std::string path);
+	bool LoadTexture(const std::string path, bool flip);
 	void UseTexture();
 	void StopTexture();
 };

@@ -3,12 +3,12 @@
 
 
 
-Sprite::Sprite(Renderer* render, std::string filePathImage)
+Sprite::Sprite(Renderer* render, std::string filePathImage,bool flip)
 {
 	_animation = nullptr;
 	_texture = nullptr;
 	std::cout << "-------Create new Sprite:-------"<<std::endl;
-	Init(render, filePathImage);
+	Init(render, filePathImage,flip);
 	std::cout  << "-----End Create new Sprite-------"<<std::endl<<std::endl;
 	anim = std::vector<Animation*>();
 }
@@ -29,10 +29,10 @@ void Sprite::AddAnimation(Atlas atlas, float speed)
 	Frame f = anim[animIndex]->GetFrames()[0];
 	BindTexture(f);
 }
-void Sprite::Init(Renderer* render, std::string filePathImage)
+void Sprite::Init(Renderer* render, std::string filePathImage,bool flip)
 {
 	_renderer = render;
-	_texture = new Texture(filePathImage);
+	_texture = new Texture(filePathImage, flip);
 	InitBinds();
 	SetUniforms();
 	SetAttributers();
@@ -101,14 +101,14 @@ Sprite::~Sprite() {
 		_texture = NULL;
 	}
 }
-void Sprite::SetSprite(const std::string path) {
+void Sprite::SetSprite(const std::string path, bool flip) {
 	if (_texture!=NULL)
 	{
-		_texture->LoadTexture(path);
+		_texture->LoadTexture(path, flip);
 	}
 	else
 	{
-		_texture = new Texture(path);
+		_texture = new Texture(path, flip);
 	}
 }
 void Sprite::SetShader()

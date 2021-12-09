@@ -28,22 +28,22 @@ void Game::Init() {
 	_shape->SetColor(1, 0.5, 0, 1.0f);
 	_shape->SetPos(0.0f, 0.0f, 0.0f);
 	_shape->SetScale(5.0f, 5.0f, 5.0f);
-	_pixel = new Sprite(GetRenderer(), "res/p1.png");
+	_pixel = new Sprite(GetRenderer(), "res/p1.png",false);
 	_pixel->SetPos(-5.0f, 0.0f, 0.0f);
 	_pixel->SetScale(2.0f);
 	_pixel->SetColor(115.0f /255.0f, 155.0f / 255.0f, 208.0f / 255.0f, 0.5f);
-	_amugus = new Sprite(GetRenderer(), "res/b.png");
+	_amugus = new Sprite(GetRenderer(), "res/b.png",true);
 	_amugus->SetPos(5.0f, 0.0f, 0.0f);
 	_amugus->SetScale(1.0f, 1.0f, 1.0f);
 
-	_box = new Sprite(GetRenderer(), "res/Box.png");
+	_box = new Sprite(GetRenderer(), "res/Box.png",true);
 	_box->SetPos(-5.0f, 0.0f, 0.0f);
 	_box->SetScale(1.0f, 1.0f, 1.0f);
 	_box->_moveable = false;
 	_box->_hasCollider = true;
 	//-----------pj------------------
 
-	_pj = new Sprite(GetRenderer(), "res/d.png");
+	_pj = new Sprite(GetRenderer(), "res/d.png",false);
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
 
