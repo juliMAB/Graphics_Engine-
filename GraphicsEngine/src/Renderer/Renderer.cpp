@@ -278,6 +278,12 @@ void Renderer::DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId)
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, cantIndexes, GL_UNSIGNED_INT, 0);
 }
+void Renderer::DrawM2Debug(unsigned int VAO, int cantIndexes, unsigned int shaderId)
+{
+	glBindVertexArray(VAO);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glDrawElements(GL_TRIANGLES, cantIndexes, GL_UNSIGNED_INT, 0);
+}
 void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID)
 {
 	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "transform");

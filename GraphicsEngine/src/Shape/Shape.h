@@ -18,11 +18,15 @@ public:
 	//float* shapeVertices;
 	Shape(Renderer* rend, TypeShape typeShape);
 	void initVerts(int vertices);
+	void ultraHack(int indice, float value);
+	float ultraHackGetValue(int indice);
 	void InitBinds(int vertices);
 	void CrazyFunc();
 	void InitShape(int vertices);
 	~Shape();
 	void Draw();
+	void DrawDebug();
+	void ConsoleData();
 };
 
 #endif

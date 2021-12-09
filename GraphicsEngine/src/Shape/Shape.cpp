@@ -28,6 +28,36 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	_renderer->Setattributes(0, 3, tam1Vert, 0);
 	_renderer->Setattributes(1, 3, tam1Vert, 3);
 }
+static void showInConsoleVerticesAndIndices(float* shapeVertices, int indicesTam, uint* indices)
+{
+	int a = 0;
+	int b = 0;
+	std::cout << "(" << b << "):";
+	for (int i = 0; i < tamVerts; i++)
+	{
+		std::cout << "[" << shapeVertices[i] << "]";
+		a++;
+		if (a == 6)
+		{
+			b++;
+			std::cout << std::endl;
+			std::cout << "(" << b << "):";
+			a = 0;
+		}
+	}
+	std::cout << "INDICES: ";
+	std::cout << std::endl;
+	for (int i = 0; i < indicesTam; i++)
+	{
+		std::cout << "[" << indices[i] << "]";
+		a++;
+		if (a == 3)
+		{
+			a = 0;
+			std::cout << std::endl;
+		}
+	}
+};
 void Shape::initVerts(int vertices)
 {
 	int midVert;
@@ -63,7 +93,26 @@ void Shape::initVerts(int vertices)
 	cantVertDown = vertices-1 - midVert; //el total de vertices menos todos los de arriba.
 	//------------------------------------------------
 	float acumX = 1.0f / (cantVertTop+1);
-	float acumY = 0.5f / ((cantVertTop) / 2.0f);
+	float acumY;
+	if (vertices % 2 != 0)
+	{
+		if (cantVertTop%2==0)
+		{
+			acumY = 0.5f / ((cantVertTop) / 2.0f);
+		}
+		else
+		{
+			acumY = 0.5f / ((cantVertTop + 1) / 2);
+		}
+	}
+	else
+	{
+		acumY = 0.5f / ((cantVertTop + 1) / 2.0f);
+		if (vertices % 3 == 0)
+		{
+			acumY = 0.5f / ((cantVertTop) / 2.0f);
+		}
+	}
 	float acumXvar = -0.5f;
 	float acumYvar = -0.0f;
 	bool goingUp=true;
@@ -174,19 +223,18 @@ void Shape::initVerts(int vertices)
 			}
 		}
 	}
-	//por ultimo extrudeamos las puntas.
+	//por ultimo extrudeamos las puntas. para esto uso la hipotenusa que es y = x*x + r*r(radio)(0.5f).
 	for (int i = 2; i < vertices; i++)
 	{
 		if (i < midVert)
 		{
 			if (shapeVertices[(i * tam1Vert)] < 0)
 			{
-				shapeVertices[(i * tam1Vert) + 1] = 0.5f + shapeVertices[(i * tam1Vert)];
 				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f*0.5f)-(shapeVertices[(i * tam1Vert)]* shapeVertices[(i * tam1Vert)]));
+				//shapeVertices[(i * tam1Vert)] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)+1] * shapeVertices[(i * tam1Vert)+1]));
 			}
 			else
 			{
-				shapeVertices[(i * tam1Vert) + 1] = 0.5f - shapeVertices[(i * tam1Vert)];
 				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
 			}
 		}
@@ -203,6 +251,17 @@ void Shape::initVerts(int vertices)
 		}
 		
 	}
+}
+void Shape::ultraHack(int indice, float value)
+{
+	shapeVertices[(indice * tam1Vert)] = value;
+	//_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
+
+	_renderer->BindBaseBufferRequest(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
+}
+float Shape::ultraHackGetValue(int indice)
+{
+	return shapeVertices[(indice * tam1Vert)];
 }
 void Shape::InitBinds(int vertices)
 {
@@ -255,7 +314,7 @@ void Shape::InitBinds(int vertices)
 		indices = new uint[indicesTam]{ 0, 1, 2,/**/ 0, 2, 3,/**/0, 3, 4,/**/ 0, 4, 5,/**/0, 5, 1 };
 		break;
 	default:
-		indicesTam = triangles * vertices;
+		indicesTam = triangles * (vertices-1);
 		indices = new uint[indicesTam];
 		int counterA = 1;
 		int counterB = 2;
@@ -285,43 +344,16 @@ void Shape::InitBinds(int vertices)
 
 		indices[indicesTam - 1] = 1;
 		indices[indicesTam - 2] = vertices-1;
+		showInConsoleVerticesAndIndices(shapeVertices, indicesTam, indices);
 		break;
 	}
-	/*auto showInConsoleVerticesAndIndices = [](float* shapeVertices, int indicesTam, uint* indices)
-	{
-		int a = 0;
-		int b = 0;
-		std::cout << "(" << b << "):";
-		for (int i = 0; i < tamVerts; i++)
-		{
-			std::cout << "[" << shapeVertices[i] << "]";
-			a++;
-			if (a == 6)
-			{
-				b++;
-				std::cout << std::endl;
-				std::cout << "(" << b << "):";
-				a = 0;
-			}
-		}
-		std::cout << "INDICES: ";
-		std::cout << std::endl;
-		for (int i = 0; i < indicesTam; i++)
-		{
-			std::cout << "[" << indices[i] << "]";
-			a++;
-			if (a == 3)
-			{
-				a = 0;
-				std::cout << std::endl;
-			}
-		}
-	};
-*/
+	
+
 
 	_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
 
 	_renderer->BindBaseBufferRequest(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
+
 }
 void Shape::CrazyFunc()
 {
@@ -464,19 +496,17 @@ Shape::~Shape() {
 }
 void Shape::Draw() 
 {
-	//_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color,_renderer->GetShaderS());
-		//_renderer->Draw(indicesTam,_vao);
-		
-		/*uint shaderId = _renderer->GetShaderS();
-		glUseProgram(shaderId);
-		glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
-		glUniform3fv(_uniformColor, 1, glm::value_ptr(newColor));
-		glUniform1fv(_uniformAlpha, 1, &(color.a));*/
-		//_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color, _renderer->GetShaderS());
-		//_renderer->DrawShape(model, _vao, indicesTam,_renderer->GetShaderS());
-		//_renderer->UpdateMVP(matrix.model, transformLoc, _uniformView, _uniformProjection);
-		//_renderer->Draw(typeOfShape, sizeof(posIndexs) / sizeof(float), _vao, _vbo, _ibo, _vb, tamVerts, TypeShader::Colour);
-		_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection,_uniformColor,_uniformAlpha,color,_renderer->GetShaderS());
-		//_renderer->Draw(sizeof(ind) / sizeof(float), _vao, _vbo, _ebo, shapeVertices, tamVerts, TypeShader::Colour);
-		_renderer->DrawM2(_vao ,indicesTam*sizeof(uint), _renderer->GetShaderS());
+	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection,_uniformColor,_uniformAlpha,color,_renderer->GetShaderS());
+	_renderer->DrawM2(_vao ,indicesTam*sizeof(uint), _renderer->GetShaderS());
 }
+void Shape::DrawDebug()
+{
+	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection, _uniformColor, _uniformAlpha, color, _renderer->GetShaderS());
+	_renderer->DrawM2Debug(_vao, indicesTam * sizeof(uint), _renderer->GetShaderS());
+}
+void Shape::ConsoleData()
+{
+	showInConsoleVerticesAndIndices(shapeVertices, indicesTam, indices);
+}
+
+

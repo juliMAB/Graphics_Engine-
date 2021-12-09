@@ -58,6 +58,7 @@ public:
 	void DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
 	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, float* vertexs, uint tamVertsBit, uint* indices, uint tamIndicesBit, int cantVertices, unsigned int shaderId);
 	void DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId);
+	void DrawM2Debug(unsigned int VAO, int cantIndexes, unsigned int shaderId);
 	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
 	void DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID);
 	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader);

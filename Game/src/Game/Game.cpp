@@ -24,10 +24,10 @@ Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
 	
-	_shape = new Shape(GetRenderer(), TypeShape(9));
-	_shape->SetColor(1, 0, 0, 1);
+	_shape = new Shape(GetRenderer(), TypeShape(10));
+	_shape->SetColor(1, 0.5, 0, 1.0f);
 	_shape->SetPos(0.0f, 0.0f, 0.0f);
-	_shape->SetScale(2.0f, 2.0f, 2.0f);
+	_shape->SetScale(5.0f, 5.0f, 5.0f);
 	_pixel = new Sprite(GetRenderer(), "res/p1.png");
 	_pixel->SetPos(-5.0f, 0.0f, 0.0f);
 	_pixel->SetScale(2.0f);
@@ -40,7 +40,7 @@ void Game::Init() {
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
-	//_pj->StartUseAnimation();
+
 	//------anims pj--------------
 	Atlas atlaspj = Atlas(8, 4, 0, 0, 1, 8);
 	_pj->AddAnimation(atlaspj, 10.f);
@@ -53,12 +53,6 @@ void Game::Init() {
 
 	atlaspj = Atlas(8, 4, 0, 3, 1, 8);
 	_pj->AddAnimation(atlaspj, 10.f);
-	/*_pj->SetAnimations(4, 8, 1.0f,ORDER::RIGHTtoLEFT);
-	
-	Down = _pj->SetAction(0, 7);
-	Left=_pj->SetAction(8, 15);
-	Right=_pj->SetAction(16,23);
-	Up=_pj->SetAction(24, 31);*/
 }
 
 void Game::Deinit() {
@@ -74,32 +68,31 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	Collision::CollisionUpdate(_pj, _sprite);
+	if (Input::IsKeyDown(Input::KEY_ENTER))
+	{
+		_shape->ConsoleData();
+	}
 	if (Input::IsKeyPress(Input::KEY_A))
 	{
 		_pj->SetPos(_pj->getPos().x + (movForce * _time->_deltaTime), _pj->getPos().y);
-		//_pj->UpdateAnimation(_time->_deltaTime, Left);
 		_pj->ChangeAnimation(static_cast<int>(DIR::LEFT));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_D))
 	{
 		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime), _pj->getPos().y);
-		//_pj->UpdateAnimation(_time->_deltaTime, Right);
 		_pj->ChangeAnimation(static_cast<int>(DIR::RIGHT));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_W))
 	{
 		_pj->SetPos(_pj->getPos().x, _pj->getPos().y + (movForce * _time->_deltaTime));
-		//_pj->UpdateAnimation(_time->_deltaTime, Up);
 		_pj->ChangeAnimation(static_cast<int>(DIR::UP));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_S))
 	{
 		_pj->SetPos(_pj->getPos().x, _pj->getPos().y - (movForce * _time->_deltaTime));
-		//_pj->UpdateAnimation(_time->_deltaTime, Down);
 		_pj->ChangeAnimation(static_cast<int>(DIR::DOWN));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
@@ -111,11 +104,11 @@ void Game::Update()
 	{
 		_sprite->FlipVertical();
 	}
-	
+	Collision::CollisionUpdate(_pj, _sprite);
 }
 void Game::Draw() {
 	_sprite->Draw();
 	_pj->Draw();
 	_pixel->Draw();
-	//_shape->Draw();
+	_shape->Draw();
 }
