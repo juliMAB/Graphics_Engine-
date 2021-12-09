@@ -27,8 +27,7 @@ void Sprite::AddAnimation(Atlas atlas, float speed)
 	anim.push_back(a);
 
 	Frame f = anim[animIndex]->GetFrames()[0];
-	//cambiar nombre de BindTexture.
-	BindTexture(f);
+	SetTexture(f);
 }
 void Sprite::Init(Renderer* render, std::string filePathImage,bool flip)
 {
@@ -73,7 +72,7 @@ void Sprite::ChangeAnimation(int index)
 {
 	animIndex = index;
 }
-void Sprite::BindTexture(Frame f)
+void Sprite::SetTexture(Frame f)
 {
 	float uvCoords[]
 	{
@@ -213,7 +212,7 @@ void Sprite::UpdateAnimation2(float timer)
 	if (anim[animIndex]->Update2(timer))
 	{
 		Frame f = anim[animIndex]->GetFrames()[anim[animIndex]->GetCurrentFrame()];
-		BindTexture(f);
+		SetTexture(f);
 	}
 }
 void Sprite::UpdateAnimation(float timer,int action)

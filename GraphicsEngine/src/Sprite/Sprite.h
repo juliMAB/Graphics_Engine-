@@ -42,7 +42,7 @@ public:
 	void FlipVertical();
 	void InitBinds();
 	void ChangeAnimation(int index);
-	void BindTexture(Frame f);
+	void SetTexture(Frame f);
 	~Sprite();
 	void SetSprite(const std::string path, bool flip);
 	void SetShader();

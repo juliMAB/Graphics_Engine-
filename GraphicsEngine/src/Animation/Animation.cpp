@@ -37,12 +37,11 @@
 	}
 	bool Animation::Update2(float timer)
 	{
-		//correguir el tema del sangrado y la speed.
+		//correguir el tema del sangrado (si) y la speed (si).
 		currentTime += timer * speed;
 		if (currentTime > length)
 		{
 			currentTime -= length;
-			//currentTime = 0;
 			currentFrame++;
 			if (currentFrame == frames.size())
 			{
@@ -159,10 +158,6 @@
 			vertex[31] = uvCoords[7];
 		}
 	}
-	/*void Animation::SetCurrentFrameAnimation(int action, float* vertex)
-	{
-
-	}*/
 	
 
 	int Animation::SetAnAction(int firstFrame, int LastFrame)
