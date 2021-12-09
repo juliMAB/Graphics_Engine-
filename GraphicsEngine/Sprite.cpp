@@ -10,6 +10,7 @@ Sprite::Sprite(Renderer* render, std::string filePathImage)
 	std::cout << "-------Create new Sprite:-------"<<std::endl;
 	Init(render, filePathImage);
 	std::cout  << "-----End Create new Sprite-------"<<std::endl<<std::endl;
+	anim = std::vector<Animation*>();
 }
 void Sprite::SetAttributers()
 {
@@ -17,6 +18,16 @@ void Sprite::SetAttributers()
 	_renderer->Setattributes(0, 2, tam1Vert, 0);
 	_renderer->Setattributes(1, 4, tam1Vert, 2);
 	_renderer->Setattributes(2, 2, tam1Vert, 6);
+}
+void Sprite::AddAnimation(Atlas atlas, float speed)
+{
+	Animation* a = new Animation();
+	a->SetAnimation(_texture, speed);
+	a->AddFrames(atlas);
+	anim.push_back(a);
+
+	Frame f = anim[animIndex]->GetFrames()[0];
+	BindTexture(f);
 }
 void Sprite::Init(Renderer* render, std::string filePathImage)
 {
@@ -56,6 +67,30 @@ void Sprite::InitBinds()
 	uint indices[]{ 0, 1, 3, 1, 2, 3 };
 	_renderer->BindBuffer2(_vao, _vbo, sizeof(vertex), vertex);
 	_renderer->BindIndexes(_ebo, sizeof(indices), indices);
+}
+void Sprite::ChangeAnimation(int index)
+{
+	animIndex = index;
+}
+void Sprite::BindTexture(Frame f)
+{
+	float uvCoords[]
+	{
+		f.GetUVCords()[0].u, f.GetUVCords()[0].v,
+		f.GetUVCords()[1].u, f.GetUVCords()[1].v,
+		f.GetUVCords()[2].u, f.GetUVCords()[2].v,
+		f.GetUVCords()[3].u, f.GetUVCords()[3].v
+	};
+
+	vertex[6] = uvCoords[0];
+	vertex[14] = uvCoords[2];
+	vertex[22] = uvCoords[4];
+	vertex[30] = uvCoords[6];
+
+	vertex[7] = uvCoords[1];
+	vertex[15] = uvCoords[3];
+	vertex[23] = uvCoords[5];
+	vertex[31] = uvCoords[7];
 }
 Sprite::~Sprite() {
 	_renderer->DeleteBuffers(_vao, _vbo, _ebo);
@@ -180,6 +215,17 @@ void Sprite::UpdateAnimation(float timer)
 
 	int currFrame = _animation->GetCurrentFrame();
 	_animation->SetCurrentFrame(currFrame, vertex);
+}
+void Sprite::UpdateAnimation2(float timer)
+{
+	if (anim.size() == 0)
+		return;
+
+	if (anim[animIndex]->Update2(timer))
+	{
+		Frame f = anim[animIndex]->GetFrames()[anim[animIndex]->GetCurrentFrame()];
+		BindTexture(f);
+	}
 }
 void Sprite::UpdateAnimation(float timer,int action)
 {

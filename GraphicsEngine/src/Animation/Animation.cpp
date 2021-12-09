@@ -1,5 +1,6 @@
 #include "animation.h"
 #include <iostream>
+#include "../Time/Time.h"
 
 
 	Animation::Animation()
@@ -12,7 +13,11 @@
 		actionLength = -1;
 		lastAction = 0;
 	}
-
+	void Animation::SetAnimation(Texture* tex, float speed)
+	{
+		this->texture = tex;
+		this->speed = speed;
+	}
 
 	Animation::~Animation()
 	{
@@ -29,6 +34,21 @@
 
 		float frameLength = length / frames.size();
 		currentFrame = static_cast<int>(currentTime / frameLength);
+	}
+	bool Animation::Update2(float timer)
+	{
+		currentTime += timer * speed;
+		if (currentTime > 1.0f)
+		{
+			currentTime = 0;
+			currentFrame++;
+			if (currentFrame == frames.size())
+			{
+				currentFrame = 0;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	void Animation::AddFrame(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float duration)
@@ -76,7 +96,37 @@
 		frames.push_back(frame);
 		frameXIndex += frameWidth;
 	}
+	void Animation::AddFrames(Atlas atlas)
+	{
+		if (atlas.useSize)
+		{
+			atlas.width = (int)(texture->_width / atlas.cols);
+			atlas.height = (int)(texture->_height / atlas.rows);
+		}
 
+		int framesCount = 0;
+		int x = atlas.offsetX;
+		for (int i = atlas.offsetY; i < atlas.rows; i++)
+		{
+			while (x < atlas.cols)
+			{
+				Frame frame;
+				frame.GetUVCords()[0].u = (float)(atlas.width + (atlas.width * x)) / texture->_width;			// top right
+				frame.GetUVCords()[0].v = (float)(atlas.height * i) / texture->_height;						// top right
+				frame.GetUVCords()[1].u = (float)(atlas.width + (atlas.width * x)) / texture->_width; 		// bottom right
+				frame.GetUVCords()[1].v = (float)(atlas.height + (atlas.height * i)) / texture->_height;		// bottom right
+				frame.GetUVCords()[2].u = (float)(atlas.width * x) / texture->_width;							// bottom left
+				frame.GetUVCords()[2].v = (float)(atlas.height + (atlas.height * i)) / texture->_height;		// bottom left
+				frame.GetUVCords()[3].u = (float)(atlas.width * x) / texture->_width;							// top left 
+				frame.GetUVCords()[3].v = (float)(atlas.height * i) / texture->_height;						// top left 
+				frames.push_back(frame);
+				framesCount++;
+				x++;
+				if (framesCount == atlas.frameCount) return;
+			}
+			x = 0;
+		}
+	}
 	int Animation::GetCurrentFrame()
 	{
 		return currentFrame;

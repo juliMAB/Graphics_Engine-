@@ -3,6 +3,8 @@
 
 #include "../Exports/Exports.h"
 #include <vector>
+#include "../Texture/Texture.h"
+#include "../Atlas/Atlas.h"
 
 struct UVCords
 {
@@ -23,12 +25,15 @@ class GraficosEngine_API Animation
 {
 public:
 	Animation();
+	void SetAnimation(Texture* tex, float speed);
 	~Animation();
 
 	void Update(float timer);
+	bool Update2(float timer);
 	void AddFrame(float frameX, float frameY, float frameWidth, float frameHeight,
 		float textureWidth, float textureHeight, float duration);
 	void AddFrame2(float frameX, float frameY, float frameWidth, float frameHeight, float textureWidth, float textureHeight, float duration);
+	void AddFrames(Atlas atlas);
 	int GetCurrentFrame();
 	void SetCurrentFrame(int frame, float* vertex);
 	int SetAnAction(int firstFrame, int LastFrame);
@@ -41,6 +46,8 @@ private:
 	float length;
 	float actionLength;
 	int lastAction;
+	Texture* texture;
+	float speed;
 	std::vector<Frame> frames;
 	std::vector<std::vector<Frame>> actions;
 };

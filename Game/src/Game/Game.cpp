@@ -14,8 +14,8 @@ bool auxCheck = false;
 enum DIR
 {
 	DOWN,
-	LEFT,
 	RIGHT,
+	LEFT,
 	UP,
 };
 int Down,Left,Right,Up;
@@ -23,6 +23,7 @@ Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 0.5f,0.5f,0.5f,1 };
+	
 	_shape = new Shape(GetRenderer(), TypeShape(9));
 	_shape->SetColor(1, 0, 0, 1);
 	_shape->SetPos(0.0f, 0.0f, 0.0f);
@@ -34,16 +35,30 @@ void Game::Init() {
 	_sprite = new Sprite(GetRenderer(), "res/b.png");
 	_sprite->SetPos(5.0f, 0.0f, 0.0f);
 	_sprite->SetScale(1.0f, 1.0f, 1.0f);
+	//-----------pj------------------
+
 	_pj = new Sprite(GetRenderer(), "res/d.png");
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(1.0f, 1.0f, 1.0f);
-	_pj->StartUseAnimation();
-	_pj->SetAnimations(4, 8, 1.0f,ORDER::RIGHTtoLEFT);
+	//_pj->StartUseAnimation();
+	//------anims pj--------------
+	Atlas atlaspj = Atlas(8, 4, 0, 0, 1, 8);
+	_pj->AddAnimation(atlaspj, 10.f);
+
+	atlaspj = Atlas(8, 4, 0, 1, 1, 8);
+	_pj->AddAnimation(atlaspj, 10.f);
+
+	atlaspj = Atlas(8, 4, 0, 2, 1, 8);
+	_pj->AddAnimation(atlaspj, 10.f);
+
+	atlaspj = Atlas(8, 4, 0, 3, 1, 8);
+	_pj->AddAnimation(atlaspj, 10.f);
+	/*_pj->SetAnimations(4, 8, 1.0f,ORDER::RIGHTtoLEFT);
 	
 	Down = _pj->SetAction(0, 7);
 	Left=_pj->SetAction(8, 15);
 	Right=_pj->SetAction(16,23);
-	Up=_pj->SetAction(24, 31);
+	Up=_pj->SetAction(24, 31);*/
 }
 
 void Game::Deinit() {
@@ -63,22 +78,30 @@ void Game::Update()
 	if (Input::IsKeyPress(Input::KEY_A))
 	{
 		_pj->SetPos(_pj->getPos().x + (movForce * _time->_deltaTime), _pj->getPos().y);
-		_pj->UpdateAnimation(_time->_deltaTime, Left);
+		//_pj->UpdateAnimation(_time->_deltaTime, Left);
+		_pj->ChangeAnimation(static_cast<int>(DIR::LEFT));
+		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_D))
 	{
 		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime), _pj->getPos().y);
-		_pj->UpdateAnimation(_time->_deltaTime, Right);
+		//_pj->UpdateAnimation(_time->_deltaTime, Right);
+		_pj->ChangeAnimation(static_cast<int>(DIR::RIGHT));
+		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_W))
 	{
 		_pj->SetPos(_pj->getPos().x, _pj->getPos().y + (movForce * _time->_deltaTime));
-		_pj->UpdateAnimation(_time->_deltaTime, Up);
+		//_pj->UpdateAnimation(_time->_deltaTime, Up);
+		_pj->ChangeAnimation(static_cast<int>(DIR::UP));
+		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_S))
 	{
 		_pj->SetPos(_pj->getPos().x, _pj->getPos().y - (movForce * _time->_deltaTime));
-		_pj->UpdateAnimation(_time->_deltaTime, Down);
+		//_pj->UpdateAnimation(_time->_deltaTime, Down);
+		_pj->ChangeAnimation(static_cast<int>(DIR::DOWN));
+		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyDown(Input::KEY_Z))
 	{
@@ -88,10 +111,11 @@ void Game::Update()
 	{
 		_sprite->FlipVertical();
 	}
+	
 }
 void Game::Draw() {
 	_sprite->Draw();
 	_pj->Draw();
 	_pixel->Draw();
-	_shape->Draw();
+	//_shape->Draw();
 }

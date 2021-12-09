@@ -1,20 +1,34 @@
+#ifndef ATLAS_H
+#define ATLAS_H
+
 class Atlas
 {
 public:
-	void CutByCount(int columns, int rows, int offsetX, int offsetY, int framesAmount)
+	Atlas(int cols, int rows, int offsetX, int offsetY, int duration, int frameCount)
 	{
-		this->columns = columns;
+		this->cols = cols;
 		this->rows = rows;
-		this->framesAmount = framesAmount;
-		useSize = false;
+		this->offsetX = offsetX;
+		this->offsetY = offsetY;
+		this->width = 0;
+		this->height = 0;
+		this->duration = duration;
+		this->frameCount = frameCount;
+		this->useSize = true;
 	}
+
+	~Atlas() { }
+
 private:
-	int columns = 1;
+	int cols = 1;
 	int rows = 1;
-	int framesAmount = 1;
+	int offsetX = 0;
+	int offsetY = 0;
+	int width = 0;
+	int height = 0;
+	int duration = 1;
+	int frameCount = 1;
 	bool useSize = false;
-	int spriteWidth = 0;
-	int spriteHeight = 0;
-	friend class animation;
-	friend class sprite;
+	friend class Animation;
 };
+#endif // !ATLAS_H

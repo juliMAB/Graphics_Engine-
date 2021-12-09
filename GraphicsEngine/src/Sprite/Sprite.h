@@ -7,6 +7,7 @@
 #include <../GLM/glm.hpp>
 #include <vector>
 #include "../Animation/Animation.h"
+#include "../Atlas/Atlas.h"
 
 enum class ORDER
 {
@@ -26,17 +27,23 @@ private:
 	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  //  DownLeft
 	};
 	Animation* _animation;
+	int animIndex = 0;
 	bool _settedAnimsValues;
 
 	void SetUniforms();
 	void DrawTexturePart();
+
+	std::vector<Animation*> anim;
 public:
 	Sprite(Renderer* render, std::string filePathImage);
 	void SetAttributers();
+	void AddAnimation(Atlas atlas, float speed);
 	void Init(Renderer* render, std::string filePathImage);
 	void FlipHorizontal();
 	void FlipVertical();
 	void InitBinds();
+	void ChangeAnimation(int index);
+	void BindTexture(Frame f);
 	~Sprite();
 	void SetSprite(const std::string path);
 	void SetShader();
@@ -52,6 +59,8 @@ public:
 	void SetAnimations(int rows, int cols, float duration, ORDER o);
 
 	void UpdateAnimation(float timer);
+
+	void UpdateAnimation2(float timer);
 
 	void UpdateAnimation(float timer, int action);
 
