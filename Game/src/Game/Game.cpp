@@ -32,9 +32,15 @@ void Game::Init() {
 	_pixel->SetPos(-5.0f, 0.0f, 0.0f);
 	_pixel->SetScale(2.0f);
 	_pixel->SetColor(115.0f /255.0f, 155.0f / 255.0f, 208.0f / 255.0f, 0.5f);
-	_sprite = new Sprite(GetRenderer(), "res/b.png");
-	_sprite->SetPos(5.0f, 0.0f, 0.0f);
-	_sprite->SetScale(1.0f, 1.0f, 1.0f);
+	_amugus = new Sprite(GetRenderer(), "res/b.png");
+	_amugus->SetPos(5.0f, 0.0f, 0.0f);
+	_amugus->SetScale(1.0f, 1.0f, 1.0f);
+
+	_box = new Sprite(GetRenderer(), "res/Box.png");
+	_box->SetPos(-5.0f, 0.0f, 0.0f);
+	_box->SetScale(1.0f, 1.0f, 1.0f);
+	_box->_moveable = false;
+	_box->_hasCollider = true;
 	//-----------pj------------------
 
 	_pj = new Sprite(GetRenderer(), "res/d.png");
@@ -60,9 +66,9 @@ void Game::Deinit() {
 		delete _shape;
 		_shape = nullptr;
 	}
-	if (_sprite != nullptr) {
-		delete _sprite;
-		_sprite = nullptr;
+	if (_amugus != nullptr) {
+		delete _amugus;
+		_amugus = nullptr;
 	}
 	std::cout << "\n\nEnd.\n\n";
 }
@@ -98,16 +104,20 @@ void Game::Update()
 	}
 	else if (Input::IsKeyDown(Input::KEY_Z))
 	{
-		_sprite->FlipHorizontal();
+		_amugus->FlipHorizontal();
 	}
 	else if (Input::IsKeyDown(Input::KEY_X))
 	{
-		_sprite->FlipVertical();
+		_amugus->FlipVertical();
 	}
-	Collision::CollisionUpdate(_pj, _sprite);
+	Collision::CollisionUpdate(_pj, _amugus);
+	Collision::CollisionUpdate(_pj, _box);
+	Collision::CollisionUpdate(_box, _pj);
+	Collision::CollisionUpdate(_box, _amugus);
 }
 void Game::Draw() {
-	_sprite->Draw();
+	_box->Draw();
+	_amugus->Draw();
 	_pj->Draw();
 	_pixel->Draw();
 	_shape->Draw();

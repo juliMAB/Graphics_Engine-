@@ -113,27 +113,15 @@ void Sprite::SetSprite(const std::string path) {
 }
 void Sprite::SetShader()
 {
-	glBindVertexArray(_vao);
-	glBindBuffer(GL_ARRAY_BUFFER, _vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _ebo);
-	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertex, GL_STATIC_DRAW);
-	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
-	unsigned int colorLoc = glGetUniformLocation(_renderer->GetShaderT(), "color");
-	glUniform3fv(colorLoc, 1, glm::value_ptr(newColor));
-
-	unsigned int alphaLoc = glGetUniformLocation(_renderer->GetShaderT(), "alpha");
-	glUniform1fv(alphaLoc, 1, &(color.a));
-
-	unsigned int textureLoc = glGetUniformLocation(_renderer->GetShaderT(), "theTexture");
-	glUniform1f(textureLoc, _texture->_textureID);
+	_renderer->UpdateMVP(model, 
+		_uniformPos, _uniformView, _uniformProjection, _uniformColor,
+		_uniformAlpha, color, _UniformTexLocation,
+		_texture->_textureID, _renderer->GetShaderT());
 }
 void Sprite::Draw()
 {
-	uint shaderId = _renderer->GetShaderT();
-	glUseProgram(shaderId);
-	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
 	SetShader();
-	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, shaderId);
+	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, _renderer->GetShaderT());
 }
 
 void Sprite::StartUseAnimation() {
@@ -255,11 +243,4 @@ void Sprite::SetUniforms()
 	glUniform1i(_useTexture, true);
 }
 
-void Sprite::DrawTexturePart()
-{
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _texture->_textureID);
-	glUniform1f(_UniformTexLocation, (GLfloat)_texture->_textureID);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glDisable(GL_TEXTURE_2D);
-}
+

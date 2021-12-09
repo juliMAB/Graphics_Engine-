@@ -31,7 +31,6 @@ private:
 	bool _settedAnimsValues;
 
 	void SetUniforms();
-	void DrawTexturePart();
 
 	std::vector<Animation*> anim;
 public:
