@@ -6,46 +6,17 @@
 
 
 TypeShape typeOfShape;
-uint tamVerts;
+int tamVerts;
 int cantIndices;
-int cantVerts;
-int tam1Vert=6;
+int tam1Vert = 6;
 uint indicesTam;
 
 Shape::Shape(Renderer* rend, TypeShape typeShape)
 {
 	
 	_renderer = rend;
-	tamVerts = typeShape * tam1Vert;
-	indicesTam = Triangle * (typeShape - 2);
-	cantVerts = typeShape;
-	//InitShape(typeShape);
-	//switch (typeShape) {
-	//case Triangle:
-	//	shapeVertices = new float [tamVerts] {
-	//		 0.0f,  0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f,
-	//		 0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f,
-	//		 0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f
-	//	};
-	//	break;
-	//case Quad:
-	//	shapeVertices = new float [tamVerts] {
-	//		// positions             colors                 
-	//		 0.5f,  0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, // top right
-	//		 0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, // bottom right
-	//		-0.5f, -0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, // bottom left
-	//		-0.5f,  0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f  // top left 
-	//	};
-	//	break;
-	//default:
-	//	shapeVertices = new float [tamVerts];
-	//	break;
-	//}
+
 	InitBinds(typeShape);
-	//_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
-	//_renderer->BindBuffer(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
-	
-	
 
 	glUseProgram(_renderer->GetShaderS());
 	_uniformPos        = glGetUniformLocation(_renderer->GetShaderS(), "transform" );
@@ -65,7 +36,7 @@ void Shape::initVerts(int vertices)
 	int cantVertDown;
 	for (int i = 0; i < tamVerts; i++)
 	{
-		shapeVertices[i] = 0.0f;
+		shapeVertices[i] = 1.0f;
 	}
 	std::cout << "seteo de los vertices" << std::endl;
 	if (vertices % 2 == 0)
@@ -211,21 +182,23 @@ void Shape::initVerts(int vertices)
 			if (shapeVertices[(i * tam1Vert)] < 0)
 			{
 				shapeVertices[(i * tam1Vert) + 1] = 0.5f + shapeVertices[(i * tam1Vert)];
+				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f*0.5f)-(shapeVertices[(i * tam1Vert)]* shapeVertices[(i * tam1Vert)]));
 			}
 			else
 			{
 				shapeVertices[(i * tam1Vert) + 1] = 0.5f - shapeVertices[(i * tam1Vert)];
+				shapeVertices[(i * tam1Vert) + 1] = sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
 			}
 		}
 		if (i>midVert)
 		{
 			if (shapeVertices[(i * tam1Vert)] < 0)
 			{
-				shapeVertices[(i * tam1Vert) + 1] = -0.5f - shapeVertices[(i * tam1Vert)];
+				shapeVertices[(i * tam1Vert) + 1] = -sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
 			}
 			else
 			{
-				shapeVertices[(i * tam1Vert) + 1] = -0.5f + shapeVertices[(i * tam1Vert)];
+				shapeVertices[(i * tam1Vert) + 1] = -sqrtf((0.5f * 0.5f) - (shapeVertices[(i * tam1Vert)] * shapeVertices[(i * tam1Vert)]));
 			}
 		}
 		
@@ -265,158 +238,8 @@ void Shape::InitBinds(int vertices)
 		default:
 			shapeVertices = new float[tamVerts];
 			initVerts(vertices);
-			//for (int i = 0; i < tamVerts; i++)
-			//{
-			//	shapeVertices[i] = 0.0f;
-			//}
-			//shapeVertices[0] = 0.0f;
-			//shapeVertices[1] = 0.0f;
-			//shapeVertices[(1 * tam1Vert)] = -0.5f;
-			//shapeVertices[(1 * tam1Vert) + 1] = 0.0f;
-			//int midVert;
-			////preguntar si int/int da float.
-			//if (vertices % 2 == 0)
-			//{
-			//	midVert = (vertices / 2.0f) + 1.0f;
-			//}
-			//else
-			//{
-			//	midVert = (vertices / 2.0f) + 0.5f;
-			//}
-			//shapeVertices[midVert * tam1Vert] = 0.5f;
-			//shapeVertices[(midVert * tam1Vert) + 1] = 0.0f;
-			//if (vertices % 2 == 0)
-			//{
-			//	int midmidVert;
-			//	midmidVert = (midVert + 1) / 2;
-			//	shapeVertices[midmidVert * tam1Vert] = 0.0f;
-			//	shapeVertices[(midmidVert * tam1Vert) + 1] =0.5f;
-
-			//	float acumX = 1.0f / (midVert - 1.0f);
-			//	float acumY = 0.5f / (midmidVert - 1.0f);
-			//	float acumXvar = -0.5f;
-			//	float acumYvar = -0.0f;
-			//	for (int i = 2; i < midVert; i++)
-			//	{
-			//		acumXvar += acumX;
-			//		shapeVertices[i * tam1Vert] = acumXvar;
-			//		if (i <= midmidVert)
-			//		{
-			//			acumYvar += acumY;
-			//		}
-			//		else if(i > midmidVert)
-			//		{
-			//			acumYvar -= acumY;
-			//		}
-			//		shapeVertices[(i * tam1Vert)+1] = acumYvar;
-			//	}
-			//	acumX = 1.0f / (midVert - 2.0f);
-			//	acumY = 0.5f / (midmidVert - 2.0f);
-			//	acumXvar = 0.5f;
-			//	acumYvar = 0.0f;
-			//	for (int i = midVert + 1; i < vertices; i++)
-			//	{
-			//		acumXvar -= acumX;
-			//		shapeVertices[i * tam1Vert] = acumXvar;
-			//		if (i < midVert + midmidVert - 1)
-			//		{
-			//			acumYvar -= acumY;
-			//		}
-			//		else if (i >= midVert + midmidVert)
-			//		{
-			//			acumYvar += acumY;
-			//		}
-			//		shapeVertices[(i * tam1Vert) + 1] = acumYvar;
-			//	}
-			//}
-			//else
-			//{
-			//	midVert = (vertices / 2.0f) + 0.5f;
-			//	int midmidVert = midVert / 2;
-			//	//setea el punto mas largo de la figura, la mitad de la mitad de los vertices.
-			//	shapeVertices[midVert * tam1Vert] = 0.0f;
-			//	shapeVertices[(midVert * tam1Vert) + 1] = 0.5f;
-			//	//setea el punto mas alto de la figura, la mitad de la mitad de la mitad de los vertices.
-			//	shapeVertices[midmidVert * tam1Vert] = 0.0f;
-			//	shapeVertices[(midmidVert * tam1Vert) + 1] = 0.5f;
-
-			//	float acumX = (1.0f / (midVert - 1.0f));
-			//	float acumY = 0.5f / ((midmidVert-1.0f));
-			//	float acumXvar = -0.5f;
-			//	float acumYvar = -0.0f;
-			//	float hightMax = 0;
-			//	for (int i = 2; i < midVert; i++)
-			//	{
-			//		acumXvar += acumX;
-			//		shapeVertices[i * tam1Vert] = acumXvar;
-			//		if (i <= midmidVert)
-			//		{
-			//			acumYvar += acumY;
-			//			shapeVertices[(i * tam1Vert) + 1] = acumYvar;
-			//		}
-			//		else if (i==midmidVert+1)
-			//		{
-			//			shapeVertices[(i * tam1Vert) + 1] = acumYvar;
-			//		}
-			//		else if (i > (midVert/2)+1)
-			//		{
-			//			acumYvar -= acumY;
-			//			shapeVertices[(i * tam1Vert)+1] = acumYvar;
-			//		}
-			//	}
-			//	//shapeVertices[((midVert/2)+1 * tam1Vert) + 1] = hightMax;
-			//	acumX = (1.0f / (midVert - 1.0f));
-			//	acumY = 0.5f / ((midmidVert+1 / 2.0f));
-			//	acumXvar = 0.5f;
-			//	acumYvar = -0.0f;
-			//	for (int i = midVert + 1; i < vertices; i++)
-			//	{
-			//		acumXvar -= acumX;
-			//		shapeVertices[i * tam1Vert] = acumXvar;
-			//		if (i <= midVert + (midVert / 2))
-			//		{
-			//			acumYvar -= acumY;
-			//		}
-			//		else if (i > midVert + (midVert / 2))
-			//		{
-			//			acumYvar += acumY;
-			//		}
-			//		shapeVertices[(i * tam1Vert) + 1] = acumYvar;
-			//	}
-			//}
 			break;
 		}
-			
-		//to coment.
-		int x=0;
-		for (int i = 0; i < vertices; i++)
-		{
-			shapeVertices[i*tam1Vert+3] = (float) ((rand()% 10)/10.0f);
-			shapeVertices[i * tam1Vert+4] = (float)((rand() % 10) / 10.0f);
-			shapeVertices[i * tam1Vert+5] = (float)((rand() % 10) / 10.0f);
-		}
-		shapeVertices[3] = 1.0f;
-		shapeVertices[4] = 0.0f;
-		shapeVertices[5] = 0.0f;
-		//shapeVertices[2*tam1Vert] = 5.0f;
-		//shapeVertices[(2 * tam1Vert)+1] = 5.0f;
-		//shapeVertices[5] = 0.0f;
-		/*shapeVertices[9] = 0.0f;
-		
-		shapeVertices[10] = 1.0f;
-		shapeVertices[11] = 1.0f;
-		shapeVertices[16] = 1.0f;
-		shapeVertices[17] = 0.0f;
-		shapeVertices[18] = 1.0f;*/
-		//stop comment.
-		
-
-		
-	if (vertices < 3)
-		vertices = 3;
-	if (vertices == 5)
-		vertices = 6;
-	//uint* indices;
 	switch (vertices)
 	{
 	case 3:
@@ -464,41 +287,56 @@ void Shape::InitBinds(int vertices)
 		indices[indicesTam - 2] = vertices-1;
 		break;
 	}
-	int a = 0;
-	int b = 0;
-	std::cout << "(" << b << "):";
-	for (int i = 0; i < tamVerts; i++)
+	/*auto showInConsoleVerticesAndIndices = [](float* shapeVertices, int indicesTam, uint* indices)
 	{
-		std::cout << "[" << shapeVertices[i] << "]";
-		a++;
-		if (a == 6)
+		int a = 0;
+		int b = 0;
+		std::cout << "(" << b << "):";
+		for (int i = 0; i < tamVerts; i++)
 		{
-			b++;
-			std::cout << std::endl;
-			std::cout << "(" << b << "):";
-			a = 0;
+			std::cout << "[" << shapeVertices[i] << "]";
+			a++;
+			if (a == 6)
+			{
+				b++;
+				std::cout << std::endl;
+				std::cout << "(" << b << "):";
+				a = 0;
+			}
 		}
-	}
-	std::cout << "INDICES: ";
-	std::cout << std::endl;
-	for (int i = 0; i < indicesTam; i++)
-	{
-		std::cout << "[" << indices[i] << "]";
-		a++;
-		if (a==3)
+		std::cout << "INDICES: ";
+		std::cout << std::endl;
+		for (int i = 0; i < indicesTam; i++)
 		{
-			a = 0;
-			std::cout << std::endl;
+			std::cout << "[" << indices[i] << "]";
+			a++;
+			if (a == 3)
+			{
+				a = 0;
+				std::cout << std::endl;
+			}
 		}
-	}
-	
-	glGenVertexArrays(1, &_vao);
-	glGenBuffers(1, &_vbo);
-	glGenBuffers(1, &_ebo);
+	};
+*/
+
+	_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
 
 	_renderer->BindBaseBufferRequest(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
-	//_renderer->BindBuffer2(_vao, _vbo, sizeof(shapeVertices), shapeVertices);
-	//_renderer->BindIndexes(_ebo, sizeof(indices), indices);
+}
+void Shape::CrazyFunc()
+{
+	//esta funcion solo se puede aplicar en initBinds y es para testear.
+	int a = tamVerts / tam1Vert;
+	int x = 0;
+	for (int i = 0; i < a; i++)
+	{
+		shapeVertices[(i * tam1Vert) + 3] = (float)((rand() % 10) / 10.0f);
+		shapeVertices[(i * tam1Vert) + 4] = (float)((rand() % 10) / 10.0f);
+		shapeVertices[(i * tam1Vert) + 5] = (float)((rand() % 10) / 10.0f);
+	}
+	shapeVertices[3] = 1.0f;
+	shapeVertices[4] = 0.0f;
+	shapeVertices[5] = 0.0f;
 }
 void Shape::InitShape(int vertices) {
 	tamVerts = vertices * tam1Vert;

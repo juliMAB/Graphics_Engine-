@@ -19,6 +19,7 @@ public:
 	Shape(Renderer* rend, TypeShape typeShape);
 	void initVerts(int vertices);
 	void InitBinds(int vertices);
+	void CrazyFunc();
 	void InitShape(int vertices);
 	~Shape();
 	void Draw();
