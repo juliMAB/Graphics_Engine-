@@ -25,7 +25,7 @@ protected:
 	//----Color-------
 	glm::vec4 color;
 	//----------------
-	
+	glm::vec3 lastPos;
 	//----------------
 
 	void UpdateMatrixData();
@@ -71,6 +71,7 @@ public:
 	glm::vec3 getPos();
 	glm::vec3 getRot();
 	glm::vec3 getScale();
+	glm::vec3 getLastPos();
 	void Draw(uint shaderId);
 };
 

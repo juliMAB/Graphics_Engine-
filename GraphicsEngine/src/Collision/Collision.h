@@ -16,6 +16,8 @@ public:
 	static bool CheckCollisionRecRec(Entity2D* entity1, Entity2D* entity2);
 	static void Overlap(Entity2D* entity1, Entity2D* entity2);
 
+	static void GoLastPos(Entity2D* entity1, Entity2D* entity2);
+
 private:
 
 };

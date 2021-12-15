@@ -245,7 +245,7 @@ bool TileMap::checkCollision(Entity2D& object) {
 					if (Collision::CheckCollisionRecRec(&object, &_tileMapGrid[k][j][i]))
 					{
 						std::cout << "collision" << std::endl;
-						Collision::Overlap(&_tileMapGrid[k][j][i], &object);
+						Collision::GoLastPos(&_tileMapGrid[k][j][i], &object);
 					}
 
 					return true;

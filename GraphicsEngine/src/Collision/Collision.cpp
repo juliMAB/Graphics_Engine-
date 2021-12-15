@@ -51,6 +51,13 @@
 				entity2->SetPos(entity2->GetPivot() + director * overlapSpeed);
 			} while (CheckCollisionRecRec(entity1, entity2));
 		}
+	}
 
+	void Collision::GoLastPos(Entity2D* entity1, Entity2D* entity2)
+	{
+		if (entity2->_moveable)
+			entity2->SetPos(entity2->getLastPos());
+		if (entity1->_moveable)
+			entity1->SetPos(entity1->getLastPos());
 		
 	}

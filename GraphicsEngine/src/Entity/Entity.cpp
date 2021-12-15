@@ -68,15 +68,14 @@ glm::vec3 QuatXVec(glm::quat quat, glm::vec3 vec) {
 }
 //------------set Pos----------------------------
 void Entity::SetPos(float x, float y) {
-	pos = { x, y, getPos().z };
-	translate = glm::translate(glm::mat4(1.0f), pos);
-	UpdateMatrixData();
+	SetPos(x, y, getPos().z);
 }
 void Entity::SetPos(glm::vec2 pos) {
 	SetPos(pos.x, pos.y);
 }
 void Entity::SetPos(float x, float y, float z)
 {
+	lastPos = pos;
 	pos = { x, y, z };
 	translate = glm::translate(glm::mat4(1.0f), pos);
 	UpdateMatrixData();
@@ -170,6 +169,10 @@ glm::vec3 Entity::getRot()
 glm::vec3 Entity::getScale()
 {
 	return scale;
+}
+glm::vec3 Entity::getLastPos()
+{
+	return lastPos;
 }
 void Entity::Draw(uint shaderId)
 {
