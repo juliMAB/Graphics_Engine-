@@ -126,6 +126,9 @@ Sprite::Sprite()
 	_texture = nullptr;
 }
 Sprite::~Sprite() {
+}
+void Sprite::Deinit()
+{
 	_renderer->DeleteBuffers(_vao, _vbo, _ebo);
 	glDeleteTextures(1, &(_texture->_textureID));
 
@@ -156,6 +159,11 @@ void Sprite::Draw()
 	SetShader();
 	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, _renderer->GetShaderT());
 }
+void Sprite::Draw(Renderer* rend)
+{
+	SetShader();
+	_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, sizeof(vertex), vertex, rend->GetShaderT());
+}
 
 void Sprite::StartUseAnimation() {
 	if (_animation == nullptr) {
@@ -165,6 +173,7 @@ void Sprite::StartUseAnimation() {
 
 	std::cout << "The sprite already has animation " << std::endl;
 }
+
 void Sprite::StartUseAnimation(int rows, int cols, float duration) {
 	if (_animation == nullptr) {
 		_animation = new Animation();

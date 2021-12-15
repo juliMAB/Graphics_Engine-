@@ -52,8 +52,11 @@ public:
 	void SetTexture(Frame f);
 	void SetSprite(const std::string path, bool flip);
 	void SetShader();
+	void Draw(Renderer* rend);
 	void Draw();
 	void StartUseAnimation();
+
+	void Deinit();
 
 	void StartUseAnimation(int rows, int cols, float duration);
 

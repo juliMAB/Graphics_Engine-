@@ -52,25 +52,6 @@ void TileMap::setTexture(std::string filePathImage, bool flip) {
 	_texture.LoadTexture(filePathImage, flip);
 }
 //================================================
-//void TileMap::draw(Renderer& rkRenderer) {
-//	rkRenderer.setCurrentTexture(_texture);
-//
-//	float mapWidth = -(_width * _tileWidth) / 2;
-//	float mapHeight = (_height * _tileHeight) / 2;
-//
-//	for (int i = 0; i < _tileMapGrid.size(); i++) {
-//		for (int y = 0; y < _height; y++) {
-//			for (int x = 0; x < _width; x++) {
-//				if (_tileMapGrid[i][y][x].getId() != NULL) {
-//					_tileMapGrid[i][y][x].setPosX(mapWidth + (_tileWidth * x));
-//					_tileMapGrid[i][y][x].setPosY(mapHeight - (_tileHeight * y));
-//					_tileMapGrid[i][y][x].draw();
-//				}
-//			}
-//		}
-//	}
-//
-//}
 void TileMap::draw() {
 
 	float mapWidth = -(_width * _tileWidth) / 2;
@@ -89,8 +70,23 @@ void TileMap::draw() {
 	}
 
 }
+void TileMap::draw(int layer) {
+
+	float mapWidth = -(_width * _tileWidth) / 2;
+	float mapHeight = (_height * _tileHeight) / 2;
+
+	for (int y = 0; y < _height; y++) {
+		for (int x = 0; x < _width; x++) {
+			if (_tileMapGrid[layer][y][x].getId() != NULL) {
+				_tileMapGrid[layer][y][x].setPosX(mapWidth + (_tileWidth * x));
+				_tileMapGrid[layer][y][x].setPosY(mapHeight - (_tileHeight * y));
+				_tileMapGrid[layer][y][x].draw();
+			}
+		}
+	}	
+}
 //================================================
-bool TileMap::importTileMap(std::string filePath, Renderer& rkRenderer) {
+bool TileMap::importTileMap(std::string filePath) {
 	tinyxml2::XMLDocument doc; //guarda el documento
 	tinyxml2::XMLError errorHandler; //guarda el resultado de las funciones
 
@@ -105,7 +101,8 @@ bool TileMap::importTileMap(std::string filePath, Renderer& rkRenderer) {
 	setTileDimensions(mapNode->FloatAttribute("tilewidth"), mapNode->FloatAttribute("tileheight")); // the map and the tiles
 
 	// Loading Tilset element
-	tinyxml2::XMLElement* pTileset = mapNode->FirstChildElement("tileset");
+	//tinyxml2::XMLElement* pTileset = mapNode->FirstChildElement("tileset");
+	tinyxml2::XMLElement* pTileset = mapNode->LastChildElement("tileset");
 	if (pTileset == NULL)
 		return false;
 
@@ -113,8 +110,8 @@ bool TileMap::importTileMap(std::string filePath, Renderer& rkRenderer) {
 	int columns = pTileset->IntAttribute("columns");  // Columns of Tiles in the Tileset
 	int rows = tileCount / columns;
 
-	std::string _imagePath = "../../Game/res";																//
-	_imagePath += pTileset->FirstChildElement("image")->Attribute("source");			// Loading Textures
+	//std::string _imagePath = "../../Game/res";																//
+	pTileset->FirstChildElement("image")->Attribute("source");			// Loading Textures
 	setTexture(_imagePath.c_str(),true);
 	//setTexture(LoadTexture(_imagePath.c_str(), D3DCOLOR_XRGB(255, 255, 255))); //
 
@@ -131,10 +128,12 @@ bool TileMap::importTileMap(std::string filePath, Renderer& rkRenderer) {
 			newTile.SetTexture(&_texture);
 			newTile.SetScale(_tileWidth, _tileHeight);
 
-			newTile.setTextureCoordinates(tileX / _imageWidth, tileY / _imageHeight,
-				(tileX + _tileWidth) / _imageWidth, tileY / _imageHeight,
-				tileX / _imageWidth, (tileY + _tileHeight) / _imageHeight,
-				(tileX + _tileWidth) / _imageWidth, (tileY + _tileHeight) / _imageHeight);
+			newTile.Init(_render,"res/E3.png",false);
+
+			newTile.setTextureCoordinates((tileX + _tileWidth) / _imageWidth, tileY / _imageHeight, // top right
+				(tileX + _tileWidth) / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom right
+				tileX / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom left
+				tileX / _imageWidth, tileY / _imageHeight);// top left tileX / imageWidth, tileY / imageHeight
 
 			tileX += _tileWidth;
 			setTile(newTile);
@@ -151,9 +150,15 @@ bool TileMap::importTileMap(std::string filePath, Renderer& rkRenderer) {
 		tinyxml2::XMLElement* pProperty = pTile->FirstChildElement("properties")->FirstChildElement("property");
 		std::string propertyName = pProperty->Attribute("value");
 		if (propertyName == "false")
+		{
 			tiles[id].walkability(false);
+			tiles[id]._hasCollider = true;
+		}
 		else
+		{
 			tiles[id].walkability(true);
+			tiles[id]._hasCollider = true;
+		}
 
 		pTile = pTile->NextSiblingElement("tile");
 	}
@@ -237,7 +242,11 @@ bool TileMap::checkCollision(Entity2D& object) {
 			for (int k = 0; k < _tileMapGrid.size(); k++) {
 				if (!_tileMapGrid[k][j][i].isWalkable()) {
 
-					Collision::CheckCollisionRecRec(&_tileMapGrid[k][j][i], &object);
+					if (Collision::CheckCollisionRecRec(&object, &_tileMapGrid[k][j][i]))
+					{
+						std::cout << "collision" << std::endl;
+						Collision::Overlap(&_tileMapGrid[k][j][i], &object);
+					}
 
 					return true;
 				}

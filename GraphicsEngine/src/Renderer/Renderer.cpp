@@ -20,7 +20,7 @@ Renderer::~Renderer()
 void Renderer::Start() {
 	std::cout << "Start Renderer" << std::endl;
 	ShadersStart();
-	view = glm::lookAt(glm::vec3(0, 0, -5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	view = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 	projection = glm::mat4(1.0f);
 	projection = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
 

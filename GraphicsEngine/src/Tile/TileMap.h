@@ -11,24 +11,27 @@
 class TileMap {
 public:
 
-	TileMap();
-	TileMap(Renderer* rend);
-	~TileMap();
+	GraficosEngine_API TileMap();
+	GraficosEngine_API TileMap(Renderer* rend);
+	GraficosEngine_API ~TileMap();
 
-	const Tile& tile(unsigned int uiId);
-	void setTile(const Tile& rkTile);
-	void setMapTileId(int layer, unsigned int uiCol, unsigned int uiRow, unsigned int uiId);
+	GraficosEngine_API const Tile& tile(unsigned int uiId);
+	GraficosEngine_API void setTile(const Tile& rkTile);
+	GraficosEngine_API void setMapTileId(int layer, unsigned int uiCol, unsigned int uiRow, unsigned int uiId);
 
-	void setDimensions(float width, float heigth);
-	void setTileDimensions(float tileWidth, float tileHeigth);
+	GraficosEngine_API void setDimensions(float width, float heigth);
+	GraficosEngine_API void setTileDimensions(float tileWidth, float tileHeigth);
 
-	void setTexture(const Texture& rkTexture);
-	void setTexture(std::string filePathImage, bool flip);
+	GraficosEngine_API void setTexture(const Texture& rkTexture);
+	GraficosEngine_API void setTexture(std::string filePathImage, bool flip);
 
-	void draw();
+	GraficosEngine_API void draw();
 
-	bool importTileMap(std::string filePath, Renderer& rkRenderer);
-	bool checkCollision(Entity2D& object);
+	GraficosEngine_API void draw(int layer);
+
+	GraficosEngine_API bool importTileMap(std::string filePath);
+
+	GraficosEngine_API bool checkCollision(Entity2D& object);
 
 private:
 	std::vector<Tile> tiles;

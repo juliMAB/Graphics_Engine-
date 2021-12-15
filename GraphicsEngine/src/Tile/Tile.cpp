@@ -1,10 +1,16 @@
 #include "Tile.h"
 //================================================
-Tile::Tile() {
+Tile::Tile(){
 	_id = 0;
 	_walkable = false;
 }
 Tile::Tile(Renderer* rend)
+{
+	_id = 0;
+	_walkable = false;
+	_renderer = rend;
+}
+Tile::Tile(Renderer* rend, std::string path, bool flip) : Sprite(rend, path, flip)
 {
 	_id = 0;
 	_walkable = false;
@@ -40,6 +46,10 @@ void Tile::setPosX(float x)
 void Tile::setPosY(float y)
 {
 	SetPos(getPos().x, y);
+}
+void Tile::draw(Renderer* rend)
+{
+	Draw(rend);
 }
 void Tile::draw()
 {
