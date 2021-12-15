@@ -73,6 +73,8 @@ public:
 	void UpdateAnimation(float timer, int action);
 
 	int SetAction(int firtsFrame, int lastFrame);
+
+	void Init(Renderer* render, Texture* tx);
 	
 };
 

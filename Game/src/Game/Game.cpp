@@ -23,19 +23,25 @@ Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
 	backgroundColor = { 126.0f/255,217.0f/255,87.0f/255,1 };
-
+	//----------Shape---------------
+	//_shape = new Shape(GetRenderer(), TypeShape::Triangle);
+	//_shape->SetScale(10.0f);
+	//_shape->SetColor(1, 0, 0, 1);
 	//----------TileMap-------------
 	//_tilemap = new TileMap();
 	_tilemap = new TileMap(GetRenderer());
 	//_tilemap->setTileDimensions(1, 1);
-	_tilemap->importTileMap("res/mymapa.xml");
+	_tilemap->importTileMap("res/mymapa.xml","res/E3.png");
 	//_tilemap->setDimensions(0.1f, 0.1f);
 	//-----------pj------------------
 
 	_pj = new Sprite(GetRenderer(), "res/d.png",false);
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(25.0f);
-
+	_pj->InitCollider();
+	//-----------Amogus----------------
+	_amugus = new Sprite(GetRenderer(), "res/b.png", true);
+	_amugus->SetScale(25.0f);
 	//------anims pj--------------
 	Atlas atlaspj = Atlas(8, 4, 0, 0, .1f, 8);
 	_pj->AddAnimation(atlaspj, 1.f);
@@ -95,10 +101,13 @@ void Game::Update()
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	_tilemap->checkCollision(*_pj);
+	_pj->InitCollider();
+	_amugus->SetPos(_pj->pivot);
 }
 void Game::Draw() {
 	_tilemap->draw(0);
 	_tilemap->draw(1);
 	_pj->Draw();
 	_tilemap->draw(2);
+	_amugus->Draw();
 }

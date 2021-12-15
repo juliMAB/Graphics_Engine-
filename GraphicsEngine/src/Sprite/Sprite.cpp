@@ -35,6 +35,16 @@ void Sprite::Init(Renderer* render, std::string filePathImage,bool flip)
 	InitBinds();
 	SetUniforms();
 	SetAttributers();
+	InitCollider();
+}
+void Sprite::Init(Renderer* render,Texture* tx)
+{
+	_renderer = render;
+	SetTexture(tx);
+	InitBinds();
+	SetUniforms();
+	SetAttributers();
+	InitCollider();
 }
 void Sprite::SetTexture(std::string filePathImage, bool flip)
 {

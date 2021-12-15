@@ -45,12 +45,12 @@ void TileMap::setDimensions(float width, float height) {
 	_tileMapGrid.push_back(tileMap);
 }
 //================================================
-void TileMap::setTexture(const Texture& rkTexture) {
-	_texture = rkTexture;
-}
-void TileMap::setTexture(std::string filePathImage, bool flip) {
-	_texture.LoadTexture(filePathImage, flip);
-}
+//void TileMap::setTexture(const Texture& rkTexture) {
+//	_texture = rkTexture;
+//}
+//void TileMap::setTexture(std::string filePathImage, bool flip) {
+//	_texture.LoadTexture(filePathImage, flip);
+//}
 //================================================
 void TileMap::draw() {
 
@@ -86,7 +86,7 @@ void TileMap::draw(int layer) {
 	}	
 }
 //================================================
-bool TileMap::importTileMap(std::string filePath) {
+bool TileMap::importTileMap(std::string filePath,std::string imagepath) {
 	tinyxml2::XMLDocument doc; //guarda el documento
 	tinyxml2::XMLError errorHandler; //guarda el resultado de las funciones
 
@@ -111,10 +111,10 @@ bool TileMap::importTileMap(std::string filePath) {
 	int rows = tileCount / columns;
 
 	//std::string _imagePath = "../../Game/res";																//
-	pTileset->FirstChildElement("image")->Attribute("source");			// Loading Textures
-	setTexture(_imagePath.c_str(),true);
+	//pTileset->FirstChildElement("image")->Attribute("source");			// Loading Textures
+	//setTexture(_imagePath.c_str(),true);
 	//setTexture(LoadTexture(_imagePath.c_str(), D3DCOLOR_XRGB(255, 255, 255))); //
-
+	_texture = new Texture(imagepath, false);
 	// Save the Tiles in the TileMap
 	_imageWidth = pTileset->FirstChildElement("image")->IntAttribute("width");
 	_imageHeight = pTileset->FirstChildElement("image")->IntAttribute("height");
@@ -125,10 +125,10 @@ bool TileMap::importTileMap(std::string filePath) {
 			Tile newTile;
 
 			newTile.setId(_id);
-			newTile.SetTexture(&_texture);
+			newTile.SetTexture(_texture);
 			newTile.SetScale(_tileWidth, _tileHeight);
 
-			newTile.Init(_render,"res/E3.png",false);
+			newTile.Init(_render, _texture);
 
 			newTile.setTextureCoordinates((tileX + _tileWidth) / _imageWidth, tileY / _imageHeight, // top right
 				(tileX + _tileWidth) / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom right

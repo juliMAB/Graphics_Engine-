@@ -4,8 +4,8 @@
 
 
 class Game : BaseGame {
-	//Shape* _shape;
-	//Sprite* _amugus;
+	Shape* _shape;
+	Sprite* _amugus;
 	Sprite* _pj;
 	//Sprite* _pixel;
 	//Sprite* _box;
