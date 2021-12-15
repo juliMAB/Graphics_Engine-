@@ -38,6 +38,36 @@
 		return false;
 	}
 
+	bool Collision::CheckCollisionCircleCirclePivot(Entity2D* entity1, Entity2D* entity2)
+	{
+		if (entity2->_hasCollider && entity1->_hasCollider)
+		{
+			//bool collisionX = entity1->pivot.x - (entity1->colliderSize.x) + entity1->getScale().x >= entity2->getPos().x - (entity2->getScale().x / 2)
+			//	&& entity2->getPos().x - (entity2->getScale().x / 2) + entity2->getScale().x >= entity1->getPos().x - (entity1->getScale().x / 2);
+			//// collision y-axis?
+			//bool collisionY = entity1->getPos().y - (entity1->getScale().y / 2) + entity1->getScale().y >= entity2->getPos().y - (entity2->getScale().y / 2)
+			//	&& entity2->getPos().y - (entity2->getScale().y / 2) + entity2->getScale().y >= entity1->getPos().y - (entity1->getScale().y / 2);
+			//// collision only if on both axes
+			////return collisionX && collisionY;
+
+			struct Circle1 { float r = 20; float x = 5; float y = 5; };
+			Circle1 c1 = {entity1->colliderSize.x,entity1->pivot.x,entity1->pivot.y};
+			struct circle2 { float r = 20; float x = 5; float y = 5; };
+			circle2 c2 = { entity2->colliderSize.x,entity2->pivot.x,entity2->pivot.y };
+
+
+			float dx = c1.x - c2.x;
+			float dy = c1.y - c2.y;
+			float distance = std::sqrt(dx * dx + dy * dy);
+			
+
+			if (distance < c1.r + c2.r) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	void Collision::Overlap(Entity2D* entity1, Entity2D* entity2) //Separa ambos objetos en el caso de existir overlap
 	{
 		if (entity2->_moveable)
@@ -59,5 +89,7 @@
 			entity2->SetPos(entity2->getLastPos());
 		if (entity1->_moveable)
 			entity1->SetPos(entity1->getLastPos());
+		entity1->InitCollider();
+		entity2->InitCollider();
 		
 	}

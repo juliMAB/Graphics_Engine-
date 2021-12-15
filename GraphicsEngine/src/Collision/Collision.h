@@ -4,7 +4,7 @@
 #include "../Exports/Exports.h"
 #include "../Entity2D/Entity2D.h"
 
-const float collisionMover = 0.001f;
+const float collisionMover = 0.00f;
 
 class GraficosEngine_API Collision
 {
@@ -14,6 +14,7 @@ public:
 
 	static void CollisionUpdate(Entity2D* entity1, Entity2D* entity2);
 	static bool CheckCollisionRecRec(Entity2D* entity1, Entity2D* entity2);
+	static bool CheckCollisionCircleCirclePivot(Entity2D* entity1, Entity2D* entity2);
 	static void Overlap(Entity2D* entity1, Entity2D* entity2);
 
 	static void GoLastPos(Entity2D* entity1, Entity2D* entity2);

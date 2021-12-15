@@ -8,7 +8,10 @@ class GraficosEngine_API Entity2D : public Entity {
 public:
 
 	bool _hasCollider, _moveable;
+	glm::vec3 pivot;
+	glm::vec3 colliderSize;
 	glm::vec3 GetPivot();
+	void InitCollider();
 	Entity2D();
 	~Entity2D();
 };
