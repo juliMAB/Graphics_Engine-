@@ -21,6 +21,9 @@ Texture::Texture(const std::string path,bool flip)
 	}
 	std::cout << "-----End Create new Texture----" << std::endl;
 }
+Texture::Texture()
+{
+}
 Texture::~Texture() {
 	glDeleteTextures(1, &_textureID);
 	_textureID = 0;

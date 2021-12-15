@@ -59,6 +59,7 @@ public:
 	//------------------
 	//----SetScale------
 	void SetScale(glm::vec3 scale4);
+	void SetScale(float x, float y);
 	void SetScale(float x, float y, float z);
 	void SetScale(float scale4);
 	//----SetColor------

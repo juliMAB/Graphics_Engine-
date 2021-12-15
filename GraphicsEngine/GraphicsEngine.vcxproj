@@ -184,7 +184,6 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="src\Animation\Animation.cpp" />
     <ClCompile Include="src\BaseGame\BaseGame.cpp" />
     <ClCompile Include="src\Collision\Collision.cpp" />
@@ -193,9 +192,13 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Shape\Shape.cpp" />
+    <ClCompile Include="src\Sprite\Sprite.cpp" />
     <ClCompile Include="src\TextureImporter\stb_image.cpp" />
     <ClCompile Include="src\TextureImporter\TextureImporter.cpp" />
     <ClCompile Include="src\Texture\Texture.cpp" />
+    <ClCompile Include="src\Tile\Tile.cpp" />
+    <ClCompile Include="src\Tile\TileMap.cpp" />
+    <ClCompile Include="src\Tile\tinyxml2.cpp" />
     <ClCompile Include="src\Time\Time.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
@@ -214,6 +217,9 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\TextureImporter\stb_image.h" />
     <ClInclude Include="src\TextureImporter\TextureImporter.h" />
     <ClInclude Include="src\Texture\Texture.h" />
+    <ClInclude Include="src\Tile\Tile.h" />
+    <ClInclude Include="src\Tile\TileMap.h" />
+    <ClInclude Include="src\Tile\tinyxml2.h" />
     <ClInclude Include="src\Time\Time.h" />
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>

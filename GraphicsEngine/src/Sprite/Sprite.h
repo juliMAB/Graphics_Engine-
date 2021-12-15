@@ -34,16 +34,22 @@ private:
 
 	std::vector<Animation*> anim;
 public:
+	Sprite();
+	~Sprite();
+
+
 	Sprite(Renderer* render, std::string filePathImage,bool flip);
 	void SetAttributers();
 	void AddAnimation(Atlas atlas, float speed);
 	void Init(Renderer* render, std::string filePathImage, bool flip);
+	void SetTexture(std::string filePathImage, bool flip);
+	void SetTexture(Texture* tex);
+	void setTextureCoordinates(float u1, float v1, float u2, float v2, float u3, float v3, float u4, float v4);
 	void FlipHorizontal();
 	void FlipVertical();
 	void InitBinds();
 	void ChangeAnimation(int index);
 	void SetTexture(Frame f);
-	~Sprite();
 	void SetSprite(const std::string path, bool flip);
 	void SetShader();
 	void Draw();

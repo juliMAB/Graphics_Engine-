@@ -24,12 +24,16 @@ void Input::StartInputSystem() {
 bool Input::IsKeyDown(KeyCode keyCode) {
 	if (_lastAction == GLFW_PRESS && _lastKey == keyCode)
 	{
-		_lastKey = 0;
+		//_lastKey = 0;
 		return true;
 	}
 	return false;
 }
 bool Input::IsKeyPress(KeyCode keyCode) {
+	if ((_lastAction == GLFW_PRESS && _lastKey == keyCode))
+	{
+		return true;
+	}
 	if (_lastAction == GLFW_REPEAT && _lastKey == keyCode)
 	{
 		return true;

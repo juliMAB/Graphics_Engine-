@@ -145,6 +145,7 @@ void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShade
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
+
 void Renderer::CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO)
 {
 	glGenVertexArrays(1, &VAO);

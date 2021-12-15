@@ -41,8 +41,8 @@ public:
 	//----- C y D -------
 	Renderer(Window* window);
 	~Renderer();
-	//----- C y D -------
 	// --------------------
+	//void setCurrentTexture(Texture tex);
 	void CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO);
 	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
 	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);

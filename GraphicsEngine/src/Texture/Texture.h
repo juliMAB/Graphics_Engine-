@@ -16,6 +16,7 @@ public:
 	int _height;
 	uint _textureID;
 	Texture(const std::string path,bool flip);
+	Texture();
 	~Texture();
 
 	bool LoadTexture(const std::string path, bool flip);
