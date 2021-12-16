@@ -9,14 +9,14 @@ void Entity2D::InitCollider()
 {
 	colliderSize = 
 	{
-		getScale().x / 8.0f,
-		getScale().y / 8.0f,
-		getScale().z / 8.0f
+		getScale().x,
+		getScale().y,
+		getScale().z
 	};
 	pivot = 
 	{
-		getPos().x / getScale().x,
-		getPos().y / getScale().y,
+		getPos().x,
+		getPos().y,
 		getPos().z
 	};
 }

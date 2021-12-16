@@ -3,6 +3,7 @@
 
 #include "../Exports/Exports.h"
 #include "../Entity2D/Entity2D.h"
+#include <stdio.h>
 
 const float collisionMover = 0.00f;
 
@@ -14,6 +15,7 @@ public:
 
 	static void CollisionUpdate(Entity2D* entity1, Entity2D* entity2);
 	static bool CheckCollisionRecRec(Entity2D* entity1, Entity2D* entity2);
+	static bool CheckCollisionRecRec2(Entity2D* entity1, Entity2D* entity2);
 	static bool CheckCollisionCircleCirclePivot(Entity2D* entity1, Entity2D* entity2);
 	static void Overlap(Entity2D* entity1, Entity2D* entity2);
 

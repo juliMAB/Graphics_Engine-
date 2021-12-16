@@ -211,6 +211,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Entity\Entity.h" />
     <ClInclude Include="src\Exports\Exports.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Juli\Utilitis.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\Sprite\Sprite.h" />

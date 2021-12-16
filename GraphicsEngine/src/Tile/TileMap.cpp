@@ -1,4 +1,5 @@
 #include "TileMap.h"
+#include "../Juli/Utilitis.h"
 
 
 //================================================
@@ -244,7 +245,7 @@ bool TileMap::checkCollision(Entity2D& object) {
 
 					if (Collision::CheckCollisionRecRec(&object, &_tileMapGrid[k][j][i]))
 					{
-						std::cout << "collision" << std::endl;
+						std::cout << "collision:  " << std::endl;
 						Collision::GoLastPos(&_tileMapGrid[k][j][i], &object);
 					}
 

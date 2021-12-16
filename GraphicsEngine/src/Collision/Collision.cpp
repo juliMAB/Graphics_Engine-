@@ -27,11 +27,44 @@
 	{
 		if (entity2->_hasCollider && entity1->_hasCollider)
 		{
-			bool collisionX = entity1->getPos().x - (entity1->getScale().x / 2) + entity1->getScale().x >= entity2->getPos().x - (entity2->getScale().x / 2)
-				&& entity2->getPos().x - (entity2->getScale().x / 2) + entity2->getScale().x >= entity1->getPos().x - (entity1->getScale().x / 2);
+			float px1= entity1->getPos().x;
+			float sx1= entity1->getScale().x;
+			float px2 = entity2->getPos().x;
+			float sx2 = entity2->getScale().x;
+			float py1 = entity1->getPos().y;
+			float sy1 = entity1->getScale().y;
+			float py2 = entity2->getPos().y;
+			float sy2 = entity2->getScale().y;
+
+			bool collisionX = (px1 - (sx1 / 2) < px2+(sx2/2)
+				&& px1 + (sx1 / 2) > px2- (sx2 / 2));
+
+			bool collisionY = 
+				(
+				ceilf(py1 - (sy1 / 2)) <= py2 + (sy2 / 2)
+				&&
+				ceilf(py1 + (sy1 / 2)) >= py2 - (sy2 / 2)
+				);
+
+			return collisionX && collisionY;
+		}
+		return false;
+	}
+	bool Collision::CheckCollisionRecRec2(Entity2D* entity1, Entity2D* entity2)
+	{
+		if (entity2->_hasCollider && entity1->_hasCollider)
+		{
+			bool collisionX =
+				entity1->pivot.x - (entity1->colliderSize.x) + 
+				(entity1->colliderSize.x*2) >= entity2->pivot.x - (entity2->colliderSize.x) &&
+				entity2->pivot.x - (entity2->colliderSize.x) +
+				(entity2->colliderSize.x*2) >= entity1->pivot.x - (entity1->colliderSize.x);
 			// collision y-axis?
-			bool collisionY = entity1->getPos().y - (entity1->getScale().y / 2) + entity1->getScale().y >= entity2->getPos().y - (entity2->getScale().y / 2)
-				&& entity2->getPos().y - (entity2->getScale().y / 2) + entity2->getScale().y >= entity1->getPos().y - (entity1->getScale().y / 2);
+			bool collisionY = 
+				entity1->pivot.y - (entity1->colliderSize.y) +
+				entity1->colliderSize.y * 2 >= entity2->pivot.y - (entity2->colliderSize.y) &&
+				entity2->pivot.y - (entity2->colliderSize.y) +
+				entity2->colliderSize.y * 2 >= entity1->pivot.y - (entity1->colliderSize.y);
 			// collision only if on both axes
 			return collisionX && collisionY;
 		}

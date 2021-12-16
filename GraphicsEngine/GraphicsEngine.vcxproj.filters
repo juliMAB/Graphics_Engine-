@@ -131,6 +131,9 @@
     <ClInclude Include="src\Tile\tinyxml2.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="src\Juli\Utilitis.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\TextureFragmentShader.shader">

@@ -37,8 +37,8 @@ void Game::Init() {
 
 	_pj = new Sprite(GetRenderer(), "res/d.png",false);
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
-	_pj->SetScale(25.0f);
-	_pj->InitCollider();
+	_pj->SetScale(14.0f);
+	//_pj->InitCollider();
 	//-----------Amogus----------------
 	_amugus = new Sprite(GetRenderer(), "res/b.png", true);
 	_amugus->SetScale(25.0f);
@@ -69,6 +69,15 @@ void Game::Deinit() {
 		_tilemap = nullptr;
 	}
 	std::cout << "\n\nEnd.\n\n";
+}
+void Game::UpdatePjCollider()
+{
+	_pj->pivot =
+	{
+		_pj->getPos().x,
+		_pj->getPos().y,
+		_pj->getPos().z
+	};
 }
 void Game::Update()
 {	
@@ -101,7 +110,7 @@ void Game::Update()
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	_tilemap->checkCollision(*_pj);
-	_pj->InitCollider();
+	UpdatePjCollider();
 	_amugus->SetPos(_pj->pivot);
 }
 void Game::Draw() {
@@ -109,5 +118,5 @@ void Game::Draw() {
 	_tilemap->draw(1);
 	_pj->Draw();
 	_tilemap->draw(2);
-	_amugus->Draw();
+	//_amugus->Draw();
 }
