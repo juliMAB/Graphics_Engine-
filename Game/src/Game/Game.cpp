@@ -43,6 +43,8 @@ void Game::Init() {
 	_pj->SetPos(0.0f, 0.0f, 0.0f);
 	_pj->SetScale(14.0f);
 	//_pj->InitCollider();
+	_pj->_hasCollider = true;
+	_pj->_moveable = true;
 	//-----------Amogus----------------
 	_amugus = new Sprite(GetRenderer(), "res/b.png", true);
 	_amugus->SetScale(25.0f);
@@ -82,14 +84,14 @@ void Game::Update()
 	}*/
 	if (Input::IsKeyPress(Input::KEY_A))
 	{
-		_pj->SetPos(_pj->getPos().x + (movForce * _time->_deltaTime)*_pj->getScale().x, _pj->getPos().y);
-		_pj->ChangeAnimation(static_cast<int>(DIR::LEFT));
+		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime)*_pj->getScale().x, _pj->getPos().y);
+		_pj->ChangeAnimation(static_cast<int>(DIR::RIGHT));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_D))
 	{
-		_pj->SetPos(_pj->getPos().x - (movForce * _time->_deltaTime)* _pj->getScale().x, _pj->getPos().y);
-		_pj->ChangeAnimation(static_cast<int>(DIR::RIGHT));
+		_pj->SetPos(_pj->getPos().x + (movForce * _time->_deltaTime)* _pj->getScale().x, _pj->getPos().y);
+		_pj->ChangeAnimation(static_cast<int>(DIR::LEFT));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	else if (Input::IsKeyPress(Input::KEY_W))
