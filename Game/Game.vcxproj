@@ -108,7 +108,10 @@
       <AdditionalDependencies>GraphicsEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\Win32\Debug\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\Debug" /Y</Command>
+      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\$(Platform)\$(Configuration)\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)" /Y
+MKDIR "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)\res"
+XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\res" /e /h /y /s
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,7 +133,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Bin\$(Platform)\$(Configuration);$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\GLEW</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\Win32\Release\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\Release" /Y</Command>
+      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\$(Platform)\$(Configuration)\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)" /Y
+MKDIR "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)\res"
+XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\res" /e /h /y /s
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
