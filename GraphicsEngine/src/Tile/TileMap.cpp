@@ -243,7 +243,7 @@ bool TileMap::checkCollision(Entity2D& object) {
 			for (int k = 0; k < _tileMapGrid.size(); k++) {
 				if (!_tileMapGrid[k][j][i].isWalkable()) {
 
-					if (Collision::CheckCollisionRecRec(&object, &_tileMapGrid[k][j][i]))
+					if (Collision::CheckCollisionRecRecTile(&object, &_tileMapGrid[k][j][i]))
 					{
 						std::cout << "collision:  " << std::endl;
 						Collision::GoLastPos(&_tileMapGrid[k][j][i], &object);

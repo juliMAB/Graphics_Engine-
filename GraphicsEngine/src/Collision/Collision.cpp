@@ -22,8 +22,21 @@
 			Overlap(entity1, entity2);
 		}
 	}
-
 	bool Collision::CheckCollisionRecRec(Entity2D* entity1, Entity2D* entity2)
+	{
+		if (entity2->_hasCollider && entity1->_hasCollider)
+		{
+			bool collisionX = entity1->getPos().x - (entity1->getScale().x / 2) + entity1->getScale().x >= entity2->getPos().x - (entity2->getScale().x / 2)
+				&& entity2->getPos().x - (entity2->getScale().x / 2) + entity2->getScale().x >= entity1->getPos().x - (entity1->getScale().x / 2);
+			// collision y-axis?
+			bool collisionY = entity1->getPos().y - (entity1->getScale().y / 2) + entity1->getScale().y >= entity2->getPos().y - (entity2->getScale().y / 2)
+				&& entity2->getPos().y - (entity2->getScale().y / 2) + entity2->getScale().y >= entity1->getPos().y - (entity1->getScale().y / 2);
+			// collision only if on both axes
+			return collisionX && collisionY;
+		}
+		return false;
+	}
+	bool Collision::CheckCollisionRecRecTile(Entity2D* entity1, Entity2D* entity2)
 	{
 		if (entity2->_hasCollider && entity1->_hasCollider)
 		{
@@ -35,15 +48,21 @@
 			float sy1 = entity1->getScale().y;
 			float py2 = entity2->getPos().y;
 			float sy2 = entity2->getScale().y;
-
-			bool collisionX = (px1 - (sx1 / 2) < px2+(sx2/2)
-				&& px1 + (sx1 / 2) > px2- (sx2 / 2));
+			//el tema de truncar es porque el player no siempre esta centrado en la grid,
+			//para compensar esa diferencia. en X se trunca porque se redonde para abajo.
+			//en Y se redonde haceia arriba.
+			bool collisionX =
+				(
+					truncf(px1 - (sx1 / 2)) <= px2 + (sx2 / 2)
+					&&
+					truncf(px1 + (sx1 / 2)) >= px2- (sx2 / 2)
+				);
 
 			bool collisionY = 
 				(
-				ceilf(py1 - (sy1 / 2)) <= py2 + (sy2 / 2)
-				&&
-				ceilf(py1 + (sy1 / 2)) >= py2 - (sy2 / 2)
+					ceilf(py1 - (sy1 / 2)) <= py2 + (sy2 / 2)
+					&&
+					ceilf(py1 + (sy1 / 2)) >= py2 - (sy2 / 2)
 				);
 
 			return collisionX && collisionY;
