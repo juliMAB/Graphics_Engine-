@@ -86,7 +86,34 @@ void TileMap::draw(int layer) {
 		}
 	}	
 }
+void TileMap::draw2(int layer) {
+	for (int y = 0; y < _height; y++) {
+		for (int x = 0; x < _width; x++) {
+			if (_tileMapGrid[layer][y][x].getId() != NULL) {
+				_tileMapGrid[layer][y][x].draw();
+			}
+		}
+	}
+}
 //================================================
+//On Test, Dont work yet.
+void TileMap::setSize(float size)
+{
+	float mapWidth = -((_width * size) * (_tileWidth*size)) / 2;
+	float mapHeight = ((_height * size) * (_tileHeight*size)) / 2;
+
+	for (int i = 0; i < _tileMapGrid.size(); i++) {
+		for (int y = 0; y < _height; y++) {
+			for (int x = 0; x < _width; x++) {
+				if (_tileMapGrid[i][y][x].getId() != NULL) {
+					_tileMapGrid[i][y][x].setPosX((mapWidth + (_tileWidth * x))*size);
+					_tileMapGrid[i][y][x].setPosY((mapHeight - (_tileHeight * y))*size);
+					_tileMapGrid[i][y][x].SetScale(_tileWidth * size, _tileHeight * size);
+				}
+			}
+		}
+	}
+}
 bool TileMap::importTileMap(std::string filePath,std::string imagepath) {
 	tinyxml2::XMLDocument doc; //guarda el documento
 	tinyxml2::XMLError errorHandler; //guarda el resultado de las funciones

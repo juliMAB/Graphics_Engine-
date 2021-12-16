@@ -24,6 +24,7 @@ public:
 
 	//GraficosEngine_API void setTexture(const Texture& rkTexture);
 	//GraficosEngine_API void setTexture(std::string filePathImage, bool flip);
+	GraficosEngine_API void setSize(float size);
 
 	GraficosEngine_API void draw();
 
@@ -32,6 +33,8 @@ public:
 	GraficosEngine_API bool importTileMap(std::string filePath, std::string imagepath);
 
 	GraficosEngine_API bool checkCollision(Entity2D& object);
+
+	GraficosEngine_API void draw2(int layer);
 
 private:
 	std::vector<Tile> tiles;

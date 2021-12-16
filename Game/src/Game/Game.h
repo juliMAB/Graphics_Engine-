@@ -20,6 +20,5 @@ public:
 	void Deinit() override;
 	void Update() override;
 	void Draw() override;
-	void UpdatePjCollider();
 };
 #endif

@@ -32,7 +32,7 @@ void Game::Init() {
 	_tilemap = new TileMap(GetRenderer());
 	//_tilemap->setTileDimensions(1, 1);
 	_tilemap->importTileMap("res/mymapa.xml","res/E3.png");
-	//_tilemap->setDimensions(0.1f, 0.1f);
+	
 	//-----------pj------------------
 
 	_pj = new Sprite(GetRenderer(), "res/d.png",false);
@@ -70,15 +70,6 @@ void Game::Deinit() {
 	}
 	std::cout << "\n\nEnd.\n\n";
 }
-void Game::UpdatePjCollider()
-{
-	_pj->pivot =
-	{
-		_pj->getPos().x,
-		_pj->getPos().y,
-		_pj->getPos().z
-	};
-}
 void Game::Update()
 {	
 	/*if (Input::IsKeyDown(Input::KEY_ENTER))
@@ -110,13 +101,12 @@ void Game::Update()
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}
 	_tilemap->checkCollision(*_pj);
-	UpdatePjCollider();
 	_amugus->SetPos(_pj->pivot);
 }
 void Game::Draw() {
-	_tilemap->draw(0);
-	_tilemap->draw(1);
+	_tilemap->draw2(0);
+	_tilemap->draw2(1);
 	_pj->Draw();
-	_tilemap->draw(2);
+	_tilemap->draw2(2);
 	//_amugus->Draw();
 }
