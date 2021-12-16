@@ -399,7 +399,7 @@ void Shape::InitBinds(int vertices)
 }
 void Shape::CrazyFunc()
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	//esta funcion solo se puede aplicar en initBinds y es para testear.
 	int a = tamVerts / tam1Vert;
 	int x = 0;
