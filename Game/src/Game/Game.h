@@ -12,7 +12,8 @@ class Game : BaseGame {
 	TileMap* _tilemap;
 	Input* input;
 	Tile* _tile;
-
+	Camera* _cam;
+	float cameraSpeed = 30.f;
 public:
 	Game();
 	~Game();

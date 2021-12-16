@@ -19,15 +19,17 @@ static enum class TypeShader {
 typedef unsigned int uint;
 static class GraficosEngine_API Renderer {
 private:
+	
+	Window* _window;
 
 	const std::string vertexPathT = "Shaders/TextureVertexShader.shader";
 	const std::string fragmentPathT = "Shaders/TextureFragmentShader.shader";
 	const std::string vertexPathS = "Shaders/SolidVertexShader.shader";
 	const std::string fragmentPathS = "Shaders/SolidFragmentShader.shader";
 
-	Window* _window;
 	uint programShaderT;
 	uint programShaderS;
+	glm::mat4 projectionMatrix, viewMatrix ;
 	void Start();
 	//-------Shaders Staff----------
 	std::string ReadVertexShader(std::string vPath);
@@ -68,6 +70,9 @@ public:
 	void DeleteBuffers(uint _vao, uint _vbo, uint _ebo);
 	void DeleteExtraBuffer(int size, uint buffer);
 	void BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType);
+	Window* getCurrentWindow();
+	void SetProjectionMatrix(glm::mat4 projectionMatrix);
+	void SetViewMatrix(glm::mat4 viewMatrix);
 	uint GetShaderT();
 	uint GetShaderS();
 };

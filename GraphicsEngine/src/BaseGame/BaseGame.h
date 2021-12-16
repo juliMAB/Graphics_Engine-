@@ -7,6 +7,7 @@
 #include "../Time/Time.h"
 #include "../Collision/Collision.h"
 #include "../Tile/TileMap.h"
+#include "../Camera/Camera.h"
 class GraficosEngine_API BaseGame {
 private:
 	Window* _window;

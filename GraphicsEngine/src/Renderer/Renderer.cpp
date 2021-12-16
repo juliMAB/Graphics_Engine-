@@ -3,8 +3,8 @@
 #include "../../Lib/GLM/gtc/type_ptr.hpp"
 #include "../Animation/Animation.h"
 
-static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
-static glm::mat4 view = glm::mat4(1.0f);
+//static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
+//static glm::mat4 view = glm::mat4(1.0f);
 //-----C y D---------------------------
 Renderer::Renderer(Window* window) {
 	_window = window;
@@ -20,9 +20,9 @@ Renderer::~Renderer()
 void Renderer::Start() {
 	std::cout << "Start Renderer" << std::endl;
 	ShadersStart();
-	view = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	projection = glm::mat4(1.0f);
-	projection = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
+	viewMatrix = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	projectionMatrix = glm::mat4(1.0f);
+	projectionMatrix = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -254,10 +254,10 @@ void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsign
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 	unsigned int viewLoc = glGetUniformLocation(shaderId, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
 	unsigned int projectionLoc = glGetUniformLocation(shaderId, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
 	if (vertices == 3)
 		glDrawArrays(GL_TRIANGLES, 0, vertices);
@@ -291,10 +291,10 @@ void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int v
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
 
 	unsigned int viewLoc = glGetUniformLocation(usedShaderID, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 
 	unsigned int projectionLoc = glGetUniformLocation(usedShaderID, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
@@ -302,15 +302,15 @@ void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int v
 void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader) {
 	glUseProgram(shader);
 	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	glUseProgram(0);
 }
 void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color,uint shader) {
 	glUseProgram(shader);
 	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	glm::vec3 newColor=glm::vec3(color.r,color.g,color.b);
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
@@ -319,8 +319,8 @@ void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, ui
 	glUseProgram(shader);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projection));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
 	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
 	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
 	glUniform1fv(uniformAlpha, 1, &color.a);
@@ -343,6 +343,22 @@ void Renderer::BindExtraBuffer(unsigned int buffer, float* data, unsigned int si
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeOfData, data, bufferType);
 }
+
+Window* Renderer::getCurrentWindow()
+{
+	return _window;
+}
+
+void Renderer::SetProjectionMatrix(glm::mat4 projectionMatrix)
+{
+	this->projectionMatrix = projectionMatrix;
+}
+
+void Renderer::SetViewMatrix(glm::mat4 viewMatrix)
+{
+	this->viewMatrix = viewMatrix;
+}
+
 uint Renderer::GetShaderT() { return programShaderT; }
 uint Renderer::GetShaderS() { return programShaderS; }
 void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }
