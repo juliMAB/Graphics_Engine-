@@ -5,13 +5,13 @@
 
 class Game : BaseGame {
 	Shape* _shape;
-	Sprite* _amugus;
+	//Sprite* _amugus;
 	Sprite* _pj;
 	//Sprite* _pixel;
 	//Sprite* _box;
-	TileMap* _tilemap;
+	//TileMap* _tilemap;
 	Input* input;
-	Tile* _tile;
+	//Tile* _tile;
 	Camera* _cam;
 	float cameraSpeed = 30.f;
 public:

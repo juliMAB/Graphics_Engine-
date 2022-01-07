@@ -8,6 +8,7 @@
 #include "../Collision/Collision.h"
 #include "../Tile/TileMap.h"
 #include "../Camera/Camera.h"
+#include "../Juli/Jinterface.h"
 class GraficosEngine_API BaseGame {
 private:
 	Window* _window;
