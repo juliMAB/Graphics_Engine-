@@ -1,0 +1,12 @@
+Unidad 1:
+Proyection
+camaras
+geo-indexadas
+Unidad 2:
+Iluminacion
+Unidad 3:
+Importador (importador de tilemaps por ejemplo)
+Unidad 4:
+Transformadores (arbol y las dependencias y multiplicacion de matrices)
+Unidad 5:
+SceneGraph
