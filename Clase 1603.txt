@@ -1,0 +1,21 @@
+
+projectionMatrix = glm::perspective((Field of view)(el ancho de vision),(aspect ratio)(toma los valores de la pantalla),(near)(desde que punto vez, el 0 lo ropme, por eso ponemos 0.1) 0.1f,(hasta que tan lejos puede ver) 500.0f);
+
+
+Tipos de camara:
+FPS, tercera persona
+
+Punto Fundamental:
+Tener camara que se use de las 2 maneras.
+
+La camara se compone con 3 cosas.
+la posicion(donde esta), el vector up(determina el up de la camara), look at (a donde estoy mirando).
+
+Los movimientos de la camara:
+los movimientos que yo estoy acostumbrado pero en el mundo de la camara, (la camara debe poder rotar en los 3 ejes).
+
+perspective.view.world.local
+(proceso para lo que llegas a ver en pantalla).
+
+la view siendo la camara se te moves en el mundo vas a modificar la forma en la que ves las cosas.(matafuego y lapicera).
+coordination system y camera.
