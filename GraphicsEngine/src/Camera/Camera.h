@@ -13,6 +13,7 @@ public:
 	Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector);
 	void setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
 	void moveCamera(glm::vec3 movePosition);
+	void moveCameraLookingPoint(glm::vec3 movePosition);
 	~Camera();
 private:
 	glm::mat4 viewMatrix;

@@ -8,7 +8,7 @@ class Game : BaseGame {
 	//Sprite* _amugus;
 	Sprite* _pj;
 	//Sprite* _pixel;
-	//Sprite* _box;
+	Sprite* _box;
 	//TileMap* _tilemap;
 	Input* input;
 	//Tile* _tile;

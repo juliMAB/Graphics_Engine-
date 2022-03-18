@@ -24,6 +24,13 @@ void Camera::moveCamera(glm::vec3 movePosition)
 	look += movePosition;
 	setCameraTransform(pos, look, up);
 }
+void Camera::moveCameraLookingPoint(glm::vec3 movePosition)
+{
+	pos += movePosition;
+	//look += movePosition;
+	setCameraTransform(pos, look, up);
+}
+
 Camera::~Camera()
 {
 
