@@ -5,15 +5,33 @@
 #include "../GLM/gtc/matrix_transform.hpp"
 #include "../GLM/gtc/type_ptr.hpp"
 
+enum Camera_Movement {
+	FORWARD,
+	BACKWARD,
+	LEFT,
+	RIGHT
+};
+
+const float YAW			= -90.0f;
+const float PITCH		= 0.0f;
+const float SPEED		= 2.5f;
+const float SENSITIVITY = 0.1f;
+const float ZOOM		= 45.0f;
 class Renderer;
 
 class GraficosEngine_API Camera
 {
 public:
-	Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector);
+	Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector, float yaw, float pitch);
+	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector);
+	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector, float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f,0.0f,-1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM){;
 	void setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
 	void moveCamera(glm::vec3 movePosition);
 	void moveCameraLookingPoint(glm::vec3 movePosition);
+	void updateCameraVectors();
+	void ProcessMouseScroll(float yoffset);
+	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 	~Camera();
 private:
 	glm::mat4 viewMatrix;
@@ -21,6 +39,17 @@ private:
 	glm::vec3 pos;
 	glm::vec3 look;
 	glm::vec3 up;
+
+	glm::vec3 Front;
+	glm::vec3 Right;
+	glm::vec3 WorldUp;
+
+	float Yaw;
+	float Pitch;
+
+	float MovementSpeed;
+	float MouseSensitivity;
+	float Zoom;
 	Renderer* currentRenderer;
 };
 #endif

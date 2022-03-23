@@ -179,6 +179,9 @@
     <ClInclude Include="src\Window\Window.h">
       <Filter>Archivos de encabezado\Visual</Filter>
     </ClInclude>
+    <ClInclude Include="src\Internal\Internal.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\TextureFragmentShader.shader">
@@ -193,5 +196,6 @@
     <None Include="Shaders\SolidVertexShader.shader">
       <Filter>res\Shaders</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

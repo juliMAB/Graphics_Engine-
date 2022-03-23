@@ -69,9 +69,8 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	}
 
 	_renderer = new Renderer(_window);
-
-	Input::SetWindow(_window);
-	Input::StartInputSystem();
+	InitCamera();
+	InitInput();
 	_time = new Time();
 	std::cout << "End Init Engine" << std::endl;
 	return true;
@@ -86,3 +85,15 @@ double BaseGame::getCurrentTime()
 bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
 bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPress(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
+
+void BaseGame::InitInput() {
+	Input::SetWindow(_window);
+	Input::StartInputSystem();
+	Input::SetCam(_mainCamera);
+}
+void BaseGame::InitCamera() {
+	glm::vec3 camStartingPos = { 0, 0, 10 };
+	glm::vec3 camLookPos = { 0, 0, 0 };
+	glm::vec3 camUpVector = { 0, 1, 0 };
+	_mainCamera = new Camera(GetRenderer(), camStartingPos, camLookPos, camUpVector, 0, 0);
+}

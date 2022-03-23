@@ -3,12 +3,16 @@
 #include "../Exports/Exports.h"
 #include "../Window/Window.h"
 #include "../GLM/glm.hpp"
+#include "../Camera/Camera.h"
 
 class GraficosEngine_API Input {
 	static Window* window;
+	static Camera* mainCam;
 public:
 	Input();
+	void Init();
 	~Input();
+	static void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
 	enum KeyState {
 		KEY_RELEASE = 0,
 		KEY_HOLD = 1,
@@ -66,9 +70,15 @@ public:
 	static bool IsKeyDown(KeyCode key);
 	static bool IsKeyPress(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
+	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	//static int GetState(KeyCode keyCode);
 	static void SetWindow(Window* _window);
+	static void SetCam(Camera* _cam);
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static int glfwGetKey(int key);
 	//static int GetActualKey();
+
+	//static int glfwGetKey(GLFWwindow* handle, int key);
+
 };
 #endif

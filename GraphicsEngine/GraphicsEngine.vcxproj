@@ -215,6 +215,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Entity\Entity.h" />
     <ClInclude Include="src\Exports\Exports.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
     <ClInclude Include="src\Juli\Utilitis.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
@@ -230,6 +231,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Window\Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="cpp.hint" />
     <None Include="Shaders\SolidFragmentShader.shader" />
     <None Include="Shaders\SolidVertexShader.shader" />
     <None Include="Shaders\TextureFragmentShader.shader" />

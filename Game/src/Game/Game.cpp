@@ -11,21 +11,27 @@ glm::vec3 scale = { 1, 1, 1 };
 float scaleForce = 0.2f;
 float scale1=0;
 bool auxCheck = false;
-enum DIR
-{
-	DOWN,
-	RIGHT,
-	LEFT,
-	UP,
-};
+
+float lastX=0;
+float lastY=0;
+bool firstMouse = true;
+
+
+//enum DIR
+//{
+//	DOWN,
+//	RIGHT,
+//	LEFT,
+//	UP
+//};
 int Down,Left,Right,Up;
 Game::Game() { StartEngine(960, 540, "In Lovyng"); }
 Game::~Game() {}
 void Game::Init() {
-	glm::vec3 camStartingPos = { 0, 0, 10 };
-	glm::vec3 camLookPos = { 0, 0, 0 };
-	glm::vec3 camUpVector = { 0, 1, 0 };
-	_cam = new Camera(GetRenderer(), camStartingPos, camLookPos, camUpVector);
+	//glm::vec3 camStartingPos = { 0, 0, 10 };
+	//glm::vec3 camLookPos = { 0, 0, 0 };
+	//glm::vec3 camUpVector = { 0, 1, 0 };
+	_cam = _mainCamera;
 	color::RGB colorfondo("CCFFCC");
 	backgroundColor = { colorfondo.r,colorfondo.g,colorfondo.b,1 };
 	//----------Shape---------------
@@ -107,46 +113,51 @@ void Game::Update()
 		_pj->ChangeAnimation(static_cast<int>(DIR::DOWN));
 		_pj->UpdateAnimation2(_time->_deltaTime);
 	}*/
-	if (Input::IsKeyPress(Input::KEY_LEFT))
-	{
-		glm::vec3 movement = { _time->_deltaTime * -cameraSpeed, 0, 0 };
-		_cam->moveCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_RIGHT))
-	{
-		glm::vec3 movement = { _time->_deltaTime * cameraSpeed, 0, 0 };
-		_cam->moveCamera(movement);
-	}
-	if (Input::IsKeyPress(Input::KEY_UP))
-	{
-		glm::vec3 movement = { 0,  _time->_deltaTime * cameraSpeed , 0 };
-		_cam->moveCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_DOWN))
-	{
-		glm::vec3 movement = { 0,  _time->_deltaTime * -cameraSpeed , 0 };
-		_cam->moveCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_U))
-	{
-		glm::vec3 movement = { 0, 0,  _time->_deltaTime * cameraSpeed };
-		_cam->moveCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_I))
-	{
-		glm::vec3 movement = { 0, 0,  _time->_deltaTime * -cameraSpeed };
-		_cam->moveCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_Q))
-	{
-		glm::vec3 movement = { _time->_deltaTime * -cameraSpeed, 0,  0 };
-		//_cam->rotateCamera(movement);
-	}
-	else if (Input::IsKeyPress(Input::KEY_E))
-	{
-		glm::vec3 movement = { _time->_deltaTime * cameraSpeed, 0,  0 };
-		//_cam->rotateCamera(movement);
-	}
+	//if (Input::IsKeyPress(Input::KEY_LEFT))
+	//{
+	//	glm::vec3 movement = { _time->_deltaTime * -cameraSpeed, 0, 0 };
+	//	//_cam->moveCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_RIGHT))
+	//{
+	//	glm::vec3 movement = { _time->_deltaTime * cameraSpeed, 0, 0 };
+	//	//_cam->moveCamera(movement);
+	//}
+	//if (Input::IsKeyPress(Input::KEY_UP))
+	//{
+	//	glm::vec3 movement = { 0,  _time->_deltaTime * cameraSpeed , 0 };
+	//	_cam->ProcessKeyboard(FORWARD, _time->_deltaTime);
+	//	//_cam->updateCameraVectors();
+	//	//_cam->moveCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_DOWN))
+	//{
+	//	glm::vec3 movement = { 0,  _time->_deltaTime * -cameraSpeed , 0 };
+	//	_cam->ProcessKeyboard(BACKWARD, _time->_deltaTime);
+	//	//_cam->moveCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_U))
+	//{
+	//	glm::vec3 movement = { 0, 0,  _time->_deltaTime * cameraSpeed };
+	//	//_cam->moveCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_I))
+	//{
+	//	glm::vec3 movement = { 0, 0,  _time->_deltaTime * -cameraSpeed };
+	//	//_cam->moveCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_Q))
+	//{
+	//	glm::vec3 movement = { _time->_deltaTime * -cameraSpeed, 0,  0 };
+	//	//_cam->rotateCamera(movement);
+	//}
+	//else if (Input::IsKeyPress(Input::KEY_E))
+	//{
+	//	glm::vec3 movement = { _time->_deltaTime * cameraSpeed, 0,  0 };
+	//	//_cam->rotateCamera(movement);
+	//}
+	processInput();
+	
 	
 	//_tilemap->checkCollision(*_pj);
 	//_amugus->SetPos(_pj->pivot);
@@ -159,3 +170,20 @@ void Game::Draw() {
 	//_amugus->Draw();
 	_box->Draw();
 }
+
+void Game::processInput()
+{
+	if (Input::glfwGetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		//glfwSetWindowShouldClose(window, true);
+
+	if (Input::glfwGetKey(Input::KEY_W) == GLFW_PRESS)
+		_cam->ProcessKeyboard(FORWARD, _time->_deltaTime);
+	if (Input::glfwGetKey(GLFW_KEY_S) == GLFW_PRESS)
+		_cam->ProcessKeyboard(BACKWARD, _time->_deltaTime);
+	if (Input::glfwGetKey(GLFW_KEY_A) == GLFW_PRESS)
+		_cam->ProcessKeyboard(LEFT, _time->_deltaTime);
+	if (Input::glfwGetKey(GLFW_KEY_D) == GLFW_PRESS)
+		_cam->ProcessKeyboard(RIGHT, _time->_deltaTime);
+	//std::cout << Input::glfwGetKey(GLFW_KEY_D) << std::endl;
+}
+

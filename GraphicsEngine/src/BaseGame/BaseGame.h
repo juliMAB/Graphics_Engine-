@@ -19,6 +19,7 @@ private:
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
 protected:
 	Time* _time;
+	Camera* _mainCamera;
 	glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
@@ -37,6 +38,8 @@ public:
 	bool IsKeyDown(Input::KeyCode key);
 	bool IsKeyRelease(Input::KeyCode key);
 	bool IsKeyUp(Input::KeyCode key);
+	void InitInput();
+	void InitCamera();
 	double getCurrentTime();
 	// --------------------
 };
