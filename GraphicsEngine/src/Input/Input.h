@@ -70,7 +70,7 @@ public:
 	static bool IsKeyDown(KeyCode key);
 	static bool IsKeyPress(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
-	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	//static int GetState(KeyCode keyCode);
 	static void SetWindow(Window* _window);
 	static void SetCam(Camera* _cam);

@@ -173,9 +173,6 @@ void Game::Draw() {
 
 void Game::processInput()
 {
-	if (Input::glfwGetKey(GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		//glfwSetWindowShouldClose(window, true);
-
 	if (Input::glfwGetKey(Input::KEY_W) == GLFW_PRESS)
 		_cam->ProcessKeyboard(FORWARD, _time->_deltaTime);
 	if (Input::glfwGetKey(GLFW_KEY_S) == GLFW_PRESS)
@@ -184,6 +181,5 @@ void Game::processInput()
 		_cam->ProcessKeyboard(LEFT, _time->_deltaTime);
 	if (Input::glfwGetKey(GLFW_KEY_D) == GLFW_PRESS)
 		_cam->ProcessKeyboard(RIGHT, _time->_deltaTime);
-	//std::cout << Input::glfwGetKey(GLFW_KEY_D) << std::endl;
 }
 

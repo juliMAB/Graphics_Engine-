@@ -40,11 +40,13 @@ void Input::Init()
 {
 	lastX = Input::window->GetWidth() / 2.0f;
 	lastY = Input::window->GetHeight() / 2.0f;
+	glfwSetInputMode(window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 Input::~Input() {}
 static int _lastKey,_lastAction;
 void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 {
+	//std::cout << "callback_mouse: X:" << xposIn << " Y: " << yposIn << std::endl;
 	float xpos = static_cast<float>(xposIn);
 	float ypos = static_cast<float>(yposIn);
 
@@ -97,10 +99,6 @@ void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 int Input::glfwGetKey(int key)
 {
-	if (87 == key)
-	{
-		std::cout << " w " << key << std::endl;
-	}
 	GLFWwindow* window = Input::window->GetWindow();
 	assert(window != NULL);
 
@@ -134,7 +132,7 @@ int Input::glfwGetKey(int key)
 void Input::StartInputSystem() {
 	glfwSetKeyCallback(window->GetWindow(), key_callback);
 	glfwSetCursorPosCallback(window->GetWindow(), mouse_callback);
-	//glfwSetScrollCallback(window->GetWindow(), scroll_callback);
+	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 }
 bool Input::IsKeyDown(KeyCode keyCode) {
 	if (_lastAction == GLFW_PRESS && _lastKey == keyCode)
@@ -169,6 +167,7 @@ bool Input::IsKeyUp(KeyCode keyCode) {
 }
 void Input::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
+	std::cout << "callback_Scroll: X:" << xoffset << " Y: " << yoffset << std::endl;
 	mainCam->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 

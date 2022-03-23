@@ -1,0 +1,10 @@
+Geometria Indexada
+
+achicar el trabajo para que sea mas simple para la computadora.
+
+hacer fluido la comunicacion con la placa de video.
+
+-Vertices: 
+pos,color,uv
+los vertices van a ocupar espacio, cada vez mas, por eso es importante usar los indices.
+

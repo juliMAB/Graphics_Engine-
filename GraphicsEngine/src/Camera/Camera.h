@@ -26,6 +26,7 @@ public:
 	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector);
 	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector, float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f,0.0f,-1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM){;
 	void setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
+	void updateZoom();
 	void moveCamera(glm::vec3 movePosition);
 	void moveCameraLookingPoint(glm::vec3 movePosition);
 	void updateCameraVectors();

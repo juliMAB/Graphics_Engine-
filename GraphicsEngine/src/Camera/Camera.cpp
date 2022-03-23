@@ -4,9 +4,9 @@
 Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector,float yaw,float pitch)
 {
 	this->currentRenderer = currentRenderer;
-
+	Zoom = ZOOM;
 	//TODO agregar propiedades/posibilidad de camara ortogonal
-	projectionMatrix = glm::perspective(glm::radians(90.0f), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
+	projectionMatrix = glm::perspective(glm::radians(Zoom), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
 	this->currentRenderer->SetProjectionMatrix(projectionMatrix);
 	setCameraTransform(position, lookPosition, upVector);
 	pos = position;
@@ -27,6 +27,11 @@ void Camera::setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPositi
 	up = upVector;
 	viewMatrix = glm::lookAt(startingPosition, lookPosition, upVector);
 	currentRenderer->SetViewMatrix(viewMatrix);
+}
+void Camera::updateZoom()
+{
+	projectionMatrix = glm::perspective(glm::radians(Zoom), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
+	this->currentRenderer->SetProjectionMatrix(projectionMatrix);
 }
 void Camera::moveCamera(glm::vec3 movePosition)
 {
@@ -52,6 +57,7 @@ void Camera::updateCameraVectors()
 	// also re-calculate the Right and Up vector
 	Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 	up = glm::normalize(glm::cross(Right, Front));
+	setCameraTransform(pos, look, up);
 }
 
 void Camera::ProcessMouseScroll(float yoffset)
@@ -61,6 +67,8 @@ void Camera::ProcessMouseScroll(float yoffset)
 		Zoom = 1.0f;
 	if (Zoom > 45.0f)
 		Zoom = 45.0f;
+	updateZoom();
+	setCameraTransform(pos, look, up);
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
