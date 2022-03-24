@@ -181,5 +181,7 @@ void Game::processInput()
 		_cam->ProcessKeyboard(LEFT, _time->_deltaTime);
 	if (Input::glfwGetKey(GLFW_KEY_D) == GLFW_PRESS)
 		_cam->ProcessKeyboard(RIGHT, _time->_deltaTime);
+	if (Input::glfwGetKey(GLFW_KEY_SPACE) == GLFW_PRESS)
+		_cam->debugCamera();
 }
 

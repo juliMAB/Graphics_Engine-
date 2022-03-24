@@ -62,7 +62,6 @@ void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 
 	lastX = xpos;
 	lastY = ypos;
-
 	mainCam->ProcessMouseMovement(xoffset, yoffset);
 }
 

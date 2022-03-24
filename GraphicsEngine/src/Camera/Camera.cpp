@@ -14,9 +14,16 @@ Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosi
 	Yaw = yaw;
 	Pitch = pitch;
 	MovementSpeed = SPEED;
-	Front = (glm::vec3(0.0f, 0.0f, -1.0f));
+	look = (glm::vec3(0.0f, 0.0f, -1.0f));
 	Right = (glm::vec3(1.0f, 0.0f, 0.0f));
 	WorldUp = (glm::vec3(0.0f, 1.0f, 0.0f));
+	localPos = pos;
+	targetPos = glm::vec3(0, 0, 0);
+
+	cameraType = CAMERA_TYPE::FPS;
+	target = glm::vec3(0.f);
+	distance = 0.f;
+
 	MouseSensitivity = SENSITIVITY;
 	//updateCameraVectors();
 }
@@ -25,8 +32,7 @@ void Camera::setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPositi
 	pos = startingPosition;
 	look = lookPosition;
 	up = upVector;
-	viewMatrix = glm::lookAt(startingPosition, lookPosition, upVector);
-	currentRenderer->SetViewMatrix(viewMatrix);
+	currentRenderer->SetViewMatrix(glm::lookAt(startingPosition, lookPosition, upVector));
 }
 void Camera::updateZoom()
 {
@@ -53,13 +59,52 @@ void Camera::updateCameraVectors()
 	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	front.y = sin(glm::radians(Pitch));
 	front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-	Front = glm::normalize(front);
+	//look = glm::normalize(front);
 	// also re-calculate the Right and Up vector
-	Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-	up = glm::normalize(glm::cross(Right, Front));
-	setCameraTransform(pos, look, up);
+	//Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+	//up = glm::normalize(glm::cross(Right, Front));
+
+	switch (cameraType)
+	{
+	case CAMERA_TYPE::FPS:
+		break;
+	case CAMERA_TYPE::TPS:
+		//pos = target - look * distance;
+		front.y = -front.y;
+		localPos = glm::normalize(front) * 10.0f;
+		pos = targetPos + localPos;
+		look = targetPos;
+		break;
+	case CAMERA_TYPE::TOP_DOWN:
+		break;
+	default: 
+		break;
+	}
+
+
+	UpdateView();
+
+
+	
 }
 
+void Camera::UpdateView()
+{
+	switch (cameraType)
+	{
+	case CAMERA_TYPE::FPS:
+		setCameraTransform(pos, pos+look, up);
+		break;
+	case CAMERA_TYPE::TPS:
+		setCameraTransform(pos, target, up);
+		break;
+	case CAMERA_TYPE::TOP_DOWN:
+		break;
+	default:
+		break;
+	}
+	
+}
 void Camera::ProcessMouseScroll(float yoffset)
 {
 	Zoom -= (float)yoffset;
@@ -75,19 +120,19 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
 {
 	xoffset *= MouseSensitivity;
 	yoffset *= MouseSensitivity;
+	
 
 	Yaw += xoffset;
 	Pitch += yoffset;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
-	if (constrainPitch)
-	{
+
 		if (Pitch > 89.0f)
 			Pitch = 89.0f;
 		if (Pitch < -89.0f)
 			Pitch = -89.0f;
-	}
-
+	
+	std::cout << "x: " << xoffset << " y: " <<yoffset<<std::endl;
 	// update Front, Right and Up Vectors using the updated Euler angles
 	updateCameraVectors();
 }
@@ -96,14 +141,24 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
 	if (direction == Camera_Movement::FORWARD)
-		pos += Front * velocity;
+		pos += look * velocity;
 	if (direction == Camera_Movement::BACKWARD)
-		pos -= Front * velocity;
+		pos -= look * velocity;
 	if (direction == Camera_Movement::LEFT)
 		pos -= Right * velocity;
 	if (direction == Camera_Movement::RIGHT)
 		pos += Right * velocity;
 	setCameraTransform(pos, look, up);
+}
+void Camera::debugCamera()
+{
+	std::cout << "pos: " << pos.x << ","
+		<< pos.y << "," << pos.z
+		<< " look: " << look.x << ","
+		<< look.y << "," << look.z <<
+		"up:" << up.x <<","<<
+		up.y << "," <<up.z << std::endl;
+	//look = glm::vec3(0,0,0);
 }
 
 Camera::~Camera()

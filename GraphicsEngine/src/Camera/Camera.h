@@ -19,6 +19,13 @@ const float SENSITIVITY = 0.1f;
 const float ZOOM		= 45.0f;
 class Renderer;
 
+enum class CAMERA_TYPE
+{
+	FPS,
+	TPS,
+	TOP_DOWN
+};
+
 class GraficosEngine_API Camera
 {
 public:
@@ -30,20 +37,28 @@ public:
 	void moveCamera(glm::vec3 movePosition);
 	void moveCameraLookingPoint(glm::vec3 movePosition);
 	void updateCameraVectors();
+	void UpdateView();
 	void ProcessMouseScroll(float yoffset);
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
+	void debugCamera();
 	~Camera();
 private:
-	glm::mat4 viewMatrix;
+	//glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
 	glm::vec3 pos;
 	glm::vec3 look;
 	glm::vec3 up;
+	glm::vec3 localPos;
+	glm::vec3 targetPos;
 
-	glm::vec3 Front;
+	//glm::vec3 look;
 	glm::vec3 Right;
 	glm::vec3 WorldUp;
+
+	CAMERA_TYPE cameraType;
+	glm::vec3 target;
+	float distance;
 
 	float Yaw;
 	float Pitch;
