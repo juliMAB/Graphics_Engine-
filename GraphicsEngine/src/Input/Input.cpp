@@ -103,14 +103,13 @@ int Input::glfwGetKey(int key)
 
 	if (!window)
 	{
-		return GLFW_RELEASE;
+		return KEY_UNKNOWN;
 	}
 
 	if (key < GLFW_KEY_SPACE || key > GLFW_KEY_LAST)
 	{
-		//_glfwInputError(GLFW_INVALID_ENUM, "Invalid key %i", key);
 		std::cout << GLFW_INVALID_ENUM << " Invalid key %i : " << key << std::endl;
-		return GLFW_RELEASE;
+		return KEY_UNKNOWN;
 	}
 
 	if (keys[key] == _GLFW_STICK)
@@ -134,32 +133,22 @@ void Input::StartInputSystem() {
 	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 }
 bool Input::IsKeyDown(KeyCode keyCode) {
-	if (_lastAction == GLFW_PRESS && _lastKey == keyCode)
-	{
-		//_lastKey = 0;
+	int mode = glfwGetKey(keyCode);
+	if (mode == GLFW_PRESS || mode == GLFW_REPEAT)
 		return true;
-	}
 	return false;
 }
 bool Input::IsKeyPress(KeyCode keyCode) {
-	if ((_lastAction == GLFW_PRESS && _lastKey == keyCode))
-	{
+	int mode = glfwGetKey(keyCode);
+	if (mode == GLFW_PRESS)
 		return true;
-	}
-	if (_lastAction == GLFW_REPEAT && _lastKey == keyCode)
-	{
-		return true;
-	}
 	return false;
 }
 bool Input::IsKeyUp(KeyCode keyCode) {
-	if (_lastAction == GLFW_RELEASE && _lastKey == keyCode)
-	{
-		_lastKey = 0;
+	int mode = glfwGetKey(keyCode);
+	if (mode == GLFW_RELEASE)
 		return true;
-	}
-	else
-		return false;
+	return false;
 	
 	
 	

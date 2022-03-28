@@ -44,8 +44,7 @@ public:
 	void debugCamera();
 	~Camera();
 private:
-	//glm::mat4 viewMatrix;
-	glm::mat4 projectionMatrix;
+	//glm::mat4 projectionMatrix;
 	glm::vec3 pos;
 	glm::vec3 look;
 	glm::vec3 up;
