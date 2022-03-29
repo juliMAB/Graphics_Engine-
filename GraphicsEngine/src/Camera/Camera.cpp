@@ -14,14 +14,12 @@ Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosi
 	Yaw = yaw;
 	Pitch = pitch;
 	MovementSpeed = SPEED;
-	look = (glm::vec3(0.0f, 0.0f, -1.0f));
-	Right = (glm::vec3(1.0f, 0.0f, 0.0f));
+	right = (glm::vec3(1.0f, 0.0f, 0.0f));
 	WorldUp = (glm::vec3(0.0f, 1.0f, 0.0f));
-	localPos = pos;
-	targetPos = glm::vec3(0, 0, 0);
-
+	targetLook = glm::vec3(10, 0, 0);
+	localPos = glm::vec3(0, 0, -20);
+	front = glm::vec3(0.f, 0.f, -1.f);
 	cameraType = CAMERA_TYPE::FPS;
-	target = glm::vec3(0.f);
 	distance = 0.f;
 
 	MouseSensitivity = SENSITIVITY;
@@ -30,9 +28,9 @@ Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosi
 void Camera::setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 {
 	pos = startingPosition;
-	look = lookPosition;
+	targetLook = lookPosition;
 	up = upVector;
-	currentRenderer->SetViewMatrix(glm::lookAt(startingPosition, lookPosition, upVector));
+	currentRenderer->SetViewMatrix(glm::lookAt(pos, lookPosition, upVector));
 }
 void Camera::updateZoom()
 {
@@ -42,50 +40,29 @@ void Camera::updateZoom()
 void Camera::moveCamera(glm::vec3 movePosition)
 {
 	pos += movePosition;
-	look += movePosition;
-	setCameraTransform(pos, look, up);
+	targetLook += movePosition;
+	setCameraTransform(pos, targetLook, up);
 }
 void Camera::moveCameraLookingPoint(glm::vec3 movePosition)
 {
 	pos += movePosition;
 	//look += movePosition;
-	setCameraTransform(pos, look, up);
+	setCameraTransform(pos, targetLook, up);
 }
 
 void Camera::updateCameraVectors()
 {
 	// calculate the new Front vector
-	glm::vec3 front;
-	front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-	front.y = sin(glm::radians(Pitch));
-	front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-	look = glm::normalize(front);
-	// also re-calculate the Right and Up vector
-	//Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-	//up = glm::normalize(glm::cross(Right, Front));
-
-	switch (cameraType)
+	glm::vec3 direction;
+	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+	direction.y = sin(glm::radians(Pitch));
+	direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+	front = glm::normalize(direction);
+	if (cameraType == CAMERA_TYPE::TPS)
 	{
-	case CAMERA_TYPE::FPS:
-		break;
-	case CAMERA_TYPE::TPS:
-		//pos = target - look * distance;
-		front.y = -front.y;
-		localPos = glm::normalize(front) * 10.0f;
-		pos = targetPos + localPos;
-		//look = targetPos;
-		break;
-	case CAMERA_TYPE::TOP_DOWN:
-		break;
-	default: 
-		break;
+		pos = targetLook -front * Zoom;
 	}
-
-
 	UpdateView();
-
-
-	
 }
 
 void Camera::UpdateView()
@@ -93,10 +70,10 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		setCameraTransform(pos, pos + target, up);
+		setCameraTransform(pos, pos + targetLook, up);
 		break;
 	case CAMERA_TYPE::TPS:
-		setCameraTransform(pos, target, up);
+		setCameraTransform(pos, targetLook, up);
 		break;
 	case CAMERA_TYPE::TOP_DOWN:
 		break;
@@ -113,7 +90,7 @@ void Camera::ProcessMouseScroll(float yoffset)
 	if (Zoom > 45.0f)
 		Zoom = 45.0f;
 	updateZoom();
-	setCameraTransform(pos, look, up);
+	setCameraTransform(pos, targetLook, up);
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -141,27 +118,36 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
 	if (direction == Camera_Movement::FORWARD)
-		pos += look * velocity;
+		pos += targetLook * velocity;
 	if (direction == Camera_Movement::BACKWARD)
-		pos -= look * velocity;
+		pos -= targetLook * velocity;
 	if (direction == Camera_Movement::LEFT)
-		pos -= Right * velocity;
+		pos -= right * velocity;
 	if (direction == Camera_Movement::RIGHT)
-		pos += Right * velocity;
-	setCameraTransform(pos, look, up);
+		pos += right * velocity;
+	setCameraTransform(pos, targetLook, up);
 }
 void Camera::debugCamera()
 {
 	std::cout << "pos: " << pos.x << ","
 		<< pos.y << "," << pos.z
-		<< " look: " << look.x << ","
-		<< look.y << "," << look.z <<
+		<< " look: " << targetLook.x << ","
+		<< targetLook.y << "," << targetLook.z <<
 		"up:" << up.x <<","<<
 		up.y << "," <<up.z << std::endl;
-	//look = glm::vec3(0,0,0);
 }
 
 Camera::~Camera()
 {
 
+}
+
+void Camera::SetCameraType(CAMERA_TYPE type)
+{
+	cameraType = type;
+}
+
+CAMERA_TYPE Camera::GetCameraType()
+{
+	return cameraType;
 }

@@ -43,20 +43,23 @@ public:
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 	void debugCamera();
 	~Camera();
+	void SetCameraType(CAMERA_TYPE type);
+	CAMERA_TYPE GetCameraType();
+
 private:
 	//glm::mat4 projectionMatrix;
-	glm::vec3 pos;
-	glm::vec3 look;
-	glm::vec3 up;
 	glm::vec3 localPos;
-	glm::vec3 targetPos;
+	glm::vec3 pos;
+	glm::vec3 up;
+	glm::vec3 right;
+	glm::vec3 front;
+	
+	glm::vec3 targetLook;
 
-	//glm::vec3 look;
-	glm::vec3 Right;
 	glm::vec3 WorldUp;
 
 	CAMERA_TYPE cameraType;
-	glm::vec3 target;
+
 	float distance;
 
 	float Yaw;

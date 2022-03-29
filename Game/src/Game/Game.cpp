@@ -34,6 +34,13 @@ void Game::Init() {
 
 	_box = new Sprite(GetRenderer(),"res/box.png",true);
 	_box->SetScale(10.0f);
+	_box1 = new Sprite(GetRenderer(), "res/box.png", true);
+	_box1->SetScale(20.0f);
+	_box1->SetRotY(90);
+
+
+	Input::lock_cursor(true);
+	_cam->SetCameraType(CAMERA_TYPE::TPS);
 }
 
 void Game::Deinit() {
@@ -45,6 +52,7 @@ void Game::Update()
 }
 void Game::Draw() {
 	_box->Draw();
+	_box1->Draw();
 }
 
 void Game::processInput()
@@ -57,7 +65,10 @@ void Game::processInput()
 		_cam->ProcessKeyboard(LEFT, _time->_deltaTime);
 	if (Input::IsKeyDown(Input::KEY_D))
 		_cam->ProcessKeyboard(RIGHT, _time->_deltaTime);
-	if (Input::IsKeyDown(Input::KEY_0))
+	if (Input::IsKeyPress(Input::KEY_0))
 		_cam->debugCamera();
+	if (Input::IsKeyPress(Input::KEY_C))
+		auxCheck = !auxCheck;
+		Input::lock_cursor(auxCheck);
 }
 

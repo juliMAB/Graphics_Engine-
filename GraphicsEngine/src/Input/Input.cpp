@@ -96,6 +96,13 @@ void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, 
 	if (callbacks.key)
 		callbacks.key((GLFWwindow*)window, key, scancode, action, mods);
 }
+void Input::lock_cursor(bool value)
+{
+	if (value)
+		glfwSetInputMode(Input::window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	else
+		glfwSetInputMode(Input::window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
 int Input::glfwGetKey(int key)
 {
 	GLFWwindow* window = Input::window->GetWindow();

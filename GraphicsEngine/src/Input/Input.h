@@ -156,10 +156,12 @@ public:
 	static bool IsKeyUp(KeyCode keyCode);
 
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-	//static int GetState(KeyCode keyCode);
 	static void SetWindow(Window* _window);
 	static void SetCam(Camera* _cam);
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+    static void lock_cursor(bool value);
+
+
 private:
 	static int glfwGetKey(int key);
 };
