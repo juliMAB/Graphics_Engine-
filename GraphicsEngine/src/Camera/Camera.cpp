@@ -3,12 +3,12 @@
 
 Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector,float yaw,float pitch)
 {
-	this->currentRenderer = currentRenderer;
-	Zoom = ZOOM;
+	this->_render = currentRenderer;
+	_fov = ZOOM;
 	//TODO agregar propiedades/posibilidad de camara ortogonal
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(Zoom), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
-	this->currentRenderer->SetProjectionMatrix(projectionMatrix);
-	setCameraTransform(position, lookPosition, upVector);
+	glm::mat4 projectionMatrix = glm::perspective(glm::radians(_fov), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
+	this->_render->SetProjectionMatrix(projectionMatrix);
+	SetViewMatrix(position, lookPosition, upVector);
 	pos = position;
 	WorldUp = up;
 	Yaw = yaw;
@@ -20,34 +20,127 @@ Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosi
 	localPos = glm::vec3(0, 0, -20);
 	front = glm::vec3(0.f, 0.f, -1.f);
 	cameraType = CAMERA_TYPE::FPS;
-	distance = 0.f;
 
 	MouseSensitivity = SENSITIVITY;
 	//updateCameraVectors();
 }
-void Camera::setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
+
+void Camera::Init(Renderer* render,float near, float far)
 {
-	pos = startingPosition;
-	targetLook = lookPosition;
-	up = upVector;
-	currentRenderer->SetViewMatrix(glm::lookAt(pos, lookPosition, upVector));
+	_render = render;
+	//--------
+	pos = glm::vec3(0.0f);
+	localPos = glm::vec3(0.0f);
+	//--------
+	up = glm::vec3(0, 1, 0);
+	right = glm::vec3(0.0f);
+	front = glm::vec3(0, 0, -1);
+	//--------
+	targetLook = glm::vec3(0.0f);
+	WorldUp = glm::vec3(0.0f);
+	//--------
+	cameraType = CAMERA_TYPE::FPS;
+	//--------
+	Yaw = YAW;
+	Pitch = PITCH;
+	MovementSpeed = SPEED;
+	MouseSensitivity = SENSITIVITY;
+	_fov = ZOOM;
+	_near = near;
+	_far = far;
+	SetAspect();
+	//--------
+	UpdateProjection();
+	UpdateView();
 }
-void Camera::updateZoom()
+void Camera::Init(Renderer* render)
 {
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(Zoom), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
-	this->currentRenderer->SetProjectionMatrix(projectionMatrix);
+	_render = render;
+	//--------
+	pos = glm::vec3(0.0f);
+	localPos = glm::vec3(0.0f);
+	//--------
+	up    = glm::vec3(0,1,0);
+	right = glm::vec3(0.0f);
+	front = glm::vec3(0,0,-1);
+	//--------
+	targetLook = glm::vec3(0.0f);
+	WorldUp = glm::vec3(0.0f);
+	//--------
+	cameraType = CAMERA_TYPE::FPS;
+	//--------
+	Yaw = YAW;
+	Pitch = PITCH;
+	MovementSpeed = SPEED;
+	MouseSensitivity = SENSITIVITY;
+	_fov = ZOOM;
+	_near = 0.1f;
+	_far = 100.f;
+	SetAspect();
+	//--------
+	UpdateProjection();
+	UpdateView();
+}
+void Camera::SetNear(float near)
+{
+	_near = near;
+}
+void Camera::SetAspect()
+{
+	Window* window = _render->getCurrentWindow();
+	float width = window->GetWidth();
+	float height = window->GetHeight();
+	SetAspect(width, height);
+}
+void Camera::SetAspect(float width, float height)
+{
+	_aspect = width / height;
+}
+Camera::Camera()
+{
+	_render = NULL;
+
+	localPos = glm::vec3(0.0f);
+	pos      = glm::vec3(0.0f);
+	up       = glm::vec3(0.0f);
+	right    = glm::vec3(0.0f);
+	front    = glm::vec3(0.0f);
+	//--------
+	targetLook = glm::vec3(0.0f);
+	WorldUp    = glm::vec3(0.0f);
+	//--------
+	cameraType = CAMERA_TYPE::FPS;
+	//--------
+	Yaw		         = 0;
+	Pitch	         = 0;
+	MovementSpeed    = 0;
+	MouseSensitivity = 0;
+	_fov              = 0;
+	_aspect			 = 0;
+	_near             = 0;
+	_far              = 0;
+	//--------
+}
+void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
+{
+	_render->SetViewMatrix(glm::lookAt(startingPosition, lookPosition, upVector));
+}
+void Camera::UpdateProjection()
+{
+	glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
+	_render->SetProjectionMatrix(projection);
 }
 void Camera::moveCamera(glm::vec3 movePosition)
 {
 	pos += movePosition;
 	targetLook += movePosition;
-	setCameraTransform(pos, targetLook, up);
+	SetViewMatrix(pos, targetLook, up);
 }
 void Camera::moveCameraLookingPoint(glm::vec3 movePosition)
 {
 	pos += movePosition;
 	//look += movePosition;
-	setCameraTransform(pos, targetLook, up);
+	SetViewMatrix(pos, targetLook, up);
 }
 
 void Camera::updateCameraVectors()
@@ -60,7 +153,7 @@ void Camera::updateCameraVectors()
 	front = glm::normalize(direction);
 	if (cameraType == CAMERA_TYPE::TPS)
 	{
-		pos = targetLook -front * Zoom;
+		pos = targetLook -front * _fov;
 	}
 	UpdateView();
 }
@@ -70,11 +163,11 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		setCameraTransform(pos, pos + targetLook, up);
-		break;
+		SetViewMatrix(pos, pos + targetLook, up);
+		return;
 	case CAMERA_TYPE::TPS:
-		setCameraTransform(pos, targetLook, up);
-		break;
+		SetViewMatrix(pos, targetLook, up);
+		return;
 	case CAMERA_TYPE::TOP_DOWN:
 		break;
 	default:
@@ -84,13 +177,13 @@ void Camera::UpdateView()
 }
 void Camera::ProcessMouseScroll(float yoffset)
 {
-	Zoom -= (float)yoffset;
-	if (Zoom < 1.0f)
-		Zoom = 1.0f;
-	if (Zoom > 45.0f)
-		Zoom = 45.0f;
-	updateZoom();
-	setCameraTransform(pos, targetLook, up);
+	_fov -= (float)yoffset;
+	if (_fov < 1.0f)
+		_fov = 1.0f;
+	if (_fov > 45.0f)
+		_fov = 45.0f;
+	UpdateProjection();
+	SetViewMatrix(pos, targetLook, up);
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -125,7 +218,7 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 		pos -= right * velocity;
 	if (direction == Camera_Movement::RIGHT)
 		pos += right * velocity;
-	setCameraTransform(pos, targetLook, up);
+	SetViewMatrix(pos, targetLook, up);
 }
 void Camera::debugCamera()
 {

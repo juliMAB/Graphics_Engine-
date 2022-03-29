@@ -29,11 +29,19 @@ enum class CAMERA_TYPE
 class GraficosEngine_API Camera
 {
 public:
+	//--------Builder Destroy Init----------
 	Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector, float yaw, float pitch);
-	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector);
-	//Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector, float yaw = YAW, float pitch = PITCH) : Front(glm::vec3(0.0f,0.0f,-1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM){;
-	void setCameraTransform(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
-	void updateZoom();
+	Camera();
+	~Camera();
+	void Init(Renderer* render, float near, float far);
+	void Init(Renderer* render);
+	//--------Seters----------
+	void SetNear(float);
+	void SetAspect();
+	void SetAspect(float width, float height);
+	void SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
+	//------------------------
+	void UpdateProjection();
 	void moveCamera(glm::vec3 movePosition);
 	void moveCameraLookingPoint(glm::vec3 movePosition);
 	void updateCameraVectors();
@@ -42,12 +50,12 @@ public:
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
 	void debugCamera();
-	~Camera();
 	void SetCameraType(CAMERA_TYPE type);
 	CAMERA_TYPE GetCameraType();
 
 private:
-	//glm::mat4 projectionMatrix;
+	Renderer* _render;
+
 	glm::vec3 localPos;
 	glm::vec3 pos;
 	glm::vec3 up;
@@ -55,19 +63,18 @@ private:
 	glm::vec3 front;
 	
 	glm::vec3 targetLook;
-
 	glm::vec3 WorldUp;
 
 	CAMERA_TYPE cameraType;
-
-	float distance;
 
 	float Yaw;
 	float Pitch;
 
 	float MovementSpeed;
 	float MouseSensitivity;
-	float Zoom;
-	Renderer* currentRenderer;
+	float _fov;
+	float _aspect;
+	float _near;
+	float _far;
 };
 #endif

@@ -92,8 +92,6 @@ void BaseGame::InitInput() {
 	Input::SetCam(_mainCamera);
 }
 void BaseGame::InitCamera() {
-	glm::vec3 camStartingPos = { 0, 0, 20 };
-	glm::vec3 camLookPos = { 0, 0, 0 };
-	glm::vec3 camUpVector = { 0, 1, 0 };
-	_mainCamera = new Camera(GetRenderer(), camStartingPos, camLookPos, camUpVector, 0, 0);
+	_mainCamera = new Camera();
+	_mainCamera->Init(GetRenderer());
 }
