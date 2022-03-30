@@ -24,7 +24,8 @@ void Renderer::Start() {
 	projectionMatrix = glm::mat4(1.0f);
 	projectionMatrix = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
 
-	glEnable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	std::cout << "End Start Renderer" << std::endl << std::endl;
 }
