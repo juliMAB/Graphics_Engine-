@@ -1,36 +1,20 @@
 #include "Camera.h"
 #include "../Renderer/Renderer.h"
 
-Camera::Camera(Renderer* currentRenderer, glm::vec3 position, glm::vec3 lookPosition, glm::vec3 upVector,float yaw,float pitch)
-{
-	this->_render = currentRenderer;
-	_fov = ZOOM;
-	//TODO agregar propiedades/posibilidad de camara ortogonal
-	glm::mat4 projectionMatrix = glm::perspective(glm::radians(_fov), (float)currentRenderer->getCurrentWindow()->GetWidth() / (float)currentRenderer->getCurrentWindow()->GetHeight(), 0.1f, 500.0f);
-	this->_render->SetProjectionMatrix(projectionMatrix);
-	SetViewMatrix(position, lookPosition, upVector);
-	pos = position;
-	WorldUp = up;
-	Yaw = yaw;
-	Pitch = pitch;
-	MovementSpeed = SPEED;
-	right = (glm::vec3(1.0f, 0.0f, 0.0f));
-	WorldUp = (glm::vec3(0.0f, 1.0f, 0.0f));
-	targetLook = glm::vec3(10, 0, 0);
-	localPos = glm::vec3(0, 0, -20);
-	front = glm::vec3(0.f, 0.f, -1.f);
-	cameraType = CAMERA_TYPE::FPS;
-
-	MouseSensitivity = SENSITIVITY;
-	//updateCameraVectors();
-}
-
 void Camera::Init(Renderer* render,float near, float far)
 {
 	_render = render;
+	BaseInit();
+	_near = near;
+	_far = far;
+	SetAspect();
+	//--------
+	UpdateProjection();
+	UpdateView();
+}
+void Camera::BaseInit(){
 	//--------
 	pos = glm::vec3(0.0f);
-	localPos = glm::vec3(0.0f);
 	//--------
 	up = glm::vec3(0, 1, 0);
 	right = glm::vec3(0.0f);
@@ -44,38 +28,16 @@ void Camera::Init(Renderer* render,float near, float far)
 	Yaw = YAW;
 	Pitch = PITCH;
 	MovementSpeed = SPEED;
-	MouseSensitivity = SENSITIVITY;
+	_sensitivity = SENSITIVITY;
 	_fov = ZOOM;
-	_near = near;
-	_far = far;
-	SetAspect();
-	//--------
-	UpdateProjection();
-	UpdateView();
+	_near = 0.1f;
+	_far = 100.f;
+	_offset = OFFSET;
 }
 void Camera::Init(Renderer* render)
 {
 	_render = render;
-	//--------
-	pos = glm::vec3(0.0f);
-	localPos = glm::vec3(0.0f);
-	//--------
-	up    = glm::vec3(0,1,0);
-	right = glm::vec3(0.0f);
-	front = glm::vec3(0,0,-1);
-	//--------
-	targetLook = glm::vec3(0.0f);
-	WorldUp = glm::vec3(0.0f);
-	//--------
-	cameraType = CAMERA_TYPE::FPS;
-	//--------
-	Yaw = YAW;
-	Pitch = PITCH;
-	MovementSpeed = SPEED;
-	MouseSensitivity = SENSITIVITY;
-	_fov = ZOOM;
-	_near = 0.1f;
-	_far = 100.f;
+	BaseInit();
 	SetAspect();
 	//--------
 	UpdateProjection();
@@ -100,7 +62,6 @@ Camera::Camera()
 {
 	_render = NULL;
 
-	localPos = glm::vec3(0.0f);
 	pos      = glm::vec3(0.0f);
 	up       = glm::vec3(0.0f);
 	right    = glm::vec3(0.0f);
@@ -114,7 +75,7 @@ Camera::Camera()
 	Yaw		         = 0;
 	Pitch	         = 0;
 	MovementSpeed    = 0;
-	MouseSensitivity = 0;
+	_sensitivity = 0;
 	_fov              = 0;
 	_aspect			 = 0;
 	_near             = 0;
@@ -125,6 +86,22 @@ void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, g
 {
 	_render->SetViewMatrix(glm::lookAt(startingPosition, lookPosition, upVector));
 }
+void Camera::SetTarget(Entity* target)
+{
+	_target = target;
+}
+void Camera::SetSensitivity(float sensitivity)
+{
+	_sensitivity = sensitivity;
+}
+void Camera::SetOffset(float offset) {
+	_offset = offset;
+}
+void Camera::Update()
+{
+	pos = _target->getPos();
+	UpdateCameraVectors();
+}
 void Camera::UpdateProjection()
 {
 	glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
@@ -132,18 +109,18 @@ void Camera::UpdateProjection()
 }
 void Camera::moveCamera(glm::vec3 movePosition)
 {
-	pos += movePosition;
-	targetLook += movePosition;
-	SetViewMatrix(pos, targetLook, up);
+	//pos += movePosition;
+	//targetLook += movePosition;
+	//SetViewMatrix(pos, targetLook, up);
 }
 void Camera::moveCameraLookingPoint(glm::vec3 movePosition)
 {
-	pos += movePosition;
-	//look += movePosition;
-	SetViewMatrix(pos, targetLook, up);
+	//pos += movePosition;
+	////look += movePosition;
+	//SetViewMatrix(pos, targetLook, up);
 }
 
-void Camera::updateCameraVectors()
+void Camera::UpdateCameraVectors()
 {
 	// calculate the new Front vector
 	glm::vec3 direction;
@@ -153,7 +130,10 @@ void Camera::updateCameraVectors()
 	front = glm::normalize(direction);
 	if (cameraType == CAMERA_TYPE::TPS)
 	{
-		pos = targetLook -front * _fov;
+		if (_target!=NULL)
+			pos = _target->getPos() -front * _offset;
+		else
+			pos = glm::vec3(0) - front * _offset;
 	}
 	UpdateView();
 }
@@ -163,10 +143,13 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		SetViewMatrix(pos, pos + targetLook, up);
+		SetViewMatrix(pos, pos + front, up);
 		return;
 	case CAMERA_TYPE::TPS:
-		SetViewMatrix(pos, targetLook, up);
+		if (_target != NULL)
+			SetViewMatrix(pos, _target->getPos(), up);
+		else
+			SetViewMatrix(pos, glm::vec3(0), up);
 		return;
 	case CAMERA_TYPE::TOP_DOWN:
 		break;
@@ -183,13 +166,16 @@ void Camera::ProcessMouseScroll(float yoffset)
 	if (_fov > 45.0f)
 		_fov = 45.0f;
 	UpdateProjection();
-	SetViewMatrix(pos, targetLook, up);
+	if (_target != NULL)
+		SetViewMatrix(pos, _target->getPos(), up);
+	else
+		SetViewMatrix(pos, glm::vec3(0), up);
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
-	xoffset *= MouseSensitivity;
-	yoffset *= MouseSensitivity;
+	xoffset *= _sensitivity;
+	yoffset *= _sensitivity;
 	
 
 	Yaw += xoffset;
@@ -204,29 +190,32 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
 	
 	std::cout << "x: " << xoffset << " y: " <<yoffset<<std::endl;
 	// update Front, Right and Up Vectors using the updated Euler angles
-	updateCameraVectors();
+	UpdateCameraVectors();
 }
 
 void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
 	if (direction == Camera_Movement::FORWARD)
-		pos += targetLook * velocity;
+		pos += _target->getPos() * velocity;
 	if (direction == Camera_Movement::BACKWARD)
-		pos -= targetLook * velocity;
+		pos -= _target->getPos() * velocity;
 	if (direction == Camera_Movement::LEFT)
 		pos -= right * velocity;
 	if (direction == Camera_Movement::RIGHT)
 		pos += right * velocity;
-	SetViewMatrix(pos, targetLook, up);
+	SetViewMatrix(pos, _target->getPos(), up);
 }
 void Camera::debugCamera()
 {
 	std::cout << "pos: " << pos.x << ","
-		<< pos.y << "," << pos.z
-		<< " look: " << targetLook.x << ","
-		<< targetLook.y << "," << targetLook.z <<
-		"up:" << up.x <<","<<
+		<< pos.y << "," << pos.z << std::endl;
+		if (_target!=NULL)
+		{
+			std::cout << " Target: " << targetLook.x << ","
+				<< targetLook.y << "," << targetLook.z << std::endl;
+		}
+		std::cout << "up:" << up.x <<","<<
 		up.y << "," <<up.z << std::endl;
 }
 

@@ -103,15 +103,13 @@ void Input::lock_cursor(bool value)
 	else
 		glfwSetInputMode(Input::window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
-int Input::glfwGetKey(int key)
+int Input::GetKey(int key)
 {
 	GLFWwindow* window = Input::window->GetWindow();
+	int mod = glfwGetKey(window, key);
 	assert(window != NULL);
-
 	if (!window)
-	{
 		return KEY_UNKNOWN;
-	}
 
 	if (key < GLFW_KEY_SPACE || key > GLFW_KEY_LAST)
 	{
@@ -140,19 +138,21 @@ void Input::StartInputSystem() {
 	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 }
 bool Input::IsKeyDown(KeyCode keyCode) {
-	int mode = glfwGetKey(keyCode);
+	int mode = GetKey(keyCode);
 	if (mode == GLFW_PRESS || mode == GLFW_REPEAT)
 		return true;
 	return false;
 }
 bool Input::IsKeyPress(KeyCode keyCode) {
-	int mode = glfwGetKey(keyCode);
+	if (keys[keyCode] != GLFW_PRESS)
+		return false;
+	int mode = GetKey(keyCode);
 	if (mode == GLFW_PRESS)
-		return true;
+			return true;
 	return false;
 }
 bool Input::IsKeyUp(KeyCode keyCode) {
-	int mode = glfwGetKey(keyCode);
+	int mode = GetKey(keyCode);
 	if (mode == GLFW_RELEASE)
 		return true;
 	return false;
@@ -160,6 +160,7 @@ bool Input::IsKeyUp(KeyCode keyCode) {
 	
 	
 }
+
 void Input::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	std::cout << "callback_Scroll: X:" << xoffset << " Y: " << yoffset << std::endl;

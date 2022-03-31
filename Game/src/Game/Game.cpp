@@ -37,6 +37,9 @@ void Game::Init() {
 	_box1 = new Sprite(GetRenderer(), "res/box.png", true);
 	_box1->SetScale(20.0f);
 	_box1->SetRotY(90);
+	_pj = new Sprite(GetRenderer(), "res/b.png", true);
+	_pj->SetPos(5.f,0.f,0.f);
+	_cam->SetTarget(_pj);
 
 
 	Input::lock_cursor(true);
@@ -48,11 +51,13 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
+	_cam->Update();
 	processInput();
 }
 void Game::Draw() {
 	_box->Draw();
 	_box1->Draw();
+	_pj->Draw();
 }
 
 void Game::processInput()

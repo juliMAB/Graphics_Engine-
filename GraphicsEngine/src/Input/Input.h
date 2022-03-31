@@ -163,6 +163,6 @@ public:
 
 
 private:
-	static int glfwGetKey(int key);
+	static int GetKey(int key);
 };
 #endif
