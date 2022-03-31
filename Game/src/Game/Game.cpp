@@ -62,18 +62,20 @@ void Game::Draw() {
 
 void Game::processInput()
 {
+	glm::vec3 a(0);
 	if (Input::IsKeyDown(Input::KEY_W))
-		_cam->ProcessKeyboard(FORWARD, _time->_deltaTime);
+		a += vec3(0, 0, 1);
 	if (Input::IsKeyDown(Input::KEY_S))
-		_cam->ProcessKeyboard(BACKWARD, _time->_deltaTime);
+		a += vec3(0, 0, -1);
 	if (Input::IsKeyDown(Input::KEY_A))
-		_cam->ProcessKeyboard(LEFT, _time->_deltaTime);
+		a += vec3(1, 0, 0);
 	if (Input::IsKeyDown(Input::KEY_D))
-		_cam->ProcessKeyboard(RIGHT, _time->_deltaTime);
+		a += vec3(-1, 0, 0);
 	if (Input::IsKeyPress(Input::KEY_0))
 		_cam->debugCamera();
 	if (Input::IsKeyPress(Input::KEY_C))
 		auxCheck = !auxCheck;
 		Input::lock_cursor(auxCheck);
+		_pj->SetPos(_pj->getPos()+a);
 }
 
