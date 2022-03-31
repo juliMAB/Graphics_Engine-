@@ -83,7 +83,7 @@ double BaseGame::getCurrentTime()
 	return glfwGetTime();
 }
 bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
-bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPress(key); }
+bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPressed(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
 
 void BaseGame::InitInput() {

@@ -39,7 +39,7 @@ void Game::Init() {
 	_box1->SetRotY(90);
 	_pj = new Sprite(GetRenderer(), "res/b.png", true);
 	_pj->SetPos(5.f,0.f,0.f);
-	_cam->SetTarget(_pj);
+	//_cam->SetTarget(_pj);
 
 
 	Input::lock_cursor(true);
@@ -71,9 +71,9 @@ void Game::processInput()
 		a += vec3(1, 0, 0);
 	if (Input::IsKeyDown(Input::KEY_D))
 		a += vec3(-1, 0, 0);
-	if (Input::IsKeyPress(Input::KEY_0))
+	if (Input::IsKeyDown(Input::KEY_0))
 		_cam->debugCamera();
-	if (Input::IsKeyPress(Input::KEY_C))
+	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 		Input::lock_cursor(auxCheck);
 		_pj->SetPos(_pj->getPos()+a);

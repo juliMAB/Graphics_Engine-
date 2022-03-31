@@ -99,7 +99,8 @@ void Camera::SetOffset(float offset) {
 }
 void Camera::Update()
 {
-	pos = _target->getPos();
+	if (_target != NULL)
+		pos = _target->getPos();
 	UpdateCameraVectors();
 }
 void Camera::UpdateProjection()

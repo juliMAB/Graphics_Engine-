@@ -1,9 +1,9 @@
 #ifndef INPUT_H
 #define INPUT_H
-#include "../Exports/Exports.h"
 #include "../Window/Window.h"
 #include "../GLM/glm.hpp"
 #include "../Camera/Camera.h"
+#include <list>
 
 class GraficosEngine_API Input {
 	static Window* window;
@@ -152,7 +152,7 @@ public:
 	static void StartInputSystem();
 
 	static bool IsKeyDown(KeyCode key);
-	static bool IsKeyPress(KeyCode keyCode);
+	static bool IsKeyPressed(KeyCode keyCode);
 	static bool IsKeyUp(KeyCode keyCode);
 
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -163,6 +163,7 @@ public:
 
 
 private:
+    static std::list<int> currentKeysDown;
 	static int GetKey(int key);
 };
 #endif

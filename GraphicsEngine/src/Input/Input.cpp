@@ -3,6 +3,7 @@
 
 Window*  Input::window = nullptr;
 Camera* Input::mainCam = nullptr;
+std::list<int> Input::currentKeysDown = std::list<int>();
 char                keys[GLFW_KEY_LAST + 1];
 
 typedef int GLFWbool;
@@ -67,34 +68,14 @@ void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 
 void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	_lastKey = key;
-	_lastAction = action;
-	std::cout <<"callback: key:" << key << " action: "<< action << std::endl;
-
-	if (key >= 0 && key <= GLFW_KEY_LAST)
+	if (action == GLFW_PRESS)
 	{
-		GLFWbool repeated = GLFW_FALSE;
-
-		if (action == GLFW_RELEASE && keys[key] == GLFW_RELEASE)
-			return;
-
-		if (action == GLFW_PRESS && keys[key] == GLFW_PRESS)
-			repeated = GLFW_TRUE;
-
-		if (action == GLFW_RELEASE && stickyKeys)
-			keys[key] = _GLFW_STICK;
-		else
-			keys[key] = (char)action;
-
-		if (repeated)
-			action = GLFW_REPEAT;
+		currentKeysDown.push_front(key);
 	}
-
-	if (!lockKeyMods)
-		mods &= ~(GLFW_MOD_CAPS_LOCK | GLFW_MOD_NUM_LOCK);
-
-	if (callbacks.key)
-		callbacks.key((GLFWwindow*)window, key, scancode, action, mods);
+	else if (action == GLFW_RELEASE)
+	{
+		currentKeysDown.remove(key);
+	}
 }
 void Input::lock_cursor(bool value)
 {
@@ -138,24 +119,21 @@ void Input::StartInputSystem() {
 	glfwSetScrollCallback(window->GetWindow(), scroll_callback);
 }
 bool Input::IsKeyDown(KeyCode keyCode) {
-	int mode = GetKey(keyCode);
-	if (mode == GLFW_PRESS || mode == GLFW_REPEAT)
+	std::list<int>::iterator it = find(currentKeysDown.begin(), currentKeysDown.end(), keyCode);
+	if (it != currentKeysDown.end())
+	{
+		currentKeysDown.remove(keyCode);
 		return true;
+	}
 	return false;
 }
-bool Input::IsKeyPress(KeyCode keyCode) {
-	if (keys[keyCode] != GLFW_PRESS)
-		return false;
-	int mode = GetKey(keyCode);
-	if (mode == GLFW_PRESS)
-			return true;
-	return false;
+bool Input::IsKeyPressed(KeyCode keyCode) {
+	int aux = glfwGetKey(window->GetWindow(), keyCode);
+	return aux == GLFW_PRESS;
 }
 bool Input::IsKeyUp(KeyCode keyCode) {
-	int mode = GetKey(keyCode);
-	if (mode == GLFW_RELEASE)
-		return true;
-	return false;
+	int aux = glfwGetKey(window->GetWindow(), keyCode);
+	return aux == GLFW_RELEASE;
 	
 	
 	
