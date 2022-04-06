@@ -49,6 +49,12 @@
     <Filter Include="Archivos de origen\Managers">
       <UniqueIdentifier>{baeb5fc2-7fdd-400a-9e7a-8177b854e3f8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Shader">
+      <UniqueIdentifier>{f6ba2ede-588f-4ac2-acd4-c41c16d72aac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Shader">
+      <UniqueIdentifier>{aefb876c-61c1-42f6-9d4d-da8b16c422fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterfaces.cpp">
@@ -110,6 +116,9 @@
     </ClCompile>
     <ClCompile Include="src\Tile\tinyxml2.cpp">
       <Filter>Archivos de origen\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader\Shader.cpp">
+      <Filter>Archivos de origen\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +190,9 @@
     </ClInclude>
     <ClInclude Include="src\Internal\Internal.h">
       <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader\Shader.h">
+      <Filter>Archivos de encabezado\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

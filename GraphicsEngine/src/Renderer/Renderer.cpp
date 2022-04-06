@@ -3,363 +3,209 @@
 #include "../../Lib/GLM/gtc/type_ptr.hpp"
 #include "../Animation/Animation.h"
 
-//static glm::mat4 projection = glm::perspective(glm::radians(45.0f), 1366.0f / 768.0f, 0.1f, 1000.0f);
-//static glm::mat4 view = glm::mat4(1.0f);
+
 //-----C y D---------------------------
-Renderer::Renderer(Window* window) {
-	_window = window;
-	programShaderT = NULL;
-	programShaderS = NULL;
-	Start();
+Renderer::Renderer() {
+	_shader = nullptr;
+	_view = glm::mat4(0.f);
+	_projection = glm::mat4(0.f);
 }
 Renderer::~Renderer()
 {
+	if (_shader != nullptr)
+	{
+		delete _shader;
+		_shader = nullptr;
+	}
 }
 //-------------------------------------
 
+void Renderer::Init()
+{
+	InitShader();
+}
+
+void Renderer::SetDepth()
+{
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+}
+
+void Renderer::UseShader()
+{
+	glUseProgram(GetShaderId());
+}
+
+uint Renderer::GetShaderId()
+{
+	return _shader->GetShaderId();
+}
+
+void Renderer::CleanShader()
+{
+	glUseProgram(0);
+}
+
 void Renderer::Start() {
-	std::cout << "Start Renderer" << std::endl;
-	ShadersStart();
-	viewMatrix = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	projectionMatrix = glm::mat4(1.0f);
-	projectionMatrix = glm::perspective(glm::radians(90.0f), (float)_window->GetWidth() / (float)_window->GetHeight(), 0.1f, 100.0f);
+	std::cout << "+Renderer" << std::endl;
+	InitShader();
+	_view = glm::lookAt(glm::vec3(0, 0, -100), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	std::cout << "End Start Renderer" << std::endl << std::endl;
 }
 
-std::string Renderer::ReadVertexShader(std::string vPath) {
-	std::string vertexCode;
-	std::ifstream vShaderFile;
-
-	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	try	{
-		vShaderFile.open(vPath);
-		std::stringstream vShaderStream, fShaderStream;
-
-		vShaderStream << vShaderFile.rdbuf();
-		vShaderFile.close();
-		vertexCode = vShaderStream.str();
-	}
-	catch (std::ifstream::failure& e) {
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-	}
-	return vertexCode;
-}
-std::string Renderer::ReadFragmentShader(std::string fPath) {
-	std::string fragmentCode;
-	std::ifstream fShaderFile;
-
-	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	try	{
-		fShaderFile.open(fPath);
-		std::stringstream vShaderStream, fShaderStream;
-		fShaderStream << fShaderFile.rdbuf();
-		fShaderFile.close();
-		fragmentCode = fShaderStream.str();
-	}
-	catch (std::ifstream::failure& e) {
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-	}
-	return fragmentCode;	
-}
-void Renderer::ShadersStart() {
-	std::string vShaderSourceT = ReadVertexShader(vertexPathT);
-	std::string fShaderSourceT = ReadFragmentShader(fragmentPathT);
-	
-	std::string vShaderSourceS = ReadVertexShader(vertexPathS);
-	std::string fShaderSourceS = ReadFragmentShader(fragmentPathS);
-
-	const char* vertexShaderSourceT = vShaderSourceT.c_str();
-	const char* fragmentShaderSourceT = fShaderSourceT.c_str();
-	
-	const char* vertexShaderSourceS = vShaderSourceS.c_str();
-	const char* fragmentShaderSourceS = fShaderSourceS.c_str();
-
-	unsigned int vertexShaderT = NULL;
-	unsigned int fragmentShaderT = NULL;
-
-	unsigned int vertexShaderS = NULL;
-	unsigned int fragmentShaderS = NULL;
-
-	programShaderT = glCreateProgram();
-	programShaderS = glCreateProgram();
-	if (!programShaderT) {
-		std::cout << "Error creating the shader Texture program!" << std::endl;
-		return;
-	}
-	if (!programShaderS) {
-		std::cout << "Error creating the shader Solid program!" << std::endl;
-		return;
-	}
-	SetVertexShader(vertexShaderT, vertexShaderSourceT);
-	SetFragmentShader(fragmentShaderT, fragmentShaderSourceT);
-	LinkShaders(vertexShaderT, fragmentShaderT, programShaderT);
-
-	SetVertexShader(vertexShaderS, vertexShaderSourceS);
-	SetFragmentShader(fragmentShaderS, fragmentShaderSourceS);
-	LinkShaders(vertexShaderS, fragmentShaderS, programShaderS);
-}
-void Renderer::SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource) {
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-
-	int success;
-	char infoLog[512];
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-}
-void Renderer::SetFragmentShader(unsigned int &fragmentShader, const char* fragmentShaderSource) {
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-
-	int success;
-	char infoLog[512];
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-}
-void Renderer::LinkShaders(unsigned int vertexShader, unsigned int fragmentShader,uint& programShader) {
-	programShader = glCreateProgram();
-	glAttachShader(programShader, vertexShader);
-	glAttachShader(programShader, fragmentShader);
-	glLinkProgram(programShader);
-
-	int success;
-	char infoLog[512];
-	glGetProgramiv(programShader, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(programShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;	// Acá tira error. 
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+void Renderer::InitShader()
+{
+	_shader = new Shader();
+	_shader->CreateShader("Shaders/TextureVertexShader.shader", "Shaders/TextureFragmentShader.shader");
 }
 
-void Renderer::CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO)
+void Renderer::GenBuffers(uint& VAO, uint& VBO, uint& EBO)
 {
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
 	glGenBuffers(1, &EBO);
 }
-void Renderer::SetBuffers(int tam, float* verts, uint& vbo, uint& vao) {
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, tam, verts, GL_STATIC_DRAW);
-
-}
-void Renderer::BindBuffer(uint vao, uint vbo, uint ebo, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices)
+void Renderer::GenBuffers(uint& VAO, uint& VBO, uint& EBO,uint& UVB)
 {
-	glBindVertexArray(vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeOfVertices, vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndices, indices, GL_STATIC_DRAW);
+	GenBuffers(VAO, VBO, EBO);
+	glGenBuffers(1, &UVB);
 }
-void Renderer::BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices)
+void Renderer::BindBuffer(uint VAO, uint VBO, int tam, float* vertices)
 {
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-
 	glBindVertexArray(VAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
 }
-void Renderer::BindBaseBufferRequest(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices)
-{
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeOfVertices, vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeOfIndices, indices, GL_STATIC_DRAW);
-}
 void Renderer::BindIndexes(uint& EBO, int tam, uint* indexs)
 {
-	glGenBuffers(1, &EBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
 }
-void Renderer::SetIndex(int tam, uint* indexs, uint& ibo) {
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, tam, indexs, GL_STATIC_DRAW);
+void Renderer::BindUV(uint UVB, int tam, float* vertices)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, UVB);
+	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_DYNAMIC_DRAW);
 }
-void Renderer::Setattributes(uint location, int size, int stride, int offset) {
+void Renderer::UnBind(uint& VAO, uint& VBO, uint& EBO)
+{
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+}
+void Renderer::UnBind(uint& VAO, uint& VBO, uint& EBO, uint& UVB)
+{
+	UnBind(VAO, VBO, EBO);
+	glDeleteBuffers(1, &UVB);
+}
+void Renderer::SetLocation(uint& location, const char* loc)
+{
+	location = glGetAttribLocation(GetShaderId(), loc);
+}
+void Renderer::SetUniform(uint& uniform, const char* loc)
+{
+	uniform = glGetUniformLocation(GetShaderId(), loc);
+}
+void Renderer::SetBaseAttribs(uint location, int size, int stride, int offset)
+{
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 	glEnableVertexAttribArray(location);
 }
-void Renderer::CreateExtraBuffer(unsigned int& buffer, int size)
+void Renderer::SetTextureAttribs(uint location, int size, int stride, int offset)
 {
-	glGenBuffers(size, &buffer);
+	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)offset);
+	glEnableVertexAttribArray(location);
 }
-void Renderer::Draw(uint vertices, uint _vao)
+void Renderer::UpdateMVP(uint uniformModel, uint uniformView, uint uniformProjection, glm::mat4 model)
 {
-	//glBindVertexArray(_vao);
-	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
+	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(_view));
+	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(_projection));
 }
-void Renderer::Draw(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs,uint shader) {
-
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_STATIC_DRAW);
-	glUseProgram(shader);
-	glEnable(GL_DEPTH_TEST);
-	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glUseProgram(0);
+void Renderer::UpdateVec3(uint uniformVec3, glm::vec3 vec3Value)
+{
+	glUniform3f(uniformVec3, vec3Value.x, vec3Value.y, vec3Value.z);
 }
-void Renderer::Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs,uint shader) {
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ARRAY_BUFFER, tamVertexs, vertexs, GL_DRAW_BUFFER);
-	glUseProgram(shader);
-	glEnable(GL_DEPTH_TEST);
-	glDrawElements(GL_TRIANGLES, verts, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glUseProgram(0);
+void Renderer::UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor)
+{
+	glUniform3fv(uniformBaseColor, 1, glm::value_ptr(glm::vec3(baseColor.r, baseColor.g, baseColor.b)));
+	glUniform1fv(uniformAlpha, 1, &(baseColor.a));
 }
-void Renderer::DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId)
+void Renderer::UpdateBoolValue(uint uniformStatus, bool status)
+{
+	glUniform1i(uniformStatus, status);
+}
+void Renderer::UpdateLight(uint uniformLight, glm::vec3 light)
+{
+	glUniform3fv(uniformLight, 1, glm::value_ptr(light));
+}
+void Renderer::UpdateTexture(uint uniformTexture, uint textureId)
+{
+	glUniform1f(uniformTexture, (GLfloat)textureId);
+}
+void Renderer::UpdateFloatValue(uint uniformFloat, float value)
+{
+	glUniform1f(uniformFloat, value);
+}
+void Renderer::UpdateIntValue(uint uniformInt, int value)
+{
+	glUniform1i(uniformInt, value);
+}
+void Renderer::SetView(glm::mat4 view)
+{
+	_view = view;
+}
+void Renderer::SetProjection(glm::mat4 projection)
+{
+	_projection = projection;
+}
+void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs)
 {
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ARRAY_BUFFER, tamVerts, vertexs, GL_STATIC_DRAW);
-
-	unsigned int modelLoc = glGetUniformLocation(shaderId, "transform");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-
-	unsigned int viewLoc = glGetUniformLocation(shaderId, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-
-	unsigned int projectionLoc = glGetUniformLocation(shaderId, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
-	if (vertices == 3)
-		glDrawArrays(GL_TRIANGLES, 0, vertices);
-	else
-		glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
-
+	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glUseProgram(0);
 }
-void Renderer::DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, float* vertexs, uint tamVertsBit, uint* indices, uint tamIndicesBit,int cantVertices, unsigned int shaderId)
+void Renderer::SetClearColor(float r, float g, float b, float a)
 {
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, cantVertices, GL_UNSIGNED_INT, 0);
+	glClearColor(r, g, b, a);
 }
-void Renderer::DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId)
+void Renderer::ClearScreen()
 {
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, cantIndexes, GL_UNSIGNED_INT, 0);
+	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-void Renderer::DrawM2Debug(unsigned int VAO, int cantIndexes, unsigned int shaderId)
+void Renderer::PostRender(Window* window)
 {
-	glBindVertexArray(VAO);
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glDrawElements(GL_TRIANGLES, cantIndexes, GL_UNSIGNED_INT, 0);
+	glfwSwapBuffers(window->GetWindow());
+	glfwPollEvents();
 }
-void Renderer::DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID)
+void Renderer::TextureEnable(uint textureId)
 {
-	unsigned int modelLoc = glGetUniformLocation(usedShaderID, "transform");
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelMatrix));
-
-	unsigned int viewLoc = glGetUniformLocation(usedShaderID, "view");
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-
-	unsigned int projectionLoc = glGetUniformLocation(usedShaderID, "projection");
-	glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureId);
 }
-void Renderer::UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader) {
-	glUseProgram(shader);
-	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-	glUseProgram(0);
-}
-void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor,uint uniformAlpha ,glm::vec4 color,uint shader) {
-	glUseProgram(shader);
-	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-	glm::vec3 newColor=glm::vec3(color.r,color.g,color.b);
-	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
-	glUniform1fv(uniformAlpha, 1, &color.a);
-}
-void Renderer::UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color,uint uniformTex,uint textureID, uint shader) {
-	glUseProgram(shader);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniformMatrix4fv(_uniformPos, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(viewMatrix));
-	glm::vec3 newColor = glm::vec3(color.r, color.g, color.b);
-	glUniform3fv(uniformColor, 1, glm::value_ptr(newColor));
-	glUniform1fv(uniformAlpha, 1, &color.a);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glUniform1f(uniformTex, (GLfloat)textureID);
-}
-
-void Renderer::DeleteBuffers(uint _vao, uint _vbo, uint _ebo)
+void Renderer::TextureDisable()
 {
-	glDeleteVertexArrays(1, &_vao);
-	glDeleteBuffers(1, &_vbo);
-	glDeleteBuffers(1, &_ebo);
+	glDisable(GL_TEXTURE_2D);
 }
-void Renderer::DeleteExtraBuffer(int size, uint buffer)
+void Renderer::TextureDelete(uint uniformTexture, uint& textureId)
 {
-	glDeleteBuffers(size, &buffer);
+	glDeleteTextures(uniformTexture, &textureId);
 }
-void Renderer::BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType)
+void Renderer::BlendEnable()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeOfData, data, bufferType);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
-
-Window* Renderer::getCurrentWindow()
+void Renderer::BlendDisable()
 {
-	return _window;
+	glDisable(GL_BLEND);
 }
-
-void Renderer::SetProjectionMatrix(glm::mat4 projectionMatrix)
-{
-	this->projectionMatrix = projectionMatrix;
-}
-
-void Renderer::SetViewMatrix(glm::mat4 viewMatrix)
-{
-	this->viewMatrix = viewMatrix;
-}
-
-uint Renderer::GetShaderT() { return programShaderT; }
-uint Renderer::GetShaderS() { return programShaderS; }
-void Renderer::SwapBuffers() { glfwSwapBuffers(_window->GetWindow()); }

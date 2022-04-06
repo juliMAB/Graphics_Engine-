@@ -3,6 +3,7 @@
 #include "../Exports/Exports.h"
 #include "../Window/Window.h"
 #include "../GLM/mat4x4.hpp"
+#include "../Shader/Shader.h"
 #include <string>
 #include <fstream>
 #include <sstream>
@@ -20,60 +21,51 @@ typedef unsigned int uint;
 static class GraficosEngine_API Renderer {
 private:
 	
-	Window* _window;
+	//Window* _window;
+	Shader* _shader;
 
-	const std::string vertexPathT = "Shaders/TextureVertexShader.shader";
-	const std::string fragmentPathT = "Shaders/TextureFragmentShader.shader";
-	const std::string vertexPathS = "Shaders/SolidVertexShader.shader";
-	const std::string fragmentPathS = "Shaders/SolidFragmentShader.shader";
-
-	uint programShaderT;
-	uint programShaderS;
-	glm::mat4 projectionMatrix, viewMatrix ;
+	glm::mat4 _projection, _view ;
 	void Start();
-	//-------Shaders Staff----------
-	std::string ReadVertexShader(std::string vPath);
-	std::string ReadFragmentShader(std::string fPath);
-	void SetVertexShader(unsigned int &vertexShader, const char* vertexShaderSource);
-	void SetFragmentShader(unsigned int &fragmentShader, const char* fragmentShaderSource);
-	void LinkShaders(unsigned int vertexShader, unsigned int fragmentShader, uint& programShader);
-	void ShadersStart();
-	//--------------------------------
+	void InitShader();
 public:
 	//----- C y D -------
-	Renderer(Window* window);
+	Renderer();
 	~Renderer();
+	void Init();
+	void SetDepth();
 	// --------------------
-	//void setCurrentTexture(Texture tex);
-	void CreateNewBuffers(uint& VAO, uint& VBO, uint& EBO);
-	void SetBuffers(int tam, float* verts, uint& vbo, uint& vao);
-	void BindBuffer(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
-	void BindBuffer2(uint& VAO, uint& VBO, int tam, float* vertices);
-	void BindBaseBufferRequest(uint VAO, uint VBO, uint EBO, float* vertices, uint sizeOfVertices, uint* indices, uint sizeOfIndices);
+	void UseShader();
+	uint GetShaderId();
+	void CleanShader();
+	void GenBuffers(uint& VAO, uint& VBO, uint& EBO);
+	void GenBuffers(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
+	void BindBuffer(uint VAO, uint VBO, int tam, float* vertices);
+	void SetBaseAttribs(uint location, int size, int stride, int offset);
+	void SetTextureAttribs(uint location, int size, int stride, int offset);
+	void UpdateMVP(uint uniformModel, uint uniformView, uint uniformProjection, glm::mat4 model);
+	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
+	void UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor);
+	void UpdateBoolValue(uint uniformStatus, bool status);
+	void UpdateLight(uint uniformLight, glm::vec3 light);
+	void UpdateTexture(uint uniformTexture, uint textureId);
+	void UpdateFloatValue(uint uniformFloat, float value);
+	void UpdateIntValue(uint uniformInt, int value);
+	void SetView(glm::mat4 view);
+	void SetProjection(glm::mat4 projection);
+	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
+	void SetClearColor(float r, float g, float b, float a);
+	void ClearScreen();
+	void PostRender(Window* window);
+	void TextureEnable(uint textureId);
+	void TextureDisable();
+	void TextureDelete(uint uniformTexture, uint& textureId);
+	void BlendEnable();
+	void BlendDisable();
 	void BindIndexes(uint& EBO, int tam, uint* indexs);
-	void SetIndex(int tam, uint* indexs, uint& ibo);
-	void Setattributes(uint location, int size, int stride, int offset);
-	void CreateExtraBuffer(unsigned int& buffer, int size);
-	void Draw(uint vertices, uint _vao);
-	void Draw(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, uint shader);
-	void Draw2(int verts, uint vao, uint vbo, uint ibo, float* vertexs, float tamVertexs, uint shader);
-	void DrawM(glm::mat4 model, unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
-	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, float* vertexs, uint tamVertsBit, uint* indices, uint tamIndicesBit, int cantVertices, unsigned int shaderId);
-	void DrawM2(unsigned int VAO, int cantIndexes, unsigned int shaderId);
-	void DrawM2Debug(unsigned int VAO, int cantIndexes, unsigned int shaderId);
-	void DrawM2(unsigned int VAO, unsigned int VBO, unsigned int& EBO, unsigned int vertices, unsigned int tamVerts, float* vertexs, unsigned int shaderId);
-	void DrawShape(glm::mat4 modelMatrix, unsigned int VAO, unsigned int vertices, unsigned int usedShaderID);
-	void UpdateMVP(glm::mat4 model, uint transformLoc, uint uniformView, uint uniformProjection, uint shader);
-	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color, uint shader);
-	void UpdateMVP(glm::mat4 model, uint _uniformPos, uint uniformView, uint uniformProjection, uint uniformColor, uint uniformAlpha, glm::vec4 color, uint uniformTex, uint textureID, uint shader);
-	void SwapBuffers();
-	void DeleteBuffers(uint _vao, uint _vbo, uint _ebo);
-	void DeleteExtraBuffer(int size, uint buffer);
-	void BindExtraBuffer(unsigned int buffer, float* data, unsigned int sizeOfData, unsigned int bufferType);
-	Window* getCurrentWindow();
-	void SetProjectionMatrix(glm::mat4 projectionMatrix);
-	void SetViewMatrix(glm::mat4 viewMatrix);
-	uint GetShaderT();
-	uint GetShaderS();
+	void BindUV(uint UVB, int tam, float* vertices);
+	void UnBind(uint& VAO, uint& VBO, uint& EBO);
+	void UnBind(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
+	void SetLocation(uint& location, const char* loc);
+	void SetUniform(uint& uniform, const char* loc);
 };
 #endif

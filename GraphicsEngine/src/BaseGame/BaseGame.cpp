@@ -13,27 +13,20 @@ BaseGame::~BaseGame() {
 		delete _renderer;
 	}
 }
-void BaseGame::StartDraw()
-{
-	glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-void BaseGame::EndDraw()
-{
-	_renderer->SwapBuffers();
-}
+
 int BaseGame::StartEngine(int width, int height, const char* windowName)
 {
 	if (InitEngine(width, height, windowName))
 	{
 		Init();
 		while (!glfwWindowShouldClose(_window->GetWindow())) {
+			_renderer->ClearScreen();
 			_time->Update();
+
 			Update();
-			glfwPollEvents();
-			StartDraw();
 			Draw();
-			EndDraw();
+
+			_renderer->PostRender(GetWindow());
 		}
 	}
 	Deinit();
@@ -68,7 +61,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 		return false;
 	}
 
-	_renderer = new Renderer(_window);
+	_renderer = new Renderer();
 	InitCamera();
 	InitInput();
 	_time = new Time();
@@ -78,6 +71,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 Renderer* BaseGame::GetRenderer() {
 	return _renderer;
 }
+
 double BaseGame::getCurrentTime()
 {
 	return glfwGetTime();

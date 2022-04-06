@@ -64,10 +64,13 @@ public:
 
 private:
 
+	void Init(Renderer* render, Window* window, float, float);
+
 	void BaseInit();
 	
 	Renderer* _render;
 	Entity* _target;
+	Window* _window;
 
 	glm::vec3 up;
 	glm::vec3 right;

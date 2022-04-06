@@ -392,7 +392,7 @@ void Shape::InitBinds(int vertices)
 	
 
 
-	_renderer->CreateNewBuffers(_vao, _vbo, _ebo);
+	_renderer->GenBuffers(_vao, _vbo, _ebo);
 
 	_renderer->BindBaseBufferRequest(_vao, _vbo, _ebo, shapeVertices, sizeof(shapeVertices) * tamVerts, indices, sizeof(indices) * indicesTam);
 

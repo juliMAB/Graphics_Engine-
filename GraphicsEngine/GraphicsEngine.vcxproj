@@ -194,6 +194,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="src\Juli\Jinterface.cpp" />
     <ClCompile Include="src\Juli\Jinterfaces.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Shader\Shader.cpp" />
     <ClCompile Include="src\Shape\Shape.cpp" />
     <ClCompile Include="src\Sprite\Sprite.cpp" />
     <ClCompile Include="src\TextureImporter\stb_image.cpp" />
@@ -219,6 +220,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Juli\Jinterface.h" />
     <ClInclude Include="src\Juli\Utilitis.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
+    <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\Sprite\Sprite.h" />
     <ClInclude Include="src\TextureImporter\stb_image.h" />

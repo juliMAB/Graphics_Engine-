@@ -1,9 +1,10 @@
 #include "Camera.h"
 #include "../Renderer/Renderer.h"
 
-void Camera::Init(Renderer* render,float near, float far)
+void Camera::Init(Renderer* render,Window* window,float near, float far)
 {
 	_render = render;
+	_window = window;
 	BaseInit();
 	_near = near;
 	_far = far;
@@ -49,9 +50,8 @@ void Camera::SetNear(float near)
 }
 void Camera::SetAspect()
 {
-	Window* window = _render->getCurrentWindow();
-	float width = window->GetWidth();
-	float height = window->GetHeight();
+	float width = _window->GetWidth();
+	float height = _window->GetHeight();
 	SetAspect(width, height);
 }
 void Camera::SetAspect(float width, float height)
@@ -84,7 +84,7 @@ Camera::Camera()
 }
 void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 {
-	_render->SetViewMatrix(glm::lookAt(startingPosition, lookPosition, upVector));
+	_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 }
 void Camera::SetTarget(Entity* target)
 {
@@ -106,7 +106,7 @@ void Camera::Update()
 void Camera::UpdateProjection()
 {
 	glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
-	_render->SetProjectionMatrix(projection);
+	_render->SetProjection(projection);
 }
 void Camera::moveCamera(glm::vec3 movePosition)
 {

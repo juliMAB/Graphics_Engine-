@@ -23,6 +23,7 @@ protected:
 	glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
+	void ChangeBackgeound();
 	//----------C y D------------
 	BaseGame();
 	~BaseGame();
