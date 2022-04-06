@@ -12,8 +12,25 @@ public:
 	glm::vec3 colliderSize;
 	glm::vec3 GetPivot();
 	void InitCollider();
+
+	void UpdateShader();
+
 	Entity2D();
 	~Entity2D();
+
+protected:
+	uint uniformColor;
+	uint uniformAlpha;
+	uint uniformUseTexture;
+	uint uniformUseMaterial;
+	uint uniformAffectedLight;
+
+
+	bool useTexture;
+	bool useMaterial;
+	bool affectedLight;
+
+	void SetUniforms();
 };
 	
 

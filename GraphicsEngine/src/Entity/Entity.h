@@ -5,43 +5,42 @@
 #include <../GLM/glm.hpp>
 #include <../GLM/gtc/matrix_transform.hpp>
 #include <../GLM/gtc/type_ptr.hpp>
-typedef unsigned int uint;
-class GraficosEngine_API Entity {
 
-protected:
-	Renderer* _renderer;
-	// mat4 para armar la model.
+struct Transform
+{
+	glm::vec3 position;
+	glm::vec3 lastPosition;
+	glm::vec3 eulerAngles;
+	glm::vec3 scale;
+	glm::quat rotation;
+
+	glm::vec3 localPosition;
+	glm::vec3 localEulerAngles;
+	glm::vec3 localScale;
+	glm::quat localRotation;
+
+	glm::vec3 forward;
+	glm::vec3 up;
+	glm::vec3 right;
+};
+
+struct Matrix
+{
+	glm::mat4 model;
 	glm::mat4 translate;
 	glm::mat4 rotationX;
 	glm::mat4 rotationY;
 	glm::mat4 rotationZ;
-	glm::mat4 scaleMat4;
-	//----model-------
-	glm::mat4 model;
-	//--PosRotScale---
-	glm::vec3 pos;
-	glm::vec3 rot;
-	glm::vec3 scale;
-	//----Color-------
-	glm::vec4 color;
-	//----------------
-	glm::vec3 lastPos;
-	//----------------
+	glm::mat4 scale;
+};
 
-	void UpdateMatrixData();
-	
-	uint _uniformPos;
-	uint _uniformView;
-	uint _uniformProjection;
-	uint _uniformColor;
-	uint _uniformAlpha;
-	uint _UniformTexLocation;
+class GraficosEngine_API Entity {
 
-	uint _vao, _vbo, _ebo, tam, indicesTam;
 	
 public:
 	//---C y D----------
 	Entity();
+	Entity(Renderer* renderer);
 	~Entity();
 	//------------------
 	//----SetPos--------
@@ -73,6 +72,29 @@ public:
 	glm::vec3 getScale();
 	glm::vec3 getLastPos();
 	void Draw(uint shaderId);
+
+
+private:
+	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);
+protected:
+	Renderer* _renderer;
+
+	Transform transform;
+	Matrix matrix;
+
+	uint _uniformModel;
+	uint _uniformView;
+	uint _uniformProjection;
+	uint _locationPosition;
+	uint _locationNormal;
+	uint _locationTexCoord;
+
+	virtual void SetUniforms();
+	//uint _vao, _vbo, _ebo, tam, indicesTam;
+	//----Updates-------
+
+	void UpdateMatrixData();
+	void UpdateTransform();
 };
 
 #endif

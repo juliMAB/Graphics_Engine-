@@ -17,13 +17,8 @@ Shape::Shape(Renderer* rend, TypeShape typeShape)
 	_renderer = rend;
 
 	InitBinds(typeShape);
-
-	glUseProgram(_renderer->GetShaderS());
-	_uniformPos        = glGetUniformLocation(_renderer->GetShaderS(), "transform" );
-	_uniformColor      = glGetUniformLocation(_renderer->GetShaderS(), "tintColor");
-	_uniformProjection = glGetUniformLocation(_renderer->GetShaderS(), "projection");
-	_uniformView       = glGetUniformLocation(_renderer->GetShaderS(), "view"	  );
-	_uniformAlpha      = glGetUniformLocation(_renderer->GetShaderS(), "alpha"	  );
+	_renderer->UseShader();
+	_renderer->SetUniform(,)
 
 	_renderer->Setattributes(0, 3, tam1Vert, 0);
 	_renderer->Setattributes(1, 3, tam1Vert, 3);
@@ -540,6 +535,7 @@ Shape::~Shape() {
 }
 void Shape::Draw() 
 {
+	_renderer->UseShader();
 	_renderer->UpdateMVP(model, _uniformPos, _uniformView, _uniformProjection,_uniformColor,_uniformAlpha,color,_renderer->GetShaderS());
 	_renderer->DrawM2(_vao ,indicesTam*sizeof(uint), _renderer->GetShaderS());
 }
