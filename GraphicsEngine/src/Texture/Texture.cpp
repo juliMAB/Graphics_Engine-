@@ -5,13 +5,13 @@
 Texture::Texture(const std::string path,bool flip)
 {
 	std::cout << "-----Create new Texture-----"<<std::endl;
-	_textureID = 0;
+	_id = 0;
 	_width = 0;
 	_height = 0;
 	_bitDepth = 0;
 	_channels = 0;
 	_path = path;
-	if (TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels, flip))
+	if (TextureImporter::LoadTexture(_path, _id, _width, _height, _channels, flip))
 	{
 		std::cout << "Texture load suscefully" << std::endl;
 	}
@@ -25,8 +25,8 @@ Texture::Texture()
 {
 }
 Texture::~Texture() {
-	glDeleteTextures(1, &_textureID);
-	_textureID = 0;
+	glDeleteTextures(1, &_id);
+	_id = 0;
 	_width = 0;
 	_height = 0;
 	_bitDepth = 0;
@@ -35,12 +35,12 @@ Texture::~Texture() {
 
 bool Texture::LoadTexture(const std::string path, bool flip) {
 	_path = path;
-	return TextureImporter::LoadTexture(_path, _textureID, _width, _height, _channels, flip);
+	return TextureImporter::LoadTexture(_path, _id, _width, _height, _channels, flip);
 }
 void Texture::UseTexture() {
 	glEnable(GL_TEXTURE_2D);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _textureID);
+	glBindTexture(GL_TEXTURE_2D, _id);
 }
 void Texture::StopTexture() {
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

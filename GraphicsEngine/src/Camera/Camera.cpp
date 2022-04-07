@@ -15,11 +15,11 @@ void Camera::Init(Renderer* render,Window* window,float near, float far)
 }
 void Camera::BaseInit(){
 	//--------
-	pos = glm::vec3(0.0f);
+	transform.position = glm::vec3(0.0f);
 	//--------
-	up = glm::vec3(0, 1, 0);
-	right = glm::vec3(0.0f);
-	front = glm::vec3(0, 0, -1);
+	transform.up = glm::vec3(0, 1, 0);
+	transform.right = glm::vec3(0.0f);
+	transform.forward = glm::vec3(0, 0, -1);
 	//--------
 	targetLook = glm::vec3(0.0f);
 	WorldUp = glm::vec3(0.0f);
@@ -35,14 +35,19 @@ void Camera::BaseInit(){
 	_far = 100.f;
 	_offset = OFFSET;
 }
-void Camera::Init(Renderer* render)
+void Camera::Init(Renderer* render,Window* window)
 {
 	_render = render;
+	_window = window;
 	BaseInit();
 	SetAspect();
 	//--------
 	UpdateProjection();
 	UpdateView();
+}
+void Camera::SetWindow(Window* window)
+{
+	_window = window;
 }
 void Camera::SetNear(float near)
 {
@@ -62,10 +67,10 @@ Camera::Camera()
 {
 	_render = NULL;
 
-	pos      = glm::vec3(0.0f);
-	up       = glm::vec3(0.0f);
-	right    = glm::vec3(0.0f);
-	front    = glm::vec3(0.0f);
+	transform.position      = glm::vec3(0.0f);
+	transform.up       = glm::vec3(0.0f);
+	transform.right    = glm::vec3(0.0f);
+	transform.forward    = glm::vec3(0.0f);
 	//--------
 	targetLook = glm::vec3(0.0f);
 	WorldUp    = glm::vec3(0.0f);
@@ -100,7 +105,7 @@ void Camera::SetOffset(float offset) {
 void Camera::Update()
 {
 	if (_target != NULL)
-		pos = _target->getPos();
+		transform.position = _target->getPos();
 	UpdateCameraVectors();
 }
 void Camera::UpdateProjection()
@@ -128,13 +133,13 @@ void Camera::UpdateCameraVectors()
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	direction.y = sin(glm::radians(Pitch));
 	direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-	front = glm::normalize(direction);
+	transform.forward= glm::normalize(direction);
 	if (cameraType == CAMERA_TYPE::TPS)
 	{
 		if (_target!=NULL)
-			pos = _target->getPos() -front * _offset;
+			transform.position = _target->getPos() - transform.forward * _offset;
 		else
-			pos = glm::vec3(0) - front * _offset;
+			transform.position = glm::vec3(0) - transform.forward * _offset;
 	}
 	UpdateView();
 }
@@ -144,13 +149,13 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		SetViewMatrix(pos, pos + front, up);
+		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
 		return;
 	case CAMERA_TYPE::TPS:
 		if (_target != NULL)
-			SetViewMatrix(pos, _target->getPos(), up);
+			SetViewMatrix(transform.position, _target->getPos(), transform.up);
 		else
-			SetViewMatrix(pos, glm::vec3(0), up);
+			SetViewMatrix(transform.position, glm::vec3(0), transform.up);
 		return;
 	case CAMERA_TYPE::TOP_DOWN:
 		break;
@@ -168,9 +173,9 @@ void Camera::ProcessMouseScroll(float yoffset)
 		_fov = 45.0f;
 	UpdateProjection();
 	if (_target != NULL)
-		SetViewMatrix(pos, _target->getPos(), up);
+		SetViewMatrix(transform.position, _target->getPos(), transform.up);
 	else
-		SetViewMatrix(pos, glm::vec3(0), up);
+		SetViewMatrix(transform.position, glm::vec3(0), transform.up);
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
@@ -198,18 +203,18 @@ void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
 	if (direction == Camera_Movement::FORWARD)
-		pos += _target->getPos() * velocity;
+		transform.position += _target->getPos() * velocity;
 	if (direction == Camera_Movement::BACKWARD)
-		pos -= _target->getPos() * velocity;
+		transform.position -= _target->getPos() * velocity;
 	if (direction == Camera_Movement::LEFT)
-		pos -= right * velocity;
+		transform.position -= transform.right * velocity;
 	if (direction == Camera_Movement::RIGHT)
-		pos += right * velocity;
-	SetViewMatrix(pos, _target->getPos(), up);
+		transform.position += transform.right * velocity;
+	SetViewMatrix(transform.position, _target->getPos(), transform.up);
 }
 void Camera::debugCamera()
 {
-	std::cout << "pos: " << pos.x << ","
+	/*std::cout << "pos: " << pos.x << ","
 		<< pos.y << "," << pos.z << std::endl;
 		if (_target!=NULL)
 		{
@@ -217,7 +222,7 @@ void Camera::debugCamera()
 				<< targetLook.y << "," << targetLook.z << std::endl;
 		}
 		std::cout << "up:" << up.x <<","<<
-		up.y << "," <<up.z << std::endl;
+		up.y << "," <<up.z << std::endl;*/
 }
 
 Camera::~Camera()

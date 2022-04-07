@@ -8,16 +8,35 @@
 #include <vector>
 #include "../Animation/Animation.h"
 #include "../Atlas/Atlas.h"
+#include "../Entity/vertexs.h"
 
 enum class ORDER
 {
 	RIGHTtoLEFT,
 	UPtoDOWN
 };
+
+enum class SPRITE_TYPE
+{
+	QUAD,
+	CUBE
+};
 const int tamVerts = 32;//4 * tam1Vert;
 class GraficosEngine_API Sprite : public Entity2D {
 private:
+	SPRITE_TYPE type;
 	Texture* _texture;
+	uint uniformTexture;
+	uint _UVB;
+
+	int animIndex = 0;
+	std::vector<Animation*> anim;
+	Frame currFrame;
+	bool transparent;
+
+	void SetUniforms();
+
+	//__________________________
 	float vertex[tamVerts]
 	{
 		// positions             colors                 texture coords
@@ -27,14 +46,34 @@ private:
 	   -0.5f, 0.5f, /**/ 1.0f, 1.0f, 1.0f, 1.0f, /**/ 0.0f, 1.0f  //  DownLeft
 	};
 	Animation* _animation;
-	int animIndex = 0;
 	bool _settedAnimsValues;
 
-	void SetUniforms();
-
-	std::vector<Animation*> anim;
+	//std::vector<Animation*> anim;
 public:
 	Sprite();
+	Sprite(Renderer* render);
+	~Sprite();
+
+	void Init(SPRITE_TYPE type);
+	void Update(float timer);
+	void Draw();
+	void DeInit();
+
+	void SetTexture(Texture* texture);
+	void LoadTexture(const char* path, bool invertImage);
+	void AddAnimation(Atlas atlas, float speed);
+	void AddAnimation(int rows, int cols, float duration);
+	void ChangeAnimation(int index);
+	void SetTextureCoordinates(Frame f);
+
+	void SetTransparent(bool transparent);
+	bool GetTransparent();
+
+
+
+
+	//----------------------------
+	/*Sprite();
 	~Sprite();
 
 
@@ -74,7 +113,7 @@ public:
 
 	int SetAction(int firtsFrame, int lastFrame);
 
-	void Init(Renderer* render, Texture* tx);
+	void Init(Renderer* render, Texture* tx);*/
 	
 };
 

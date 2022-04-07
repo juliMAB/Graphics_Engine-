@@ -23,16 +23,73 @@ void Entity2D::InitCollider()
 
 void Entity2D::UpdateShader()
 {
-	_renderer->UpdateMVP(_uniformPos, _uniformView, _uniformProjection, model);
-	_renderer->UpdateColor(_uniformColor, _uniformAlpha, color);
-	_renderer->UpdateBoolValue(uniformAffectedLight, affectedLight);
-	_renderer->UpdateBoolValue(uniformUseTexture, useTexture);
-	_renderer->UpdateBoolValue(uniformUseMaterial, useMaterial);
+	_renderer->UpdateMVP(_uniformModel, _uniformView, _uniformProjection, matrix.model);
+	_renderer->UpdateColor(_uniformColor, _uniformAlpha, _color.GetColor());
+	_renderer->UpdateBoolValue(_uniformAffectedLight, affectedLight);
+	_renderer->UpdateBoolValue(_uniformUseTexture, useTexture);
+	_renderer->UpdateBoolValue(_uniformUseMaterial, useMaterial);
 }
 
-Entity2D::Entity2D()
+void Entity2D::Draw()
 {
+	if (material != nullptr)
+	{
+		material->UpdateShader();
+	}
 
+	_renderer->Draw(_VAO, _VBO, _EBO, vertices, tam, vertexs);
+}
+
+Entity2D::Entity2D() : Entity()
+{
+	_color;
+	material = nullptr;
+
+	_uniformColor = 0;
+	_uniformAlpha = 0;
+	_uniformUseTexture = 0;
+	_uniformUseMaterial = 0;
+	_uniformAffectedLight = 0;
+
+	_VAO = 0;
+	_VBO = 0;
+	_EBO = 0;
+	tam = 0;
+	vertexs = 0;
+	vertices = 0;
+
+	_hasCollider = false;
+	_moveable = false;
+
+	useTexture = false;
+	useMaterial = false;
+	affectedLight = true;
+}
+
+Entity2D::Entity2D(Renderer* render)
+{
+	color;
+	material = nullptr;
+
+	_uniformColor = 0;
+	_uniformAlpha = 0;
+	_uniformUseTexture = 0;
+	_uniformUseMaterial = 0;
+	_uniformAffectedLight = 0;
+
+	_VAO = 0;
+	_VBO = 0;
+	_EBO = 0;
+	tam = 0;
+	vertexs = 0;
+	vertices = 0;
+
+	_hasCollider = false;
+	_moveable = false;
+
+	useTexture = false;
+	useMaterial = true;
+	affectedLight = true;
 }
 
 Entity2D::~Entity2D()
@@ -42,9 +99,9 @@ Entity2D::~Entity2D()
 void Entity2D::SetUniforms()
 {
 	Entity::SetUniforms();
-	renderer->SetUniform(uniformColor, "color");
-	renderer->SetUniform(uniformAlpha, "a");
-	renderer->SetUniform(uniformUseTexture, "useTexture");
-	renderer->SetUniform(uniformUseMaterial, "useMaterial");
-	renderer->SetUniform(uniformAffectedLight, "affectedLight");
+	_renderer->SetUniform(_uniformColor, "color");
+	_renderer->SetUniform(_uniformAlpha, "a");
+	_renderer->SetUniform(_uniformUseTexture, "useTexture");
+	_renderer->SetUniform(_uniformUseMaterial, "useMaterial");
+	_renderer->SetUniform(_uniformAffectedLight, "affectedLight");
 }

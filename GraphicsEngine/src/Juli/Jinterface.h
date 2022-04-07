@@ -46,7 +46,15 @@ namespace  color
 	GraficosEngine_API struct RGB colorConverter(int hexValue);
 	GraficosEngine_API vec4 colorConverter(vec4 a);
 	GraficosEngine_API vec3 colorConverter(vec3 a);
+	 
 
+
+	GraficosEngine_API typedef struct RGBA
+	{
+		RGB _RGB;
+		float _A;
+		GraficosEngine_API vec4 GetColor();
+	};
 }
 
 #endif //JINTERFACE_H

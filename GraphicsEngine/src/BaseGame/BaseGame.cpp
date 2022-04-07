@@ -87,5 +87,5 @@ void BaseGame::InitInput() {
 }
 void BaseGame::InitCamera() {
 	_mainCamera = new Camera();
-	_mainCamera->Init(GetRenderer());
+	_mainCamera->Init(_renderer,_window);
 }

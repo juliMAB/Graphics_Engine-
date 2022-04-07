@@ -55,11 +55,14 @@
     <Filter Include="Archivos de origen\Shader">
       <UniqueIdentifier>{aefb876c-61c1-42f6-9d4d-da8b16c422fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\Material">
+      <UniqueIdentifier>{35b1526b-1d50-417d-b909-75df9eb0f2c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Material">
+      <UniqueIdentifier>{1a6177de-5da1-4894-9fd0-570da834cf2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Juli\Jinterfaces.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="src\Juli\Jinterface.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -119,6 +122,9 @@
     </ClCompile>
     <ClCompile Include="src\Shader\Shader.cpp">
       <Filter>Archivos de origen\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material\Material.cpp">
+      <Filter>Archivos de origen\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -193,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="src\Shader\Shader.h">
       <Filter>Archivos de encabezado\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material\Material.h">
+      <Filter>Archivos de encabezado\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity\vertexs.h">
+      <Filter>Archivos de encabezado\Entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

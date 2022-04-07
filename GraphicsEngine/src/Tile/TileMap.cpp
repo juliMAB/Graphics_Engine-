@@ -156,12 +156,12 @@ bool TileMap::importTileMap(std::string filePath,std::string imagepath) {
 			newTile.SetTexture(_texture);
 			newTile.SetScale(_tileWidth, _tileHeight);
 
-			newTile.Init(_render, _texture);
+			newTile.Init(SPRITE_TYPE::CUBE);
 
-			newTile.setTextureCoordinates((tileX + _tileWidth) / _imageWidth, tileY / _imageHeight, // top right
-				(tileX + _tileWidth) / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom right
-				tileX / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom left
-				tileX / _imageWidth, tileY / _imageHeight);// top left tileX / imageWidth, tileY / imageHeight
+			//newTile.setTextureCoordinates((tileX + _tileWidth) / _imageWidth, tileY / _imageHeight, // top right
+			//	(tileX + _tileWidth) / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom right
+			//	tileX / _imageWidth, (tileY + _tileHeight) / _imageHeight,// bottom left
+			//	tileX / _imageWidth, tileY / _imageHeight);// top left tileX / imageWidth, tileY / imageHeight
 
 			tileX += _tileWidth;
 			setTile(newTile);

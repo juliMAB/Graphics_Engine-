@@ -14,7 +14,7 @@ private:
 public:
 	int _width;
 	int _height;
-	uint _textureID;
+	uint _id;
 	Texture(const std::string path,bool flip);
 	Texture();
 	~Texture();

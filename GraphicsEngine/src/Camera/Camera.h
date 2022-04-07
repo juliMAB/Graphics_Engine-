@@ -34,8 +34,9 @@ public:
 	//--------Builder Destroy Init----------
 	Camera();
 	~Camera();
-	void Init(Renderer* render, float near, float far);
-	void Init(Renderer* render);
+	void Init(Renderer* render, Window* window);
+	void Init(Renderer* render, Window* window, float near, float far);
+	void SetWindow(Window* window);
 	//--------Seters----------
 	void SetNear(float);
 	void SetAspect();
@@ -64,17 +65,14 @@ public:
 
 private:
 
-	void Init(Renderer* render, Window* window, float, float);
 
 	void BaseInit();
+
 	
 	Renderer* _render;
 	Entity* _target;
 	Window* _window;
 
-	glm::vec3 up;
-	glm::vec3 right;
-	glm::vec3 front;
 	
 	glm::vec3 targetLook;
 	glm::vec3 WorldUp;

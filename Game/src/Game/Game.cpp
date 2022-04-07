@@ -32,12 +32,15 @@ void Game::Init() {
 	color::RGB colorfondo("CCFFCC");
 	backgroundColor = { colorfondo.r,colorfondo.g,colorfondo.b,1 };
 
-	_box = new Sprite(GetRenderer(),"res/box.png",true);
+	_box = new Sprite(GetRenderer());
+	_box->LoadTexture("res/box.png", true);
 	_box->SetScale(10.0f);
-	_box1 = new Sprite(GetRenderer(), "res/box.png", true);
+	_box1 = new Sprite(GetRenderer());
+	_box1->LoadTexture("res/box.png", true);
 	_box1->SetScale(20.0f);
 	_box1->SetRotY(90);
-	_pj = new Sprite(GetRenderer(), "res/b.png", true);
+	_pj = new Sprite(GetRenderer());
+	_pj->LoadTexture("res/b.png", true);
 	_pj->SetPos(5.f,0.f,0.f);
 	//_cam->SetTarget(_pj);
 

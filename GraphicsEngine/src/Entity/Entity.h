@@ -5,7 +5,7 @@
 #include <../GLM/glm.hpp>
 #include <../GLM/gtc/matrix_transform.hpp>
 #include <../GLM/gtc/type_ptr.hpp>
-
+#include "../Juli/Jinterface.h"
 struct Transform
 {
 	glm::vec3 position;
@@ -33,6 +33,7 @@ struct Matrix
 	glm::mat4 rotationZ;
 	glm::mat4 scale;
 };
+
 
 class GraficosEngine_API Entity {
 
@@ -91,6 +92,7 @@ protected:
 
 	virtual void SetUniforms();
 	//uint _vao, _vbo, _ebo, tam, indicesTam;
+	color::RGBA _color;
 	//----Updates-------
 
 	void UpdateMatrixData();

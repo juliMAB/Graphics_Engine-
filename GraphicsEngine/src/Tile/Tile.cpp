@@ -10,7 +10,7 @@ Tile::Tile(Renderer* rend)
 	_walkable = false;
 	_renderer = rend;
 }
-Tile::Tile(Renderer* rend, std::string path, bool flip) : Sprite(rend, path, flip)
+Tile::Tile(Renderer* rend, std::string path, bool flip) : Sprite(rend)
 {
 	_id = 0;
 	_walkable = false;
@@ -49,7 +49,7 @@ void Tile::setPosY(float y)
 }
 void Tile::draw(Renderer* rend)
 {
-	Draw(rend);
+	Draw();
 }
 void Tile::draw()
 {

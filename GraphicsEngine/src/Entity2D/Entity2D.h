@@ -3,6 +3,8 @@
 
 #include "../Exports/Exports.h"
 #include "../Entity/Entity.h"
+#include "../Material/Material.h"
+#include "../Entity/vertexs.h"
 
 class GraficosEngine_API Entity2D : public Entity {
 public:
@@ -14,16 +16,24 @@ public:
 	void InitCollider();
 
 	void UpdateShader();
-
+	void Draw();
+	
 	Entity2D();
+	Entity2D(Renderer* render);
 	~Entity2D();
 
+	color::RGBA color;
+	Material* material;
+
 protected:
-	uint uniformColor;
-	uint uniformAlpha;
-	uint uniformUseTexture;
-	uint uniformUseMaterial;
-	uint uniformAffectedLight;
+	uint _uniformColor;
+	uint _uniformAlpha;
+	uint _uniformUseTexture;
+	uint _uniformUseMaterial;
+	uint _uniformAffectedLight;
+
+	uint _VAO, _VBO, _EBO, tam, vertices;
+	float* vertexs;
 
 
 	bool useTexture;

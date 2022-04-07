@@ -140,71 +140,50 @@ void Entity::SetPos(glm::vec3 pos)
 //-----------------------------------------------
 //------------set Rot----------------------------
 
-void Entity::SetRotX(float x) {
-	transform.rotation.x =
-	rot.x = x;
-	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
-	UpdateMatrixData();
-}
-void Entity::SetRot(glm::vec3 rot)
+void Entity::SetRotations(glm::vec3 rot)
 {
 
 	transform.rotation = rot;
 	transform.localRotation = rot;
+	transform.eulerAngles = rot;
 	matrix.rotationX = glm::rotate(glm::mat4(1.f), glm::radians(rot.x), glm::vec3(1.f, 0.f, 0.f));
 	matrix.rotationY = glm::rotate(glm::mat4(1.f), glm::radians(rot.y), glm::vec3(0.f, 1.f, 0.f));
 	matrix.rotationZ = glm::rotate(glm::mat4(1.f), glm::radians(rot.z), glm::vec3(0.f, 0.f, 1.f));
 
-	UpdateMatrix();
+	UpdateMatrixData();
 	UpdateTransform();
+}
+void Entity::SetRotX(float x) {
+	SetRotations(glm::vec3(x, transform.eulerAngles.y, transform.eulerAngles.z));
+}
+void Entity::SetRotations(float x, float y, float z)
+{
+	SetRotations(glm::vec3(x, y, z));
 }
 
 void Entity::SetRotY(float y) {
-	rot.y = y;
-	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-	UpdateMatrixData();
+	SetRotations(glm::vec3(transform.eulerAngles.x, y, transform.eulerAngles.z));
 }
 void Entity::SetRotZ(float z) {
-	rot.z = z;
-	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-	UpdateMatrixData();
-}
-void Entity::SetRotations(float x, float y, float z) {
-	x += 180.0f;	// Todo: Fix
-	y += 180.0f;
-	
-	rotationX = glm::rotate(glm::mat4(1.0f), glm::radians(x), glm::vec3(1.0f, 0.0f, 0.0f));
-	rotationY = glm::rotate(glm::mat4(1.0f), glm::radians(y), glm::vec3(0.0f, 1.0f, 0.0f));
-	rotationZ = glm::rotate(glm::mat4(1.0f), glm::radians(z), glm::vec3(0.0f, 0.0f, 1.0f));
-	UpdateMatrixData();
-}
-void Entity::SetRotations(glm::vec3 rotation)
-{
-	SetRotations(rotation.x, rotation.y, rotation.z);	
+	SetRotations(glm::vec3(transform.eulerAngles.x, transform.eulerAngles.y, z));
 }
 void Entity::SetScale(glm::vec3 scale4)
 {
-	this->scale = scale4;
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale4);
+	transform.scale = scale4;
+	matrix.scale = glm::scale4(glm::mat4(1.0f), scale4);
 	UpdateMatrixData();
 }
 void Entity::SetScale(float x, float y)
 {
-	scale = { x, y, getScale().z };
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale);
-	UpdateMatrixData();
+	SetScale(glm::vec3(x, y, transform.scale.z));
 }
 void Entity::SetScale(float x, float y, float z)
 {
-	scale = { x, y, z };
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale);
-	UpdateMatrixData();
+	SetScale(glm::vec3(x, y, z));
 }
 void Entity::SetScale(float newScale)
 {
-	scale = { newScale,newScale,newScale };
-	scaleMat4 = glm::scale4(glm::mat4(1.0f), scale);
-	UpdateMatrixData();
+	SetScale(glm::vec3(newScale, newScale, newScale));
 }
 
 glm::vec3 Entity::getPos()
@@ -259,3 +238,4 @@ glm::vec3 Entity::QuatToVec(glm::quat quat, glm::vec3 vec)
 	res.z = (xz2 - wy2) * vec.x + (yz2 + wx2) * vec.y + (1.f - (xx2 + yy2)) * vec.z;
 	return res;
 }
+
