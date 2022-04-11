@@ -62,6 +62,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	}
 
 	_renderer = new Renderer();
+	_renderer->Init();
 	InitCamera();
 	InitInput();
 	_time = new Time();

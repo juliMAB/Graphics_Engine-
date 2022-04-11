@@ -30,6 +30,7 @@
 
 	void Sprite::Init(SPRITE_TYPE type)
 	{
+		_texture = new Texture();
 		this->type = type;
 		SetUniforms();
 
@@ -112,6 +113,10 @@
 
 	void Sprite::LoadTexture(const char* path, bool invertImage)
 	{
+		if (!_texture)
+		{
+			_texture = new Texture();
+		}
 		_texture->LoadTexture(path, invertImage);
 		animIndex = 0;
 		useTexture = true;

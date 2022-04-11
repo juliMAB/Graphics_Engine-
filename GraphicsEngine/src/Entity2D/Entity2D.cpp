@@ -66,7 +66,7 @@ Entity2D::Entity2D() : Entity()
 	affectedLight = true;
 }
 
-Entity2D::Entity2D(Renderer* render)
+Entity2D::Entity2D(Renderer* render) : Entity(render)
 {
 	color;
 	material = nullptr;

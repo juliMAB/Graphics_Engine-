@@ -23,7 +23,6 @@ protected:
 	glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
-	void ChangeBackgeound();
 	//----------C y D------------
 	BaseGame();
 	~BaseGame();
@@ -33,8 +32,6 @@ public:
 	virtual void Draw() = 0;
 	virtual void Deinit() = 0;
 	//---------------------------
-	void StartDraw();
-	void EndDraw();
 	int StartEngine(int width, int height, const char* windowName);
 	bool IsKeyDown(Input::KeyCode key);
 	bool IsKeyRelease(Input::KeyCode key);
