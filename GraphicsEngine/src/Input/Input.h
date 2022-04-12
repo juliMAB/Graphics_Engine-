@@ -148,6 +148,7 @@ public:
 
         KEY_LAST          = KEY_MENU
 	};
+    KeyCode _keyCode;
 	//static void CheckClearInputList();
 	static void StartInputSystem();
 

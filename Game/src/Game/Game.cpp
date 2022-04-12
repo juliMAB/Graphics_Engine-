@@ -25,7 +25,11 @@ bool firstMouse = true;
 //	UP
 //};
 int Down,Left,Right,Up;
-Game::Game() { StartEngine(960, 540, "In Lovyng"); }
+Game::Game() { 
+	StartEngine(960, 540, "In Lovyng");
+	_shape = nullptr;
+
+}
 Game::~Game() {}
 void Game::Init() {
 	_cam = _mainCamera;
@@ -43,6 +47,10 @@ void Game::Init() {
 	_pj->LoadTexture("res/b.png", true);
 	_pj->SetPos(5.f,0.f,0.f);
 	//_cam->SetTarget(_pj);
+	_cubeLight = new Shape(GetRenderer());
+	_cubeLight->Init(SHAPE_TYPE::CUBE);
+	_cubeLight->SetPos(glm::vec3(15.f, 2.5f, 0.f));
+	//_cubeLight->color.SetColor(0, 255, 0);
 
 
 	Input::lock_cursor(true);
@@ -50,7 +58,7 @@ void Game::Init() {
 }
 
 void Game::Deinit() {
-	std::cout << "\n\nEnd.\n\n";
+	std::cout << "-Game";
 }
 void Game::Update()
 {	

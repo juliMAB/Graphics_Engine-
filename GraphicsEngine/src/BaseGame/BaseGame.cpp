@@ -1,6 +1,12 @@
 #include "BaseGame.h"
 
 BaseGame::BaseGame() {
+	_input = nullptr;
+	_mainCamera = nullptr;
+	_renderer = nullptr;
+	_time = nullptr;
+	_window = nullptr;
+	backgroundColor = glm::vec4();
 
 }
 BaseGame::~BaseGame() {
@@ -42,7 +48,7 @@ Window* BaseGame::GetWindow() {
 }
 bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowName)
 {
-	std::cout << "Initing Engine" << std::endl;
+	std::cout << "+Init Engine" << std::endl;
 	if (!glfwInit())
 		return false;
 
@@ -66,7 +72,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	InitCamera();
 	InitInput();
 	_time = new Time();
-	std::cout << "End Init Engine" << std::endl;
+	std::cout << "-Init Engine" << std::endl;
 	return true;
 }
 Renderer* BaseGame::GetRenderer() {

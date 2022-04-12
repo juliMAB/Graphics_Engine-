@@ -16,10 +16,7 @@ Window::Window(int w, int h, std::string name)
 	MakeWindow(w, h, name);
 }
 void Window::Start() {
-	std::cout << "Starting Window" << std::endl;
 	glfwMakeContextCurrent(_window);
-	std::cout << "glfw Make Context Current" << std::endl;
-	std::cout << "End Starting Window" << std::endl << std::endl;
 }
 
 int Window::MakeWindow(int w, int h, std::string name)
@@ -31,7 +28,7 @@ int Window::MakeWindow(int w, int h, std::string name)
 		std::cout << "Fail to create GLFW window" << std::endl;
 		return 0;
 	}
-	std::cout << "glfw Create window" << std::endl;
+	std::cout << "+window" << std::endl;
 	return 1;
 }
 GLFWwindow* Window::GetWindow() {

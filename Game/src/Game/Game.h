@@ -10,6 +10,7 @@ class Game : BaseGame {
 	Sprite* _box1;
 	Input* input;
 	Camera* _cam;
+	Shape* _cubeLight;
 	float cameraSpeed = 30.f;
 public:
 	Game();
