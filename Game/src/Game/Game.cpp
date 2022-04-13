@@ -6,7 +6,7 @@ float rotationForce = 2;
 
 float position = 0;
 float movForce = 2.5f;
-
+float speed = 2;
 glm::vec3 scale = { 1, 1, 1 };
 float scaleForce = 0.2f;
 float scale1=0;
@@ -43,7 +43,16 @@ void Game::Init() {
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	_cam->SetCameraType(CAMERA_TYPE::TPS);
-	//_cam->SetTarget(_pj);
+
+	_floor = new Sprite(GetRenderer());
+	_floor->Init(SPRITE_TYPE::QUAD);
+	_floor->LoadTexture("res/p.jpg",false);
+	_floor->SetPos(glm::vec3(0));
+	_floor->SetScale(50);
+	_floor->SetRotX(90);
+
+
+
 	_cubeLight = new Shape(GetRenderer());
 	_cubeLight->Init(SHAPE_TYPE::CUBE);
 	_cubeLight->SetPos(glm::vec3(15.f, 2.5f, 0.f));
@@ -113,19 +122,25 @@ void Game::Draw() {
 	_cubeLight->Draw();
 	_spotCubeLight->Draw();
 	_pj->Draw();
+	_floor->Draw();
 }
 
 void Game::processInput()
 {
 	glm::vec3 a(0);
-	if (Input::IsKeyDown(Input::KEY_W))
-		a += vec3(0, 0, 1);
-	if (Input::IsKeyDown(Input::KEY_S))
-		a += vec3(0, 0, -1);
-	if (Input::IsKeyDown(Input::KEY_A))
-		a += vec3(1, 0, 0);
-	if (Input::IsKeyDown(Input::KEY_D))
-		a += vec3(-1, 0, 0);
+	float t = _time->_deltaTime * speed;
+	if (Input::IsKeyPressed(Input::KEY_W))
+		a += vec3(0, 0, t);
+	if (Input::IsKeyPressed(Input::KEY_S))
+		a += vec3(0, 0, -t);
+	if (Input::IsKeyPressed(Input::KEY_A))
+		a += vec3(t, 0, 0);
+	if (Input::IsKeyPressed(Input::KEY_D))
+		a += vec3(-t, 0, 0);
+	if (Input::IsKeyPressed(Input::KEY_Q))
+		a += vec3(0, t, 0);
+	if (Input::IsKeyPressed(Input::KEY_E))
+		a += vec3(0, -t, 0);
 	if (Input::IsKeyDown(Input::KEY_0))
 		_cam->debugCamera();
 	if (Input::IsKeyDown(Input::KEY_C))

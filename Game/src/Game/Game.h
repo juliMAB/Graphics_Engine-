@@ -8,6 +8,7 @@ class Game : BaseGame {
 	Sprite* _pj;
 	Sprite* _box;
 	Sprite* _box1;
+	Sprite* _floor;
 	Input* input;
 	Camera* _cam;
 	Shape* _cubeLight;
