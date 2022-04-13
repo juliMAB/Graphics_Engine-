@@ -1,12 +1,17 @@
 #include "BaseGame.h"
 
+
+
+
+
 BaseGame::BaseGame() {
 	_input = nullptr;
 	_mainCamera = nullptr;
 	_renderer = nullptr;
 	_time = nullptr;
 	_window = nullptr;
-	backgroundColor = glm::vec4();
+	_lightManager = nullptr;
+	//backgroundColor = glm::vec4();
 
 }
 BaseGame::~BaseGame() {
@@ -32,6 +37,7 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 			Update();
 			Draw();
 
+			_lightManager->UseLights();
 			_renderer->PostRender(GetWindow());
 		}
 	}
@@ -67,11 +73,13 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 		return false;
 	}
 
-	_renderer = new Renderer();
-	_renderer->Init();
+	InitRender();
+
+	_time = new Time();
+	_lightManager = new LightManager(GetRenderer());
+
 	InitCamera();
 	InitInput();
-	_time = new Time();
 	std::cout << "-Init Engine" << std::endl;
 	return true;
 }
@@ -95,4 +103,9 @@ void BaseGame::InitInput() {
 void BaseGame::InitCamera() {
 	_mainCamera = new Camera();
 	_mainCamera->Init(_renderer,_window);
+}
+
+void BaseGame::InitRender() {
+	_renderer = new Renderer();
+	_renderer->Init();
 }

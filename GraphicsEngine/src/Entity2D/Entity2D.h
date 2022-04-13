@@ -15,7 +15,6 @@ public:
 	glm::vec3 GetPivot();
 	void InitCollider();
 
-	void UpdateShader();
 	void Draw();
 	
 	Entity2D();
@@ -41,6 +40,8 @@ protected:
 	bool affectedLight;
 
 	void SetUniforms();
+	void UpdateShader();
+private:
 };
 	
 

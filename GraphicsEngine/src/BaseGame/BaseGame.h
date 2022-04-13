@@ -9,18 +9,20 @@
 #include "../Tile/TileMap.h"
 #include "../Camera/Camera.h"
 #include "../Juli/Jinterface.h"
+#include "../LightManager/lightManager.h"
 class GraficosEngine_API BaseGame {
 private:
-	Window* _window;
-	Renderer* _renderer;
 	Input* _input;
 	void DeinitEngine();
 	Window* GetWindow();
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
 protected:
+	Window* _window;
+	Renderer* _renderer;
 	Time* _time;
 	Camera* _mainCamera;
-	glm::vec4 backgroundColor;
+	LightManager* _lightManager;
+	//glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
 	//----------C y D------------
@@ -38,6 +40,7 @@ public:
 	bool IsKeyUp(Input::KeyCode key);
 	void InitInput();
 	void InitCamera();
+	void InitRender();
 	double getCurrentTime();
 	// --------------------
 };

@@ -12,6 +12,8 @@ class Game : BaseGame {
 	Camera* _cam;
 	Shape* _cubeLight;
 	float cameraSpeed = 30.f;
+	Material* defaultMaterial;
+	Shape* _spotCubeLight;
 public:
 	Game();
 	~Game();

@@ -55,6 +55,8 @@
 
 		_renderer->SetBaseAttribs(_locationPosition, 3, 6, 0);
 		_renderer->SetBaseAttribs(_locationNormal, 3, 6, 3);
+
+		_color._A = 1;
 	}
 
 	void Shape::Draw()

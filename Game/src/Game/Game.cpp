@@ -32,26 +32,70 @@ Game::Game() {
 }
 Game::~Game() {}
 void Game::Init() {
+	GetRenderer()->SetDepth();
 	_cam = _mainCamera;
 	color::RGB colorfondo("CCFFCC");
-	backgroundColor = { colorfondo.r,colorfondo.g,colorfondo.b,1 };
 
-	_box = new Sprite(GetRenderer());
-	_box->LoadTexture("res/box.png", true);
-	_box->SetScale(10.0f);
-	_box1 = new Sprite(GetRenderer());
-	_box1->LoadTexture("res/box.png", true);
-	_box1->SetScale(20.0f);
-	_box1->SetRotY(90);
 	_pj = new Sprite(GetRenderer());
 	_pj->LoadTexture("res/b.png", true);
 	_pj->SetPos(5.f,0.f,0.f);
+	_cam->SetTarget(_pj);
+	_cam->SetSensitivity(0.25f);
+	_cam->SetOffset(10.f);
+	_cam->SetCameraType(CAMERA_TYPE::TPS);
 	//_cam->SetTarget(_pj);
 	_cubeLight = new Shape(GetRenderer());
 	_cubeLight->Init(SHAPE_TYPE::CUBE);
 	_cubeLight->SetPos(glm::vec3(15.f, 2.5f, 0.f));
-	//_cubeLight->color.SetColor(0, 255, 0);
+	_cubeLight->color.SetColor(0, 255, 0);
 
+	_spotCubeLight = new Shape(GetRenderer());
+	_spotCubeLight->Init(SHAPE_TYPE::CUBE);
+	_spotCubeLight->SetPos(glm::vec3(0.f, 5.f, 0.f));
+	_spotCubeLight->color.SetColor(255, 0, 0);
+	_spotCubeLight->SetScale(0.75f);
+
+	defaultMaterial = new Material(GetRenderer());
+	defaultMaterial->Init();
+	defaultMaterial->SetShininess(32.f);
+	defaultMaterial->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
+	defaultMaterial->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
+	defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+	defaultMaterial->UpdateShader();
+
+	_lightManager->AddLight(LIGHT_TYPE::DIRECTIONAL);
+	DirectionalLight* directionalLight = _lightManager->GetDirectionalLight();
+	directionalLight->Init();
+	directionalLight->color.SetColor(240, 240, 240);
+	directionalLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
+	directionalLight->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
+	directionalLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
+	directionalLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+
+	_lightManager->AddLight(LIGHT_TYPE::POINTLIGHT);
+	PointLight* pointLight = _lightManager->GetLasPointLightCreated();
+	pointLight->SetPos(_cubeLight->getPos() + glm::vec3(0.f, 2.5f, 0.f));
+	pointLight->color = _cubeLight->color;
+	pointLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
+	pointLight->SetDiffuse(glm::vec3(0.8f, 0.8f, 0.8f));
+	pointLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+	pointLight->SetConstant(1.f);
+	pointLight->SetLinear(0.09f);
+	pointLight->SetQuadratic(0.032f);
+
+	_lightManager->AddLight(LIGHT_TYPE::SPOTLIGHT);
+	SpotLight* spotLight = _lightManager->GetLasSpotLightCreated();
+	spotLight->SetPos(_spotCubeLight->getPos());
+	spotLight->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
+	spotLight->color = _spotCubeLight->color;
+	spotLight->SetAmbient(glm::vec3(1.f, 1.f, 1.f));
+	spotLight->SetDiffuse(glm::vec3(1.f, 1.f, 1.f));
+	spotLight->SetSpecular(glm::vec3(1.f, 1.f, 1.f));
+	spotLight->SetConstant(1.f);
+	spotLight->SetLinear(0.1f);
+	spotLight->SetQuadratic(0.032f);
+	spotLight->SetCutOff(25.f);
+	spotLight->SetOuterCutOff(15.f);
 
 	Input::lock_cursor(true);
 	_cam->SetCameraType(CAMERA_TYPE::TPS);
@@ -66,8 +110,8 @@ void Game::Update()
 	processInput();
 }
 void Game::Draw() {
-	_box->Draw();
-	_box1->Draw();
+	_cubeLight->Draw();
+	_spotCubeLight->Draw();
 	_pj->Draw();
 }
 

@@ -42,7 +42,7 @@ void Entity2D::Draw()
 
 Entity2D::Entity2D() : Entity()
 {
-	_color;
+	_color = color::RGBA();
 	material = nullptr;
 
 	_uniformColor = 0;
@@ -68,7 +68,7 @@ Entity2D::Entity2D() : Entity()
 
 Entity2D::Entity2D(Renderer* render) : Entity(render)
 {
-	color;
+	_color = color::RGBA();
 	material = nullptr;
 
 	_uniformColor = 0;

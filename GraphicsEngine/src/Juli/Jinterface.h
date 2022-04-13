@@ -54,6 +54,21 @@ namespace  color
 		RGB _RGB;
 		float _A;
 		GraficosEngine_API vec4 GetColor();
+		void SetColor(float r, float g, float b, float a)
+		{
+			_RGB = RGB(r, g, b);
+			_A = a;
+		}
+		void SetColor(float r, float g, float b)
+		{
+			_RGB = RGB(r, g, b);
+			_A = 1.0f;
+		}
+		RGBA()
+		{
+			_RGB = RGB(1, 1, 1);
+			_A = 1.0f;
+		}
 	};
 }
 

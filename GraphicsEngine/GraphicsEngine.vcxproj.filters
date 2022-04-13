@@ -61,6 +61,12 @@
     <Filter Include="Archivos de encabezado\Material">
       <UniqueIdentifier>{1a6177de-5da1-4894-9fd0-570da834cf2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Light">
+      <UniqueIdentifier>{58c874ce-4f86-49e0-a785-c8ab3d4ecd13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Light">
+      <UniqueIdentifier>{adc2895f-1311-4d0e-bfc6-a2dc1433be92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -125,6 +131,21 @@
     </ClCompile>
     <ClCompile Include="src\Material\Material.cpp">
       <Filter>Archivos de origen\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light\light.cpp">
+      <Filter>Archivos de origen\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light\directionalLight.cpp">
+      <Filter>Archivos de origen\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light\pointLight.cpp">
+      <Filter>Archivos de origen\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light\spotLight.cpp">
+      <Filter>Archivos de origen\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightManager\lightManager.cpp">
+      <Filter>Archivos de origen\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +226,21 @@
     </ClInclude>
     <ClInclude Include="src\Entity\vertexs.h">
       <Filter>Archivos de encabezado\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LightManager\lightManager.h">
+      <Filter>Archivos de encabezado\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Light\DirectionalLight.h">
+      <Filter>Archivos de encabezado\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Light\light.h">
+      <Filter>Archivos de encabezado\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Light\pointLight.h">
+      <Filter>Archivos de encabezado\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Light\spotLight.h">
+      <Filter>Archivos de encabezado\Light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

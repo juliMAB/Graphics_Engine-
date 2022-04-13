@@ -192,6 +192,11 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="src\Entity\Entity.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Juli\Jinterface.cpp" />
+    <ClCompile Include="src\LightManager\lightManager.cpp" />
+    <ClCompile Include="src\Light\directionalLight.cpp" />
+    <ClCompile Include="src\Light\light.cpp" />
+    <ClCompile Include="src\Light\pointLight.cpp" />
+    <ClCompile Include="src\Light\spotLight.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Shader\Shader.cpp" />
@@ -220,6 +225,11 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
     <ClInclude Include="src\Juli\Utilitis.h" />
+    <ClInclude Include="src\LightManager\lightManager.h" />
+    <ClInclude Include="src\Light\DirectionalLight.h" />
+    <ClInclude Include="src\Light\light.h" />
+    <ClInclude Include="src\Light\pointLight.h" />
+    <ClInclude Include="src\Light\spotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />
