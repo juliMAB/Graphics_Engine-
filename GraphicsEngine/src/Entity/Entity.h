@@ -71,6 +71,9 @@ public:
 	glm::vec3 getLastPos();
 	void Draw(uint shaderId);
 
+	color::RGBA _color;
+	
+
 
 private:
 	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);
@@ -89,7 +92,6 @@ protected:
 
 	virtual void SetUniforms();
 	//uint _vao, _vbo, _ebo, tam, indicesTam;
-	color::RGBA _color;
 	//----Updates-------
 
 	void UpdateMatrixData();

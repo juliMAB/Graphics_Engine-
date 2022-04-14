@@ -141,7 +141,7 @@ bool Input::IsKeyUp(KeyCode keyCode) {
 
 void Input::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	std::cout << "callback_Scroll: X:" << xoffset << " Y: " << yoffset << std::endl;
+	//std::cout << "callback_Scroll: X:" << xoffset << " Y: " << yoffset << std::endl;
 	mainCam->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 

@@ -37,8 +37,11 @@ void Game::Init() {
 	color::RGB colorfondo("CCFFCC");
 
 	_pj = new Sprite(GetRenderer());
-	_pj->LoadTexture("res/b.png", true);
+	_pj->Init(SPRITE_TYPE::CUBE);
+	_pj->LoadTexture("res/c.jpg", false);
 	_pj->SetPos(5.f,0.f,0.f);
+	_pj->_color.SetColor(1, 1, 1,.5f);
+	
 	_cam->SetTarget(_pj);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
@@ -51,17 +54,24 @@ void Game::Init() {
 	_floor->SetScale(50);
 	_floor->SetRotX(90);
 
+	_box = new Sprite(GetRenderer());
+	_box->Init(SPRITE_TYPE::QUAD);
+	_box->LoadTexture("res/Box.png", false);
+	_box->SetPos(glm::vec3(0));
+	_box->SetScale(50);
+	//_box->SetRotX(90);
+
 
 
 	_cubeLight = new Shape(GetRenderer());
 	_cubeLight->Init(SHAPE_TYPE::CUBE);
 	_cubeLight->SetPos(glm::vec3(15.f, 2.5f, 0.f));
-	_cubeLight->color.SetColor(0, 255, 0);
+	_cubeLight->_color.SetColor(0, 255, 0);
 
 	_spotCubeLight = new Shape(GetRenderer());
 	_spotCubeLight->Init(SHAPE_TYPE::CUBE);
 	_spotCubeLight->SetPos(glm::vec3(0.f, 5.f, 0.f));
-	_spotCubeLight->color.SetColor(255, 0, 0);
+	_spotCubeLight->_color.SetColor(255, 0, 0);
 	_spotCubeLight->SetScale(0.75f);
 
 	defaultMaterial = new Material(GetRenderer());
@@ -84,7 +94,7 @@ void Game::Init() {
 	_lightManager->AddLight(LIGHT_TYPE::POINTLIGHT);
 	PointLight* pointLight = _lightManager->GetLasPointLightCreated();
 	pointLight->SetPos(_cubeLight->getPos() + glm::vec3(0.f, 2.5f, 0.f));
-	pointLight->color = _cubeLight->color;
+	pointLight->color = _cubeLight->_color;
 	pointLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
 	pointLight->SetDiffuse(glm::vec3(0.8f, 0.8f, 0.8f));
 	pointLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
@@ -96,7 +106,7 @@ void Game::Init() {
 	SpotLight* spotLight = _lightManager->GetLasSpotLightCreated();
 	spotLight->SetPos(_spotCubeLight->getPos());
 	spotLight->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
-	spotLight->color = _spotCubeLight->color;
+	spotLight->color = _spotCubeLight->_color;
 	spotLight->SetAmbient(glm::vec3(1.f, 1.f, 1.f));
 	spotLight->SetDiffuse(glm::vec3(1.f, 1.f, 1.f));
 	spotLight->SetSpecular(glm::vec3(1.f, 1.f, 1.f));
@@ -123,6 +133,7 @@ void Game::Draw() {
 	_spotCubeLight->Draw();
 	_pj->Draw();
 	_floor->Draw();
+	_box->Draw();
 }
 
 void Game::processInput()

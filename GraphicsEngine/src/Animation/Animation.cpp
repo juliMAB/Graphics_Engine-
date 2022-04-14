@@ -197,6 +197,10 @@
 
 	Frame::Frame()
 	{
+		uvcords[0] = { 1,1 };
+		uvcords[1] = { 1,0 };
+		uvcords[2] = { 0,0 };
+		uvcords[3] = { 0,1 };
 	}
 
 	Frame::~Frame()

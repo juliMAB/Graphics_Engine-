@@ -17,6 +17,7 @@
 	{
 		type = SPRITE_TYPE::QUAD;
 		_texture = nullptr;
+		_texture = new Texture();
 		uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();

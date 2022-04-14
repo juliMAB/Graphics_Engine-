@@ -23,9 +23,16 @@ namespace  color
 				
 				return;
 			}
-			this->r = 1;
-			this->g = 1;
-			this->b = 1;
+			if (r<0 || g<0 || b<0)
+			{
+				this->r = 1;
+				this->g = 1;
+				this->b = 1;
+				return;
+			}
+			this->r = r;
+			this->g = g;
+			this->b = b;
 		}
 		RGB(std::string hexValue) {
 			const char* str = hexValue.c_str();

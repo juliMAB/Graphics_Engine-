@@ -21,7 +21,7 @@ public:
 	Entity2D(Renderer* render);
 	~Entity2D();
 
-	color::RGBA color;
+	//color::RGBA color;
 	Material* material;
 
 protected:
