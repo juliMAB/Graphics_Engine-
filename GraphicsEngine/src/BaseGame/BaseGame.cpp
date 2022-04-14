@@ -109,3 +109,7 @@ void BaseGame::InitRender() {
 	_renderer = new Renderer();
 	_renderer->Init();
 }
+
+void BaseGame::SetBackGroundColor(color::RGBA color) {
+	_renderer->SetBackgroundColor(color.GetColor());
+}

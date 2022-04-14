@@ -23,7 +23,7 @@ private:
 	
 	//Window* _window;
 	Shader* _shader;
-
+	glm::vec4 _clearColor;
 	glm::mat4 _projection, _view ;
 	void Start();
 	void InitShader();
@@ -53,7 +53,6 @@ public:
 	void SetView(glm::mat4 view);
 	void SetProjection(glm::mat4 projection);
 	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
-	void SetClearColor(float r, float g, float b, float a);
 	void ClearScreen();
 	void PostRender(Window* window);
 	void TextureEnable(uint textureId);
@@ -67,5 +66,6 @@ public:
 	void UnBind(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
 	void SetLocation(uint& location, const char* loc);
 	void SetUniform(uint& uniform, const char* loc);
+	void SetBackgroundColor(glm::vec4 color);
 };
 #endif

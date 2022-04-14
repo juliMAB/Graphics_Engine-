@@ -35,7 +35,8 @@ void Game::Init() {
 	GetRenderer()->SetDepth();
 	_cam = _mainCamera;
 	color::RGB colorfondo("CCFFCC");
-
+	color::RGBA colorFondoRGBA(colorfondo);
+	SetBackGroundColor(colorFondoRGBA);
 	_pj = new Sprite(GetRenderer());
 	_pj->Init(SPRITE_TYPE::CUBE);
 	_pj->LoadTexture("res/c.jpg", false);

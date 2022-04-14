@@ -109,6 +109,10 @@ void Renderer::SetUniform(uint& uniform, const char* loc)
 {
 	uniform = glGetUniformLocation(GetShaderId(), loc);
 }
+void Renderer::SetBackgroundColor(glm::vec4 color)
+{
+	_clearColor = color;
+}
 void Renderer::SetBaseAttribs(uint location, int size, int stride, int offset)
 {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
@@ -173,13 +177,10 @@ void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts,
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-void Renderer::SetClearColor(float r, float g, float b, float a)
-{
-	glClearColor(r, g, b, a);
-}
+
 void Renderer::ClearScreen()
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	glClearColor(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 void Renderer::PostRender(Window* window)

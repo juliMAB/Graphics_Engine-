@@ -76,6 +76,18 @@ namespace  color
 			_RGB = RGB(1, 1, 1);
 			_A = 1.0f;
 		}
+		RGBA(RGB rgb)
+		{
+			_RGB = rgb;
+			_A= 1.0f;
+		}
+		RGBA(glm::vec4 v)
+		{
+			_RGB.r = v.r;
+			_RGB.g = v.g;
+			_RGB.b = v.b;
+			_A = v.a;
+		}
 	};
 }
 
