@@ -39,9 +39,12 @@ public:
 	bool IsKeyDown(Input::KeyCode key);
 	bool IsKeyRelease(Input::KeyCode key);
 	bool IsKeyUp(Input::KeyCode key);
+	bool InitGlew();
 	void InitInput();
 	void InitCamera();
+	bool InitWindow(int windowSizeX, int windowSizeY, std::string windowName);
 	void InitRender();
+	void InitTime();
 	double getCurrentTime();
 	// --------------------
 	void SetBackGroundColor(color::RGBA color);

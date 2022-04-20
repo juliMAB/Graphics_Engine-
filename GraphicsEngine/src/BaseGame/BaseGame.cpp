@@ -57,27 +57,12 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	std::cout << "+Init Engine" << std::endl;
 	if (!glfwInit())
 		return false;
-
-	_window = new Window(windowSizeX, windowSizeY, windowName);
-	if (!_window->GetWindow())
-	{
-		glfwTerminate();
-		delete _window;
+	if (!InitWindow(windowSizeX,windowSizeY,windowName))
 		return false;
-	}
-	_window->Start();
-
-	if (glewInit() != GLEW_OK) // tiene que ir despues de la creacion del contexto de glfw si o si
-	{
-		std::cout << "Glew error" << std::endl;
+	if (!InitGlew())
 		return false;
-	}
-
 	InitRender();
-
-	_time = new Time();
-	_lightManager = new LightManager(GetRenderer());
-
+	InitTime();
 	InitCamera();
 	InitInput();
 	std::cout << "-Init Engine" << std::endl;
@@ -95,6 +80,15 @@ bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
 bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPressed(key); }
 bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
 
+bool BaseGame::InitGlew() {
+	if (glewInit() != GLEW_OK) // tiene que ir despues de la creacion del contexto de glfw si o si
+	{
+		std::cout << "Glew error" << std::endl;
+		return false;
+	}
+	return true;
+}
+
 void BaseGame::InitInput() {
 	Input::SetWindow(_window);
 	Input::StartInputSystem();
@@ -105,9 +99,25 @@ void BaseGame::InitCamera() {
 	_mainCamera->Init(_renderer,_window);
 }
 
+bool BaseGame::InitWindow(int windowSizeX, int windowSizeY, std::string windowName) {
+	_window = new Window(windowSizeX, windowSizeY, windowName);
+	if (!_window->GetWindow())
+	{
+		glfwTerminate();
+		delete _window;
+		return false;
+	}
+	_window->Start();
+	return true;
+}
+
 void BaseGame::InitRender() {
 	_renderer = new Renderer();
 	_renderer->Init();
+}
+void BaseGame::InitTime() {
+	_time = new Time();
+	_lightManager = new LightManager(GetRenderer());
 }
 
 void BaseGame::SetBackGroundColor(color::RGBA color) {
