@@ -40,6 +40,11 @@ void Game::Init() {
 	_pj->Init(SHAPE_TYPE::CUBE);
 	_pj->SetPos(5.f,0.f,0.f);
 	_pj->_color.SetColor(1, 0, 0, 1);
+
+	_shapes[0] = new Shape(_renderer);
+	_shapes[0]->Init(SHAPE_TYPE::CUBE);
+	_shapes[0]->SetPos(5.f, 2.f, 0.f);
+	_shapes[0]->_color.SetColor(1, 1, 1, 1);
 	
 	_cam->SetTarget(_pj);
 	_cam->SetSensitivity(0.25f);
@@ -53,10 +58,9 @@ void Game::Init() {
 	defaultMaterial->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
 	defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 	defaultMaterial->UpdateShader();
-
 	_potatoLight = new Light(_renderer);
-	_potatoLight->SetPos(5,5, 0);
-	_renderer->SetLight(glm::vec3(1, 0, 0),_potatoLight->getPos());
+	_potatoLight->SetPos(_shapes[0]->getPos());
+	_renderer->SetLight(glm::vec3(0.5f, 1, 0.5f),_potatoLight->getPos());
 
 	
 	//_lightManager->AddLight(LIGHT_TYPE::DIRECTIONAL);
@@ -107,6 +111,7 @@ void Game::Update()
 }
 void Game::Draw() {
 	_pj->Draw();
+	_shapes[0]->Draw();
 }
 
 void Game::processInput()

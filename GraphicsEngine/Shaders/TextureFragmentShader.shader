@@ -31,5 +31,5 @@ void main()
 		result = texture(theTexture, TexCoord) * vec4(color, alpha);
 
 	vec3 ambientColor = ambient * color;
-	FragColor = result * vec4(ambientColor + lightDir + diffuse, 1.0);
+	FragColor = result * vec4(ambientColor + diffuse, 1.0);
 }
