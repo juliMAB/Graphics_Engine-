@@ -67,5 +67,6 @@ public:
 	void SetLocation(uint& location, const char* loc);
 	void SetUniform(uint& uniform, const char* loc);
 	void SetBackgroundColor(glm::vec4 color);
+	void SetLight(glm::vec3 color);
 };
 #endif

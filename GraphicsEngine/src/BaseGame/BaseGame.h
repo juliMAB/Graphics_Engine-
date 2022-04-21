@@ -16,7 +16,6 @@ private:
 	void DeinitEngine();
 	Window* GetWindow();
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
-	void SetBackgroundColor(color::RGBA color);
 protected:
 	Window* _window;
 	Renderer* _renderer;

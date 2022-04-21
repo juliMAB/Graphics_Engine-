@@ -4,17 +4,11 @@
 
 
 class Game : BaseGame {
-	Shape* _shape;
-	Sprite* _pj;
-	Sprite* _box;
-	Sprite* _box1;
-	Sprite* _floor;
-	Input* input;
+	Shape* _shapes[3];
+	Shape* _pj;
 	Camera* _cam;
-	Shape* _cubeLight;
 	float cameraSpeed = 30.f;
 	Material* defaultMaterial;
-	Shape* _spotCubeLight;
 public:
 	Game();
 	~Game();
@@ -24,6 +18,8 @@ public:
 	void Draw() override;
 
 	void processInput();
+
+	void UpdateCameraType();
 
 };
 #endif

@@ -1,21 +1,17 @@
 #version 330 core
 layout(location = 0) in vec3 aPos;
-layout(location = 1) in vec2 aTex;
-layout(location = 2) in vec3 aNor;
+layout(location = 1) in vec3 aColor;
+layout(location = 2) in vec2 tex;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+uniform mat4 transform = mat4(1.0f);
+uniform mat4 view = mat4(1.0f);
+uniform mat4 projection = mat4(1.0f);
 
-out vec3 FragPos;
-out vec3 Normal;
 out vec2 TexCoord;
-
+out vec4 vertexColor;
 void main()
 {
-    FragPos = (model * vec4(aPos, 1.0f)).xyz;
-    TexCoord = aTex;
-    Normal = mat3(transpose(inverse(model))) * aNor;
-
-    gl_Position = projection * view * vec4(FragPos, 1.0f);
+    gl_Position = projection * view * transform * vec4(aPos, 1.0);
+    TexCoord = tex;
+    vertexColor = vec4(aColor.x, aColor.y, aColor.z, 1.0); // set the output variable to a dark-red color
 }

@@ -244,12 +244,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\TextureFragmentShader.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
-    <None Include="Shaders\TextureVertexShader.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
     <None Include="Shaders\SolidFragmentShader.shader">
       <Filter>res\Shaders</Filter>
     </None>
@@ -257,5 +251,11 @@
       <Filter>res\Shaders</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="Shaders\TextureFragmentShader.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
+    <None Include="Shaders\TextureVertexShader.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
