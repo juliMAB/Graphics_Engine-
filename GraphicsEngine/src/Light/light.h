@@ -15,8 +15,6 @@
 
 		color::RGBA color;
 
-		virtual void UseLight() = 0;
-
 		void SetAmbient(glm::vec3 ambient);
 		void SetDiffuse(glm::vec3 diffuse);
 		void SetSpecular(glm::vec3 specular);

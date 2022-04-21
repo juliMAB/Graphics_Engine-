@@ -113,10 +113,12 @@ void Renderer::SetBackgroundColor(glm::vec4 color)
 {
 	_clearColor = color;
 }
-void Renderer::SetLight(glm::vec3 color)
+void Renderer::SetLight(glm::vec3 color, glm::vec3 position)
 {
 	uint loc = glGetUniformLocation(_shader->GetShaderId(), "lightColor");
+	uint locpos = glGetUniformLocation(_shader->GetShaderId(), "lightPos");
 	glUniform3fv(loc, 1, glm::value_ptr(color));
+	glUniform3fv(locpos, 1, glm::value_ptr(position));
 }
 void Renderer::SetBaseAttribs(uint location, int size, int stride, int offset)
 {

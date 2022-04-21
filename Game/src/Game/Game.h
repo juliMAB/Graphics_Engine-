@@ -9,6 +9,7 @@ class Game : BaseGame {
 	Camera* _cam;
 	float cameraSpeed = 30.f;
 	Material* defaultMaterial;
+	Light* _potatoLight;
 public:
 	Game();
 	~Game();

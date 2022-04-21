@@ -10,6 +10,7 @@
 #include "../Camera/Camera.h"
 #include "../Juli/Jinterface.h"
 #include "../LightManager/lightManager.h"
+#include "../Light/light.h"
 class GraficosEngine_API BaseGame {
 private:
 	Input* _input;
@@ -21,7 +22,6 @@ protected:
 	Renderer* _renderer;
 	Time* _time;
 	Camera* _mainCamera;
-	LightManager* _lightManager;
 	//glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();

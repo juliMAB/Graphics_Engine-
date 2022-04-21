@@ -10,7 +10,6 @@ BaseGame::BaseGame() {
 	_renderer = nullptr;
 	_time = nullptr;
 	_window = nullptr;
-	_lightManager = nullptr;
 	//backgroundColor = glm::vec4();
 
 }
@@ -36,8 +35,6 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 
 			Update();
 			Draw();
-
-			_lightManager->UseLights();
 			_renderer->PostRender(GetWindow());
 		}
 	}
@@ -117,7 +114,6 @@ void BaseGame::InitRender() {
 }
 void BaseGame::InitTime() {
 	_time = new Time();
-	_lightManager = new LightManager(GetRenderer());
 }
 
 void BaseGame::SetBackGroundColor(color::RGBA color) {

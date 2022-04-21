@@ -54,8 +54,11 @@ void Game::Init() {
 	defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 	defaultMaterial->UpdateShader();
 
+	_potatoLight = new Light(_renderer);
+	_potatoLight->SetPos(5,5, 0);
+	_renderer->SetLight(glm::vec3(1, 0, 0),_potatoLight->getPos());
 
-	_renderer->SetLight(glm::vec3(1, 0, 0));
+	
 	//_lightManager->AddLight(LIGHT_TYPE::DIRECTIONAL);
 	//DirectionalLight* directionalLight = _lightManager->GetDirectionalLight();
 	//directionalLight->Init();
