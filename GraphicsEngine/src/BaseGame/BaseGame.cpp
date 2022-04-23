@@ -117,5 +117,5 @@ void BaseGame::InitTime() {
 }
 
 void BaseGame::SetBackGroundColor(color::RGBA color) {
-	_renderer->SetBackgroundColor(color.GetColor());
+	_renderer->SetBackgroundColor(color.GetColorV4());
 }

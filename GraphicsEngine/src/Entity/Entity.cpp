@@ -26,7 +26,7 @@ Entity::Entity() {
 	matrix.rotationZ = glm::mat4(1.f);
 	matrix.scale = glm::mat4(1.f);
 
-	_uniformModel = 0;
+	_uniformTransform = 0;
 	_uniformView = 0;
 	_uniformProjection = 0;
 
@@ -57,7 +57,7 @@ Entity::Entity(Renderer* renderer)
 	matrix.rotationZ = glm::mat4(1.f);
 	matrix.scale = glm::mat4(1.f);
 
-	_uniformModel = 0;
+	_uniformTransform = 0;
 	_uniformView = 0;
 	_uniformProjection = 0;
 
@@ -68,7 +68,7 @@ Entity::~Entity() {
 }
 void Entity::SetUniforms()
 {
-	_renderer->SetUniform(_uniformModel, "model");
+	_renderer->SetUniform(_uniformTransform, "transform");
 	_renderer->SetUniform(_uniformView, "view");
 	_renderer->SetUniform(_uniformProjection, "projection");
 
@@ -186,6 +186,11 @@ void Entity::SetScale(float newScale)
 	SetScale(glm::vec3(newScale, newScale, newScale));
 }
 
+void Entity::SetColor(float x, float y, float z, float w)
+{
+	_color.SetColor(x, y, z, w);
+}
+
 glm::vec3 Entity::getPos()
 {
 	return transform.position;
@@ -204,9 +209,24 @@ glm::vec3 Entity::getLastPos()
 {
 	return transform.lastPosition;
 }
+glm::vec3 Entity::getColor()
+{
+	return _color.GetColorV3();
+}
 void Entity::Draw(uint shaderId)
 {
 	//_renderer->DrawM(model, _vao, _vbo, _ebo, indicesTam, tam, vertex, shaderId);
+}
+void Entity::DebugInfo()
+{
+	std::cout << "---ENTITY---" << std::endl;
+	std::cout << "pos: " + VecToString::vec3toString(transform.position) << std::endl;
+	std::cout << "rot: " + VecToString::vec3toString(transform.eulerAngles) << std::endl;
+	std::cout << "sca: " + VecToString::vec3toString(transform.scale) << std::endl;
+	std::cout << "for: " + VecToString::vec3toString(transform.forward) << std::endl;
+	std::cout << "up: " + VecToString::vec3toString(transform.up) << std::endl;
+	std::cout << "rig: " + VecToString::vec3toString(transform.right) << std::endl;
+
 }
 void Entity::UpdateTransform()
 {

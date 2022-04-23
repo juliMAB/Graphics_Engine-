@@ -23,11 +23,15 @@ void Entity2D::InitCollider()
 
 void Entity2D::UpdateShader()
 {
-	_renderer->UpdateMVP(_uniformModel, _uniformView, _uniformProjection, matrix.model);
-	_renderer->UpdateColor(_uniformColor, _uniformAlpha, _color.GetColor());
+	_renderer->UpdateMVP(_uniformTransform, _uniformView, _uniformProjection, matrix.model);
+	_renderer->UpdateColor(_uniformColor, _uniformAlpha, _color.GetColorV4());
 	_renderer->UpdateBoolValue(_uniformAffectedLight, affectedLight);
 	_renderer->UpdateBoolValue(_uniformUseTexture, useTexture);
 	_renderer->UpdateBoolValue(_uniformUseMaterial, useMaterial);
+}
+void Entity2D::AffectedLight(bool value)
+{
+	affectedLight = value;
 }
 
 void Entity2D::Draw()
@@ -100,8 +104,9 @@ void Entity2D::SetUniforms()
 {
 	Entity::SetUniforms();
 	_renderer->SetUniform(_uniformColor, "color");
-	_renderer->SetUniform(_uniformAlpha, "a");
+	_renderer->SetUniform(_uniformAlpha, "alpha");
 	_renderer->SetUniform(_uniformUseTexture, "useTexture");
 	_renderer->SetUniform(_uniformUseMaterial, "useMaterial");
 	_renderer->SetUniform(_uniformAffectedLight, "affectedLight");
+	_renderer->SetUniform(_uniformAmmbient, "ambientStrength");
 }

@@ -3,20 +3,37 @@
 
 	Light::Light(Renderer* render) : Entity(render)
 	{
-		color = color::RGBA();
+		_color = color::RGBA();
 		ambient = glm::vec3(0.f);
 		diffuse = glm::vec3(0.f);
 		specular = glm::vec3(0.f);
 		enabled = true;
 
-		uniformColor = 0;
-		uniformPosition = 0;
-		uniformAmbient = 0;
+		_uniformColorLight = 0;
+		_locationPosition = 0;
+		_uniformAmbient = 0;
 		uniformDiffuse = 0;
 		uniformSpecular = 0;
 		uniformEnabled = 0;
+		SetUniforms();
 	}
-
+	void Light::SetUniforms()
+	{
+		_renderer->SetUniform(_uniformPositionLight, "lightPos");
+		_renderer->SetUniform(_uniformColorLight, "lightColor");
+		_renderer->SetUniform(_uniformAmbient, "ambientStrength");
+	}
+	void Light::SetLight(glm::vec3 pos, glm::vec3 color ,float ambientStrength)
+	{
+		this->SetPos(pos);
+		this->_color.SetColor(color);
+		this->ambientStrength = ambientStrength;
+		UpdateLight();
+	}
+	void Light::UpdateLight()
+	{
+		_renderer->SetLight(_uniformColorLight, _uniformPositionLight, _uniformAmbient, _color.GetColorV3(), getPos(), ambientStrength);
+	}
 	Light::~Light()
 	{
 	}
@@ -24,6 +41,10 @@
 	void Light::SetAmbient(glm::vec3 ambient)
 	{
 		this->ambient = ambient;
+	}
+	void Light::SetAmbientStrength(float ambient)
+	{
+		this->ambientStrength = ambient;
 	}
 
 	void Light::SetDiffuse(glm::vec3 diffuse)

@@ -63,27 +63,29 @@ public:
 	void SetScale(float x, float y, float z);
 	void SetScale(float scale4);
 	//----SetColor------
-
+	void SetColor(float x, float y, float z, float w);
 	//----Getters-------
 	glm::vec3 getPos();
 	glm::vec3 getRot();
 	glm::vec3 getScale();
 	glm::vec3 getLastPos();
+	glm::vec3 getColor();
 	void Draw(uint shaderId);
 
-	color::RGBA _color;
-	
+	//---other---
+	void DebugInfo();
 
 
 private:
 	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);
 protected:
+	color::RGBA _color;
 	Renderer* _renderer;
 
 	Transform transform;
 	Matrix matrix;
 
-	uint _uniformModel;
+	uint _uniformTransform;
 	uint _uniformView;
 	uint _uniformProjection;
 	uint _locationPosition;

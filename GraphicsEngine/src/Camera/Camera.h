@@ -6,13 +6,6 @@
 #include "../GLM/gtc/type_ptr.hpp"
 #include "../Entity/Entity.h"
 
-enum Camera_Movement {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
-};
-
 const float YAW			= -90.0f;
 const float PITCH		= 0.0f;
 const float SPEED		= 2.5f;
@@ -23,9 +16,10 @@ class Renderer;
 
 enum class CAMERA_TYPE
 {
+	FC,
 	FPS,
 	TPS,
-	TOP_DOWN
+	Max
 };
 
 class GraficosEngine_API Camera : public Entity
@@ -45,23 +39,20 @@ public:
 	void SetTarget(Entity* target);
 	void SetSensitivity(float sensitivity);
 	void SetOffset(float offset);
-	void UseCamera();
 	void SetCameraType(CAMERA_TYPE type);
 	//------------------------
 	//------Updates-----------
 	void Update();
 	void UpdateProjection();
 
-	void moveCamera(glm::vec3 movePosition);
-	void moveCameraLookingPoint(glm::vec3 movePosition);
 	void UpdateCameraVectors();
 	void UpdateView();
 	void ProcessMouseScroll(float yoffset);
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
-	void ProcessKeyboard(Camera_Movement direction, float deltaTime);
-	void debugCamera();
 	//--------Getters-------
 	CAMERA_TYPE GetCameraType();
+	//--------Others--------
+	void DebugInfo();
 
 private:
 

@@ -11,11 +11,13 @@
 	{
 	public:
 		Light(Renderer* render);
+		void SetUniforms();
+		void SetLight(glm::vec3 pos, glm::vec3 color, float ambientStrength);
+		void UpdateLight();
 		~Light();
 
-		color::RGBA color;
-
 		void SetAmbient(glm::vec3 ambient);
+		void SetAmbientStrength(float ambient);
 		void SetDiffuse(glm::vec3 diffuse);
 		void SetSpecular(glm::vec3 specular);
 		void SetEnabled(bool enabled);
@@ -27,13 +29,14 @@
 
 	protected:
 		glm::vec3 ambient;
+		float ambientStrength;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
 		bool enabled;
 
-		uint uniformColor;
-		uint uniformPosition;
-		uint uniformAmbient;
+		uint _uniformColorLight;
+		uint _uniformPositionLight;
+		uint _uniformAmbient;
 		uint uniformDiffuse;
 		uint uniformSpecular;
 		uint uniformEnabled;

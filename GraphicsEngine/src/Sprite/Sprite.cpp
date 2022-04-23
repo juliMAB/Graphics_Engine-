@@ -6,11 +6,10 @@
 	{
 		type = SPRITE_TYPE::QUAD;
 		_texture = nullptr;
-		uniformTexture = 0;
+		_uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();
 		currFrame = Frame();
-		transparent = false;
 	}
 
 	Sprite::Sprite(Renderer* render) : Entity2D(render)
@@ -18,11 +17,11 @@
 		type = SPRITE_TYPE::QUAD;
 		_texture = nullptr;
 		_texture = new Texture();
-		uniformTexture = 0;
+		affectedLight = true;
+		_uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();
 		currFrame = Frame();
-		transparent = false;
 	}
 
 	Sprite::~Sprite()
@@ -65,7 +64,10 @@
 		_renderer->SetBaseAttribs(_locationNormal, 3, 6, 3);
 
 		SetTextureCoordinates(currFrame);
-		_renderer->SetTextureAttribs(_locationTexCoord, 2, 2, 0);
+		_renderer->SetTextureAttribs(_UVB, 2, 2, 0);
+		//_renderer->SetTextureAttribs(_locationTexCoord, 2, 2, 0);
+
+		
 	}
 
 	void Sprite::Update(float timer)
@@ -82,7 +84,8 @@
 		_renderer->BlendEnable();
 		_renderer->UseShader();
 		UpdateShader();
-		_renderer->UpdateTexture(uniformTexture, _texture->_id);
+
+		_renderer->UpdateTexture(_uniformTexture, _texture->_id);
 		_renderer->TextureEnable(_texture->_id);
 		Entity2D::Draw();
 		_renderer->TextureDisable();
@@ -93,7 +96,7 @@
 	void Sprite::DeInit()
 	{
 		_renderer->UnBind(_VAO, _VBO, _EBO, _UVB);
-		_renderer->TextureDelete(uniformTexture, _texture->_id);
+		_renderer->TextureDelete(_uniformTexture, _texture->_id);
 
 		if (_texture != nullptr)
 		{
@@ -211,18 +214,8 @@
 		}
 	}
 
-	void Sprite::SetTransparent(bool tranparent)
-	{
-		this->transparent = tranparent;
-	}
-
-	bool Sprite::GetTransparent()
-	{
-		return transparent;
-	}
-
 	void Sprite::SetUniforms()
 	{
 		Entity2D::SetUniforms();
-		_renderer->SetUniform(uniformTexture, "ourTexture");
+		_renderer->SetUniform(_uniformTexture, "ourTexture");
 	}

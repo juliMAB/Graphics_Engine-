@@ -60,7 +60,14 @@ namespace  color
 	{
 		RGB _RGB;
 		float _A;
-		GraficosEngine_API vec4 GetColor();
+		GraficosEngine_API vec4 GetColorV4() 
+		{
+			return glm::vec4(_RGB.r, _RGB.g, _RGB.b, _A);
+		}
+		GraficosEngine_API vec3 GetColorV3()
+		{
+			return glm::vec3(_RGB.r, _RGB.g, _RGB.b);
+		}
 		void SetColor(float r, float g, float b, float a)
 		{
 			_RGB = RGB(r, g, b);
@@ -69,6 +76,11 @@ namespace  color
 		void SetColor(float r, float g, float b)
 		{
 			_RGB = RGB(r, g, b);
+			_A = 1.0f;
+		}
+		void SetColor(glm::vec3 a)
+		{
+			_RGB = RGB(a.r, a.g, a.b);
 			_A = 1.0f;
 		}
 		RGBA()
@@ -89,6 +101,17 @@ namespace  color
 			_A = v.a;
 		}
 	};
+
+
+	
 }
+GraficosEngine_API typedef struct VecToString
+{
+	static std::string vec3toString(glm::vec3 value) {
+		std::string res;
+		res = std::to_string(value.x) +","+ std::to_string(value.y) +"," + std::to_string(value.z);
+		return res;
+	}
+};
 
 #endif //JINTERFACE_H

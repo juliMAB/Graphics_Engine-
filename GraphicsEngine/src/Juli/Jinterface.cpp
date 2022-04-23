@@ -23,10 +23,4 @@ namespace color
 			a /= 255.0;
 		return a;
 	}
-
-	vec4 RGBA::GetColor() 
-	{
-		return glm::vec4(_RGB.r, _RGB.g, _RGB.b, _A);
-	}
-
 }

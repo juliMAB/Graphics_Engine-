@@ -6,6 +6,7 @@
 class Game : BaseGame {
 	Shape* _shapes[3];
 	Shape* _pj;
+	Sprite* _pjS;
 	Camera* _cam;
 	float cameraSpeed = 30.f;
 	Material* defaultMaterial;

@@ -39,66 +39,50 @@ void Game::Init() {
 	_pj = new Shape(_renderer);
 	_pj->Init(SHAPE_TYPE::CUBE);
 	_pj->SetPos(5.f,0.f,0.f);
-	_pj->_color.SetColor(1, 0, 0, 1);
+	_pj->SetColor(1, 0, 0, 1);
+
+	_pjS = new Sprite(_renderer);
+	_pjS->Init(SPRITE_TYPE::CUBE);
+	_pjS->SetPos(5.f, 0.f, 0.f);
+	_pjS->LoadTexture("res/c.png", false);
+	_pjS->SetColor(1, 1, 1, 1);
 
 	_shapes[0] = new Shape(_renderer);
 	_shapes[0]->Init(SHAPE_TYPE::CUBE);
-	_shapes[0]->SetPos(5.f, 2.f, 0.f);
-	_shapes[0]->_color.SetColor(1, 1, 1, 1);
+	_shapes[0]->SetPos(0.f, 1.f, 0.f);
+	_shapes[0]->SetColor(1, 0, 0, 1);
+	_shapes[0]->AffectedLight(false);
+
+	_shapes[1] = new Shape(_renderer);
+	_shapes[1]->Init(SHAPE_TYPE::CUBE);
+	_shapes[1]->SetPos(1.f, 2.f, 0.f);
+	_shapes[1]->SetColor(0, 1, 0, 1);
+
 	
-	_cam->SetTarget(_pj);
+	_cam->SetTarget(_pjS);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	_cam->SetCameraType(CAMERA_TYPE::TPS);
 
-	defaultMaterial = new Material(GetRenderer());
-	defaultMaterial->Init();
-	defaultMaterial->SetShininess(32.f);
-	defaultMaterial->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
-	defaultMaterial->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
-	defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-	defaultMaterial->UpdateShader();
+	//defaultMaterial = new Material(GetRenderer());
+	//defaultMaterial->Init();
+	//defaultMaterial->SetShininess(32.f);
+	//defaultMaterial->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
+	//defaultMaterial->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
+	//defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+	//defaultMaterial->UpdateShader();
 	_potatoLight = new Light(_renderer);
 	_potatoLight->SetPos(_shapes[0]->getPos());
-	_renderer->SetLight(glm::vec3(0.5f, 1, 0.5f),_potatoLight->getPos());
+	_potatoLight->SetColor(1, 1, 1, 1);
+	_potatoLight->SetAmbientStrength(0.5f);
 
-	
-	//_lightManager->AddLight(LIGHT_TYPE::DIRECTIONAL);
-	//DirectionalLight* directionalLight = _lightManager->GetDirectionalLight();
-	//directionalLight->Init();
-	//directionalLight->color.SetColor(240, 240, 240);
-	//directionalLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
-	//directionalLight->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
-	//directionalLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
-	//directionalLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-
-	//_lightManager->AddLight(LIGHT_TYPE::POINTLIGHT);
-	//PointLight* pointLight = _lightManager->GetLasPointLightCreated();
-	//pointLight->SetPos(_shapes[0]->getPos() + glm::vec3(0.f, 2.5f, 0.f));
-	//pointLight->color = _shapes[0]->_color;
-	//pointLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
-	//pointLight->SetDiffuse(glm::vec3(0.8f, 0.8f, 0.8f));
-	//pointLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-	//pointLight->SetConstant(1.f);
-	//pointLight->SetLinear(0.09f);
-	//pointLight->SetQuadratic(0.032f);
-
-	/*_lightManager->AddLight(LIGHT_TYPE::SPOTLIGHT);
-	SpotLight* spotLight = _lightManager->GetLasSpotLightCreated();
-	spotLight->SetPos(_spotCubeLight->getPos());
-	spotLight->SetDirection(glm::vec3(0.0f, -1.0f, 0.0f));
-	spotLight->color = _spotCubeLight->_color;
-	spotLight->SetAmbient(glm::vec3(1.f, 1.f, 1.f));
-	spotLight->SetDiffuse(glm::vec3(1.f, 1.f, 1.f));
-	spotLight->SetSpecular(glm::vec3(1.f, 1.f, 1.f));
-	spotLight->SetConstant(1.f);
-	spotLight->SetLinear(0.1f);
-	spotLight->SetQuadratic(0.032f);
-	spotLight->SetCutOff(25.f);
-	spotLight->SetOuterCutOff(15.f);*/
+	_shapes[2] = new Shape(_renderer);
+	_shapes[2]->Init(SHAPE_TYPE::CUBE);
+	_shapes[2]->SetPos(2.f, 3.f, 0.f);
+	_shapes[2]->SetColor(0, 0, 1.f, 1);
+	_shapes[2]->AffectedLight(true);
 
 	Input::lock_cursor(true);
-	_cam->SetCameraType(CAMERA_TYPE::TPS);
 }
 
 void Game::Deinit() {
@@ -107,11 +91,14 @@ void Game::Deinit() {
 void Game::Update()
 {	
 	_cam->Update();
+	_potatoLight->UpdateLight();
 	processInput();
 }
 void Game::Draw() {
-	_pj->Draw();
+	//_pjS->Draw();
 	_shapes[0]->Draw();
+	_shapes[1]->Draw();
+	_shapes[2]->Draw();
 }
 
 void Game::processInput()
@@ -130,12 +117,13 @@ void Game::processInput()
 		a += vec3(0, t, 0);
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += vec3(0, -t, 0);
-	if (Input::IsKeyDown(Input::KEY_0))
-		_cam->debugCamera();
+	if (Input::IsKeyDown(Input::KEY_X))
+		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
 	_pj->SetPos(_pj->getPos()+a);
+	//_cam->SetPos(_cam->getPos() + a);
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
@@ -143,7 +131,7 @@ void Game::processInput()
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;
 	C++;
-	if (C > (int)CAMERA_TYPE::TOP_DOWN)
+	if (C > (int)CAMERA_TYPE::Max)
 	{
 		C = 0;
 	}

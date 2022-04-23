@@ -89,6 +89,8 @@ Camera::Camera()
 }
 void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 {
+	targetLook = lookPosition;
+	WorldUp = upVector;
 	_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 }
 void Camera::SetTarget(Entity* target)
@@ -113,17 +115,13 @@ void Camera::UpdateProjection()
 	glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
 	_render->SetProjection(projection);
 }
-void Camera::moveCamera(glm::vec3 movePosition)
+void Camera::DebugInfo()
 {
-	//pos += movePosition;
-	//targetLook += movePosition;
-	//SetViewMatrix(pos, targetLook, up);
-}
-void Camera::moveCameraLookingPoint(glm::vec3 movePosition)
-{
-	//pos += movePosition;
-	////look += movePosition;
-	//SetViewMatrix(pos, targetLook, up);
+	std::cout << "---CAMARA INFO---" << std::endl;
+	std::cout << "	Camera pos: "+ VecToString::vec3toString(transform.position) << std::endl;
+	std::cout << "	Camera look: " + VecToString::vec3toString(targetLook) << std::endl;
+	std::cout << "	Camera up: " + VecToString::vec3toString(WorldUp) << std::endl;
+	
 }
 
 void Camera::UpdateCameraVectors()
@@ -157,7 +155,8 @@ void Camera::UpdateView()
 		else
 			SetViewMatrix(transform.position, glm::vec3(0), transform.up);
 		return;
-	case CAMERA_TYPE::TOP_DOWN:
+	case CAMERA_TYPE::FC:
+		SetViewMatrix(transform.position, _target->getPos(), transform.up);
 		break;
 	default:
 		break;
@@ -199,31 +198,6 @@ void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constr
 	UpdateCameraVectors();
 }
 
-void Camera::ProcessKeyboard(Camera_Movement direction, float deltaTime)
-{
-	float velocity = MovementSpeed * deltaTime;
-	if (direction == Camera_Movement::FORWARD)
-		transform.position += _target->getPos() * velocity;
-	if (direction == Camera_Movement::BACKWARD)
-		transform.position -= _target->getPos() * velocity;
-	if (direction == Camera_Movement::LEFT)
-		transform.position -= transform.right * velocity;
-	if (direction == Camera_Movement::RIGHT)
-		transform.position += transform.right * velocity;
-	SetViewMatrix(transform.position, _target->getPos(), transform.up);
-}
-void Camera::debugCamera()
-{
-	/*std::cout << "pos: " << pos.x << ","
-		<< pos.y << "," << pos.z << std::endl;
-		if (_target!=NULL)
-		{
-			std::cout << " Target: " << targetLook.x << ","
-				<< targetLook.y << "," << targetLook.z << std::endl;
-		}
-		std::cout << "up:" << up.x <<","<<
-		up.y << "," <<up.z << std::endl;*/
-}
 
 Camera::~Camera()
 {

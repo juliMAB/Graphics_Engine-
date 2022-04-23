@@ -23,6 +23,7 @@ public:
 
 	//color::RGBA color;
 	Material* material;
+	void AffectedLight(bool value);
 
 protected:
 	uint _uniformColor;
@@ -30,6 +31,7 @@ protected:
 	uint _uniformUseTexture;
 	uint _uniformUseMaterial;
 	uint _uniformAffectedLight;
+	uint _uniformAmmbient;
 
 	uint _VAO, _VBO, _EBO, tam, vertices;
 	float* vertexs;
