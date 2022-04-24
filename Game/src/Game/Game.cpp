@@ -95,7 +95,7 @@ void Game::Update()
 	processInput();
 }
 void Game::Draw() {
-	//_pjS->Draw();
+	_pjS->Draw();
 	_shapes[0]->Draw();
 	_shapes[1]->Draw();
 	_shapes[2]->Draw();
@@ -127,6 +127,9 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
+	if (Input::IsKeyDown(Input::KEY_SPACE))
+	{
+	}
 }
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;

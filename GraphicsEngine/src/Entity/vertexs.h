@@ -25,8 +25,8 @@
 	const int quadIndexTam = 6;
 	static unsigned int quadIndexes[quadIndexTam]
 	{
-		0, 1, 3,
-		1, 2, 3
+		0, 1, 2,
+		2, 3, 0
 	};
 	static float quadVertex[quadVertTam]
 	{
