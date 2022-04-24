@@ -137,7 +137,7 @@ void Renderer::UpdateMVP(uint uniformModel, uint uniformView, uint uniformProjec
 }
 void Renderer::UpdateVec3(uint uniformVec3, glm::vec3 vec3Value)
 {
-	glUniform3f(uniformVec3, vec3Value.x, vec3Value.y, vec3Value.z);
+	glUniform3fv(uniformVec3, 1, glm::value_ptr(vec3Value));
 }
 void Renderer::UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor)
 {
@@ -147,10 +147,6 @@ void Renderer::UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 b
 void Renderer::UpdateBoolValue(uint uniformStatus, bool status)
 {
 	glUniform1i(uniformStatus, status);
-}
-void Renderer::UpdateLight(uint uniformLight, glm::vec3 light)
-{
-	glUniform3fv(uniformLight, 1, glm::value_ptr(light));
 }
 void Renderer::UpdateTexture(uint uniformTexture, uint textureId)
 {

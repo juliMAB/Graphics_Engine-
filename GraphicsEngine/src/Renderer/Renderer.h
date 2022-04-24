@@ -46,7 +46,6 @@ public:
 	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
 	void UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor);
 	void UpdateBoolValue(uint uniformStatus, bool status);
-	void UpdateLight(uint uniformLight, glm::vec3 light);
 	void UpdateTexture(uint uniformTexture, uint textureId);
 	void UpdateFloatValue(uint uniformFloat, float value);
 	void UpdateIntValue(uint uniformInt, int value);

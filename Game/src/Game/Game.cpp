@@ -72,7 +72,7 @@ void Game::Init() {
 	//defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 	//defaultMaterial->UpdateShader();
 	_potatoLight = new Light(_renderer);
-	_potatoLight->SetPos(_shapes[0]->getPos());
+	//_potatoLight->SetPos(_shapes[0]->getPos());
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
 	_potatoLight->SetAmbientStrength(0.7f);
 
@@ -122,8 +122,8 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
-	_cam->SetPos(_cam->getPos()+a);
-	//_cam->SetPos(_cam->getPos() + a);
+	_pjS->SetPos(_pjS->getPos()+a);
+	_potatoLight->SetPos(_potatoLight->getPos() + a);
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);

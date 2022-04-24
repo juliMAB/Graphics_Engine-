@@ -33,6 +33,7 @@
 	void Light::UpdateLight()
 	{
 		_renderer->SetLight(_uniformColorLight, _uniformPositionLight, _uniformAmbient, _color.GetColorV3(), getPos(), ambientStrength);
+		std::cout << "pos: " << getPos().r <<","<< getPos().g <<","<< getPos().b << std::endl;
 	}
 	Light::~Light()
 	{
