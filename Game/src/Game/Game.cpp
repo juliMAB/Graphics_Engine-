@@ -73,8 +73,8 @@ void Game::Init() {
 	//defaultMaterial->UpdateShader();
 	_potatoLight = new Light(_renderer);
 	_potatoLight->SetPos(_shapes[0]->getPos());
-	_potatoLight->SetColor(1, 1, 1, 1);
-	_potatoLight->SetAmbientStrength(0.5f);
+	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
+	_potatoLight->SetAmbientStrength(0.7f);
 
 	_shapes[2] = new Shape(_renderer);
 	_shapes[2]->Init(SHAPE_TYPE::CUBE);
@@ -122,7 +122,7 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
-	_pj->SetPos(_pj->getPos()+a);
+	_cam->SetPos(_cam->getPos()+a);
 	//_cam->SetPos(_cam->getPos() + a);
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();

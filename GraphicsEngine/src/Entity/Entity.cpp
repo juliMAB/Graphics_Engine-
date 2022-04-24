@@ -191,6 +191,11 @@ void Entity::SetColor(float x, float y, float z, float w)
 	_color.SetColor(x, y, z, w);
 }
 
+void Entity::SetColor(float x, float y, float z)
+{
+	_color.SetColor(x, y, z);
+}
+
 glm::vec3 Entity::getPos()
 {
 	return transform.position;

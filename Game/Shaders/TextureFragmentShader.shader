@@ -18,6 +18,7 @@ void main()
 {
 	vec4 result;
 	vec4 result2 = vec4(1.0f,1.0f,1.0f,1.0f);
+	vec4 result3 = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	if (useTexture == false)
 		result = vec4(color, alpha);
@@ -28,7 +29,16 @@ void main()
 	{
 	vec3 ambient = ambientStrength * lightColor;
 	result2 = vec4(ambient, 1.0);
-	}
 
-	FragColor =result*result2;
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(lightPos - FragPos);
+
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = diff * lightColor;
+
+	result3 = vec4(((ambient + diffuse) * color),1.0f);
+	}
+	vec4 res = result3 * result2;
+	FragColor = result * res;
+
 }

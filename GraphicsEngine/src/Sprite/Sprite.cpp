@@ -64,10 +64,10 @@
 		_renderer->SetBaseAttribs(_locationNormal, 3, 6, 3);
 
 		SetTextureCoordinates(currFrame);
-		_renderer->SetTextureAttribs(_UVB, 2, 2, 0);
+		_renderer->SetTextureAttribs(_locationTexCoord, 2, 2, 0);
 		//_renderer->SetTextureAttribs(_locationTexCoord, 2, 2, 0);
 
-		
+		useTexture = false;
 	}
 
 	void Sprite::Update(float timer)

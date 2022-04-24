@@ -64,6 +64,7 @@ public:
 	void SetScale(float scale4);
 	//----SetColor------
 	void SetColor(float x, float y, float z, float w);
+	void SetColor(float x, float y, float z);
 	//----Getters-------
 	glm::vec3 getPos();
 	glm::vec3 getRot();

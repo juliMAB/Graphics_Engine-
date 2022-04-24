@@ -136,8 +136,6 @@ void Camera::UpdateCameraVectors()
 	{
 		if (_target!=NULL)
 			transform.position = _target->getPos() - transform.forward * _offset;
-		else
-			transform.position = glm::vec3(0) - transform.forward * _offset;
 	}
 	UpdateView();
 }
@@ -152,8 +150,6 @@ void Camera::UpdateView()
 	case CAMERA_TYPE::TPS:
 		if (_target != NULL)
 			SetViewMatrix(transform.position, _target->getPos(), transform.up);
-		else
-			SetViewMatrix(transform.position, glm::vec3(0), transform.up);
 		return;
 	case CAMERA_TYPE::FC:
 		SetViewMatrix(transform.position, _target->getPos(), transform.up);
@@ -173,8 +169,7 @@ void Camera::ProcessMouseScroll(float yoffset)
 	UpdateProjection();
 	if (_target != NULL)
 		SetViewMatrix(transform.position, _target->getPos(), transform.up);
-	else
-		SetViewMatrix(transform.position, glm::vec3(0), transform.up);
+
 }
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
