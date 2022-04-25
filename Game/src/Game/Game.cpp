@@ -123,7 +123,7 @@ void Game::processInput()
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
 	_pjS->SetPos(_pjS->getPos()+a);
-	_potatoLight->SetPos(_potatoLight->getPos() + a);
+	_potatoLight->SetPos(_pjS->getPos());
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);

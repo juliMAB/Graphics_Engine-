@@ -12,6 +12,7 @@ uniform bool affectedLight = false;
 uniform sampler2D theTexture;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
+uniform vec3 viewPos;
 uniform float ambientStrength = 1.0f;
 
 void main()
