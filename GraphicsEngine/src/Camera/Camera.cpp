@@ -3,7 +3,7 @@
 
 void Camera::Init(Renderer* render,Window* window,float near, float far)
 {
-	_render = render;
+	_renderer = render;
 	_window = window;
 	BaseInit();
 	_near = near;
@@ -37,13 +37,14 @@ void Camera::BaseInit(){
 }
 void Camera::Init(Renderer* render,Window* window)
 {
-	_render = render;
+	_renderer = render;
 	_window = window;
 	BaseInit();
 	SetAspect();
 	//--------
 	UpdateProjection();
 	UpdateView();
+	_renderer->SetUniform(_uniformViewPos, "viewPos");
 }
 void Camera::SetWindow(Window* window)
 {
@@ -65,7 +66,7 @@ void Camera::SetAspect(float width, float height)
 }
 Camera::Camera()
 {
-	_render = NULL;
+	_renderer = NULL;
 
 	transform.position      = glm::vec3(0.0f);
 	transform.up       = glm::vec3(0.0f);
@@ -91,7 +92,7 @@ void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, g
 {
 	targetLook = lookPosition;
 	WorldUp = upVector;
-	_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
+	_renderer->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 }
 void Camera::SetTarget(Entity* target)
 {
@@ -109,11 +110,13 @@ void Camera::Update()
 	if (_target != NULL)
 		transform.position = _target->getPos();
 	UpdateCameraVectors();
+	_renderer->UpdateVec3(_uniformViewPos, getPos());
+
 }
 void Camera::UpdateProjection()
 {
 	glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
-	_render->SetProjection(projection);
+	_renderer->SetProjection(projection);
 }
 void Camera::DebugInfo()
 {

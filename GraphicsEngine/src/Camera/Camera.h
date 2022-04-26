@@ -59,11 +59,10 @@ private:
 
 	void BaseInit();
 
-	
-	Renderer* _render;
 	Entity* _target;
 	Window* _window;
 
+	uint _uniformViewPos;
 	
 	glm::vec3 targetLook;
 	glm::vec3 WorldUp;
