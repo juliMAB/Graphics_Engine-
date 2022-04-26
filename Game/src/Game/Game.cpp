@@ -18,6 +18,27 @@ float lastY=0;
 bool firstMouse = true;
 
 
+
+MaterialS emerald{ 
+	{2.15f,	17.45f,	2.15f},
+	{7.568f,	61.424f,	7.568f},
+	{63.3f,	72.7811f,	63.3f},
+0.60f
+};
+MaterialS jade{
+	{0.135f,	0.2225f,	0.1575f},
+	{0.54f,	0.89f,	0.63f},
+	{0.316228f,	0.316228f,	0.316228f},
+	1
+};
+MaterialS obsidian{
+	{0.05375f,	0.05f,	0.06625f},
+	{0.18275f,	0.17f,	0.22525f},
+	{0.332741f,	0.328634f, 0.346435f},
+	0.3f
+};
+
+
 //enum DIR
 //{
 //	DOWN,
@@ -33,8 +54,7 @@ Game::~Game() {}
 void Game::Init() {
 	_renderer->SetDepth();
 	_cam = _mainCamera;
-	color::RGB colorfondo("CCFFCC");
-	color::RGBA colorFondoRGBA(colorfondo);
+	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
 	_pj = new Shape(_renderer);
 	_pj->Init(SHAPE_TYPE::CUBE);
@@ -51,28 +71,25 @@ void Game::Init() {
 	_shapes[0]->Init(SHAPE_TYPE::CUBE);
 	_shapes[0]->SetPos(0.f, 1.f, 0.f);
 	_shapes[0]->SetColor(1, 0, 0, 1);
-	_shapes[0]->AffectedLight(false);
 
 	_shapes[1] = new Shape(_renderer);
 	_shapes[1]->Init(SHAPE_TYPE::CUBE);
 	_shapes[1]->SetPos(1.f, 2.f, 0.f);
 	_shapes[1]->SetColor(0, 1, 0, 1);
 
-	
+	_floor = new Shape(_renderer);
+	_floor->Init(SHAPE_TYPE::QUAD);
+	_floor->SetPos(1.f, -5.f, 0.f);
+	_floor->SetRotX(90);
+	_floor->SetScale(5);
+	_floor->SetColor(0, 0, 1, 1);
+
 	_cam->SetTarget(_pjS);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
-	_cam->SetCameraType(CAMERA_TYPE::TPS);
 
-	//defaultMaterial = new Material(GetRenderer());
-	//defaultMaterial->Init();
-	//defaultMaterial->SetShininess(32.f);
-	//defaultMaterial->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
-	//defaultMaterial->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
-	//defaultMaterial->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
-	//defaultMaterial->UpdateShader();
+	
 	_potatoLight = new Light(_renderer);
-	//_potatoLight->SetPos(_shapes[0]->getPos());
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
 	_potatoLight->SetAmbientStrength(0.7f);
 
@@ -80,7 +97,9 @@ void Game::Init() {
 	_shapes[2]->Init(SHAPE_TYPE::CUBE);
 	_shapes[2]->SetPos(2.f, 3.f, 0.f);
 	_shapes[2]->SetColor(0, 0, 1.f, 1);
-	_shapes[2]->AffectedLight(true);
+
+	_shapes[0]->SetMateria(emerald,_renderer);
+	//_shapes[1]->SetMateria(emerald, _renderer);
 
 	Input::lock_cursor(true);
 }
@@ -99,6 +118,7 @@ void Game::Draw() {
 	_shapes[0]->Draw();
 	_shapes[1]->Draw();
 	_shapes[2]->Draw();
+	_floor->Draw();
 }
 
 void Game::processInput()

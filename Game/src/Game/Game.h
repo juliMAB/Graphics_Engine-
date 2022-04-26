@@ -9,7 +9,8 @@ class Game : BaseGame {
 	Sprite* _pjS;
 	Camera* _cam;
 	float cameraSpeed = 30.f;
-	Material* defaultMaterial;
+	Material* _materials[3];
+	Shape* _floor;
 	Light* _potatoLight;
 public:
 	Game();

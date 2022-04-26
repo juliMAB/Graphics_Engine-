@@ -36,9 +36,9 @@ void Entity2D::AffectedLight(bool value)
 
 void Entity2D::Draw()
 {
-	if (material != nullptr)
+	if (_material != nullptr)
 	{
-		material->UpdateShader();
+		_material->UpdateMaterial();
 	}
 
 	_renderer->Draw(_VAO, _VBO, _EBO, vertices, tam, vertexs);
@@ -47,7 +47,7 @@ void Entity2D::Draw()
 Entity2D::Entity2D() : Entity()
 {
 	_color = color::RGBA();
-	material = nullptr;
+	_material = nullptr;
 
 	_uniformColor = 0;
 	_uniformAlpha = 0;
@@ -73,7 +73,7 @@ Entity2D::Entity2D() : Entity()
 Entity2D::Entity2D(Renderer* render) : Entity(render)
 {
 	_color = color::RGBA();
-	material = nullptr;
+	_material = nullptr;
 
 	_uniformColor = 0;
 	_uniformAlpha = 0;
@@ -92,12 +92,22 @@ Entity2D::Entity2D(Renderer* render) : Entity(render)
 	_moveable = false;
 
 	useTexture = false;
-	useMaterial = true;
+	useMaterial = false;
 	affectedLight = true;
 }
 
 Entity2D::~Entity2D()
 {
+}
+
+void Entity2D::SetMateria(MaterialS mat,Renderer* rend)
+{
+	useMaterial = true;
+	_material = new Material(rend);
+	_material->SetMaterial(mat);
+	_material->Init();
+	_material->UpdateMaterial();
+
 }
 
 void Entity2D::SetUniforms()
@@ -106,7 +116,8 @@ void Entity2D::SetUniforms()
 	_renderer->SetUniform(_uniformColor, "color");
 	_renderer->SetUniform(_uniformAlpha, "alpha");
 	_renderer->SetUniform(_uniformUseTexture, "useTexture");
-	_renderer->SetUniform(_uniformUseMaterial, "useMaterial");
 	_renderer->SetUniform(_uniformAffectedLight, "affectedLight");
 	_renderer->SetUniform(_uniformAmmbient, "ambientStrength");
+	_renderer->SetUniform(_uniformUseMaterial, "affectedMaterial");
+	
 }

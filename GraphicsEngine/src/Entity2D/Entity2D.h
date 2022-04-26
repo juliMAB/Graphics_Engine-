@@ -21,11 +21,13 @@ public:
 	Entity2D(Renderer* render);
 	~Entity2D();
 
+	void SetMateria(MaterialS mat, Renderer* rend);
+
 	//color::RGBA color;
-	Material* material;
 	void AffectedLight(bool value);
 
 protected:
+	Material* _material;
 	uint _uniformColor;
 	uint _uniformAlpha;
 	uint _uniformUseTexture;

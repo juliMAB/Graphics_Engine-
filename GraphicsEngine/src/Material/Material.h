@@ -5,6 +5,13 @@
 #include "../Renderer/Renderer.h"
 #include "../glm/ext/matrix_transform.hpp"
 
+struct MaterialS
+{
+	glm::vec3 ambient;
+	glm::vec3 diffuse;
+	glm::vec3 specular;
+	float Shiness;
+};
 
 	class GraficosEngine_API Material
 	{
@@ -13,12 +20,13 @@
 		~Material();
 
 		void Init();
-		void UpdateShader();
+		void UpdateMaterial();
 
 		void SetShininess(float shininess);
 		void SetAmbient(glm::vec3 ambient);
 		void SetDiffuse(glm::vec3 diffuse);
 		void SetSpecular(glm::vec3 specular);
+		void SetMaterial(MaterialS mat);
 
 		float GetShininess();
 		glm::vec3 GetAmbient();
@@ -27,16 +35,16 @@
 
 	private:
 		Renderer* render;
+		MaterialS material;
 
-		float shininess;
-		glm::vec3 ambient;
-		glm::vec3 diffuse;
-		glm::vec3 specular;
+		bool useMaterial;
 
-		uint uniformShininess;
-		uint uniformAmbient;
-		uint uniformDiffuse;
-		uint uniformSpecular;
+		uint _uniformUseMaterial;
+
+		uint _uniformShininess;
+		uint _uniformAmbient;
+		uint _uniformDiffuse;
+		uint _uniformSpecular;
 	};
 
 

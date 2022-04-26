@@ -5,15 +5,16 @@
 	{
 		this->render = render;
 
-		shininess = 0.f;
-		ambient = glm::vec3(0.f);
-		diffuse = glm::vec3(0.f);
-		specular = glm::vec3(0.f);
+		material.Shiness = 0.f;
+		material.ambient = glm::vec3(0.f);
+		material.diffuse = glm::vec3(0.f);
+		material.specular = glm::vec3(0.f);
 
-		uniformShininess = 0;
-		uniformAmbient = 0;
-		uniformDiffuse = 0;
-		uniformSpecular = 0;
+		_uniformShininess = 0;
+		_uniformAmbient = 0;
+		_uniformDiffuse = 0;
+		_uniformSpecular = 0;
+		useMaterial = true;
 	}
 
 	Material::~Material()
@@ -22,56 +23,63 @@
 
 	void Material::Init()
 	{
-		render->SetUniform(uniformShininess, "material.shininess");
-		render->SetUniform(uniformAmbient, "material.ambient");
-		render->SetUniform(uniformDiffuse, "material.diffuse");
-		render->SetUniform(uniformSpecular, "material.specular");
+		render->SetUniform(_uniformShininess, "material.shininess");
+		render->SetUniform(_uniformAmbient, "material.ambient");
+		render->SetUniform(_uniformDiffuse, "material.diffuse");
+		render->SetUniform(_uniformSpecular, "material.specular");
+		render->SetUniform(_uniformUseMaterial, "affectedMaterial");
+		render->UpdateBoolValue(_uniformUseMaterial, useMaterial);
 	}
 
-	void Material::UpdateShader()
+	void Material::UpdateMaterial()
 	{
-		render->UpdateFloatValue(uniformShininess, shininess);
-		render->UpdateVec3(uniformAmbient, ambient);
-		render->UpdateVec3(uniformDiffuse, diffuse);
-		render->UpdateVec3(uniformSpecular, specular);
+		render->UpdateFloatValue(_uniformShininess, material.Shiness);
+		render->UpdateVec3(_uniformAmbient, material.ambient);
+		render->UpdateVec3(_uniformDiffuse, material.diffuse);
+		render->UpdateVec3(_uniformSpecular, material.specular);
 	}
 
 	void Material::SetShininess(float shininess)
 	{
-		this->shininess = shininess;
+		this->material.Shiness = shininess;
 	}
 
 	void Material::SetAmbient(glm::vec3 ambient)
 	{
-		this->ambient = ambient;
+		this->material.ambient = ambient;
 	}
 
 	void Material::SetDiffuse(glm::vec3 diffuse)
 	{
-		this->diffuse = diffuse;
+		this->material.diffuse = diffuse;
 	}
 
 	void Material::SetSpecular(glm::vec3 specular)
 	{
-		this->specular = specular;
+		this->material.specular = specular;
+	}
+
+	void Material::SetMaterial(MaterialS mat)
+	{
+		this->material = mat;
 	}
 
 	float Material::GetShininess()
 	{
-		return shininess;
+		return material.Shiness;
 	}
 
 	glm::vec3 Material::GetAmbient()
 	{
-		return ambient;
+		return material.ambient;
 	}
 
 	glm::vec3 Material::GetDiffuse()
 	{
-		return diffuse;
+		return material.diffuse;
 	}
 
 	glm::vec3 Material::GetSpecular()
 	{
-		return specular;
+		return material.specular;
 	}
