@@ -20,10 +20,10 @@ bool firstMouse = true;
 
 
 MaterialS emerald{ 
-	{2.15f,	17.45f,	2.15f},
-	{7.568f,	61.424f,	7.568f},
-	{63.3f,	72.7811f,	63.3f},
-0.60f
+	{0.0215f,	0.1745f, 0.0215f},
+	{0.07568f,	0.61424f,	0.07568f},
+	{0.633f,	0.727811f,	0.633f,},
+0.60f *100
 };
 MaterialS jade{
 	{0.135f,	0.2225f,	0.1575f},
@@ -36,6 +36,12 @@ MaterialS obsidian{
 	{0.18275f,	0.17f,	0.22525f},
 	{0.332741f,	0.328634f, 0.346435f},
 	0.3f
+};
+MaterialS defaultMat{
+	{0.2f, 0.2f, 0.2f},
+	{0.5f, 0.5f, 0.5f},
+	{1.0f, 1.0f, 1.0f},
+	64.f
 };
 
 
@@ -70,7 +76,7 @@ void Game::Init() {
 	_shapes[0] = new Shape(_renderer);
 	_shapes[0]->Init(SHAPE_TYPE::CUBE);
 	_shapes[0]->SetPos(0.f, 1.f, 0.f);
-	_shapes[0]->SetColor(1, 0, 0, 1);
+	_shapes[0]->SetColor(1, 1, 1, 1);
 
 	_shapes[1] = new Shape(_renderer);
 	_shapes[1]->Init(SHAPE_TYPE::CUBE);
@@ -91,13 +97,19 @@ void Game::Init() {
 	
 	_potatoLight = new Light(_renderer);
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
-	_potatoLight->SetAmbientStrength(0.7f);
+	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
+	_potatoLight->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+
 
 	_shapes[2] = new Shape(_renderer);
 	_shapes[2]->Init(SHAPE_TYPE::CUBE);
 	_shapes[2]->SetPos(2.f, 3.f, 0.f);
 	_shapes[2]->SetColor(0, 0, 1.f, 1);
 
+	_shapes[0]->SetMateria(defaultMat, _renderer);
+	_shapes[1]->SetMateria(defaultMat, _renderer);
+	_shapes[2]->SetMateria(defaultMat, _renderer);
 	_shapes[0]->SetMateria(emerald,_renderer);
 	//_shapes[1]->SetMateria(emerald, _renderer);
 

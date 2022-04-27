@@ -12,28 +12,33 @@
 		_uniformColorLight = 0;
 		_locationPosition = 0;
 		_uniformAmbient = 0;
-		uniformDiffuse = 0;
-		uniformSpecular = 0;
-		uniformEnabled = 0;
+		_uniformDiffuse = 0;
+		_uniformSpecular = 0;
 		SetUniforms();
 	}
 	void Light::SetUniforms()
 	{
 		_renderer->SetUniform(_uniformPositionLight, "lightPos");
 		_renderer->SetUniform(_uniformColorLight, "lightColor");
-		_renderer->SetUniform(_uniformAmbient, "ambientStrength");
+		_renderer->SetUniform(_uniformAmbient, "light.ambient");
+		_renderer->SetUniform(_uniformDiffuse, "light.diffuse");
+		_renderer->SetUniform(_uniformSpecular, "light.specular");
+		
 	}
 	void Light::SetLight(glm::vec3 pos, glm::vec3 color ,float ambientStrength)
 	{
 		this->SetPos(pos);
 		this->_color.SetColor(color);
-		this->ambientStrength = ambientStrength;
 		UpdateLight();
 	}
 	void Light::UpdateLight()
 	{
 		_renderer->UseShader();
-		_renderer->SetLight(_uniformColorLight, _uniformPositionLight, _uniformAmbient, _color.GetColorV3(), getPos(), ambientStrength);
+		_renderer->UpdateVec3(_uniformColorLight, _color.GetColorV3());
+		_renderer->UpdateVec3(_uniformPositionLight, getPos());
+		_renderer->UpdateVec3(_uniformAmbient, ambient);
+		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
+		_renderer->UpdateVec3(_uniformSpecular, specular);
 		_renderer->CleanShader();
 	}
 	Light::~Light()
@@ -43,10 +48,6 @@
 	void Light::SetAmbient(glm::vec3 ambient)
 	{
 		this->ambient = ambient;
-	}
-	void Light::SetAmbientStrength(float ambient)
-	{
-		this->ambientStrength = ambient;
 	}
 
 	void Light::SetDiffuse(glm::vec3 diffuse)

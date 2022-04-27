@@ -110,6 +110,7 @@ void Camera::Update()
 	if (_target != NULL)
 		transform.position = _target->getPos();
 	UpdateCameraVectors();
+	_renderer->UseShader();
 	_renderer->UpdateVec3(_uniformViewPos, getPos());
 
 }

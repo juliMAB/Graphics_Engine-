@@ -117,7 +117,6 @@ void Entity2D::SetUniforms()
 	_renderer->SetUniform(_uniformAlpha, "alpha");
 	_renderer->SetUniform(_uniformUseTexture, "useTexture");
 	_renderer->SetUniform(_uniformAffectedLight, "affectedLight");
-	_renderer->SetUniform(_uniformAmmbient, "ambientStrength");
 	_renderer->SetUniform(_uniformUseMaterial, "affectedMaterial");
 	
 }
