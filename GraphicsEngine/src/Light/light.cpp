@@ -23,14 +23,10 @@
 		_renderer->SetUniform(_uniformAmbient, "light.ambient");
 		_renderer->SetUniform(_uniformDiffuse, "light.diffuse");
 		_renderer->SetUniform(_uniformSpecular, "light.specular");
+		_renderer->SetUniform(_uniformAmbientStrength, "ambientStrength");
 		
 	}
-	void Light::SetLight(glm::vec3 pos, glm::vec3 color ,float ambientStrength)
-	{
-		this->SetPos(pos);
-		this->_color.SetColor(color);
-		UpdateLight();
-	}
+
 	void Light::UpdateLight()
 	{
 		_renderer->UseShader();
@@ -39,10 +35,16 @@
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);
+		_renderer->UpdateFloatValue(_uniformAmbientStrength, ambientStrength);
 		_renderer->CleanShader();
 	}
 	Light::~Light()
 	{
+	}
+
+	void Light::SetAmbientStrength(float value)
+	{
+		ambientStrength = value;
 	}
 
 	void Light::SetAmbient(glm::vec3 ambient)

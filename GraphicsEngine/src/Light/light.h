@@ -12,10 +12,9 @@
 	public:
 		Light(Renderer* render);
 		void SetUniforms();
-		void SetLight(glm::vec3 pos, glm::vec3 color, float ambientStrength);
 		void UpdateLight();
 		~Light();
-
+		void SetAmbientStrength(float value);
 		void SetAmbient(glm::vec3 ambient);
 		void SetDiffuse(glm::vec3 diffuse);
 		void SetSpecular(glm::vec3 specular);
@@ -30,6 +29,7 @@
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
+		float ambientStrength;
 		bool enabled;
 
 		uint _uniformColorLight;
@@ -37,6 +37,7 @@
 		uint _uniformAmbient;
 		uint _uniformDiffuse;
 		uint _uniformSpecular;
+		uint _uniformAmbientStrength;
 	};
 
 

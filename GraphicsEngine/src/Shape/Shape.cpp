@@ -62,7 +62,7 @@
 	void Shape::Draw()
 	{
 		_renderer->UseShader();
-		UpdateShader();
+		Entity2D::UpdateShader();
 		Entity2D::Draw();
 		_renderer->CleanShader();
 	}

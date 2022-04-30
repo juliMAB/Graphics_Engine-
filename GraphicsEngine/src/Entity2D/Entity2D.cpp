@@ -100,10 +100,10 @@ Entity2D::~Entity2D()
 {
 }
 
-void Entity2D::SetMateria(MaterialS mat,Renderer* rend)
+void Entity2D::SetMateria(MaterialS mat)
 {
 	useMaterial = true;
-	_material = new Material(rend);
+	_material = new Material(_renderer);
 	_material->SetMaterial(mat);
 	_material->Init();
 	_material->UpdateMaterial();

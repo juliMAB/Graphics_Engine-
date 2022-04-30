@@ -98,6 +98,10 @@ void Camera::SetTarget(Entity* target)
 {
 	_target = target;
 }
+Entity* Camera::GetTarget()
+{
+	 return _target;
+}
 void Camera::SetSensitivity(float sensitivity)
 {
 	_sensitivity = sensitivity;

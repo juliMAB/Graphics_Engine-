@@ -28,11 +28,11 @@
 		render->SetUniform(_uniformDiffuse, "material.diffuse");
 		render->SetUniform(_uniformSpecular, "material.specular");
 		render->SetUniform(_uniformUseMaterial, "affectedMaterial");
-		render->UpdateBoolValue(_uniformUseMaterial, useMaterial);
 	}
 
 	void Material::UpdateMaterial()
 	{
+		
 		render->UpdateFloatValue(_uniformShininess, material.Shiness);
 		render->UpdateVec3(_uniformAmbient, material.ambient);
 		render->UpdateVec3(_uniformDiffuse, material.diffuse);

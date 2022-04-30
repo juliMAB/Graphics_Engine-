@@ -50,6 +50,7 @@ public:
 	void ProcessMouseScroll(float yoffset);
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 	//--------Getters-------
+	Entity* GetTarget();
 	CAMERA_TYPE GetCameraType();
 	//--------Others--------
 	void DebugInfo();

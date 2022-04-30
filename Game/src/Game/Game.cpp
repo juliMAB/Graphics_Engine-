@@ -62,55 +62,79 @@ void Game::Init() {
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_pj = new Shape(_renderer);
-	_pj->Init(SHAPE_TYPE::CUBE);
-	_pj->SetPos(5.f,0.f,0.f);
-	_pj->SetColor(1, 0, 0, 1);
-
+	//_pj = new Shape(_renderer);
+	//_pj->Init(SHAPE_TYPE::CUBE);
+	//_pj->SetPos(5.f,0.f,0.f);
+	//_pj->SetColor(1, 0, 0, 1);
+	//
 	_pjS = new Sprite(_renderer);
 	_pjS->Init(SPRITE_TYPE::CUBE);
 	_pjS->SetPos(5.f, 0.f, 0.f);
 	_pjS->LoadTexture("res/c.png", false);
-	_pjS->SetColor(1, 1, 1, 1);
+	_pjS->SetColor(1, 1, 1, 0.5f);
+	
+	for (int i = 0; i < quantity/4; i++)
+	{
+		_shapes[i] = new Shape(_renderer);
+		_shapes[i]->Init(SHAPE_TYPE::CUBE);
+		_shapes[i]->SetPos(0.f, i, 0.f);
+		_shapes[i]->AffectedLight(false);
+	}
 
-	_shapes[0] = new Shape(_renderer);
-	_shapes[0]->Init(SHAPE_TYPE::CUBE);
-	_shapes[0]->SetPos(0.f, 1.f, 0.f);
 	_shapes[0]->SetColor(1, 1, 1, 1);
+	_shapes[1]->SetColor(1, 0, 0, 1);
+	_shapes[2]->SetColor(0, 1, 0, 1);
+	_shapes[3]->SetColor(0, 0, 1, 1);
+	_shapes[4]->SetColor(1, 1, 1, 0.5f);
 
-	_shapes[1] = new Shape(_renderer);
-	_shapes[1]->Init(SHAPE_TYPE::CUBE);
-	_shapes[1]->SetPos(1.f, 2.f, 0.f);
-	_shapes[1]->SetColor(0, 1, 0, 1);
+	for (int i = quantity / 4; i < quantity / 2; i++)
+	{
+		_shapes[i] = new Shape(_renderer);
+		_shapes[i]->Init(SHAPE_TYPE::CUBE);
+		_shapes[i]->SetPos(1.f, i-5, 0.f);
+		_shapes[i]->AffectedLight(true);
+	}
+	_shapes[5]->SetColor(0.1f, 0.1f, 0.1f, 1);
+	_shapes[6]->SetColor(1, 0, 0, 1);
+	_shapes[7]->SetColor(0, 1, 0, 1);
+	_shapes[8]->SetColor(0, 0, 1, 1);
+	_shapes[9]->SetColor(1, 1, 1, 0.5f);
 
-	_floor = new Shape(_renderer);
-	_floor->Init(SHAPE_TYPE::QUAD);
-	_floor->SetPos(1.f, -5.f, 0.f);
-	_floor->SetRotX(90);
-	_floor->SetScale(5);
-	_floor->SetColor(0, 0, 1, 1);
-
-	_cam->SetTarget(_pjS);
+	for (int i = 10; i < 15; i++)
+	{
+		_shapes[i] = new Shape(_renderer);
+		_shapes[i]->Init(SHAPE_TYPE::CUBE);
+		_shapes[i]->SetPos(2.f, i - 10, 0.f);
+		_shapes[i]->AffectedLight(true);
+		_shapes[i]->SetMateria(defaultMat);
+	}
+	_shapes[10]->SetColor(0.1f, 0.1f, 0.1f, 1);
+	_shapes[11]->SetColor(1, 0, 0, 1);
+	_shapes[12]->SetColor(0, 1, 0, 1);
+	_shapes[13]->SetColor(0, 0, 1, 1);
+	_shapes[14]->SetColor(1, 1, 1, 0.5f);
+	_cam->SetTarget(_shapes[0]);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
-
-	
+	//
+	//
 	_potatoLight = new Light(_renderer);
+	_potatoLight->SetAmbientStrength(0.5f);
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
 	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
 	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-
-
-	_shapes[2] = new Shape(_renderer);
-	_shapes[2]->Init(SHAPE_TYPE::CUBE);
-	_shapes[2]->SetPos(2.f, 3.f, 0.f);
-	_shapes[2]->SetColor(0, 0, 1.f, 1);
-
-	_shapes[0]->SetMateria(defaultMat, _renderer);
-	_shapes[1]->SetMateria(defaultMat, _renderer);
-	_shapes[2]->SetMateria(defaultMat, _renderer);
-	_shapes[0]->SetMateria(emerald,_renderer);
+	//
+	//
+	//_shapes[2] = new Shape(_renderer);
+	//_shapes[2]->Init(SHAPE_TYPE::CUBE);
+	//_shapes[2]->SetPos(2.f, 3.f, 0.f);
+	//_shapes[2]->SetColor(0, 0, 1.f, 1);
+	//
+	//_shapes[0]->SetMateria(defaultMat, _renderer);
+	//_shapes[1]->SetMateria(defaultMat, _renderer);
+	//_shapes[2]->SetMateria(defaultMat, _renderer);
+	//_shapes[0]->SetMateria(emerald,_renderer);
 	//_shapes[1]->SetMateria(emerald, _renderer);
 
 	Input::lock_cursor(true);
@@ -127,10 +151,14 @@ void Game::Update()
 }
 void Game::Draw() {
 	_pjS->Draw();
-	_shapes[0]->Draw();
-	_shapes[1]->Draw();
-	_shapes[2]->Draw();
-	_floor->Draw();
+	//_shapes[0]->Draw();
+	//_shapes[1]->Draw();
+	//_shapes[2]->Draw();
+	//_floor->Draw();
+	for (int i = 0; i < 15; i++)
+	{
+		_shapes[i]->Draw();
+	}
 }
 
 void Game::processInput()
@@ -154,8 +182,9 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
-	_pjS->SetPos(_pjS->getPos()+a);
-	_potatoLight->SetPos(_pjS->getPos());
+	_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a);
+	//_pjS->SetPos(_pjS->getPos()+a);
+	_potatoLight->SetPos(_cam->GetTarget()->getPos());
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);

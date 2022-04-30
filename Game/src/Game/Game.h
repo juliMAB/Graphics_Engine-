@@ -3,8 +3,9 @@
 #include "BaseGame/BaseGame.h"
 
 
+	const int quantity= 20;
 class Game : BaseGame {
-	Shape* _shapes[3];
+	Shape* _shapes[quantity];
 	Shape* _pj;
 	Sprite* _pjS;
 	Camera* _cam;
@@ -12,6 +13,7 @@ class Game : BaseGame {
 	Material* _materials[3];
 	Shape* _floor;
 	Light* _potatoLight;
+	
 public:
 	Game();
 	~Game();
