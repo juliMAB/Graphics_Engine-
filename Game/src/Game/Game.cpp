@@ -58,6 +58,9 @@ Game::Game() {
 }
 Game::~Game() {}
 void Game::Init() {
+	_tex = new Texture("res/e.png", false);
+	_tex2 = new Texture("res/f.png", false);
+	
 	_renderer->SetDepth();
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
@@ -70,8 +73,11 @@ void Game::Init() {
 	_pjS = new Sprite(_renderer);
 	_pjS->Init(SPRITE_TYPE::CUBE);
 	_pjS->SetPos(5.f, 0.f, 0.f);
-	_pjS->LoadTexture("res/c.png", false);
-	_pjS->SetColor(1, 1, 1, 0.5f);
+	_pjS->SetMateria(defaultMat);
+	_pjS->SetTexture(_tex);
+	_pjS->SetTextureDiffuse(_tex);
+	_pjS->SetTextureSpecular(_tex2);
+	_pjS->SetColor(1, 1, 1, 1);
 	
 	for (int i = 0; i < quantity/4; i++)
 	{

@@ -55,6 +55,8 @@ public:
 	void ClearScreen();
 	void PostRender(Window* window);
 	void TextureEnable(uint textureId);
+	void TextureEnableDiffuse(uint textureId);
+	void TextureEnableSpecular(uint textureId);
 	void TextureDisable();
 	void TextureDelete(uint uniformTexture, uint& textureId);
 	void BlendEnable();

@@ -28,6 +28,7 @@ void Entity2D::UpdateShader()
 	_renderer->UpdateBoolValue(_uniformAffectedLight, affectedLight);
 	_renderer->UpdateBoolValue(_uniformUseTexture, useTexture);
 	_renderer->UpdateBoolValue(_uniformUseMaterial, useMaterial);
+	_renderer->UpdateBoolValue(_uniformAffectedLightMaps, useLightMaps);
 }
 void Entity2D::AffectedLight(bool value)
 {
@@ -118,5 +119,7 @@ void Entity2D::SetUniforms()
 	_renderer->SetUniform(_uniformUseTexture, "useTexture");
 	_renderer->SetUniform(_uniformAffectedLight, "affectedLight");
 	_renderer->SetUniform(_uniformUseMaterial, "affectedMaterial");
+	_renderer->SetUniform(_uniformAffectedLightMaps, "affectedLightingMaps");
+	
 	
 }

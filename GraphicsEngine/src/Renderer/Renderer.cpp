@@ -195,6 +195,16 @@ void Renderer::TextureEnable(uint textureId)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
+void Renderer::TextureEnableDiffuse(uint textureId)
+{
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+}
+void Renderer::TextureEnableSpecular(uint textureId)
+{
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textureId);
+}
 void Renderer::TextureDisable()
 {
 	glDisable(GL_TEXTURE_2D);

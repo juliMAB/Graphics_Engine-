@@ -86,7 +86,10 @@
 		UpdateShader();
 
 		_renderer->UpdateTexture(_uniformTexture, _texture->_id);
+		
 		_renderer->TextureEnable(_texture->_id);
+		_renderer->TextureEnableDiffuse(_tDiffuse->_id);
+		_renderer->TextureEnableSpecular(_tSpecular->_id);
 		Entity2D::Draw();
 		_renderer->TextureDisable();
 		_renderer->CleanShader();
@@ -113,6 +116,8 @@
 	void Sprite::SetTexture(Texture* texture)
 	{
 		_texture = texture;
+		animIndex = 0;
+		useTexture = true;
 	}
 
 	void Sprite::LoadTexture(const char* path, bool invertImage)
@@ -226,8 +231,35 @@
 		}
 	}
 
+	void Sprite::SetTextureDiffuse(const char* path, bool invertImage)
+	{
+		if (!_tDiffuse)
+		{
+			_tDiffuse = new Texture();
+		}
+		_tDiffuse->LoadTexture(path, invertImage);
+		useLightMaps = true;
+	}
+
+	void Sprite::SetTextureDiffuse(Texture* t)
+	{
+
+		_tDiffuse = t;
+		useLightMaps = true;
+	}
+	void Sprite::SetTextureSpecular(Texture* t)
+	{
+
+		_tSpecular = t;
+		useLightMaps = true;
+	}
+
 	void Sprite::SetUniforms()
 	{
 		Entity2D::SetUniforms();
 		_renderer->SetUniform(_uniformTexture, "ourTexture");
+		_renderer->SetUniform(_uniformDiffuseTexture, "material2.diffuse");
+		_renderer->SetUniform(_uniformSpecularTexture, "material2.specular");
+		_renderer->UpdateIntValue(_uniformDiffuseTexture, 0);
+		_renderer->UpdateIntValue(_uniformSpecularTexture, 1);
 	}

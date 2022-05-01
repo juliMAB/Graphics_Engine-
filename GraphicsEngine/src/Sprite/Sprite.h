@@ -25,7 +25,11 @@ class GraficosEngine_API Sprite : public Entity2D {
 private:
 	SPRITE_TYPE type;
 	Texture* _texture;
+	Texture* _tDiffuse;
+	Texture* _tSpecular;
 	uint _uniformTexture;
+	uint _uniformDiffuseTexture;
+	uint _uniformSpecularTexture;
 	uint _UVB;
 
 	int animIndex = 0;
@@ -53,6 +57,9 @@ public:
 	void AddAnimation(int rows, int cols, float duration);
 	void ChangeAnimation(int index);
 	void SetTextureCoordinates(Frame f);
+	void SetTextureDiffuse(const char* path, bool invertImage);
+	void SetTextureDiffuse(Texture* t);
+	void SetTextureSpecular(Texture* t);
 };
 
 #endif

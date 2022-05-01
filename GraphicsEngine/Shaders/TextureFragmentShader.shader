@@ -10,6 +10,7 @@ uniform float alpha = 1.0f;
 uniform bool useTexture = false;
 uniform bool affectedLight = false;
 uniform bool affectedMaterial = false;
+uniform bool affectedLightingMaps = false;
 uniform sampler2D theTexture;
 uniform vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 uniform vec3 lightPos = vec3(1.0f, 1.0f, 1.0f);
@@ -23,6 +24,13 @@ struct Material {
 	vec3 specular;
 	float shininess;
 };
+
+struct Material2 {
+	sampler2D diffuse;
+	sampler2D specular;
+	float     shininess;
+};
+uniform Material2 material2;
 
 uniform Material material;// = Material(vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f), vec3(1.0f, 1.0f, 1.0f), 1.0f);
 
@@ -53,6 +61,28 @@ void main()
 	{
 		if (affectedMaterial == true)
 		{
+			if (affectedLightingMaps==true)
+			{
+				//ambient
+				ambient = light.ambient * vec3(texture(material2.diffuse, TexCoord));
+
+				//diffuse
+				vec3 norm = normalize(Normal);
+				vec3 lightDir = normalize(lightPos - FragPos);
+				float diff = max(dot(norm, lightDir), 0.0);
+				diffuse = light.diffuse * diff * vec3(texture(material2.diffuse, TexCoord));
+
+
+				//specular
+				vec3 viewDir = normalize(viewPos - FragPos);
+				vec3 reflectDir = reflect(-lightDir, norm);
+				float spec = pow(max(dot(viewDir, reflectDir), 0.0), material2.shininess);
+				specular = light.specular * spec * vec3(texture(material2.specular, TexCoord));
+				FragColor = vec4(ambient + diffuse + specular,1.0f);
+				return;
+			}
+			else
+			{
 			//ambient
 			ambient = lightColor * light.ambient * material.ambient;
 			//diffuse
@@ -65,6 +95,7 @@ void main()
 			vec3 reflectDir = reflect(-lightDir, norm);
 			float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
 			specular = lightColor*(spec * material.specular) * light.specular;
+			}
 		}
 		else
 		{

@@ -13,6 +13,8 @@ class Game : BaseGame {
 	Material* _materials[3];
 	Shape* _floor;
 	Light* _potatoLight;
+	Texture* _tex;
+	Texture* _tex2;
 	
 public:
 	Game();
