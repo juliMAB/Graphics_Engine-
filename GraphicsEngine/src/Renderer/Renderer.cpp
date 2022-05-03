@@ -156,7 +156,7 @@ void Renderer::UpdateFloatValue(uint uniformFloat, float value)
 {
 	glUniform1f(uniformFloat, value);
 }
-void Renderer::UpdateIntValue(uint uniformInt, int value)
+void Renderer::UpdateInt(uint uniformInt, int value)
 {
 	glUniform1i(uniformInt, value);
 }

@@ -5,7 +5,7 @@
 
 	const int quantity= 20;
 class Game : BaseGame {
-	Shape* _shapes[quantity];
+	Sprite* _sprites[quantity];
 	Shape* _pj;
 	Sprite* _pjS;
 	Camera* _cam;

@@ -100,13 +100,18 @@ Entity2D::Entity2D(Renderer* render) : Entity(render)
 Entity2D::~Entity2D()
 {
 }
+void Entity2D::UpdateMaterial()
+{
+	if (useMaterial)
+	_material->UpdateMaterial();
+}
 
-void Entity2D::SetMateria(MaterialS mat)
+void Entity2D::SetMateria(MaterialS* mat)
 {
 	useMaterial = true;
 	_material = new Material(_renderer);
-	_material->SetMaterial(mat);
 	_material->Init();
+	_material->SetMaterial(mat);
 	_material->UpdateMaterial();
 
 }

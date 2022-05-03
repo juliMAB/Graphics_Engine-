@@ -21,7 +21,8 @@ public:
 	Entity2D(Renderer* render);
 	~Entity2D();
 
-	void SetMateria(MaterialS mat);
+	void SetMateria(MaterialS* mat);
+	void UpdateMaterial();
 
 
 	//color::RGBA color;

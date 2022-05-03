@@ -19,31 +19,31 @@ bool firstMouse = true;
 
 
 
-MaterialS emerald{ 
-	{0.0215f,	0.1745f, 0.0215f},
-	{0.07568f,	0.61424f,	0.07568f},
-	{0.633f,	0.727811f,	0.633f,},
-0.60f *100
-};
-MaterialS jade{
-	{0.135f,	0.2225f,	0.1575f},
-	{0.54f,	0.89f,	0.63f},
-	{0.316228f,	0.316228f,	0.316228f},
-	1
-};
-MaterialS obsidian{
-	{0.05375f,	0.05f,	0.06625f},
-	{0.18275f,	0.17f,	0.22525f},
-	{0.332741f,	0.328634f, 0.346435f},
-	0.3f
-};
-MaterialS defaultMat{
-	{0.2f, 0.2f, 0.2f},
-	{0.5f, 0.5f, 0.5f},
-	{1.0f, 1.0f, 1.0f},
-	64.f
-};
-
+//MaterialS emerald{ 
+//	{0.0215f,	0.1745f, 0.0215f},
+//	{0.07568f,	0.61424f,	0.07568f},
+//	{0.633f,	0.727811f,	0.633f,},
+//0.60f *100
+//};
+//MaterialS jade{
+//	{0.135f,	0.2225f,	0.1575f},
+//	{0.54f,	0.89f,	0.63f},
+//	{0.316228f,	0.316228f,	0.316228f},
+//	1
+//};
+//MaterialS obsidian{
+//	{0.05375f,	0.05f,	0.06625f},
+//	{0.18275f,	0.17f,	0.22525f},
+//	{0.332741f,	0.328634f, 0.346435f},
+//	0.3f
+//};
+//MaterialS defaultMat{
+//	{0.2f, 0.2f, 0.2f},
+//	{0.5f, 0.5f, 0.5f},
+//	{1.0f, 1.0f, 1.0f},
+//	64.f
+//};
+MaterialS* defaultM;
 
 //enum DIR
 //{
@@ -60,76 +60,51 @@ Game::~Game() {}
 void Game::Init() {
 	_tex = new Texture("res/e.png", false);
 	_tex2 = new Texture("res/f.png", false);
-	
+	vec3 a = { 1,1,1 };
+	defaultM = new MaterialS{ _tex,_tex2,1 };
 	_renderer->SetDepth();
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	//_pj = new Shape(_renderer);
-	//_pj->Init(SHAPE_TYPE::CUBE);
-	//_pj->SetPos(5.f,0.f,0.f);
-	//_pj->SetColor(1, 0, 0, 1);
-	//
+
 	_pjS = new Sprite(_renderer);
 	_pjS->Init(SPRITE_TYPE::CUBE);
 	_pjS->SetPos(5.f, 0.f, 0.f);
-	_pjS->SetMateria(defaultMat);
-	_pjS->SetTexture(_tex);
-	_pjS->SetTextureDiffuse(_tex);
-	_pjS->SetTextureSpecular(_tex2);
 	_pjS->SetColor(1, 1, 1, 1);
 	
-	for (int i = 0; i < quantity/4; i++)
-	{
-		_shapes[i] = new Shape(_renderer);
-		_shapes[i]->Init(SHAPE_TYPE::CUBE);
-		_shapes[i]->SetPos(0.f, i, 0.f);
-		_shapes[i]->AffectedLight(false);
-	}
 
-	_shapes[0]->SetColor(1, 1, 1, 1);
-	_shapes[1]->SetColor(1, 0, 0, 1);
-	_shapes[2]->SetColor(0, 1, 0, 1);
-	_shapes[3]->SetColor(0, 0, 1, 1);
-	_shapes[4]->SetColor(1, 1, 1, 0.5f);
-
-	for (int i = quantity / 4; i < quantity / 2; i++)
+		int x = 0;
+		int y = 0;
+	for (int i = 0; i < 15; i++)
 	{
-		_shapes[i] = new Shape(_renderer);
-		_shapes[i]->Init(SHAPE_TYPE::CUBE);
-		_shapes[i]->SetPos(1.f, i-5, 0.f);
-		_shapes[i]->AffectedLight(true);
-	}
-	_shapes[5]->SetColor(0.1f, 0.1f, 0.1f, 1);
-	_shapes[6]->SetColor(1, 0, 0, 1);
-	_shapes[7]->SetColor(0, 1, 0, 1);
-	_shapes[8]->SetColor(0, 0, 1, 1);
-	_shapes[9]->SetColor(1, 1, 1, 0.5f);
+		_sprites[i] = new Sprite(_renderer);
+		_sprites[i]->Init(SPRITE_TYPE::CUBE);
+		_sprites[i]->SetPos(2.f, i-y, x);
+		_sprites[i]->SetMateria(defaultM);
+		if (i == 4 || i == 9 || i == 14)
+		{
+			x++;
+			y += 5;
 
-	for (int i = 10; i < 15; i++)
-	{
-		_shapes[i] = new Shape(_renderer);
-		_shapes[i]->Init(SHAPE_TYPE::CUBE);
-		_shapes[i]->SetPos(2.f, i - 10, 0.f);
-		_shapes[i]->AffectedLight(true);
-		_shapes[i]->SetMateria(defaultMat);
+		}
 	}
-	_shapes[10]->SetColor(0.1f, 0.1f, 0.1f, 1);
-	_shapes[11]->SetColor(1, 0, 0, 1);
-	_shapes[12]->SetColor(0, 1, 0, 1);
-	_shapes[13]->SetColor(0, 0, 1, 1);
-	_shapes[14]->SetColor(1, 1, 1, 0.5f);
-	_cam->SetTarget(_shapes[0]);
+	//_shapes[10]->SetColor(0.1f, 0.1f, 0.1f, 1);
+	//_shapes[11]->SetColor(1, 0, 0, 1);
+	//_shapes[12]->SetColor(0, 1, 0, 1);
+	//_shapes[13]->SetColor(0, 0, 1, 1);
+	//_shapes[14]->SetColor(1, 1, 1, 1);
+	_cam->SetTarget(_sprites[0]);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	//
 	//
 	_potatoLight = new Light(_renderer);
-	_potatoLight->SetAmbientStrength(0.5f);
+	_potatoLight->SetAmbientStrength(1.0f);
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
 	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
-	_potatoLight->SetDiffuse(glm::vec3(0.5f, 0.5f, 0.5f));
+	_potatoLight->SetDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
+	//_potatoLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
 	//
 	//
 	//_shapes[2] = new Shape(_renderer);
@@ -154,16 +129,20 @@ void Game::Update()
 	_cam->Update();
 	_potatoLight->UpdateLight();
 	processInput();
+	for (int i = 0; i < 15; i++)
+	{
+		_sprites[i]->UpdateMaterial();
+	}
 }
 void Game::Draw() {
-	_pjS->Draw();
+	//_pjS->Draw();
 	//_shapes[0]->Draw();
 	//_shapes[1]->Draw();
 	//_shapes[2]->Draw();
 	//_floor->Draw();
 	for (int i = 0; i < 15; i++)
 	{
-		_shapes[i]->Draw();
+		_sprites[i]->Draw();
 	}
 }
 

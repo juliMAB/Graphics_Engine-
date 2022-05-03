@@ -18,12 +18,13 @@
 	}
 	void Light::SetUniforms()
 	{
-		_renderer->SetUniform(_uniformPositionLight, "lightPos");
+		_renderer->SetUniform(_uniformPositionLight, "light.position");
 		_renderer->SetUniform(_uniformColorLight, "lightColor");
 		_renderer->SetUniform(_uniformAmbient, "light.ambient");
 		_renderer->SetUniform(_uniformDiffuse, "light.diffuse");
 		_renderer->SetUniform(_uniformSpecular, "light.specular");
 		_renderer->SetUniform(_uniformAmbientStrength, "ambientStrength");
+		_renderer->SetUniform(_uniformDirectionLight, "light.direction");
 		
 	}
 
@@ -35,6 +36,7 @@
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);
+		_renderer->UpdateVec3(_uniformDirectionLight, direction);
 		_renderer->UpdateFloatValue(_uniformAmbientStrength, ambientStrength);
 		_renderer->CleanShader();
 	}
@@ -65,6 +67,10 @@
 	void Light::SetEnabled(bool enabled)
 	{
 		this->enabled = enabled;
+	}
+	void Light::SetDirection(glm::vec3 direction)
+	{
+		this->direction = direction;
 	}
 
 	glm::vec3 Light::GetAmbient()

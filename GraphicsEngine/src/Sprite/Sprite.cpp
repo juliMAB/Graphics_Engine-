@@ -5,7 +5,7 @@
 	Sprite::Sprite() : Entity2D()
 	{
 		type = SPRITE_TYPE::QUAD;
-		_texture = nullptr;
+		_material = nullptr;
 		_uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();
@@ -15,8 +15,7 @@
 	Sprite::Sprite(Renderer* render) : Entity2D(render)
 	{
 		type = SPRITE_TYPE::QUAD;
-		_texture = nullptr;
-		_texture = new Texture();
+		_material = new Material(render);
 		affectedLight = true;
 		_uniformTexture = 0;
 		animIndex = 0;
@@ -30,7 +29,7 @@
 
 	void Sprite::Init(SPRITE_TYPE type)
 	{
-		_texture = new Texture();
+		
 		this->type = type;
 		SetUniforms();
 
@@ -85,11 +84,11 @@
 		_renderer->UseShader();
 		UpdateShader();
 
-		_renderer->UpdateTexture(_uniformTexture, _texture->_id);
 		
-		_renderer->TextureEnable(_texture->_id);
-		_renderer->TextureEnableDiffuse(_tDiffuse->_id);
-		_renderer->TextureEnableSpecular(_tSpecular->_id);
+		_renderer->TextureEnableDiffuse(_material->GetDiffuse()->_id);
+		_renderer->TextureEnableSpecular(_material->GetSpecular()->_id);
+		_renderer->TextureEnableDiffuse(_material->GetDiffuse()->_id);
+		_renderer->TextureEnableSpecular(_material->GetSpecular()->_id);
 		Entity2D::Draw();
 		_renderer->TextureDisable();
 		_renderer->CleanShader();
@@ -99,12 +98,13 @@
 	void Sprite::DeInit()
 	{
 		_renderer->UnBind(_VAO, _VBO, _EBO, _UVB);
-		_renderer->TextureDelete(_uniformTexture, _texture->_id);
+		_renderer->TextureDelete(_uniformTexture, _material->GetDiffuse()->_id);
+		_renderer->TextureDelete(_uniformTexture, _material->GetSpecular()->_id);
 
-		if (_texture != nullptr)
+		if (_material != nullptr)
 		{
-			delete _texture;
-			_texture = nullptr;
+			delete _material;
+			_material = nullptr;
 		}
 
 		for (int i = 0; i < anim.size(); i++)
@@ -113,51 +113,7 @@
 		}
 	}
 
-	void Sprite::SetTexture(Texture* texture)
-	{
-		_texture = texture;
-		animIndex = 0;
-		useTexture = true;
-	}
 
-	void Sprite::LoadTexture(const char* path, bool invertImage)
-	{
-		if (!_texture)
-		{
-			_texture = new Texture();
-		}
-		_texture->LoadTexture(path, invertImage);
-		animIndex = 0;
-		useTexture = true;
-	}
-
-	void Sprite::AddAnimation(Atlas atlas, float speed)
-	{
-		Animation* a = new Animation();
-		a->SetAnimation(_texture, speed);
-		a->AddFrames(atlas);
-		anim.push_back(a);
-
-		Frame f = anim[animIndex]->GetFrames()[0];
-		SetTextureCoordinates(f);
-	}
-
-	void Sprite::AddAnimation(int rows, int cols, float speed)
-	{
-		Animation* a = new Animation();
-		a->SetAnimation(_texture, speed);
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				a->AddFrame(i, j, _texture->_width / cols, _texture->_height / rows,_texture->_width,_texture->_height, rows * cols);
-			}
-		}
-		anim.push_back(a);
-
-		Frame f = anim[animIndex]->GetFrames()[0];
-		SetTextureCoordinates(f);
-	}
 
 	void Sprite::ChangeAnimation(int index)
 	{
@@ -231,35 +187,14 @@
 		}
 	}
 
-	void Sprite::SetTextureDiffuse(const char* path, bool invertImage)
-	{
-		if (!_tDiffuse)
-		{
-			_tDiffuse = new Texture();
-		}
-		_tDiffuse->LoadTexture(path, invertImage);
-		useLightMaps = true;
-	}
-
-	void Sprite::SetTextureDiffuse(Texture* t)
-	{
-
-		_tDiffuse = t;
-		useLightMaps = true;
-	}
-	void Sprite::SetTextureSpecular(Texture* t)
-	{
-
-		_tSpecular = t;
-		useLightMaps = true;
-	}
+	
 
 	void Sprite::SetUniforms()
 	{
 		Entity2D::SetUniforms();
 		_renderer->SetUniform(_uniformTexture, "ourTexture");
-		_renderer->SetUniform(_uniformDiffuseTexture, "material2.diffuse");
-		_renderer->SetUniform(_uniformSpecularTexture, "material2.specular");
-		_renderer->UpdateIntValue(_uniformDiffuseTexture, 0);
-		_renderer->UpdateIntValue(_uniformSpecularTexture, 1);
+		_renderer->SetUniform(_uniformDiffuseTexture, "material.diffuse");
+		_renderer->SetUniform(_uniformSpecularTexture, "material.specular");
+		_renderer->UpdateInt(_uniformDiffuseTexture, 0);
+		_renderer->UpdateInt(_uniformSpecularTexture, 1);
 	}

@@ -18,6 +18,7 @@
 		void SetAmbient(glm::vec3 ambient);
 		void SetDiffuse(glm::vec3 diffuse);
 		void SetSpecular(glm::vec3 specular);
+		void SetDirection(glm::vec3 direction);
 		void SetEnabled(bool enabled);
 
 		glm::vec3 GetAmbient();
@@ -29,6 +30,7 @@
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
+		glm::vec3 direction;
 		float ambientStrength;
 		bool enabled;
 
@@ -38,6 +40,7 @@
 		uint _uniformDiffuse;
 		uint _uniformSpecular;
 		uint _uniformAmbientStrength;
+		uint _uniformDirectionLight;
 	};
 
 

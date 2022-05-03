@@ -48,7 +48,7 @@ public:
 	void UpdateBoolValue(uint uniformStatus, bool status);
 	void UpdateTexture(uint uniformTexture, uint textureId);
 	void UpdateFloatValue(uint uniformFloat, float value);
-	void UpdateIntValue(uint uniformInt, int value);
+	void UpdateInt(uint uniformInt, int value);
 	void SetView(glm::mat4 view);
 	void SetProjection(glm::mat4 projection);
 	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
