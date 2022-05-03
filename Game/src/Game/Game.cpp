@@ -74,7 +74,7 @@ void Game::Init() {
 	_tex = new Texture("res/e.png", false);
 	_tex2 = new Texture("res/f.png", false);
 	vec3 a = { 1,1,1 };
-	defaultM = new MaterialS{ _tex,_tex2,1 };
+	defaultM = new MaterialS{ _tex,_tex2,0.5f };
 	_renderer->SetDepth();
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
@@ -106,16 +106,16 @@ void Game::Init() {
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
-	_potatoLight = new PointLight(_renderer);
+	_potatoLight = new SpotLight(_renderer);
 
-	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
+	_potatoLight->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
 	_potatoLight->SetDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-
-
 	_potatoLight->SetConstant(1.0f);
 	_potatoLight->SetLinear(0.09f);
 	_potatoLight->SetQuadratic(0.032f);
+	_potatoLight->SetCamera(_cam);
+	_potatoLight->SetCutOff(glm::cos(glm::radians(12.5f)));
 
 	Input::lock_cursor(true);
 }

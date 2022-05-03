@@ -216,3 +216,8 @@ CAMERA_TYPE Camera::GetCameraType()
 {
 	return cameraType;
 }
+
+vec3 Camera::GetFront()
+{
+	return transform.forward;
+}

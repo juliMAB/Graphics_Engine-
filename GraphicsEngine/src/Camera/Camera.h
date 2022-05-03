@@ -52,6 +52,7 @@ public:
 	//--------Getters-------
 	Entity* GetTarget();
 	CAMERA_TYPE GetCameraType();
+	vec3 GetFront();
 	//--------Others--------
 	void DebugInfo();
 
