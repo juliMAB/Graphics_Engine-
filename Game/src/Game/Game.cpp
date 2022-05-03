@@ -53,6 +53,19 @@ MaterialS* defaultM;
 //	UP
 //};
 int Down,Left,Right,Up;
+
+glm::vec3 cubePositions[] = {
+	glm::vec3(0.0f,  0.0f,  0.0f),
+	glm::vec3(2.0f,  5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.5f),
+	glm::vec3(-1.7f,  3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f,  2.0f, -2.5f),
+	glm::vec3(1.5f,  0.2f, -1.5f),
+	glm::vec3(-1.3f,  1.0f, -1.5f)
+};
 Game::Game() { 
 	StartEngine(960, 540, "In Lovyng");
 }
@@ -88,35 +101,19 @@ void Game::Init() {
 
 		}
 	}
-	//_shapes[10]->SetColor(0.1f, 0.1f, 0.1f, 1);
-	//_shapes[11]->SetColor(1, 0, 0, 1);
-	//_shapes[12]->SetColor(0, 1, 0, 1);
-	//_shapes[13]->SetColor(0, 0, 1, 1);
-	//_shapes[14]->SetColor(1, 1, 1, 1);
+
 	_cam->SetTarget(_sprites[0]);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
-	//
-	//
+
 	_potatoLight = new Light(_renderer);
 	_potatoLight->SetAmbientStrength(1.0f);
 	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
 	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-	//_potatoLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
-	//
-	//
-	//_shapes[2] = new Shape(_renderer);
-	//_shapes[2]->Init(SHAPE_TYPE::CUBE);
-	//_shapes[2]->SetPos(2.f, 3.f, 0.f);
-	//_shapes[2]->SetColor(0, 0, 1.f, 1);
-	//
-	//_shapes[0]->SetMateria(defaultMat, _renderer);
-	//_shapes[1]->SetMateria(defaultMat, _renderer);
-	//_shapes[2]->SetMateria(defaultMat, _renderer);
-	//_shapes[0]->SetMateria(emerald,_renderer);
-	//_shapes[1]->SetMateria(emerald, _renderer);
+	_potatoLight->SetDirection(glm::vec3 (-0.2f, -1.0f, -0.3f));
+
 
 	Input::lock_cursor(true);
 }
@@ -133,6 +130,7 @@ void Game::Update()
 	{
 		_sprites[i]->UpdateMaterial();
 	}
+
 }
 void Game::Draw() {
 	//_pjS->Draw();
