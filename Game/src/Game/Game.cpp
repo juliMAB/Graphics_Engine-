@@ -106,14 +106,16 @@ void Game::Init() {
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
-	_potatoLight = new Light(_renderer);
-	_potatoLight->SetAmbientStrength(1.0f);
-	_potatoLight->SetColor(1.0f, 1.0f, 1.0f);
+	_potatoLight = new PointLight(_renderer);
+
 	_potatoLight->SetAmbient(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
 	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-	_potatoLight->SetDirection(glm::vec3 (-0.2f, -1.0f, -0.3f));
 
+
+	_potatoLight->SetConstant(1.0f);
+	_potatoLight->SetLinear(0.09f);
+	_potatoLight->SetQuadratic(0.032f);
 
 	Input::lock_cursor(true);
 }

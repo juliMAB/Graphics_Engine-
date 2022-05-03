@@ -10,7 +10,6 @@
 #include "../Camera/Camera.h"
 #include "../Juli/Jinterface.h"
 #include "../LightManager/lightManager.h"
-#include "../Light/light.h"
 class GraficosEngine_API BaseGame {
 private:
 	Input* _input;

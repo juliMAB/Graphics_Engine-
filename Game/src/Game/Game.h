@@ -12,7 +12,7 @@ class Game : BaseGame {
 	float cameraSpeed = 30.f;
 	Material* _materials[3];
 	Shape* _floor;
-	Light* _potatoLight;
+	PointLight* _potatoLight;
 	Texture* _tex;
 	Texture* _tex2;
 	

@@ -7,9 +7,7 @@
 		ambient = glm::vec3(0.f);
 		diffuse = glm::vec3(0.f);
 		specular = glm::vec3(0.f);
-		enabled = true;
 
-		_uniformColorLight = 0;
 		_locationPosition = 0;
 		_uniformAmbient = 0;
 		_uniformDiffuse = 0;
@@ -18,35 +16,24 @@
 	}
 	void Light::SetUniforms()
 	{
-		_renderer->SetUniform(_uniformPositionLight, "light.position");
-		_renderer->SetUniform(_uniformColorLight, "lightColor");
 		_renderer->SetUniform(_uniformAmbient, "light.ambient");
 		_renderer->SetUniform(_uniformDiffuse, "light.diffuse");
 		_renderer->SetUniform(_uniformSpecular, "light.specular");
-		_renderer->SetUniform(_uniformAmbientStrength, "ambientStrength");
-		_renderer->SetUniform(_uniformDirectionLight, "light.direction");
 		
 	}
 
 	void Light::UpdateLight()
 	{
 		_renderer->UseShader();
-		_renderer->UpdateVec3(_uniformColorLight, _color.GetColorV3());
-		_renderer->UpdateVec3(_uniformPositionLight, getPos());
+
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);
-		_renderer->UpdateVec3(_uniformDirectionLight, direction);
-		_renderer->UpdateFloatValue(_uniformAmbientStrength, ambientStrength);
+
 		_renderer->CleanShader();
 	}
 	Light::~Light()
 	{
-	}
-
-	void Light::SetAmbientStrength(float value)
-	{
-		ambientStrength = value;
 	}
 
 	void Light::SetAmbient(glm::vec3 ambient)
@@ -64,15 +51,6 @@
 		this->specular = specular;
 	}
 
-	void Light::SetEnabled(bool enabled)
-	{
-		this->enabled = enabled;
-	}
-	void Light::SetDirection(glm::vec3 direction)
-	{
-		this->direction = direction;
-	}
-
 	glm::vec3 Light::GetAmbient()
 	{
 		return ambient;
@@ -86,9 +64,4 @@
 	glm::vec3 Light::GetSpecular()
 	{
 		return specular;
-	}
-
-	bool Light::IsEnabled()
-	{
-		return enabled;
 	}
