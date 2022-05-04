@@ -10,9 +10,11 @@
 	class GraficosEngine_API Light : public Entity
 	{
 	public:
+		Light();
 		Light(Renderer* render);
 
 		void  SetUniforms();
+		void SetUniforms(std::string v);
 		void  UpdateLight();
 
 		~Light();

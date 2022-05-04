@@ -7,6 +7,7 @@
 class GraficosEngine_API DirectionLight : public Light
 {
 public:
+	DirectionLight();
 	DirectionLight(Renderer* render);
 	void SetUniforms();
 	void UpdateLight();

@@ -1,5 +1,5 @@
 #include "pointLight.h"
-
+int PointLight::quantity =0;
 PointLight::PointLight(Renderer* render) : Light(render)
 {
 
@@ -12,21 +12,24 @@ PointLight::PointLight(Renderer* render) : Light(render)
 	_uniformLinear   =0;
 	_uniformQuadratic=0;
 	SetUniforms();
+	_name = "pointLights[" + std::to_string(quantity) + " ] ";
+	_name;
 }
 
 void PointLight::SetUniforms()
 {
-	_renderer->SetUniform(_uniformPosition, "light.position");
-	_renderer->SetUniform(_uniformConstant, "light.constant");
-	_renderer->SetUniform(_uniformLinear, "light.linear");
-	_renderer->SetUniform(_uniformQuadratic, "light.quadratic");
-	Light::SetUniforms();
+	_renderer->SetUniform(_uniformPosition, (_name + ".position").c_str());
+	_renderer->SetUniform(_uniformConstant, (_name + ".constant").c_str());
+	_renderer->SetUniform(_uniformLinear, (_name + ".linear").c_str());
+	_renderer->SetUniform(_uniformQuadratic, (_name + ".quadratic").c_str());
+	Light::SetUniforms(_name);
 }
 
 void PointLight::UpdateLight()
 {
+	pos = getPos();
 	_renderer->UseShader();
-	_renderer->UpdateVec3(_uniformPosition, getPos());
+	_renderer->UpdateVec3(_uniformPosition, pos);
 	_renderer->UpdateFloatValue(_uniformConstant, constant);
 	_renderer->UpdateFloatValue(_uniformLinear, linear);
 	_renderer->UpdateFloatValue(_uniformQuadratic, quadratic);

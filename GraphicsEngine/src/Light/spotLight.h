@@ -1,11 +1,11 @@
 #ifndef SPOTLIGHT_H
 #define SPOTLIGHT_H
 
-#include "light.h"
+#include "pointLight.h"
 #include "../Camera/Camera.h"
 
 
-class GraficosEngine_API SpotLight : public Light
+class GraficosEngine_API SpotLight : public PointLight
 {
 public:
 	SpotLight(Renderer* render);
@@ -29,13 +29,9 @@ protected:
 	float linear;
 	float quadratic;
 
-	uint _uniformPosition;
 	uint _uniformDirection;
 	uint _uniformCutOff;
 
-	uint _uniformConstant;
-	uint _uniformLinear;
-	uint _uniformQuadratic;
 };
 
 

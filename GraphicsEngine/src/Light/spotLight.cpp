@@ -1,19 +1,20 @@
 #include "spotLight.h"
 
-SpotLight::SpotLight(Renderer* render) : Light(render)
+SpotLight::SpotLight(Renderer* render) : PointLight(render)
 {
+	_name = "spotLight";
 	SetUniforms();
 }
 
 void SpotLight::SetUniforms()
 {
-	_renderer->SetUniform(_uniformPosition, "light.position");
+	_renderer->SetUniform(_uniformPosition, (_name + ".position").c_str());
 	_renderer->SetUniform(_uniformDirection, "light.direction");
 	_renderer->SetUniform(_uniformCutOff, "light.cutOff");
 	_renderer->SetUniform(_uniformConstant, "light.constant");
 	_renderer->SetUniform(_uniformLinear, "light.linear");
 	_renderer->SetUniform(_uniformQuadratic, "light.quadratic");
-	Light::SetUniforms();
+	Light::SetUniforms(_name);
 }
 
 void SpotLight::UpdateLight()

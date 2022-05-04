@@ -74,7 +74,7 @@ void Game::Init() {
 	_tex = new Texture("res/e.png", false);
 	_tex2 = new Texture("res/f.png", false);
 	vec3 a = { 1,1,1 };
-	defaultM = new MaterialS{ _tex,_tex2,0.5f };
+	defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));

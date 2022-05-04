@@ -4,12 +4,14 @@ DirectionLight::DirectionLight(Renderer* render) : Light(render)
 {
 	direction = glm::vec3(0);
 	_uniformDirection = 0;
+	_name = "dirLight";
 }
+DirectionLight::DirectionLight() : Light(){}
 
 void DirectionLight::SetUniforms()
 {
-	_renderer->SetUniform(_uniformDirection, "light.direction");
-	Light::SetUniforms();
+	_renderer->SetUniform(_uniformDirection, (_name + ".direction").c_str());
+	Light::SetUniforms(_name);
 }
 
 void DirectionLight::UpdateLight()
