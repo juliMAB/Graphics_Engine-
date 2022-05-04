@@ -21,6 +21,7 @@
 		animIndex = 0;
 		anim = std::vector<Animation*>();
 		currFrame = Frame();
+		_name = "Sprite " + std::to_string(CuantityEntitys);
 	}
 
 	Sprite::~Sprite()

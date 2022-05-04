@@ -37,9 +37,9 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 			_imgur->Update();
 
 			Update();
-			Draw();
 			if (imGuiEnabled)
 			_imgur->Draw();
+			Draw();
 			_renderer->PostRender(GetWindow());
 		}
 	}

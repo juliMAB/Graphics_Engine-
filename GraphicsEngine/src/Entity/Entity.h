@@ -6,6 +6,9 @@
 #include <../GLM/gtc/matrix_transform.hpp>
 #include <../GLM/gtc/type_ptr.hpp>
 #include "../Juli/Jinterface.h"
+#include <iostream>
+#include <list>
+
 struct Transform
 {
 	glm::vec3 position;
@@ -36,7 +39,7 @@ struct Matrix
 class GraficosEngine_API Entity {
 public:
 static int CuantityEntitys;
-static Entity * EntitysArray[];
+static std::list<Entity*> EntitysLists;
 	//---C y D----------
 	Entity();
 	Entity(Renderer* renderer);
@@ -77,8 +80,9 @@ static Entity * EntitysArray[];
 
 private:
 	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);
-	//friend class MyImGui;
+	friend class MyImGui;
 protected:
+	std::string _name;
 	color::RGBA _color;
 	Renderer* _renderer;
 

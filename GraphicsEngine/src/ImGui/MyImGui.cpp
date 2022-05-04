@@ -87,7 +87,7 @@ void MyImGui::Draw()
 MyImGui::~MyImGui()
 {
 }
-
+ImVec4 clear_color;
 void MyImGui::UpdateWindowsOne()
 {
     if (show_demo_window)
@@ -106,10 +106,23 @@ void MyImGui::UpdateWindowsOne()
 
         ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
         //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-        //for (int i = 0; i < Entity::CuantityEntitys; i++)
+        //ImGui::ColorEdit3("pos", (float*)(&(*it)->transform.position)); // Edit 3 floats representing a color
+        int w=0;
+        for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
         {
-        //ImGui::ColorEdit3("pos", (float*)&Entity::EntitysArray[i]->transform.position); // Edit 3 floats representing a color
-
+            float x = (*it)->transform.position.x;
+            float y = (*it)->transform.position.y;
+            float z = (*it)->transform.position.z;
+            //ImGui::SliderFloat("posX", &(*it)->transform.position.x, 0.0f, 1.0f);
+            //ImVec4 a = ImVec4((*it)->transform.position.x, (*it)->transform.position.y, (*it)->transform.position.z, 1.0f);
+            ImGui::SliderFloat(((*it)->_name + "x").c_str(), &(x), -10.0f, 10.0f);
+            ImGui::SliderFloat(((*it)->_name + "y").c_str(), &(y), -10.0f, 10.0f);
+            ImGui::SliderFloat(((*it)->_name + "z").c_str(), &(z), -10.0f, 10.0f);
+            //ImGui::SliderFloat("posY", &((*it)->transform.position.y), -10.0f, 10.0f);
+            //ImGui::ColorEdit3("pos", (float*)(&(*it)->transform.position)); // Edit 3 floats representing a color
+            (*it)->SetPos(x,y,z);
+            w++;
+            //(*it)->transform.position = glm::vec3(a.x, a.y, a.z);
         }
         
         //Entity::EntitysArray[0]

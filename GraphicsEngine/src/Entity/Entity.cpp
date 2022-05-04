@@ -2,7 +2,7 @@
 
 float deg2rad = ( 3.14f* 2.0f) / 360.0f;
 int Entity::CuantityEntitys = 0;
-Entity* Entity::EntitysArray[];
+std::list<Entity*> Entity::EntitysLists;
 Entity::Entity() {
 	
 	_renderer = nullptr;
@@ -64,8 +64,10 @@ Entity::Entity(Renderer* renderer)
 	_uniformProjection = 0;
 
 	UpdateMatrixData();
-	EntitysArray[CuantityEntitys] = this;
+	EntitysLists.push_front(this);
+	_name = "Entity " + std::to_string(CuantityEntitys);
 	CuantityEntitys++;
+	//EntitysLists.assign(CuantityEntitys, this);
 }
 Entity::~Entity() {
 
