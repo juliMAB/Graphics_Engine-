@@ -30,11 +30,16 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 	{
 		Init();
 		while (!glfwWindowShouldClose(_window->GetWindow())) {
+			
 			_renderer->ClearScreen();
 			_time->Update();
+			if (imGuiEnabled)
+			_imgur->Update();
 
 			Update();
 			Draw();
+			if (imGuiEnabled)
+			_imgur->Draw();
 			_renderer->PostRender(GetWindow());
 		}
 	}
@@ -52,6 +57,7 @@ Window* BaseGame::GetWindow() {
 bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowName)
 {
 	std::cout << "+Init Engine" << std::endl;
+	glfwSetErrorCallback(glfw_error_callback);
 	if (!glfwInit())
 		return false;
 	if (!InitWindow(windowSizeX,windowSizeY,windowName))
@@ -62,6 +68,8 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	InitTime();
 	InitCamera();
 	InitInput();
+	if (imGuiEnabled)
+	InitImgur();
 	std::cout << "-Init Engine" << std::endl;
 	return true;
 }
@@ -86,6 +94,12 @@ bool BaseGame::InitGlew() {
 	return true;
 }
 
+void BaseGame::InitImgur()
+{
+	_imgur = new MyImGui();
+	_imgur->Init();
+	_imgur->InitAfterWindow(_window);
+}
 void BaseGame::InitInput() {
 	Input::SetWindow(_window);
 	Input::StartInputSystem();

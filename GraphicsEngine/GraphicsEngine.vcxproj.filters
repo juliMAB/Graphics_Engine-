@@ -67,6 +67,18 @@
     <Filter Include="Archivos de origen\Light">
       <UniqueIdentifier>{adc2895f-1311-4d0e-bfc6-a2dc1433be92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Imgui">
+      <UniqueIdentifier>{869895dc-9578-4c49-8504-19c1e9310f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Imgui\Master">
+      <UniqueIdentifier>{ffcfe99f-9177-498f-8c18-92ac42bbebd8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Imgui\Master\Source">
+      <UniqueIdentifier>{6c8d698d-b1ef-47a5-a750-b8ec69b5abd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Imgui\Master\Imgur">
+      <UniqueIdentifier>{ea03bda9-a39c-4987-9512-55a70fce32d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -146,6 +158,30 @@
     </ClCompile>
     <ClCompile Include="src\LightManager\lightManager.cpp">
       <Filter>Archivos de origen\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\MyImGui.cpp">
+      <Filter>Archivos de encabezado\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_glfw.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_demo.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_draw.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_tables.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_widgets.cpp">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +278,36 @@
     <ClInclude Include="src\Light\spotLight.h">
       <Filter>Archivos de encabezado\Light</Filter>
     </ClInclude>
+    <ClInclude Include="src\ImGui\MyImGui.h">
+      <Filter>Archivos de encabezado\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_glfw.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3_loader.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imconfig.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui_internal.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_textedit.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_rectpack.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_truetype.h">
+      <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidFragmentShader.shader">
@@ -257,5 +323,10 @@
     <None Include="Shaders\TextureVertexShader.shader">
       <Filter>res\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="src\ImGui\ImGuiMaster\Source\imgui.natvis">
+      <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>

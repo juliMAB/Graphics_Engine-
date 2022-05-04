@@ -1,6 +1,8 @@
 #include "Entity.h"
 
 float deg2rad = ( 3.14f* 2.0f) / 360.0f;
+int Entity::CuantityEntitys = 0;
+Entity* Entity::EntitysArray[];
 Entity::Entity() {
 	
 	_renderer = nullptr;
@@ -62,6 +64,8 @@ Entity::Entity(Renderer* renderer)
 	_uniformProjection = 0;
 
 	UpdateMatrixData();
+	EntitysArray[CuantityEntitys] = this;
+	CuantityEntitys++;
 }
 Entity::~Entity() {
 

@@ -190,6 +190,14 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClCompile Include="src\Collision\Collision.cpp" />
     <ClCompile Include="src\Entity2D\Entity2D.cpp" />
     <ClCompile Include="src\Entity\Entity.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_tables.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_widgets.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_glfw.cpp" />
+    <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\ImGui\MyImGui.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Juli\Jinterface.cpp" />
     <ClCompile Include="src\LightManager\lightManager.cpp" />
@@ -221,6 +229,16 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Entity\Entity.h" />
     <ClInclude Include="src\Entity\vertexs.h" />
     <ClInclude Include="src\Exports\Exports.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imconfig.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui_internal.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_textedit.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_truetype.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_glfw.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="src\ImGui\MyImGui.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
@@ -250,6 +268,9 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <None Include="Shaders\SolidVertexShader.shader" />
     <None Include="Shaders\TextureFragmentShader.shader" />
     <None Include="Shaders\TextureVertexShader.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="src\ImGui\ImGuiMaster\Source\imgui.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

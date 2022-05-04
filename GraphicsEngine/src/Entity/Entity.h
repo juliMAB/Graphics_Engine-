@@ -33,12 +33,10 @@ struct Matrix
 	glm::mat4 rotationZ;
 	glm::mat4 scale;
 };
-
-
 class GraficosEngine_API Entity {
-
-	
 public:
+static int CuantityEntitys;
+static Entity * EntitysArray[];
 	//---C y D----------
 	Entity();
 	Entity(Renderer* renderer);
@@ -79,6 +77,7 @@ public:
 
 private:
 	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);
+	//friend class MyImGui;
 protected:
 	color::RGBA _color;
 	Renderer* _renderer;
