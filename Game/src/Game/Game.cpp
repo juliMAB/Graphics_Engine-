@@ -66,8 +66,31 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
+
+glm::vec3 pointLightPositions[] = {
+		glm::vec3(0.7f,  0.2f,  2.0f),
+		glm::vec3(2.3f, -3.3f, -4.0f),
+		glm::vec3(-4.0f,  2.0f, -12.0f),
+		glm::vec3(0.0f,  0.0f, -3.0f)
+};
 Game::Game() { 
 	StartEngine(960, 540, "In Lovyng");
+	for (int i = 0; i < quantity; i++)
+		_sprites[i] = nullptr;
+	_pj					  =nullptr;
+	_pjS				  =nullptr;
+	_cam				  =nullptr;
+	cameraSpeed			  =30.f;
+	for (int i = 0; i < 3; i++)
+		_materials[i] = nullptr;
+	_floor				  =nullptr;
+	_tex				  =nullptr;
+	_tex2				  =nullptr;
+	_dirLight			  =nullptr;
+	for (int i = 0; i < 4; i++)
+		_pointLight[i] = nullptr;
+	
+	_spotLight	  =nullptr;
 }
 Game::~Game() {}
 void Game::Init() {
@@ -100,22 +123,49 @@ void Game::Init() {
 			y += 5;
 
 		}
+		if (i<10)
+		{
+		_sprites[i]->SetPos(cubePositions[i]);
+
+		}
 	}
 
 	_cam->SetTarget(_sprites[0]);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
-	_potatoLight = new SpotLight(_renderer);
+	_dirLight = new DirectionLight(_renderer);
+	_dirLight->Init();
+	_dirLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
+	_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
+	_dirLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
+	_dirLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 
-	_potatoLight->SetAmbient(glm::vec3(0.5f, 0.5f, 0.5f));
-	_potatoLight->SetDiffuse(glm::vec3(1.0f, 1.0f, 1.0f));
-	_potatoLight->SetSpecular(glm::vec3(1.0f, 1.0f, 1.0f));
-	_potatoLight->SetConstant(1.0f);
-	_potatoLight->SetLinear(0.09f);
-	_potatoLight->SetQuadratic(0.032f);
-	_potatoLight->SetCamera(_cam);
-	_potatoLight->SetCutOff(glm::cos(glm::radians(12.5f)));
+	for (int i = 0; i < 4; i++)
+	{
+		_pointLight[i] = new PointLight(_renderer);
+		_pointLight[i]->Init();
+		_pointLight[i]->SetPos(pointLightPositions[i]);
+		_pointLight[i]->SetAmbient(vec3(0.05f, 0.05f, 0.05f));
+		_pointLight[i]->SetDiffuse(vec3(0.8f, 0.8f, 0.8f));
+		_pointLight[i]->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
+		_pointLight[i]->SetConstant(1.0f);
+		_pointLight[i]->SetLinear(0.09f);
+		_pointLight[i]->SetQuadratic(0.032f);
+	}
+
+	_spotLight = new SpotLight(_renderer);
+	_spotLight->Init();
+	_spotLight->SetCamera(_cam);
+	_spotLight->SetAmbient(vec3(0.0f, 0.0f, 0.0f));
+	_spotLight->SetDiffuse(vec3(1.0f, 1.0f, 1.0f));
+	_spotLight->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
+	_spotLight->SetConstant(1.0f);
+	_spotLight->SetLinear(0.09f);
+	_spotLight->SetQuadratic(0.032f);
+	_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
+	_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
+
 
 	Input::lock_cursor(true);
 }
@@ -126,7 +176,7 @@ void Game::Deinit() {
 void Game::Update()
 {	
 	_cam->Update();
-	_potatoLight->UpdateLight();
+	LightsUpdate();
 	processInput();
 	for (int i = 0; i < 15; i++)
 	{
@@ -145,31 +195,42 @@ void Game::Draw() {
 		_sprites[i]->Draw();
 	}
 }
-
+void Game::LightsUpdate()
+{
+	_dirLight->UpdateLight();
+	for (int i = 0; i < 4; i++)
+	{
+		_pointLight[i]->UpdateLight();
+	}
+	_spotLight->UpdateLight();
+}
 void Game::processInput()
 {
 	glm::vec3 a(0);
 	float t = _time->_deltaTime * speed;
+
 	if (Input::IsKeyPressed(Input::KEY_W))
-		a += vec3(0, 0, t);
+		a += _cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a += vec3(0, 0, -t);
+		a += -_cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a += vec3(t, 0, 0);
+		a += _cam.get;
 	if (Input::IsKeyPressed(Input::KEY_D))
 		a += vec3(-t, 0, 0);
 	if (Input::IsKeyPressed(Input::KEY_Q))
 		a += vec3(0, t, 0);
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += vec3(0, -t, 0);
+	if (auxCheck2 == CAMERA_TYPE::TPS)
+		_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a);
+	if (auxCheck2 == CAMERA_TYPE::FC)
+		_cam->SetPos(_cam->getPos() + a);
+	
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
 		auxCheck = !auxCheck;
 	Input::lock_cursor(auxCheck);
-	_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a);
-	//_pjS->SetPos(_pjS->getPos()+a);
-	_potatoLight->SetPos(_cam->GetTarget()->getPos());
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
@@ -186,5 +247,23 @@ void Game::UpdateCameraType() {
 	}
 
 	auxCheck2 = (CAMERA_TYPE)C;
+	switch (auxCheck2)
+	{
+	case CAMERA_TYPE::FC:
+		std::cout << "Camera:Free Camera" << std::endl;
+		break;
+	case CAMERA_TYPE::FPS:
+		std::cout << "Camera:First Person Shooter" << std::endl;
+		break;
+	case CAMERA_TYPE::TPS:
+		std::cout << "Camera:Three Person Shooter" << std::endl;
+		break;
+	case CAMERA_TYPE::Max:
+		std::cout << "Camera:NONE" << std::endl;
+		break;
+	default:
+		break;
+
+	}
 }
 

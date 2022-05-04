@@ -139,7 +139,8 @@ void Camera::UpdateCameraVectors()
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	direction.y = sin(glm::radians(Pitch));
 	direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-	transform.forward= glm::normalize(direction);
+	transform.forward = glm::normalize(direction);
+	//transform.right = 
 	if (cameraType == CAMERA_TYPE::TPS)
 	{
 		if (_target!=NULL)
@@ -220,4 +221,8 @@ CAMERA_TYPE Camera::GetCameraType()
 vec3 Camera::GetFront()
 {
 	return transform.forward;
+}
+vec3 Camera::GetRight()
+{
+	return transform.right;
 }

@@ -9,28 +9,24 @@ class GraficosEngine_API SpotLight : public PointLight
 {
 public:
 	SpotLight(Renderer* render);
-	void SetUniforms();
-	void UpdateLight();
+	void Init();
+	void SetUniforms(std::string name) override;
+	void UpdateLight() override;
 
 	~SpotLight();
 	void SetCamera(Camera* cam);
 	void SetCutOff(float cutOff);
-
-	void SetConstant(float constant);
-	void SetLinear(float linear);
-	void SetQuadratic(float quadratic);
+	void SetOuterCutOff(float outerCutOff);
 
 protected:
 
-	Camera* cam;
+	Camera* _cam;
 	float cutOff;
-
-	float constant;
-	float linear;
-	float quadratic;
+	float outerCutOff;
 
 	uint _uniformDirection;
 	uint _uniformCutOff;
+	uint _uniformOuterCutOff;
 
 };
 

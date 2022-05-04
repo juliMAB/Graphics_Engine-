@@ -4,22 +4,31 @@ DirectionLight::DirectionLight(Renderer* render) : Light(render)
 {
 	direction = glm::vec3(0);
 	_uniformDirection = 0;
-	_name = "dirLight";
 }
-DirectionLight::DirectionLight() : Light(){}
-
-void DirectionLight::SetUniforms()
+DirectionLight::DirectionLight() : Light()
 {
-	_renderer->SetUniform(_uniformDirection, (_name + ".direction").c_str());
-	Light::SetUniforms(_name);
+	direction = glm::vec3(0);
+	_uniformDirection=0;
+
+}
+
+void DirectionLight::Init()
+{
+	_name = "dirLight";
+	SetUniforms(_name);
+}
+void DirectionLight::SetUniforms(std::string name)
+{
+	_renderer->SetUniform(_uniformDirection, (name + ".direction").c_str());
+	Light::SetUniforms(name);
 }
 
 void DirectionLight::UpdateLight()
 {
+	Light::UpdateLight();
 	_renderer->UseShader();
 	_renderer->UpdateVec3(_uniformDirection, direction);
 	_renderer->CleanShader();
-	Light::UpdateLight();
 }
 
 DirectionLight::~DirectionLight()

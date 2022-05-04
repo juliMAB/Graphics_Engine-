@@ -13,10 +13,6 @@
 enum TypeShape {
 	Triangle=3, Quad
 };
-static enum class TypeShader {
-	Colour,
-	Texture
-};
 typedef unsigned int uint;
 static class GraficosEngine_API Renderer {
 private:

@@ -13,9 +13,9 @@
 		Light();
 		Light(Renderer* render);
 
-		void  SetUniforms();
-		void SetUniforms(std::string v);
-		void  UpdateLight();
+		//void  SetUniforms();
+		void virtual SetUniforms(std::string name);
+		void virtual UpdateLight();
 
 		~Light();
 

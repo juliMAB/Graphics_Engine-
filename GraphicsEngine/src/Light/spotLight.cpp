@@ -2,32 +2,40 @@
 
 SpotLight::SpotLight(Renderer* render) : PointLight(render)
 {
+	_cam=nullptr;
+
+	cutOff=0;
+	outerCutOff=0;
+
+	_uniformDirection=0;
+	_uniformCutOff=0;
+	_uniformOuterCutOff=0;
+}
+void SpotLight::Init(){
 	_name = "spotLight";
-	SetUniforms();
+	SetUniforms(_name);
 }
 
-void SpotLight::SetUniforms()
+void SpotLight::SetUniforms(std::string name)
 {
-	_renderer->SetUniform(_uniformPosition, (_name + ".position").c_str());
-	_renderer->SetUniform(_uniformDirection, "light.direction");
-	_renderer->SetUniform(_uniformCutOff, "light.cutOff");
-	_renderer->SetUniform(_uniformConstant, "light.constant");
-	_renderer->SetUniform(_uniformLinear, "light.linear");
-	_renderer->SetUniform(_uniformQuadratic, "light.quadratic");
-	Light::SetUniforms(_name);
+	PointLight::SetUniforms(name);
+	_renderer->SetUniform(_uniformPosition, (name + ".position").c_str());
+	_renderer->SetUniform(_uniformDirection, (name + ".direction").c_str());
+	_renderer->SetUniform(_uniformCutOff, (name + ".cutOff").c_str());
+	_renderer->SetUniform(_uniformOuterCutOff, (name + ".outerCutOff").c_str());
 }
-
 void SpotLight::UpdateLight()
 {
+	PointLight::UpdateLight();
+
 	_renderer->UseShader();
-	_renderer->UpdateVec3(_uniformPosition, cam->getPos());
-	_renderer->UpdateVec3(_uniformDirection, cam->GetFront());
+
+	_renderer->UpdateVec3(_uniformPosition, _cam->getPos());
+	_renderer->UpdateVec3(_uniformDirection, _cam->GetFront());
 	_renderer->UpdateFloatValue(_uniformCutOff, cutOff);
-	_renderer->UpdateFloatValue(_uniformConstant, constant);
-	_renderer->UpdateFloatValue(_uniformLinear, linear);
-	_renderer->UpdateFloatValue(_uniformQuadratic, quadratic);
+	_renderer->UpdateFloatValue(_uniformOuterCutOff, outerCutOff);
+
 	_renderer->CleanShader();
-	Light::UpdateLight();
 }
 
 SpotLight::~SpotLight()
@@ -36,28 +44,16 @@ SpotLight::~SpotLight()
 
 void SpotLight::SetCamera(Camera* cam)
 {
-	this->cam = cam;
+	this->_cam = cam;
 }
-
-
 
 void SpotLight::SetCutOff(float cutOff)
 {
 	this->cutOff = cutOff;
 }
 
-void SpotLight::SetConstant(float constant)
+void SpotLight::SetOuterCutOff(float outerCutOff)
 {
-	this->constant = constant;
-}
-
-void SpotLight::SetLinear(float linear)
-{
-	this->linear = linear;
-}
-
-void SpotLight::SetQuadratic(float quadratic)
-{
-	this->quadratic = quadratic;
+	this->outerCutOff = outerCutOff;
 }
 

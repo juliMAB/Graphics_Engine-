@@ -7,10 +7,10 @@
 class GraficosEngine_API PointLight : public Light
 {
 public:
-	PointLight() {};
 	PointLight(Renderer* render);
-	void SetUniforms() ;
-	void UpdateLight() ;
+	void Init();
+	virtual void SetUniforms(std::string name) override;
+	virtual void UpdateLight() override;
 
 	~PointLight();
 	void SetConstant(float constant);

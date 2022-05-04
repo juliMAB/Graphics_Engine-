@@ -1,7 +1,19 @@
 #include "light.h"
 
 
-Light::Light() {}
+Light::Light() 
+{
+	_renderer = nullptr;
+	_color = color::RGBA();
+	ambient = glm::vec3(0.f);
+	diffuse = glm::vec3(0.f);
+	specular = glm::vec3(0.f);
+
+	_locationPosition = 0;
+	_uniformAmbient = 0;
+	_uniformDiffuse = 0;
+	_uniformSpecular = 0;
+}
 
 Light::Light(Renderer* render) : Entity(render)
 	{
@@ -14,14 +26,6 @@ Light::Light(Renderer* render) : Entity(render)
 		_uniformAmbient = 0;
 		_uniformDiffuse = 0;
 		_uniformSpecular = 0;
-		SetUniforms();
-	}
-	void Light::SetUniforms()
-	{
-		_renderer->SetUniform(_uniformAmbient, "light.ambient");
-		_renderer->SetUniform(_uniformDiffuse, "light.diffuse");
-		_renderer->SetUniform(_uniformSpecular, "light.specular");
-		
 	}
 	void Light::SetUniforms(std::string v)
 	{

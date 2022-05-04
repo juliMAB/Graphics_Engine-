@@ -27,6 +27,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void LightsUpdate();
+
 	void processInput();
 
 	void UpdateCameraType();

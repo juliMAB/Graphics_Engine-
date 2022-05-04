@@ -9,8 +9,9 @@ class GraficosEngine_API DirectionLight : public Light
 public:
 	DirectionLight();
 	DirectionLight(Renderer* render);
-	void SetUniforms();
-	void UpdateLight();
+	void Init();
+	void SetUniforms(std::string name) override;
+	void UpdateLight() override;
 
 	~DirectionLight();
 	void SetDirection(glm::vec3 direction);
