@@ -54,6 +54,7 @@ public:
 	CAMERA_TYPE GetCameraType();
 	vec3 GetFront();
 	vec3 GetRight();
+	vec3 GetUp();
 	//--------Others--------
 	void DebugInfo();
 

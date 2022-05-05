@@ -203,6 +203,7 @@ void Game::LightsUpdate()
 		_pointLight[i]->UpdateLight();
 	}
 	_spotLight->UpdateLight();
+	_cam->Update();
 }
 void Game::processInput()
 {
@@ -212,19 +213,19 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_W))
 		a += _cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a += -_cam->GetFront();
+		a -= _cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a += _cam.get;
+		a -= _cam->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_D))
-		a += vec3(-t, 0, 0);
+		a += _cam->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_Q))
-		a += vec3(0, t, 0);
+		a -= _cam->GetUp();
 	if (Input::IsKeyPressed(Input::KEY_E))
-		a += vec3(0, -t, 0);
-	if (auxCheck2 == CAMERA_TYPE::TPS)
-		_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a);
+		a += _cam->GetUp();
+	if (auxCheck2 == CAMERA_TYPE::TPS || auxCheck2 == CAMERA_TYPE::FPS)
+		_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a * _time->_deltaTime * cameraSpeed);
 	if (auxCheck2 == CAMERA_TYPE::FC)
-		_cam->SetPos(_cam->getPos() + a);
+		_cam->SetPos(_cam->getPos() + a * _time->_deltaTime*cameraSpeed);
 	
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();

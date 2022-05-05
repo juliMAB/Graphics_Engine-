@@ -111,7 +111,7 @@ void Camera::SetOffset(float offset) {
 }
 void Camera::Update()
 {
-	if (_target != NULL)
+	if (_target != NULL && cameraType == CAMERA_TYPE::TPS)
 		transform.position = _target->getPos();
 	UpdateCameraVectors();
 	_renderer->UseShader();
@@ -140,10 +140,9 @@ void Camera::UpdateCameraVectors()
 	direction.y = sin(glm::radians(Pitch));
 	direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 	transform.forward = glm::normalize(direction);
-	//transform.right = 
-	if (cameraType == CAMERA_TYPE::TPS)
+	transform.right = glm::cross(transform.forward, transform.up);
+	if (_target != NULL && cameraType == CAMERA_TYPE::TPS)
 	{
-		if (_target!=NULL)
 			transform.position = _target->getPos() - transform.forward * _offset;
 	}
 	UpdateView();
@@ -161,7 +160,7 @@ void Camera::UpdateView()
 			SetViewMatrix(transform.position, _target->getPos(), transform.up);
 		return;
 	case CAMERA_TYPE::FC:
-		SetViewMatrix(transform.position, _target->getPos(), transform.up);
+		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
 		break;
 	default:
 		break;
@@ -176,7 +175,7 @@ void Camera::ProcessMouseScroll(float yoffset)
 	if (_fov > 45.0f)
 		_fov = 45.0f;
 	UpdateProjection();
-	if (_target != NULL)
+	if (_target != NULL && cameraType == CAMERA_TYPE::TPS)
 		SetViewMatrix(transform.position, _target->getPos(), transform.up);
 
 }
@@ -225,4 +224,8 @@ vec3 Camera::GetFront()
 vec3 Camera::GetRight()
 {
 	return transform.right;
+}
+vec3 Camera::GetUp()
+{
+	return transform.up;
 }
