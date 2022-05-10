@@ -20,7 +20,7 @@ static void glfw_error_callback(int error, const char* description)
 	fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
-class MyImGui
+class GraficosEngine_API MyImGui
 {
 public:
 	MyImGui();
@@ -29,6 +29,14 @@ public:
 	void Update();
 	void Draw();
 	~MyImGui();
+
+	void Begin(std::string);
+
+	void End();
+
+	void Text(std::string a);
+
+	void UpdateWindowsTwo();
 
 private:
 	const char* glsl_version;

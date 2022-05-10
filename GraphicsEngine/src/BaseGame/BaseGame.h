@@ -17,8 +17,8 @@ private:
 	void DeinitEngine();
 	Window* GetWindow();
 	bool InitEngine(int windowSizeX, int windowSizeY, std::string windowName);
-	bool imGuiEnabled= false;
 protected:
+	bool imGuiEnabled= true;
 	Window* _window;
 	Renderer* _renderer;
 	Time* _time;
@@ -36,7 +36,8 @@ public:
 	virtual void Draw() = 0;
 	virtual void Deinit() = 0;
 	//---------------------------
-	int StartEngine(int width, int height, const char* windowName);
+	virtual void UpdateImgui() = 0;
+	int MainLoop(int width, int height, const char* windowName);
 	bool IsKeyDown(Input::KeyCode key);
 	bool IsKeyRelease(Input::KeyCode key);
 	bool IsKeyUp(Input::KeyCode key);

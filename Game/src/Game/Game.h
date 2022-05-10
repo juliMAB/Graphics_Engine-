@@ -2,7 +2,6 @@
 #define GAME_H
 #include "BaseGame/BaseGame.h"
 
-
 	const int quantity= 20;
 class Game : BaseGame {
 	Sprite* _sprites[quantity];
@@ -12,12 +11,12 @@ class Game : BaseGame {
 	float cameraSpeed = 30.f;
 	Material* _materials[3];
 	Shape* _floor;
-	//SpotLight* _potatoLight;
 	Texture* _tex;
 	Texture* _tex2;
 	DirectionLight* _dirLight;
 	PointLight* _pointLight[4];
 	SpotLight* _spotLight;
+	bool show_window = true;
 	
 public:
 	Game();
@@ -26,6 +25,7 @@ public:
 	void Deinit() override;
 	void Update() override;
 	void Draw() override;
+	void UpdateImgui() override;
 
 	void LightsUpdate();
 

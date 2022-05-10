@@ -74,7 +74,7 @@ glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.0f,  0.0f, -3.0f)
 };
 Game::Game() { 
-	StartEngine(960, 540, "In Lovyng");
+	MainLoop(960, 540, "In Lovyng");
 	for (int i = 0; i < quantity; i++)
 		_sprites[i] = nullptr;
 	_pj					  =nullptr;
@@ -168,6 +168,7 @@ void Game::Init() {
 
 
 	Input::lock_cursor(true);
+
 }
 
 void Game::Deinit() {
@@ -194,6 +195,11 @@ void Game::Draw() {
 	{
 		_sprites[i]->Draw();
 	}
+}
+void Game::UpdateImgui()
+{
+	_imgur->Begin("si");
+	_imgur->End();
 }
 void Game::LightsUpdate()
 {
@@ -267,4 +273,3 @@ void Game::UpdateCameraType() {
 
 	}
 }
-

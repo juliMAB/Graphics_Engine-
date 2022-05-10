@@ -24,7 +24,7 @@ BaseGame::~BaseGame() {
 	}
 }
 
-int BaseGame::StartEngine(int width, int height, const char* windowName)
+int BaseGame::MainLoop(int width, int height, const char* windowName)
 {
 	if (InitEngine(width, height, windowName))
 	{
@@ -34,8 +34,10 @@ int BaseGame::StartEngine(int width, int height, const char* windowName)
 			_renderer->ClearScreen();
 			_time->Update();
 			if (imGuiEnabled)
-			_imgur->Update();
-
+			{
+				_imgur->Update();
+				UpdateImgui();
+			}
 			Update();
 			if (imGuiEnabled)
 			_imgur->Draw();

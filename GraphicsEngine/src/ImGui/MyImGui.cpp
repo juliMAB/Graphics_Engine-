@@ -60,7 +60,7 @@ void MyImGui::Update()
 
     // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
     UpdateWindowsOne();
-
+    UpdateWindowsTwo();
     // 3. Show another simple window.
     if (show_another_window)
     {
@@ -88,7 +88,10 @@ MyImGui::~MyImGui()
 {
 }
 ImVec4 clear_color;
-void MyImGui::UpdateWindowsOne()
+void MyImGui::Begin(std::string a){ ImGui::Begin(a.c_str()); }
+void MyImGui::End() { ImGui::End(); }
+void MyImGui::Text(std::string a) { ImGui::Text(a.c_str()); }
+void MyImGui::UpdateWindowsTwo()
 {
     if (show_demo_window)
         ImGui::ShowDemoWindow(&show_demo_window);
@@ -113,13 +116,9 @@ void MyImGui::UpdateWindowsOne()
             float x = (*it)->transform.position.x;
             float y = (*it)->transform.position.y;
             float z = (*it)->transform.position.z;
-            //ImGui::SliderFloat("posX", &(*it)->transform.position.x, 0.0f, 1.0f);
-            //ImVec4 a = ImVec4((*it)->transform.position.x, (*it)->transform.position.y, (*it)->transform.position.z, 1.0f);
             ImGui::SliderFloat(((*it)->_name + "x").c_str(), &(x), -10.0f, 10.0f);
             ImGui::SliderFloat(((*it)->_name + "y").c_str(), &(y), -10.0f, 10.0f);
             ImGui::SliderFloat(((*it)->_name + "z").c_str(), &(z), -10.0f, 10.0f);
-            //ImGui::SliderFloat("posY", &((*it)->transform.position.y), -10.0f, 10.0f);
-            //ImGui::ColorEdit3("pos", (float*)(&(*it)->transform.position)); // Edit 3 floats representing a color
             (*it)->SetPos(x,y,z);
             w++;
             //(*it)->transform.position = glm::vec3(a.x, a.y, a.z);
@@ -132,8 +131,25 @@ void MyImGui::UpdateWindowsOne()
         ImGui::SameLine();
         ImGui::Text("counter = %d", counter);
 
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+            ImGui::End();
     }
+}
+
+void MyImGui::UpdateWindowsOne()
+{
+    
+        static float f = 0.0f;
+        static int counter = 0;
+
+        ImGui::Begin("Ventana 2");                    
+        for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
+        {
+            glm::vec3 a = (*it)->transform.position;
+            ImGui::SliderFloat3(((*it)->_name + " pos").c_str(), (float*)&(*it)->transform.position, -10.0f, 10.0f);
+            (*it)->SetPos((*it)->transform.position);
+        }
+        ImGui::End();
+    
 }
 
