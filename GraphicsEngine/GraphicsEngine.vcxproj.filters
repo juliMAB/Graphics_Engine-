@@ -79,6 +79,9 @@
     <Filter Include="Archivos de encabezado\Imgui\Master\Imgur">
       <UniqueIdentifier>{ea03bda9-a39c-4987-9512-55a70fce32d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Mesh">
+      <UniqueIdentifier>{84001d92-52a3-4639-85b1-0cf881f4b82e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_truetype.h">
       <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh\BasicMesh.h">
+      <Filter>Archivos de encabezado\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

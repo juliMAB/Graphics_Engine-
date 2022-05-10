@@ -96,7 +96,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC;_WINDLL;GraficosEngine_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\ASIMP</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)GraphicsEngine\Lib;$(SolutionDir)GraphicsEngine\Lib\GLFW;$(SolutionDir)GraphicsEngine\Lib\ASIMP</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -249,6 +249,7 @@ XCOPY "$(SolutionDir)GraphicsEngine\Shaders\" "$(SolutionDir)Game\Shaders" /e /h
     <ClInclude Include="src\Light\pointLight.h" />
     <ClInclude Include="src\Light\spotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
+    <ClInclude Include="src\Mesh\BasicMesh.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shape\Shape.h" />
