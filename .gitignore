@@ -387,3 +387,4 @@ FodyWeavers.xsd
 .idea/
 *.sln.iml
 Game/Shaders/TextureFragmentShader.shader
+Game/imgui.ini
