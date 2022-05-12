@@ -1,11 +1,11 @@
 #ifndef ENTITY_H
 #define ENTITY_H
-#include "../Exports/Exports.h"
-#include "../Renderer/Renderer.h"
-#include <../GLM/glm.hpp>
-#include <../GLM/gtc/matrix_transform.hpp>
-#include <../GLM/gtc/type_ptr.hpp>
-#include "../Juli/Jinterface.h"
+#include "Exports/Exports.h"
+#include "Renderer/Renderer.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
+#include "Juli/Jinterface.h"
 #include <iostream>
 #include <list>
 

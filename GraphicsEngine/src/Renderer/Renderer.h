@@ -1,9 +1,9 @@
 #ifndef RENDERER_H
 #define RENDERER_H
-#include "../Exports/Exports.h"
-#include "../Window/Window.h"
-#include "../GLM/mat4x4.hpp"
-#include "../Shader/Shader.h"
+#include "Exports/Exports.h"
+#include "Window/Window.h"
+#include "GLM/mat4x4.hpp"
+#include "Shader/Shader.h"
 #include <string>
 #include <fstream>
 #include <sstream>

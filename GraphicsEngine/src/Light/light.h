@@ -1,10 +1,10 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "../Exports/Exports.h"
-#include "../Entity/Entity.h"
-#include "../glm/ext/matrix_transform.hpp"
-#include "../Juli/Jinterface.h"
+#include "Exports/Exports.h"
+#include "Entity/Entity.h"
+#include "GLM/ext/matrix_transform.hpp"
+#include "Juli/Jinterface.h"
 
 
 	class GraficosEngine_API Light : public Entity

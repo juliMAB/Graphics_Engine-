@@ -1,10 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-#include "../Exports/Exports.h"
-#include "../GLM/glm.hpp"
-#include "../GLM/gtc/matrix_transform.hpp"
-#include "../GLM/gtc/type_ptr.hpp"
-#include "../Entity/Entity.h"
+#include "Exports/Exports.h"
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
+#include "Entity/Entity.h"
 
 const float YAW			= -90.0f;
 const float PITCH		= 0.0f;

@@ -1,5 +1,5 @@
 #include "sprite.h"
-#include "../STB/stb_image.h"
+#include "STB/stb_image.h"
 
 
 	Sprite::Sprite() : Entity2D()

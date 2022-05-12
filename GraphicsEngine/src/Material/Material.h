@@ -1,10 +1,10 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include "../Exports/Exports.h"
-#include "../Renderer/Renderer.h"
-#include "../glm/ext/matrix_transform.hpp"
-#include "../Texture/Texture.h"
+#include "Exports/Exports.h"
+#include "Renderer/Renderer.h"
+#include "GLM/ext/matrix_transform.hpp"
+#include "Texture/Texture.h"
 
 struct MaterialS
 {

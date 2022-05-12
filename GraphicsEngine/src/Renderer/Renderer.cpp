@@ -1,7 +1,7 @@
 ﻿#include "Renderer.h"
 #include <iostream>
-#include "../../Lib/GLM/gtc/type_ptr.hpp"
-#include "../Animation/Animation.h"
+#include "GLM/gtc/type_ptr.hpp"
+#include "Animation/Animation.h"
 
 
 //-----C y D---------------------------

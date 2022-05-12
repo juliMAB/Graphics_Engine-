@@ -1,8 +1,8 @@
 #ifndef JINTERFACE_H
 #define JINTERFACE_H
-#include <../GLM/glm.hpp>
-#include <../GLM/gtc/matrix_transform.hpp>
-#include <../GLM/gtc/type_ptr.hpp>
+#include "GLM/glm.hpp"
+#include "GLM/gtc/matrix_transform.hpp"
+#include "GLM/gtc/type_ptr.hpp"
 #include "../Exports/Exports.h"
 #include <string>
 using namespace glm;

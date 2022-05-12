@@ -66,12 +66,12 @@
 
 // GLFW
 //#include <GLFW/glfw3.h>
-#include "glfw3.h"
+#include "GLFW/glfw3.h"
 #ifdef _WIN32
 #undef APIENTRY
 #define GLFW_EXPOSE_NATIVE_WIN32
 //#include <GLFW/glfw3native.h>   // for glfwGetWin32Window
-#include "glfw3native.h"
+#include "GLFW/glfw3native.h"
 
 #endif
 #ifdef GLFW_RESIZE_NESW_CURSOR        // Let's be nice to people who pulled GLFW between 2019-04-16 (3.4 define) and 2019-11-29 (cursors defines) // FIXME: Remove when GLFW 3.4 is released?

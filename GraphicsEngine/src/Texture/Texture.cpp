@@ -1,5 +1,5 @@
 #include "Texture.h"
-#include "../GLEW/glew.h"
+#include "GLEW/glew.h"
 #include <iostream>
 
 Texture::Texture(const std::string path,bool flip)

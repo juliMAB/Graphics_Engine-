@@ -1,8 +1,8 @@
 #ifndef INPUT_H
 #define INPUT_H
-#include "../Window/Window.h"
-#include "../GLM/glm.hpp"
-#include "../Camera/Camera.h"
+#include "Window/Window.h"
+#include "GLM/glm.hpp"
+#include "Camera/Camera.h"
 #include <list>
 
 class GraficosEngine_API Input {
