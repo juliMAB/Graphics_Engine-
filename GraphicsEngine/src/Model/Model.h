@@ -50,7 +50,7 @@ using namespace std;
             for (unsigned int i = 0; i < meshes.size(); i++)
                 meshes[i].Draw(*render->GetShader());
         }
-
+        vector<Mesh> GetMeshes() { return meshes; };
     private:
         // loads a model with supported ASSIMP extensions from file and stores the resulting meshes in the meshes vector.
         void loadModel(string const& path)

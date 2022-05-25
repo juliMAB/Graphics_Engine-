@@ -85,6 +85,9 @@
     <Filter Include="Archivos de encabezado\Model">
       <UniqueIdentifier>{5df157b3-7d34-4a22-a600-e6d8d20d12fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Importer">
+      <UniqueIdentifier>{40a36cfa-90a6-4303-bfa7-6c34d24cf08e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -188,6 +191,12 @@
     </ClCompile>
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_widgets.cpp">
       <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity\Entity3D.cpp">
+      <Filter>Archivos de origen\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Importer\Importer.cpp">
+      <Filter>Archivos de encabezado\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -319,6 +328,15 @@
     </ClInclude>
     <ClInclude Include="src\Model\Model.h">
       <Filter>Archivos de encabezado\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity\Entity3D.h">
+      <Filter>Archivos de encabezado\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh\MyMesh.h">
+      <Filter>Archivos de encabezado\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Importer\Importer.h">
+      <Filter>Archivos de encabezado\Importer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

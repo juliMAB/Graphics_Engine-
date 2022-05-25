@@ -86,11 +86,11 @@ Game::Game() {
 	//_floor				  =nullptr;
 	//_tex				  =nullptr;
 	//_tex2				  =nullptr;
-	//_dirLight			  =nullptr;
-	//for (int i = 0; i < 4; i++)
-	//	_pointLight[i] = nullptr;
-	//
-	//_spotLight	  =nullptr;
+	_dirLight			  =nullptr;
+	for (int i = 0; i < 4; i++)
+		_pointLight[i] = nullptr;
+	
+	_spotLight	  =nullptr;
 	_modeltest	  =nullptr;
 }
 Game::~Game() {}
@@ -108,8 +108,10 @@ void Game::Init() {
 	//_pjS->Init(SPRITE_TYPE::CUBE);
 	//_pjS->SetPos(5.f, 0.f, 0.f);
 	//_pjS->SetColor(1, 1, 1, 1);
-	_modeltest = new Model("res/g/backpack.obj");
-
+	_modeltest = new Entity3D(_renderer, "res/g/backpack.obj");
+	_modeltest->SetPos({ 0,0,0 });
+	_modeltest->SetScale({ 1,1,1 });
+	_modeltest->SetRotX(90);
 		int x = 0;
 		int y = 0;
 	//for (int i = 0; i < 15; i++)
@@ -135,37 +137,37 @@ void Game::Init() {
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
-	//_dirLight = new DirectionLight(_renderer);
-	//_dirLight->Init();
-	//_dirLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
-	//_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
-	//_dirLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
-	//_dirLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+	_dirLight = new DirectionLight(_renderer);
+	_dirLight->Init();
+	_dirLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
+	_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
+	_dirLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
+	_dirLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
 
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	_pointLight[i] = new PointLight(_renderer);
-	//	_pointLight[i]->Init();
-	//	_pointLight[i]->SetPos(pointLightPositions[i]);
-	//	_pointLight[i]->SetAmbient(vec3(0.05f, 0.05f, 0.05f));
-	//	_pointLight[i]->SetDiffuse(vec3(0.8f, 0.8f, 0.8f));
-	//	_pointLight[i]->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
-	//	_pointLight[i]->SetConstant(1.0f);
-	//	_pointLight[i]->SetLinear(0.09f);
-	//	_pointLight[i]->SetQuadratic(0.032f);
-	//}
-	//
-	//_spotLight = new SpotLight(_renderer);
-	//_spotLight->Init();
-	//_spotLight->SetCamera(_cam);
-	//_spotLight->SetAmbient(vec3(0.0f, 0.0f, 0.0f));
-	//_spotLight->SetDiffuse(vec3(1.0f, 1.0f, 1.0f));
-	//_spotLight->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
-	//_spotLight->SetConstant(1.0f);
-	//_spotLight->SetLinear(0.09f);
-	//_spotLight->SetQuadratic(0.032f);
-	//_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
-	//_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
+	for (int i = 0; i < 4; i++)
+	{
+		_pointLight[i] = new PointLight(_renderer);
+		_pointLight[i]->Init();
+		_pointLight[i]->SetPos(pointLightPositions[i]);
+		_pointLight[i]->SetAmbient(vec3(0.05f, 0.05f, 0.05f));
+		_pointLight[i]->SetDiffuse(vec3(0.8f, 0.8f, 0.8f));
+		_pointLight[i]->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
+		_pointLight[i]->SetConstant(1.0f);
+		_pointLight[i]->SetLinear(0.09f);
+		_pointLight[i]->SetQuadratic(0.032f);
+	}
+	
+	_spotLight = new SpotLight(_renderer);
+	_spotLight->Init();
+	_spotLight->SetCamera(_cam);
+	_spotLight->SetAmbient(vec3(0.0f, 0.0f, 0.0f));
+	_spotLight->SetDiffuse(vec3(1.0f, 1.0f, 1.0f));
+	_spotLight->SetSpecular(vec3(1.0f, 1.0f, 1.0f));
+	_spotLight->SetConstant(1.0f);
+	_spotLight->SetLinear(0.09f);
+	_spotLight->SetQuadratic(0.032f);
+	_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
+	_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
 
 
 	Input::lock_cursor(true);
@@ -197,10 +199,8 @@ void Game::Draw() {
 		//_sprites[i]->Draw();
 	}
 
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-	model = glm::scale4(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
-	_modeltest->Draw(_renderer, model);
+	
+	_modeltest->draw();
 }
 void Game::UpdateImgui()
 {
@@ -209,12 +209,12 @@ void Game::UpdateImgui()
 }
 void Game::LightsUpdate()
 {
-	//_dirLight->UpdateLight();
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	_pointLight[i]->UpdateLight();
-	//}
-	//_spotLight->UpdateLight();
+	_dirLight->UpdateLight();
+	for (int i = 0; i < 4; i++)
+	{
+		_pointLight[i]->UpdateLight();
+	}
+	_spotLight->UpdateLight();
 	_cam->Update();
 }
 void Game::processInput()
@@ -250,6 +250,20 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 	{
 	}
+	glm::vec3 b(0);
+	if (Input::IsKeyPressed(Input::KEY_UP))
+		b += _cam->GetFront();
+	if (Input::IsKeyPressed(Input::KEY_DOWN))
+		b -= _cam->GetFront();
+	if (Input::IsKeyPressed(Input::KEY_LEFT))
+		b -= _cam->GetRight();
+	if (Input::IsKeyPressed(Input::KEY_RIGHT))
+		b += _cam->GetRight();
+	if (Input::IsKeyPressed(Input::KEY_KP_0))
+		b -= _cam->GetUp();
+	if (Input::IsKeyPressed(Input::KEY_KP_1))
+		b += _cam->GetUp();
+	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
 }
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;

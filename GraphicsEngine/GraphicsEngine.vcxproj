@@ -111,7 +111,7 @@
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
-XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\Shaders\" /e /h /y /s</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -140,7 +140,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
-XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\Shaders\" /e /h /y /s</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -163,7 +163,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
-XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\Shaders\" /e /h /y /s</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,7 +186,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     </Link>
     <PostBuildEvent>
       <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
-XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\Shaders\" /e /h /y /s</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -196,6 +196,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     <ClCompile Include="src\Collision\Collision.cpp" />
     <ClCompile Include="src\Entity2D\Entity2D.cpp" />
     <ClCompile Include="src\Entity\Entity.cpp" />
+    <ClCompile Include="src\Entity\Entity3D.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_demo.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_draw.cpp" />
@@ -204,6 +205,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_glfw.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\ImGui\MyImGui.cpp" />
+    <ClCompile Include="src\Importer\Importer.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Juli\Jinterface.cpp" />
     <ClCompile Include="src\LightManager\lightManager.cpp" />
@@ -233,6 +235,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     <ClInclude Include="src\Collision\Collision.h" />
     <ClInclude Include="src\Entity2D\Entity2D.h" />
     <ClInclude Include="src\Entity\Entity.h" />
+    <ClInclude Include="src\Entity\Entity3D.h" />
     <ClInclude Include="src\Entity\vertexs.h" />
     <ClInclude Include="src\Exports\Exports.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imconfig.h" />
@@ -245,6 +248,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\ImGui\MyImGui.h" />
+    <ClInclude Include="src\Importer\Importer.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
@@ -256,6 +260,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     <ClInclude Include="src\Light\spotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Mesh\MyMesh.h" />
     <ClInclude Include="src\Model\Model.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />

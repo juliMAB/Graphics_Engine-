@@ -11,7 +11,7 @@
 #include "../Juli/Jinterface.h"
 #include "../LightManager/lightManager.h"
 #include "../ImGui/MyImGui.h"
-#include "Model/Model.h"
+#include "../Entity/Entity3D.h"
 
 class GraficosEngine_API BaseGame {
 private:

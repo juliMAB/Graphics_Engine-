@@ -14,6 +14,20 @@
 enum TypeShape {
 	Triangle=3, Quad
 };
+
+struct  myVertex {
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
+};
+
+struct myTexture {
+	unsigned int id;
+	std::string type;
+	std::string path;  // we store the path of the texture to compare with other textures
+};
+
+
 typedef unsigned int uint;
 static class GraficosEngine_API Renderer {
 private:
@@ -75,6 +89,7 @@ public:
 	void SetUniform(uint& uniform, const char* loc);
 	void SetBackgroundColor(glm::vec4 color);
 	void SetLight(uint uColor, uint uPos, uint uAmbient, glm::vec3 colorLight, glm::vec3 posLight, float ambient);
+	void DrawMesh(std::vector<myVertex> vertices, std::vector<unsigned int> indices, std::vector<myTexture> textures, unsigned int VAO);
 	Shader* GetShader() { return _shader; }
 };
 #endif
