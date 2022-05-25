@@ -3,7 +3,7 @@
 
 #include "../Exports/Exports.h"
 #include <vector>
-#include "../Texture/Texture.h"
+#include "../Texture/MyTexture.h"
 #include "../Atlas/Atlas.h"
 
 struct UVCords
@@ -25,7 +25,7 @@ class GraficosEngine_API Animation
 {
 public:
 	Animation();
-	void SetAnimation(Texture* tex, float speed);
+	void SetAnimation(MyTexture* tex, float speed);
 	~Animation();
 
 	void Update(float timer);
@@ -46,7 +46,7 @@ private:
 	float length;
 	float actionLength;
 	int lastAction;
-	Texture* texture;
+	MyTexture* texture;
 	float speed;
 	std::vector<Frame> frames;
 	std::vector<std::vector<Frame>> actions;

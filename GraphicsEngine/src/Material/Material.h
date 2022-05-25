@@ -4,12 +4,12 @@
 #include "Exports/Exports.h"
 #include "Renderer/Renderer.h"
 #include "GLM/ext/matrix_transform.hpp"
-#include "Texture/Texture.h"
+#include "Texture/MyTexture.h"
 
 struct MaterialS
 {
-	Texture* specular;
-	Texture* diffuse;
+	MyTexture* specular;
+	MyTexture* diffuse;
 	float Shiness;
 };
 
@@ -23,13 +23,13 @@ struct MaterialS
 		void UpdateMaterial();
 
 		void SetShininess(float shininess);
-		void SetDiffuse(Texture* diffuse);
-		void SetSpecular(Texture* specular);
+		void SetDiffuse(MyTexture* diffuse);
+		void SetSpecular(MyTexture* specular);
 		void SetMaterial(MaterialS* mat);
 
 		float GetShininess();
-		Texture* GetDiffuse();
-		Texture* GetSpecular();
+		MyTexture* GetDiffuse();
+		MyTexture* GetSpecular();
 
 	private:
 		Renderer* render;

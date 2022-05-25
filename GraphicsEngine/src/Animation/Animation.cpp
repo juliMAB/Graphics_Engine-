@@ -13,7 +13,7 @@
 		actionLength = -1;
 		lastAction = 0;
 	}
-	void Animation::SetAnimation(Texture* tex, float speed)
+	void Animation::SetAnimation(MyTexture* tex, float speed)
 	{
 		this->texture = tex;
 		this->speed = speed;

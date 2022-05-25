@@ -1,6 +1,6 @@
 #ifndef SPRITE_H
 #define SPRITE_H
-#include "Texture/Texture.h"
+#include "Texture/MyTexture.h"
 #include "Exports/Exports.h"
 #include "Entity2D/Entity2D.h"
 #include "Renderer/Renderer.h"
@@ -48,7 +48,7 @@ public:
 	void Update(float timer);
 	void Draw();
 	void DeInit();
-	void SetTexture(Texture* texture);
+	void SetTexture(MyTexture* texture);
 	void AddAnimation(Atlas atlas, float speed);
 	void AddAnimation(int rows, int cols, float duration);
 	void ChangeAnimation(int index);

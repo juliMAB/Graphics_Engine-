@@ -23,7 +23,7 @@ void Entity2D::InitCollider()
 
 void Entity2D::UpdateShader()
 {
-	_renderer->UpdateMVP(_uniformTransform, _uniformView, _uniformProjection, matrix.model);
+	_renderer->UpdateMVP(matrix.model);
 	_renderer->UpdateColor(_uniformColor, _uniformAlpha, _color.GetColorV4());
 	_renderer->UpdateBoolValue(_uniformAffectedLight, affectedLight);
 	_renderer->UpdateBoolValue(_uniformUseTexture, useTexture);

@@ -82,6 +82,9 @@
     <Filter Include="Archivos de encabezado\Mesh">
       <UniqueIdentifier>{84001d92-52a3-4639-85b1-0cf881f4b82e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\Model">
+      <UniqueIdentifier>{5df157b3-7d34-4a22-a600-e6d8d20d12fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -117,7 +120,7 @@
     <ClCompile Include="src\Sprite\Sprite.cpp">
       <Filter>Archivos de origen\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture\Texture.cpp">
+    <ClCompile Include="src\Texture\MyTexture.cpp">
       <Filter>Archivos de origen\Visual</Filter>
     </ClCompile>
     <ClCompile Include="src\TextureImporter\TextureImporter.cpp">
@@ -230,7 +233,7 @@
     <ClInclude Include="src\Renderer\Renderer.h">
       <Filter>Archivos de encabezado\Visual</Filter>
     </ClInclude>
-    <ClInclude Include="src\Texture\Texture.h">
+    <ClInclude Include="src\Texture\MyTexture.h">
       <Filter>Archivos de encabezado\Visual</Filter>
     </ClInclude>
     <ClInclude Include="src\Tile\Tile.h">
@@ -311,8 +314,11 @@
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_truetype.h">
       <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh\BasicMesh.h">
+    <ClInclude Include="src\Mesh\Mesh.h">
       <Filter>Archivos de encabezado\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Model.h">
+      <Filter>Archivos de encabezado\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +333,12 @@
       <Filter>res\Shaders</Filter>
     </None>
     <None Include="Shaders\TextureVertexShader.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
+    <None Include="Shaders\a.shader">
+      <Filter>res\Shaders</Filter>
+    </None>
+    <None Include="Shaders\b.shader">
       <Filter>res\Shaders</Filter>
     </None>
   </ItemGroup>

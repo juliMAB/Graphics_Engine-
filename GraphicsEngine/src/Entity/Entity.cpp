@@ -28,10 +28,6 @@ Entity::Entity() {
 	matrix.rotationZ = glm::mat4(1.f);
 	matrix.scale = glm::mat4(1.f);
 
-	_uniformTransform = 0;
-	_uniformView = 0;
-	_uniformProjection = 0;
-
 	UpdateMatrixData();
 }
 Entity::Entity(Renderer* renderer)
@@ -59,10 +55,6 @@ Entity::Entity(Renderer* renderer)
 	matrix.rotationZ = glm::mat4(1.f);
 	matrix.scale = glm::mat4(1.f);
 
-	_uniformTransform = 0;
-	_uniformView = 0;
-	_uniformProjection = 0;
-
 	UpdateMatrixData();
 	EntitysLists.push_front(this);
 	_name = "Entity " + std::to_string(CuantityEntitys);
@@ -74,10 +66,6 @@ Entity::~Entity() {
 }
 void Entity::SetUniforms()
 {
-	_renderer->SetUniform(_uniformTransform, "transform");
-	_renderer->SetUniform(_uniformView, "view");
-	_renderer->SetUniform(_uniformProjection, "projection");
-
 	_renderer->SetLocation(_locationPosition, "aPos");
 	_renderer->SetLocation(_locationTexCoord, "aTex");
 	_renderer->SetLocation(_locationNormal, "aNor");

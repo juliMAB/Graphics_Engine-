@@ -194,8 +194,8 @@
 	{
 		Entity2D::SetUniforms();
 		_renderer->SetUniform(_uniformTexture, "ourTexture");
-		_renderer->SetUniform(_uniformDiffuseTexture, "material.diffuse");
-		_renderer->SetUniform(_uniformSpecularTexture, "material.specular");
+		_renderer->SetUniform(_uniformDiffuseTexture, "material.diffuse1");
+		_renderer->SetUniform(_uniformSpecularTexture, "material.specular1");
 		_renderer->UpdateInt(_uniformDiffuseTexture, 0);
 		_renderer->UpdateInt(_uniformSpecularTexture, 1);
 	}

@@ -89,9 +89,6 @@ protected:
 	Transform transform;
 	Matrix matrix;
 
-	uint _uniformTransform;
-	uint _uniformView;
-	uint _uniformProjection;
 	uint _locationPosition;
 	uint _locationNormal;
 	uint _locationTexCoord;

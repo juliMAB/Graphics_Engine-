@@ -11,6 +11,8 @@
 #include "../Juli/Jinterface.h"
 #include "../LightManager/lightManager.h"
 #include "../ImGui/MyImGui.h"
+#include "Model/Model.h"
+
 class GraficosEngine_API BaseGame {
 private:
 	Input* _input;

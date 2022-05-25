@@ -91,6 +91,8 @@ ImVec4 clear_color;
 void MyImGui::Begin(std::string a){ ImGui::Begin(a.c_str()); }
 void MyImGui::End() { ImGui::End(); }
 void MyImGui::Text(std::string a) { ImGui::Text(a.c_str()); }
+void MyImGui::SliderFloat(std::string a, float * b, float min,float max) { ImGui::SliderFloat(a.c_str(), b, min, max); }
+void MyImGui::SliderFloat3(std::string a,vec3 * b, float min, float max) { ImGui::SliderFloat3(a.c_str(), (float*)&b, min, max); }
 void MyImGui::UpdateWindowsTwo()
 {
     if (show_demo_window)
@@ -100,16 +102,17 @@ void MyImGui::UpdateWindowsTwo()
     {
         static float f = 0.0f;
         static int counter = 0;
-
+        //float* a;
         ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
         ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
         ImGui::Checkbox("Another Window", &show_another_window);
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+        //ImGui::SliderFloat("float", &*a, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
         //ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
         //ImGui::ColorEdit3("pos", (float*)(&(*it)->transform.position)); // Edit 3 floats representing a color
+        
         int w=0;
         for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
         {

@@ -40,7 +40,6 @@ uint Renderer::GetShaderId()
 {
 	return _shader->GetShaderId();
 }
-
 void Renderer::CleanShader()
 {
 	glUseProgram(0);
@@ -59,7 +58,10 @@ void Renderer::Start() {
 void Renderer::InitShader()
 {
 	_shader = new Shader();
-	_shader->CreateShader("Shaders/TextureVertexShader.shader", "Shaders/TextureFragmentShader.shader");
+	_shader->CreateShader("Shaders/a.shader", "Shaders/b.shader");
+	SetUniform(_uniformTransform, "model");
+	SetUniform(_uniformView, "view");
+	SetUniform(_uniformProjection, "projection");
 }
 
 void Renderer::GenBuffers(uint& VAO, uint& VBO, uint& EBO)
@@ -129,11 +131,11 @@ void Renderer::SetTextureAttribs(uint location, int size, int stride, int offset
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)offset);
 	glEnableVertexAttribArray(location);
 }
-void Renderer::UpdateMVP(uint uniformModel, uint uniformView, uint uniformProjection, glm::mat4 model)
+void Renderer::UpdateMVP(glm::mat4 model)
 {
-	glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(uniformView, 1, GL_FALSE, glm::value_ptr(_view));
-	glUniformMatrix4fv(uniformProjection, 1, GL_FALSE, glm::value_ptr(_projection));
+	glUniformMatrix4fv(_uniformTransform, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(_uniformView, 1, GL_FALSE, glm::value_ptr(_view));
+	glUniformMatrix4fv(_uniformProjection, 1, GL_FALSE, glm::value_ptr(_projection));
 }
 void Renderer::UpdateVec3(uint uniformVec3, glm::vec3 vec3Value)
 {
@@ -167,6 +169,12 @@ void Renderer::SetView(glm::mat4 view)
 void Renderer::SetProjection(glm::mat4 projection)
 {
 	_projection = projection;
+}
+void Renderer::DrawMesh(uint VAO, std::vector<unsigned int> indices)
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs)
 {
@@ -205,9 +213,21 @@ void Renderer::TextureEnableSpecular(uint textureId)
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, textureId);
 }
+void Renderer::BindTexture(uint textureId)
+{
+	glBindTexture(GL_TEXTURE_2D, textureId);
+}
 void Renderer::TextureDisable()
 {
 	glDisable(GL_TEXTURE_2D);
+}
+void Renderer::TextureActive()
+{
+	glActiveTexture(GL_TEXTURE0);
+}
+void Renderer::TextureActive(int x)
+{
+	glActiveTexture(GL_TEXTURE0+x);
 }
 void Renderer::TextureDelete(uint uniformTexture, uint& textureId)
 {

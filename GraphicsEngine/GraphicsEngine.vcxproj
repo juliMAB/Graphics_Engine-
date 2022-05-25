@@ -110,8 +110,8 @@
       <AdditionalDependencies>assimp-vc143-mtd.lib;glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencis)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -139,8 +139,8 @@
       </EntryPointSymbol>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>
@@ -161,6 +161,10 @@
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\$(platform)\ASSIMP;$(ProjectDir)Lib\$(platform)\GLFW;$(ProjectDir)Lib\$(platform)\GLEW</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc143-mtd.lib;glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencis)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -180,6 +184,10 @@
       <AdditionalLibraryDirectories>$(ProjectDir)Lib\$(platform)\ASSIMP;$(ProjectDir)Lib\$(platform)\GLFW;$(ProjectDir)Lib\$(platform)\GLEW</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc143-mtd.lib;glew32s.lib;glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;%(AdditionalDependencis)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>XCOPY "$(OutDir)$(ProjectName).dll" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\" /e /h /y /s
+XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Game\" /e /h /y /s</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Animation\Animation.cpp" />
@@ -210,7 +218,7 @@
     <ClCompile Include="src\Sprite\Sprite.cpp" />
     <ClCompile Include="src\TextureImporter\stb_image.cpp" />
     <ClCompile Include="src\TextureImporter\TextureImporter.cpp" />
-    <ClCompile Include="src\Texture\Texture.cpp" />
+    <ClCompile Include="src\Texture\MyTexture.cpp" />
     <ClCompile Include="src\Tile\Tile.cpp" />
     <ClCompile Include="src\Tile\TileMap.cpp" />
     <ClCompile Include="src\Tile\tinyxml2.cpp" />
@@ -247,14 +255,15 @@
     <ClInclude Include="src\Light\pointLight.h" />
     <ClInclude Include="src\Light\spotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
-    <ClInclude Include="src\Mesh\BasicMesh.h" />
+    <ClInclude Include="src\Mesh\Mesh.h" />
+    <ClInclude Include="src\Model\Model.h" />
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\Sprite\Sprite.h" />
     <ClInclude Include="src\TextureImporter\stb_image.h" />
     <ClInclude Include="src\TextureImporter\TextureImporter.h" />
-    <ClInclude Include="src\Texture\Texture.h" />
+    <ClInclude Include="src\Texture\MyTexture.h" />
     <ClInclude Include="src\Tile\Tile.h" />
     <ClInclude Include="src\Tile\TileMap.h" />
     <ClInclude Include="src\Tile\tinyxml2.h" />
@@ -263,6 +272,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
+    <None Include="Shaders\a.shader" />
+    <None Include="Shaders\b.shader" />
     <None Include="Shaders\SolidFragmentShader.shader" />
     <None Include="Shaders\SolidVertexShader.shader" />
     <None Include="Shaders\TextureFragmentShader.shader" />

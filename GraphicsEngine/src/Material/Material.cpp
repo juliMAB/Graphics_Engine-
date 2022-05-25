@@ -20,8 +20,8 @@
 	void Material::Init()
 	{
 		render->SetUniform(_uniformShininess, "material.shininess");
-		render->SetUniform(_uniformDiffuse, "material.diffuse");
-		render->SetUniform(_uniformSpecular, "material.specular");
+		render->SetUniform(_uniformDiffuse, "material.diffuse1");
+		render->SetUniform(_uniformSpecular, "material.specular1");
 		render->SetUniform(_uniformUseMaterial, "affectedMaterial");
 	}
 
@@ -39,12 +39,12 @@
 	}
 
 
-	void Material::SetDiffuse(Texture* diffuse)
+	void Material::SetDiffuse(MyTexture* diffuse)
 	{
 		this->material->diffuse = diffuse;
 	}
 
-	void Material::SetSpecular(Texture* specular)
+	void Material::SetSpecular(MyTexture* specular)
 	{
 		this->material->specular = specular;
 	}
@@ -60,12 +60,12 @@
 		return material->Shiness;
 	}
 
-	Texture* Material::GetDiffuse()
+	MyTexture* Material::GetDiffuse()
 	{
 		return material->diffuse;
 	}
 
-	Texture* Material::GetSpecular()
+	MyTexture* Material::GetSpecular()
 	{
 		return material->specular;
 	}
