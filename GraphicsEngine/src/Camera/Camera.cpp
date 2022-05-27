@@ -67,7 +67,7 @@ void Camera::SetAspect(float width, float height)
 Camera::Camera()
 {
 	_renderer = NULL;
-
+	_ejes = false;
 	transform.position      = glm::vec3(0.0f);
 	transform.up       = glm::vec3(0.0f);
 	transform.right    = glm::vec3(0.0f);
@@ -116,7 +116,6 @@ void Camera::Update()
 	UpdateCameraVectors();
 	_renderer->UseShader();
 	_renderer->UpdateVec3(_uniformViewPos, getPos());
-
 }
 void Camera::UpdateProjection()
 {
@@ -134,6 +133,8 @@ void Camera::DebugInfo()
 
 void Camera::UpdateCameraVectors()
 {
+	if (!_ejes)
+		return;
 	// calculate the new Front vector
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
@@ -228,4 +229,9 @@ vec3 Camera::GetRight()
 vec3 Camera::GetUp()
 {
 	return transform.up;
+}
+void Camera::ToogleEjes()
+{
+	_ejes = !_ejes;
+	std::cout << "Camera update set (" << _ejes << ")"<<std::endl;
 }

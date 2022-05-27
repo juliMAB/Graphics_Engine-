@@ -5,8 +5,9 @@ Entity3D::Entity3D()
 
 }
 
-Entity3D::Entity3D(Renderer* render, std::string path)
+Entity3D::Entity3D(Renderer* render, std::string path) : Entity(render)
 {
+	_name = "Entity3D";
 	_renderer = render;
 
 	meshes = Importer::loadModel(path);

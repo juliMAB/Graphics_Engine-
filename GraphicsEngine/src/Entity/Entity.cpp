@@ -59,7 +59,6 @@ Entity::Entity(Renderer* renderer)
 	EntitysLists.push_front(this);
 	_name = "Entity " + std::to_string(CuantityEntitys);
 	CuantityEntitys++;
-	//EntitysLists.assign(CuantityEntitys, this);
 }
 Entity::~Entity() {
 

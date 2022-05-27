@@ -248,8 +248,7 @@ void Game::processInput()
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
 	if (Input::IsKeyDown(Input::KEY_SPACE))
-	{
-	}
+		_cam->ToogleEjes();
 	glm::vec3 b(0);
 	if (Input::IsKeyPressed(Input::KEY_UP))
 		b += _cam->GetFront();

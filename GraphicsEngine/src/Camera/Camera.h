@@ -49,6 +49,7 @@ public:
 	void UpdateView();
 	void ProcessMouseScroll(float yoffset);
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
+	void ToogleEjes();
 	//--------Getters-------
 	Entity* GetTarget();
 	CAMERA_TYPE GetCameraType();
@@ -57,7 +58,7 @@ public:
 	vec3 GetUp();
 	//--------Others--------
 	void DebugInfo();
-
+	bool _ejes;
 private:
 
 
