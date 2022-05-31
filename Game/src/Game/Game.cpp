@@ -204,8 +204,16 @@ void Game::Draw() {
 }
 void Game::UpdateImgui()
 {
+	vec3 v = _modeltest->getRot();
 	_imgur->Begin("si");
+	
+	/*if (_imgur->SliderFloat3("Rot", &v, -1, 2))
+	{
+		printf("hola");
+		_modeltest->SetRotations(v);
+	}*/
 	_imgur->End();
+
 }
 void Game::LightsUpdate()
 {

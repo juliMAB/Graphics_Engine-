@@ -38,8 +38,6 @@ public:
 
 	void SliderFloat(std::string a, float* b, float min, float max);
 
-	void SliderFloat3(std::string a, vec3* b, float min, float max);
-
 
 
 	void UpdateWindowsTwo();

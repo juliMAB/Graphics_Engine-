@@ -92,7 +92,7 @@ void MyImGui::Begin(std::string a){ ImGui::Begin(a.c_str()); }
 void MyImGui::End() { ImGui::End(); }
 void MyImGui::Text(std::string a) { ImGui::Text(a.c_str()); }
 void MyImGui::SliderFloat(std::string a, float * b, float min,float max) { ImGui::SliderFloat(a.c_str(), b, min, max); }
-void MyImGui::SliderFloat3(std::string a,vec3 * b, float min, float max) { ImGui::SliderFloat3(a.c_str(), (float*)&b, min, max); }
+//void MyImGui::SliderFloat3(std::string a,vec3 * b, float min, float max) { ImGui::SliderFloat3(a.c_str(), (float*)&b, min, max); }
 void MyImGui::UpdateWindowsTwo()
 {
     if (show_demo_window)
@@ -116,13 +116,13 @@ void MyImGui::UpdateWindowsTwo()
         int w=0;
         for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
         {
-            float x = (*it)->transform.position.x;
-            float y = (*it)->transform.position.y;
-            float z = (*it)->transform.position.z;
-            ImGui::SliderFloat(((*it)->_name + "x").c_str(), &(x), -10.0f, 10.0f);
-            ImGui::SliderFloat(((*it)->_name + "y").c_str(), &(y), -10.0f, 10.0f);
-            ImGui::SliderFloat(((*it)->_name + "z").c_str(), &(z), -10.0f, 10.0f);
-            (*it)->SetPos(x,y,z);
+            vec3 rot =(*it)->transform.eulerAngles;
+            vec3 pos =(*it)->transform.position;
+
+            ImGui::SliderFloat3(((*it)->_name + "pos").c_str(), (float*) & pos, -10.0f, 10.0f);
+            ImGui::SliderFloat3(((*it)->_name + "rot").c_str(), (float*) &rot, -90.0f, 90.0f);
+            (*it)->SetRotations(rot);
+            (*it)->SetPos(pos);
             w++;
             //(*it)->transform.position = glm::vec3(a.x, a.y, a.z);
         }
