@@ -12,9 +12,9 @@ class Game : BaseGame {
 	Camera* _cam;
 	float cameraSpeed = 30.f;
 	//Material* _materials[3];
-	//Shape* _floor;
-	//MyTexture* _tex;
-	//MyTexture* _tex2;
+	Sprite* _floor;
+	MyTexture* _tex;
+	MyTexture* _tex2;
 	DirectionLight* _dirLight;
 	PointLight* _pointLight[4];
 	SpotLight* _spotLight;

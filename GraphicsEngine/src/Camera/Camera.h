@@ -50,6 +50,8 @@ public:
 	void ProcessMouseScroll(float yoffset);
 	void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 	void ToogleEjes();
+	void SetFoward(vec3 value);
+	void SetTargetLook(vec3 value);
 	//--------Getters-------
 	Entity* GetTarget();
 	CAMERA_TYPE GetCameraType();
@@ -60,7 +62,7 @@ public:
 	void DebugInfo();
 	bool _ejes;
 private:
-
+	friend class MyImGui;
 
 	void BaseInit();
 
@@ -85,5 +87,7 @@ private:
 	float _near;
 	float _far;
 	float _offset;
+
+
 };
 #endif

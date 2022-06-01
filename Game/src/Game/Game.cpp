@@ -83,9 +83,9 @@ Game::Game() {
 	//cameraSpeed			  =30.f;
 	//for (int i = 0; i < 3; i++)
 	//	_materials[i] = nullptr;
-	//_floor				  =nullptr;
-	//_tex				  =nullptr;
-	//_tex2				  =nullptr;
+	_floor				  =nullptr;
+	_tex				  =nullptr;
+	_tex2				  =nullptr;
 	_dirLight			  =nullptr;
 	for (int i = 0; i < 4; i++)
 		_pointLight[i] = nullptr;
@@ -95,10 +95,10 @@ Game::Game() {
 }
 Game::~Game() {}
 void Game::Init() {
-	//_tex = new MyTexture("res/e.png", false);
-	//_tex2 = new MyTexture("res/f.png", false);
+	_tex = new MyTexture("res/e.png", false);
+	_tex2 = new MyTexture("res/f.png", false);
 	vec3 a = { 1,1,1 };
-	//defaultM = new MaterialS{ _tex,_tex2,32.0f };
+	defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
@@ -107,11 +107,17 @@ void Game::Init() {
 	_modeltest = new Entity3D(_renderer, "res/g/backpack.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
-	_modeltest->SetRotX(90);
 		int x = 0;
 		int y = 0;
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
+
+	//--------FLOOR----------
+	_floor = new Sprite(_renderer);
+	_floor->Init(SPRITE_TYPE::CUBE);
+	_floor->SetMateria(defaultM);
+	//----------------------
+
 
 	_dirLight = new DirectionLight(_renderer);
 	_dirLight->Init();
@@ -147,6 +153,8 @@ void Game::Init() {
 
 	_cam->SetCameraType(CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
+	_cam->SetFoward(vec3(0, 0, -1));
+	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }
 
 void Game::Deinit() {
@@ -155,6 +163,7 @@ void Game::Deinit() {
 void Game::Update()
 {	
 	_cam->Update();
+	_floor->UpdateMaterial();
 	LightsUpdate();
 	processInput();
 	for (int i = 0; i < 15; i++)
@@ -164,22 +173,15 @@ void Game::Update()
 
 }
 void Game::Draw() {
-	//_pjS->Draw();
-	//_shapes[0]->Draw();
-	//_shapes[1]->Draw();
-	//_shapes[2]->Draw();
-	//_floor->Draw();
-	for (int i = 0; i < 15; i++)
-	{
-		//_sprites[i]->Draw();
-	}
-
-	
+	_floor->Draw();
 	_modeltest->draw();
 }
 void Game::UpdateImgui()
 {
-
+	/*_myImgui->Begin("Camera Config");
+	vec3 camLook =_cam.look;
+	_myImgui->SliderFloat3("look",_cam->DebugInfo)
+	_myImgui->End();*/
 }
 void Game::LightsUpdate()
 {
@@ -241,6 +243,9 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_KP_1))
 		b += _cam->GetUp();
 	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
+	if (Input::IsKeyPressed(Input::KEY_Z))
+		_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
+
 }
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;

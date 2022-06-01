@@ -39,6 +39,8 @@ public:
 
 	void SliderFloat(std::string a, float* b, float min, float max);
 
+	bool SliderFloat3(std::string a, vec3* b, float min, float max);
+
 
 
 	void UpdateWindowsTwo();
@@ -46,8 +48,6 @@ public:
 private:
 	const char* glsl_version;
 	Window* _window;
-	bool show_demo_window = true;
-	bool show_another_window = false;
 	void UpdateWindowsOne();
 };
 

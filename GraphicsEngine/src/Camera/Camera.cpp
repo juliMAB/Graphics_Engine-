@@ -34,6 +34,7 @@ void Camera::BaseInit(){
 	_near = 0.1f;
 	_far = 100.f;
 	_offset = OFFSET;
+	_name = "Camera";
 }
 void Camera::Init(Renderer* render,Window* window)
 {
@@ -45,6 +46,7 @@ void Camera::Init(Renderer* render,Window* window)
 	UpdateProjection();
 	UpdateView();
 	_renderer->SetUniform(_uniformViewPos, "viewPos");
+
 }
 void Camera::SetWindow(Window* window)
 {
@@ -64,7 +66,7 @@ void Camera::SetAspect(float width, float height)
 {
 	_aspect = width / height;
 }
-Camera::Camera()
+Camera::Camera() : Entity(NULL)
 {
 	_renderer = NULL;
 	_ejes = false;
@@ -87,6 +89,7 @@ Camera::Camera()
 	_near             = 0;
 	_far              = 0;
 	//--------
+	
 }
 void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 {
@@ -130,11 +133,13 @@ void Camera::DebugInfo()
 	std::cout << "	Camera up: " + VecToString::vec3toString(WorldUp) << std::endl;
 	
 }
-
 void Camera::UpdateCameraVectors()
 {
 	if (!_ejes)
+	{
+		UpdateView();
 		return;
+	}
 	// calculate the new Front vector
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
@@ -154,18 +159,19 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
-		return;
+		targetLook = transform.position + transform.forward;
+		break;
 	case CAMERA_TYPE::TPS:
 		if (_target != NULL)
-			SetViewMatrix(transform.position, _target->getPos(), transform.up);
-		return;
+			targetLook = _target->getPos();
+		break;
 	case CAMERA_TYPE::FC:
-		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
+		//targetLook = transform.position + transform.forward;
 		break;
 	default:
 		break;
 	}
+	SetViewMatrix(transform.position, targetLook, transform.up);
 	
 }
 void Camera::ProcessMouseScroll(float yoffset)
@@ -211,6 +217,7 @@ Camera::~Camera()
 void Camera::SetCameraType(CAMERA_TYPE type)
 {
 	cameraType = type;
+	UpdateView();
 }
 
 CAMERA_TYPE Camera::GetCameraType()
@@ -237,4 +244,13 @@ void Camera::ToogleEjes()
 		std::cout << "Mouse control set (TRUE)"<<std::endl;
 	else
 		std::cout << "Mouse control set (FALSE)" << std::endl;
+}
+void Camera::SetFoward(vec3 value)
+{
+	transform.forward = value;
+}
+void Camera::SetTargetLook(vec3 value)
+{
+	transform.forward = value - transform.position;
+	std::cout << "Update Camera Forward" << std::endl;
 }
