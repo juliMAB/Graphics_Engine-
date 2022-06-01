@@ -87,12 +87,13 @@ void MyImGui::UpdateWindowsTwo()
 {
 
     ImGui::Begin("Ventana de configuracion By juli");                          // Create a window called "Hello, world!" and append into it.
-
+    ImGui::Text("Entitys");
     for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
     {
         vec3 rot = (*it)->transform.eulerAngles;
         vec3 pos = (*it)->transform.position;
-    
+        vec3 sca = (*it)->transform.scale;
+        
         if(ImGui::SliderFloat3(((*it)->_name + "pos").c_str(), (float*)&pos, -10.0f, 10.0f))
         {
             (*it)->SetPos(pos);
@@ -100,12 +101,15 @@ void MyImGui::UpdateWindowsTwo()
         if (ImGui::SliderFloat3(((*it)->_name + "rot").c_str(), (float*)&rot, -90.0f, 90.0f))
         {
             (*it)->SetRotations(rot);
-
+        }
+        if (ImGui::SliderFloat3(((*it)->_name + "sca").c_str(), (float*)&sca, 0.1f, 2.0f))
+        {
+            (*it)->SetScale(sca);
         }
 
         ImGui::Checkbox(((*it)->_name + "enabled").c_str(), &(*it)->_enabled);
     }
-    
+    ImGui::Text("Lights");
     for (std::list<Light*>::iterator it = Light::LightsLists.begin(); it != Light::LightsLists.end(); it++)
     {
         vec3 ambient = (*it)->ambient;

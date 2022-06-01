@@ -1,7 +1,7 @@
 #include "Camera.h"
 #include "../Renderer/Renderer.h"
 
-void Camera::Init(Renderer* render,Window* window,float near, float far)
+void Camera::Init(Renderer* render, Window* window, float near, float far)
 {
 	_renderer = render;
 	_window = window;
@@ -13,7 +13,7 @@ void Camera::Init(Renderer* render,Window* window,float near, float far)
 	UpdateProjection();
 	UpdateView();
 }
-void Camera::BaseInit(){
+void Camera::BaseInit() {
 	//--------
 	transform.position = glm::vec3(0.0f);
 	//--------
@@ -34,9 +34,8 @@ void Camera::BaseInit(){
 	_near = 0.1f;
 	_far = 100.f;
 	_offset = OFFSET;
-	_name = "Camera";
 }
-void Camera::Init(Renderer* render,Window* window)
+void Camera::Init(Renderer* render, Window* window)
 {
 	_renderer = render;
 	_window = window;
@@ -46,7 +45,6 @@ void Camera::Init(Renderer* render,Window* window)
 	UpdateProjection();
 	UpdateView();
 	_renderer->SetUniform(_uniformViewPos, "viewPos");
-
 }
 void Camera::SetWindow(Window* window)
 {
@@ -66,30 +64,29 @@ void Camera::SetAspect(float width, float height)
 {
 	_aspect = width / height;
 }
-Camera::Camera() : Entity(NULL)
+Camera::Camera()
 {
 	_renderer = NULL;
 	_ejes = false;
-	transform.position      = glm::vec3(0.0f);
-	transform.up       = glm::vec3(0.0f);
-	transform.right    = glm::vec3(0.0f);
-	transform.forward    = glm::vec3(0.0f);
+	transform.position = glm::vec3(0.0f);
+	transform.up = glm::vec3(0.0f);
+	transform.right = glm::vec3(0.0f);
+	transform.forward = glm::vec3(0.0f);
 	//--------
 	targetLook = glm::vec3(0.0f);
-	WorldUp    = glm::vec3(0.0f);
+	WorldUp = glm::vec3(0.0f);
 	//--------
 	cameraType = CAMERA_TYPE::FPS;
 	//--------
-	Yaw		         = 0;
-	Pitch	         = 0;
-	MovementSpeed    = 0;
+	Yaw = 0;
+	Pitch = 0;
+	MovementSpeed = 0;
 	_sensitivity = 0;
-	_fov              = 0;
-	_aspect			 = 0;
-	_near             = 0;
-	_far              = 0;
+	_fov = 0;
+	_aspect = 0;
+	_near = 0;
+	_far = 0;
 	//--------
-	
 }
 void Camera::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 {
@@ -103,7 +100,7 @@ void Camera::SetTarget(Entity* target)
 }
 Entity* Camera::GetTarget()
 {
-	 return _target;
+	return _target;
 }
 void Camera::SetSensitivity(float sensitivity)
 {
@@ -128,17 +125,16 @@ void Camera::UpdateProjection()
 void Camera::DebugInfo()
 {
 	std::cout << "---CAMARA INFO---" << std::endl;
-	std::cout << "	Camera pos: "+ VecToString::vec3toString(transform.position) << std::endl;
+	std::cout << "	Camera pos: " + VecToString::vec3toString(transform.position) << std::endl;
 	std::cout << "	Camera look: " + VecToString::vec3toString(targetLook) << std::endl;
 	std::cout << "	Camera up: " + VecToString::vec3toString(WorldUp) << std::endl;
-	
+
 }
+
 void Camera::UpdateCameraVectors()
 {
 	if (!_ejes)
-	{
 		return;
-	}
 	// calculate the new Front vector
 	glm::vec3 direction;
 	direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
@@ -148,7 +144,7 @@ void Camera::UpdateCameraVectors()
 	transform.right = glm::cross(transform.forward, transform.up);
 	if (_target != NULL && cameraType == CAMERA_TYPE::TPS)
 	{
-			transform.position = _target->getPos() - transform.forward * _offset;
+		transform.position = _target->getPos() - transform.forward * _offset;
 	}
 	UpdateView();
 }
@@ -159,19 +155,18 @@ void Camera::UpdateView()
 	{
 	case CAMERA_TYPE::FPS:
 		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
-		break;
+		return;
 	case CAMERA_TYPE::TPS:
 		if (_target != NULL)
 			SetViewMatrix(transform.position, _target->getPos(), transform.up);
-		break;
+		return;
 	case CAMERA_TYPE::FC:
 		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
 		break;
 	default:
 		break;
 	}
-	
-	
+
 }
 void Camera::ProcessMouseScroll(float yoffset)
 {
@@ -188,22 +183,20 @@ void Camera::ProcessMouseScroll(float yoffset)
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
-	if (!_mouseMoveCamera)
-		return;
 	xoffset *= _sensitivity;
 	yoffset *= _sensitivity;
-	
+
 
 	Yaw += xoffset;
 	Pitch += yoffset;
 
 	// make sure that when pitch is out of bounds, screen doesn't get flipped
 
-		if (Pitch > 89.0f)
-			Pitch = 89.0f;
-		if (Pitch < -89.0f)
-			Pitch = -89.0f;
-	
+	if (Pitch > 89.0f)
+		Pitch = 89.0f;
+	if (Pitch < -89.0f)
+		Pitch = -89.0f;
+
 	//std::cout << "x: " << xoffset << " y: " <<yoffset<<std::endl;
 	// update Front, Right and Up Vectors using the updated Euler angles
 	UpdateCameraVectors();
@@ -218,7 +211,6 @@ Camera::~Camera()
 void Camera::SetCameraType(CAMERA_TYPE type)
 {
 	cameraType = type;
-	UpdateView();
 }
 
 CAMERA_TYPE Camera::GetCameraType()
@@ -241,9 +233,5 @@ vec3 Camera::GetUp()
 void Camera::ToogleEjes()
 {
 	_ejes = !_ejes;
-	if (_ejes)
-		std::cout << "Mouse control set (TRUE)EJES"<<std::endl;
-	else
-		std::cout << "Mouse control set (FALSE)NOEJES" << std::endl;
+	std::cout << "Camera update set (" << _ejes << ")" << std::endl;
 }
-

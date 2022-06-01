@@ -158,8 +158,8 @@ void Game::Init() {
 
 	_cam->SetCameraType(CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
-	_cam->SetFoward(vec3(0, 0, -1));
-	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
+	//_cam->SetFoward(vec3(0, 0, -1));
+	//_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }
 
 void Game::Deinit() {
@@ -248,8 +248,8 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_KP_1))
 		b += _cam->GetUp();
 	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
-	if (Input::IsKeyPressed(Input::KEY_Z))
-		_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
+	//if (Input::IsKeyPressed(Input::KEY_Z))
+	//	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 
 }
 void Game::UpdateCameraType() {
