@@ -112,6 +112,58 @@ GraficosEngine_API typedef struct VecToString
 		res = std::to_string(value.x) +","+ std::to_string(value.y) +"," + std::to_string(value.z);
 		return res;
 	}
+	static glm::vec3 StringtoVec3(std::string value) {
+		glm::vec3 res = vec3(0,0,0);
+		const char* finder = value.c_str();
+		float multiplicador=1;
+		float counter=0;
+		//------obtener valor en x.
+		while (*finder!=',')
+		{
+			counter++;
+			finder++;
+			if (counter>1)
+				multiplicador *= 10;
+		}
+		for (int i = 0; i < counter; i++)
+		{
+			res.x += value.c_str()[i]-48;
+			multiplicador /= 10;
+		}
+		multiplicador = 1;
+		//-----------obtener valor en y.
+		finder++;
+		while (*finder != ',')
+		{
+			counter++;
+			finder++;
+			if (counter > 1)
+				multiplicador *= 10;
+		}
+		for (int i = 0; i < counter; i++)
+		{
+			res.y += value.c_str()[i] - 48;
+			multiplicador /= 10;
+		}
+		multiplicador = 1;
+		//-----------obtener valor en z.
+		finder++;
+		while (*finder != ',')
+		{
+			counter++;
+			finder++;
+			if (counter > 1)
+				multiplicador *= 10;
+		}
+		for (int i = 0; i < counter; i++)
+		{
+			res.z += value.c_str()[i] - 48;
+			multiplicador /= 10;
+		}
+		multiplicador = 1;
+		//-----------Devolver.
+		return res;
+	}
 };
 
 #endif //JINTERFACE_H
