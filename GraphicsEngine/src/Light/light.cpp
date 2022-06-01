@@ -1,6 +1,6 @@
 #include "light.h"
 
-
+std::list<Light*> Light::LightsLists;
 Light::Light() 
 {
 	_renderer = nullptr;
@@ -26,6 +26,7 @@ Light::Light(Renderer* render) : Entity(render)
 		_uniformAmbient = 0;
 		_uniformDiffuse = 0;
 		_uniformSpecular = 0;
+		LightsLists.push_front(this);
 	}
 	void Light::SetUniforms(std::string v)
 	{
@@ -42,6 +43,12 @@ Light::Light(Renderer* render) : Entity(render)
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);
+		if (!_enabled)
+		{
+			_renderer->UpdateVec3(_uniformAmbient, vec3(0,0,0));
+			_renderer->UpdateVec3(_uniformDiffuse, vec3(0, 0, 0));
+			_renderer->UpdateVec3(_uniformSpecular, vec3(0, 0, 0));
+		}
 
 		_renderer->CleanShader();
 	}

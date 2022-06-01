@@ -233,5 +233,8 @@ vec3 Camera::GetUp()
 void Camera::ToogleEjes()
 {
 	_ejes = !_ejes;
-	std::cout << "Camera update set (" << _ejes << ")"<<std::endl;
+	if (_ejes)
+		std::cout << "Mouse control set (TRUE)"<<std::endl;
+	else
+		std::cout << "Mouse control set (FALSE)" << std::endl;
 }

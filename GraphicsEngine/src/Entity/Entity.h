@@ -84,6 +84,7 @@ private:
 protected:
 	std::string _name;
 	color::RGBA _color;
+	bool _enabled;
 	Renderer* _renderer;
 
 	Transform transform;

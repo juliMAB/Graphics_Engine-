@@ -33,12 +33,10 @@ void PointLight::UpdateLight()
 	Light::UpdateLight();
 	pos = getPos();
 	_renderer->UseShader();
-
 	_renderer->UpdateVec3(_uniformPosition, pos);
 	_renderer->UpdateFloatValue(_uniformConstant, constant);
 	_renderer->UpdateFloatValue(_uniformLinear, linear);
 	_renderer->UpdateFloatValue(_uniformQuadratic, quadratic);
-
 	_renderer->CleanShader();
 }
 

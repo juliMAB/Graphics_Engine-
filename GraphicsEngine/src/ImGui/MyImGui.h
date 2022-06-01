@@ -4,6 +4,7 @@
 #include "ImGuiMaster/Source/imgui_impl_glfw.h"
 #include "ImGuiMaster/Source/imgui_impl_opengl3.h"
 #include "../Entity/Entity.h"
+#include "../Light/light.h"
 #include <stdio.h>
 #include "../Window/Window.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)

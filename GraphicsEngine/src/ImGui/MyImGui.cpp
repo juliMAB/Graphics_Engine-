@@ -116,19 +116,29 @@ void MyImGui::UpdateWindowsTwo()
         int w=0;
         for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
         {
-            vec3 rot =(*it)->transform.eulerAngles;
-            vec3 pos =(*it)->transform.position;
+            vec3 rot = (*it)->transform.eulerAngles;
+            vec3 pos = (*it)->transform.position;
 
             ImGui::SliderFloat3(((*it)->_name + "pos").c_str(), (float*) & pos, -10.0f, 10.0f);
             ImGui::SliderFloat3(((*it)->_name + "rot").c_str(), (float*) &rot, -90.0f, 90.0f);
             (*it)->SetRotations(rot);
             (*it)->SetPos(pos);
             w++;
-            //(*it)->transform.position = glm::vec3(a.x, a.y, a.z);
+            ImGui::Checkbox(((*it)->_name + "enabled").c_str(), &(*it)->_enabled);
         }
-        
-        //Entity::EntitysArray[0]
 
+        for (std::list<Light*>::iterator it = Light::LightsLists.begin(); it != Light::LightsLists.end(); it++)
+        {
+            vec3 ambient = (*it)->ambient;
+            vec3 specular = (*it)->specular;
+            vec3 diffuse = (*it)->diffuse;
+            ImGui::SliderFloat3(((*it)->_name + "ambient").c_str(), (float*)&ambient, 0.0f, 1.0f);
+            ImGui::SliderFloat3(((*it)->_name + "specular").c_str(), (float*)&specular, 0.0f, 1.0f);
+            ImGui::SliderFloat3(((*it)->_name + "diffuse").c_str(), (float*)&diffuse, 0.0f, 1.0f);
+            (*it)->SetAmbient(ambient);
+            (*it)->SetSpecular(specular);
+            (*it)->SetDiffuse(diffuse);
+        }
         if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
             counter++;
         ImGui::SameLine();

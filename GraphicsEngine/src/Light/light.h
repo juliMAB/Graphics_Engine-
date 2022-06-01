@@ -29,6 +29,7 @@
 		glm::vec3 GetSpecular();
 
 	protected:
+		static std::list<Light*> LightsLists;
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
@@ -36,6 +37,8 @@
 		uint _uniformAmbient;
 		uint _uniformDiffuse;
 		uint _uniformSpecular;
+	private:
+		friend class MyImGui;
 	};
 
 

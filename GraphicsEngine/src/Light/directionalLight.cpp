@@ -28,6 +28,8 @@ void DirectionLight::UpdateLight()
 	Light::UpdateLight();
 	_renderer->UseShader();
 	_renderer->UpdateVec3(_uniformDirection, direction);
+	if (!_enabled)
+		_renderer->UpdateVec3(_uniformDirection, vec3(0,0,0));
 	_renderer->CleanShader();
 }
 

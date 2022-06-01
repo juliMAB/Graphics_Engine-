@@ -17,6 +17,7 @@ public:
 	void SetCamera(Camera* cam);
 	void SetCutOff(float cutOff);
 	void SetOuterCutOff(float outerCutOff);
+	static int CuantitySpots;
 
 protected:
 
@@ -27,7 +28,7 @@ protected:
 	uint _uniformDirection;
 	uint _uniformCutOff;
 	uint _uniformOuterCutOff;
-
+	static std::list<SpotLight*> SpotLists;
 };
 
 

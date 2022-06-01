@@ -103,37 +103,13 @@ void Game::Init() {
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-
-	//_pjS = new Sprite(_renderer);
-	//_pjS->Init(SPRITE_TYPE::CUBE);
-	//_pjS->SetPos(5.f, 0.f, 0.f);
-	//_pjS->SetColor(1, 1, 1, 1);
+	
 	_modeltest = new Entity3D(_renderer, "res/g/backpack.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
 	_modeltest->SetRotX(90);
 		int x = 0;
 		int y = 0;
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	_sprites[i] = new Sprite(_renderer);
-	//	_sprites[i]->Init(SPRITE_TYPE::CUBE);
-	//	_sprites[i]->SetPos(2.f, i-y, x);
-	//	_sprites[i]->SetMateria(defaultM);
-	//	if (i == 4 || i == 9 || i == 14)
-	//	{
-	//		x++;
-	//		y += 5;
-	//
-	//	}
-	//	if (i<10)
-	//	{
-	//	_sprites[i]->SetPos(cubePositions[i]);
-	//
-	//	}
-	//}
-
-	//_cam->SetTarget(_sprites[0]);
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
@@ -169,9 +145,8 @@ void Game::Init() {
 	_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
 	_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
 
-
-	Input::lock_cursor(true);
-	_cam->SetCameraType(CAMERA_TYPE::FPS);
+	_cam->SetCameraType(CAMERA_TYPE::FC);
+	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
 }
 
 void Game::Deinit() {
@@ -204,15 +179,6 @@ void Game::Draw() {
 }
 void Game::UpdateImgui()
 {
-	vec3 v = _modeltest->getRot();
-	_imgur->Begin("si");
-	
-	/*if (_imgur->SliderFloat3("Rot", &v, -1, 2))
-	{
-		printf("hola");
-		_modeltest->SetRotations(v);
-	}*/
-	_imgur->End();
 
 }
 void Game::LightsUpdate()
@@ -242,16 +208,20 @@ void Game::processInput()
 		a -= _cam->GetUp();
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += _cam->GetUp();
-	//if (auxCheck2 == CAMERA_TYPE::TPS || auxCheck2 == CAMERA_TYPE::FPS)
-	//	_cam->GetTarget()->SetPos(_cam->GetTarget()->getPos() + a * _time->_deltaTime * cameraSpeed);
 	if (auxCheck2 == CAMERA_TYPE::FC)
 		_cam->SetPos(_cam->getPos() + a * _time->_deltaTime*cameraSpeed);
 	
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
+	{
 		auxCheck = !auxCheck;
-	Input::lock_cursor(auxCheck);
+		Input::lock_cursor(auxCheck);
+		if (auxCheck)
+			std::cout << "Lock Cursor (ON)" << std::endl;
+		else
+			std::cout << "Lock Cursor (OFF)" << std::endl;
+	}
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
