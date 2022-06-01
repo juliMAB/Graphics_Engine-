@@ -35,12 +35,12 @@ int BaseGame::MainLoop(int width, int height, const char* windowName)
 			_time->Update();
 			if (imGuiEnabled)
 			{
-				_imgur->Update();
+				_myImgui->Update();
 				UpdateImgui();
 			}
 			Update();
 			if (imGuiEnabled)
-			_imgur->Draw();
+			_myImgui->Draw();
 			Draw();
 			_renderer->PostRender(GetWindow());
 		}
@@ -98,9 +98,9 @@ bool BaseGame::InitGlew() {
 
 void BaseGame::InitImgur()
 {
-	_imgur = new MyImGui();
-	_imgur->Init();
-	_imgur->InitAfterWindow(_window);
+	_myImgui = new MyImGui();
+	_myImgui->Init();
+	_myImgui->InitAfterWindow(_window);
 }
 void BaseGame::InitInput() {
 	Input::SetWindow(_window);

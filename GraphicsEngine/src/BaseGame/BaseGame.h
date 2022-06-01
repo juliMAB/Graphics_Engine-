@@ -25,7 +25,7 @@ protected:
 	Renderer* _renderer;
 	Time* _time;
 	Camera* _mainCamera;
-	MyImGui* _imgur;
+	MyImGui* _myImgui;
 	//glm::vec4 backgroundColor;
 public:
 	Renderer* GetRenderer();
