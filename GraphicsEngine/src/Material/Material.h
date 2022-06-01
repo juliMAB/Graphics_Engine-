@@ -37,8 +37,6 @@ struct MaterialS
 
 		bool useMaterial;
 
-		uint _uniformUseMaterial;
-
 		uint _uniformShininess;
 		uint _uniformDiffuse;
 		uint _uniformSpecular;

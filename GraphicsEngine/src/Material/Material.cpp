@@ -22,7 +22,6 @@
 		render->SetUniform(_uniformShininess, "material.shininess");
 		render->SetUniform(_uniformDiffuse, "material.diffuse1");
 		render->SetUniform(_uniformSpecular, "material.specular1");
-		render->SetUniform(_uniformUseMaterial, "affectedMaterial");
 	}
 
 	void Material::UpdateMaterial()

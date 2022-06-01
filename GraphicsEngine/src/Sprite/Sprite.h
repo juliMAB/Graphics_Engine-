@@ -24,7 +24,6 @@ enum class SPRITE_TYPE
 class GraficosEngine_API Sprite : public Entity2D {
 private:
 	SPRITE_TYPE type;
-	uint _uniformTexture;
 	uint _uniformDiffuseTexture;
 	uint _uniformSpecularTexture;
 	uint _UVB;

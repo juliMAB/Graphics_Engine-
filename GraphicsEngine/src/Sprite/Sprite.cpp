@@ -6,7 +6,6 @@
 	{
 		type = SPRITE_TYPE::QUAD;
 		_material = nullptr;
-		_uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();
 		currFrame = Frame();
@@ -17,7 +16,6 @@
 		type = SPRITE_TYPE::QUAD;
 		_material = new Material(render);
 		affectedLight = true;
-		_uniformTexture = 0;
 		animIndex = 0;
 		anim = std::vector<Animation*>();
 		currFrame = Frame();
@@ -82,25 +80,19 @@
 	void Sprite::Draw()
 	{
 		_renderer->BlendEnable();
-		_renderer->UseShader();
 		UpdateShader();
-
-		
-		_renderer->TextureEnableDiffuse(_material->GetDiffuse()->_id);
-		_renderer->TextureEnableSpecular(_material->GetSpecular()->_id);
 		_renderer->TextureEnableDiffuse(_material->GetDiffuse()->_id);
 		_renderer->TextureEnableSpecular(_material->GetSpecular()->_id);
 		Entity2D::Draw();
 		_renderer->TextureDisable();
-		_renderer->CleanShader();
 		_renderer->BlendDisable();
 	}
 
 	void Sprite::DeInit()
 	{
 		_renderer->UnBind(_VAO, _VBO, _EBO, _UVB);
-		_renderer->TextureDelete(_uniformTexture, _material->GetDiffuse()->_id);
-		_renderer->TextureDelete(_uniformTexture, _material->GetSpecular()->_id);
+		_renderer->TextureDelete(_uniformDiffuseTexture, _material->GetDiffuse()->_id);
+		_renderer->TextureDelete(_uniformSpecularTexture, _material->GetSpecular()->_id);
 
 		if (_material != nullptr)
 		{
@@ -193,7 +185,6 @@
 	void Sprite::SetUniforms()
 	{
 		Entity2D::SetUniforms();
-		_renderer->SetUniform(_uniformTexture, "ourTexture");
 		_renderer->SetUniform(_uniformDiffuseTexture, "material.diffuse1");
 		_renderer->SetUniform(_uniformSpecularTexture, "material.specular1");
 		_renderer->UpdateInt(_uniformDiffuseTexture, 0);

@@ -30,12 +30,6 @@ public:
 
 protected:
 	Material* _material;
-	uint _uniformColor;
-	uint _uniformAlpha;
-	uint _uniformUseTexture;
-	uint _uniformUseMaterial;
-	uint _uniformAffectedLight;
-	uint _uniformAffectedLightMaps;
 
 	uint _VAO, _VBO, _EBO, tam, vertices;
 	float* vertexs;
