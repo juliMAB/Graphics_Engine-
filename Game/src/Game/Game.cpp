@@ -89,7 +89,9 @@ Game::Game() {
 	_dirLight			  =nullptr;
 	for (int i = 0; i < 4; i++)
 		_pointLight[i] = nullptr;
-	
+	for (int i = 0; i < 4; i++)
+		_lightcubes[i] = nullptr;
+
 	_spotLight	  =nullptr;
 	_modeltest	  =nullptr;
 }
@@ -137,6 +139,9 @@ void Game::Init() {
 		_pointLight[i]->SetConstant(1.0f);
 		_pointLight[i]->SetLinear(0.09f);
 		_pointLight[i]->SetQuadratic(0.032f);
+
+		_lightcubes[i] = new Shape(_renderer);
+		_lightcubes[i]->Init(SHAPE_TYPE::QUAD);
 	}
 	
 	_spotLight = new SpotLight(_renderer);
@@ -162,19 +167,19 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
+	for (int i = 0; i < 4; i++)
+		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();
 	_floor->UpdateMaterial();
 	LightsUpdate();
 	processInput();
-	for (int i = 0; i < 15; i++)
-	{
-		//_sprites[i]->UpdateMaterial();
-	}
 
 }
 void Game::Draw() {
 	_floor->Draw();
 	_modeltest->draw();
+	for (int i = 0; i < 4; i++)
+		_lightcubes[i]->Draw();
 }
 void Game::UpdateImgui()
 {

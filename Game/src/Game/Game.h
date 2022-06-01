@@ -18,6 +18,7 @@ class Game : BaseGame {
 	DirectionLight* _dirLight;
 	PointLight* _pointLight[4];
 	SpotLight* _spotLight;
+	Shape* _lightcubes[4];
 	//bool show_window = true;
 	
 public:

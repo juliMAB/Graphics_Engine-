@@ -137,7 +137,6 @@ void Camera::UpdateCameraVectors()
 {
 	if (!_ejes)
 	{
-		UpdateView();
 		return;
 	}
 	// calculate the new Front vector
@@ -159,19 +158,19 @@ void Camera::UpdateView()
 	switch (cameraType)
 	{
 	case CAMERA_TYPE::FPS:
-		targetLook = transform.position + transform.forward;
+		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
 		break;
 	case CAMERA_TYPE::TPS:
 		if (_target != NULL)
-			targetLook = _target->getPos();
+			SetViewMatrix(transform.position, _target->getPos(), transform.up);
 		break;
 	case CAMERA_TYPE::FC:
-		//targetLook = transform.position + transform.forward;
+		SetViewMatrix(transform.position, transform.position + transform.forward, transform.up);
 		break;
 	default:
 		break;
 	}
-	SetViewMatrix(transform.position, targetLook, transform.up);
+	
 	
 }
 void Camera::ProcessMouseScroll(float yoffset)
@@ -189,6 +188,8 @@ void Camera::ProcessMouseScroll(float yoffset)
 
 void Camera::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 {
+	if (!_mouseMoveCamera)
+		return;
 	xoffset *= _sensitivity;
 	yoffset *= _sensitivity;
 	
@@ -241,16 +242,8 @@ void Camera::ToogleEjes()
 {
 	_ejes = !_ejes;
 	if (_ejes)
-		std::cout << "Mouse control set (TRUE)"<<std::endl;
+		std::cout << "Mouse control set (TRUE)EJES"<<std::endl;
 	else
-		std::cout << "Mouse control set (FALSE)" << std::endl;
+		std::cout << "Mouse control set (FALSE)NOEJES" << std::endl;
 }
-void Camera::SetFoward(vec3 value)
-{
-	transform.forward = value;
-}
-void Camera::SetTargetLook(vec3 value)
-{
-	transform.forward = value - transform.position;
-	std::cout << "Update Camera Forward" << std::endl;
-}
+
