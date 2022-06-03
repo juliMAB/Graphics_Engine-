@@ -72,23 +72,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)Bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)Build\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Build\Obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>InLoving</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)Bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)Build\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Build\Obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>InLoving</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir)Bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)Build\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Build\Obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>InLoving</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)Bin\$(Platform)\$(Configuration)\</OutDir>
-    <IntDir>$(ProjectDir)\Obj\$(Configuration)\</IntDir>
+    <OutDir>$(ProjectDir)Build\Bin\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)Build\Obj\$(Platform)\$(Configuration)\</IntDir>
+    <TargetName>InLoving</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -108,11 +112,18 @@
       <AdditionalDependencies>GraphicsEngine.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\$(Platform)\$(Configuration)\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)" /Y
-MKDIR "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)\res"
-XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\res" /e /h /y /s
-</Command>
+      <Command>XCOPY "$(ProjectDir)Shaders" "$(OutDir)Shaders\"  /e /h /y /s
+XCOPY "$(ProjectDir)lib" "$(OutDir)"  /e /h /y /s
+XCOPY "$(ProjectDir)res\" "$(OutDir)res\"  /e /h /y /s</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)Shaders" "$(ProjectDir)Shaders\"  /e /h /y /s
+XCOPY "$(SolutionDir)lib" "$(ProjectDir)lib\"  /e /h /y /s</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -133,11 +144,18 @@ XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configura
       <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Build\Bin\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)GraphicsEngine\Bin\$(Platform)\$(Configuration)\GraphicsEngine.dll" "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)" /Y
-MKDIR "$(SolutionDir)Game\Bin\$(Platform)\$(Configuration)\res"
-XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configuration)\res" /e /h /y /s
-</Command>
+      <Command>XCOPY "$(ProjectDir)Shaders" "$(OutDir)Shaders\"  /e /h /y /s
+XCOPY "$(ProjectDir)lib" "$(OutDir)"  /e /h /y /s
+XCOPY "$(ProjectDir)res\" "$(OutDir)res\"  /e /h /y /s</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)Shaders" "$(ProjectDir)Shaders\"  /e /h /y /s
+XCOPY "$(SolutionDir)lib" "$(ProjectDir)lib\"  /e /h /y /s</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -154,9 +172,18 @@ XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configura
       <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Build\Bin\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
+      <Command>XCOPY "$(ProjectDir)Shaders" "$(OutDir)Shaders\"  /e /h /y /s
+XCOPY "$(ProjectDir)lib" "$(OutDir)"  /e /h /y /s
+XCOPY "$(ProjectDir)res\" "$(OutDir)res\"  /e /h /y /s</Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)Shaders" "$(ProjectDir)Shaders\"  /e /h /y /s
+XCOPY "$(SolutionDir)lib" "$(ProjectDir)lib\"  /e /h /y /s</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
       <Command>
       </Command>
-    </PostBuildEvent>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -177,8 +204,18 @@ XCOPY "$(SolutionDir)Game\res\" "$(SolutionDir)\Game\Bin\$(Platform)\$(Configura
       <AdditionalLibraryDirectories>$(SolutionDir)GraphicsEngine\Build\Bin\$(Platform)\$(Configuration)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)Game\LIb\MotorWin64\Release\Motor64.dll" "$(SolutionDir)Game"</Command>
+      <Command>XCOPY "$(ProjectDir)Shaders" "$(OutDir)Shaders\"  /e /h /y /s
+XCOPY "$(ProjectDir)lib" "$(OutDir)"  /e /h /y /s
+XCOPY "$(ProjectDir)res\" "$(OutDir)res\"  /e /h /y /s</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>XCOPY "$(SolutionDir)Shaders" "$(ProjectDir)Shaders\"  /e /h /y /s
+XCOPY "$(SolutionDir)lib" "$(ProjectDir)lib\"  /e /h /y /s</Command>
+    </PreBuildEvent>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Game\Game.cpp" />

@@ -387,3 +387,5 @@ FodyWeavers.xsd
 *.sln.iml
 Game/Shaders
 Game/imgui.ini
+Shaders
+lib
