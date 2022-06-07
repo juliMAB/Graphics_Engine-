@@ -9,9 +9,14 @@
 #include "Juli/Jinterface.h"
 #include <iostream>
 #include <list>
-#include "Mesh/MyMesh.h"
 #include "Importer/Importer.h"
 
+
+#include "Exports/Exports.h"
+#include "Entity/entity.h"
+#include <Material/material.h>
+#include "Importer/Importer.h"
+#include <vector>
 
 class GraficosEngine_API Entity3D : public Entity
 {
@@ -22,7 +27,7 @@ public:
 	void draw();
 	void deinit();
 private:
-	std::vector<myMesh> meshes;
+	std::vector<Mesh> meshes;
 };
 
 #endif

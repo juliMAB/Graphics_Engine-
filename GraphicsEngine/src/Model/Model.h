@@ -13,7 +13,6 @@
 //#include <learnopengl/mesh.h>
 //#include <learnopengl/shader.h>
 #include "Shader/Shader.h"
-#include "Mesh/Mesh.h"
 #include "Renderer/Renderer.h"
 #include <string>
 #include <fstream>
@@ -48,7 +47,7 @@ using namespace std;
         {
             render->UpdateMVP(model);
             for (unsigned int i = 0; i < meshes.size(); i++)
-                meshes[i].Draw(*render->GetShader());
+                meshes[i].Draw();
         }
         vector<Mesh> GetMeshes() { return meshes; };
     private:

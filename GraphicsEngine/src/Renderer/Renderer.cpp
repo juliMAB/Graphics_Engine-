@@ -82,6 +82,13 @@ void Renderer::BindBuffer(uint VAO, uint VBO, int tam, float* vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
 }
+void Renderer::BindBuffer(uint VAO, uint VBO, int tam, const void* vertices)
+{
+	glBindVertexArray(VAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
+}
 void Renderer::BindIndexes(uint& EBO, int tam, uint* indexs)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -125,6 +132,11 @@ void Renderer::SetBaseAttribs(uint location, int size, int stride, int offset)
 {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));
 	glEnableVertexAttribArray(location);
+}
+void Renderer::SetBaseAttribs(uint location, int size, GLsizei stride, const void* offset)
+{
+	glEnableVertexAttribArray(location);
+	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride, offset);
 }
 void Renderer::SetTextureAttribs(uint location, int size, int stride, int offset)
 {
@@ -187,7 +199,9 @@ void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts,
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-void Renderer::DrawMesh(std::vector<myVertex> vertices, std::vector<unsigned int> indices, std::vector<myTexture> textures, unsigned int VAO)
+
+
+void Renderer::DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO)
 {
 	unsigned int diffuseNr = 1;
 	unsigned int specularNr = 1;

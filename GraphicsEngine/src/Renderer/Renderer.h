@@ -9,23 +9,24 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
-
+#include <Data/Texture.h>
+#include "Data/Vertex.h"
 
 enum TypeShape {
 	Triangle=3, Quad
 };
 
-struct  myVertex {
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-};
-
-struct myTexture {
-	unsigned int id;
-	std::string type;
-	std::string path;  // we store the path of the texture to compare with other textures
-};
+//struct  myVertex {
+//	glm::vec3 Position;
+//	glm::vec3 Normal;
+//	glm::vec2 TexCoords;
+//};
+//
+//struct myTexture {
+//	unsigned int id;
+//	std::string type;
+//	std::string path;  // we store the path of the texture to compare with other textures
+//};
 
 
 typedef unsigned int uint;
@@ -56,7 +57,9 @@ public:
 	void GenBuffers(uint& VAO, uint& VBO, uint& EBO);
 	void GenBuffers(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
 	void BindBuffer(uint VAO, uint VBO, int tam, float* vertices);
+	void BindBuffer(uint VAO, uint VBO, int tam, const void* vertices);
 	void SetBaseAttribs(uint location, int size, int stride, int offset);
+	void SetBaseAttribs(uint location, int size, GLsizei stride, const void* offset);
 	void SetTextureAttribs(uint location, int size, int stride, int offset);
 	void UpdateMVP(glm::mat4 model);
 	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
@@ -89,7 +92,7 @@ public:
 	void SetUniform(uint& uniform, const char* loc);
 	void SetBackgroundColor(glm::vec4 color);
 	void SetLight(uint uColor, uint uPos, uint uAmbient, glm::vec3 colorLight, glm::vec3 posLight, float ambient);
-	void DrawMesh(std::vector<myVertex> vertices, std::vector<unsigned int> indices, std::vector<myTexture> textures, unsigned int VAO);
+	void DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO);
 	Shader* GetShader() { return _shader; }
 };
 #endif
