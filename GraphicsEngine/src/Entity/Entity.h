@@ -76,6 +76,7 @@ static std::list<Entity*> EntitysLists;
 
 	//---other---
 	void DebugInfo();
+	void SetName(std::string name) { this->_name = name; };
 
 
 private:

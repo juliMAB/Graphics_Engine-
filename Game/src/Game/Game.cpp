@@ -106,7 +106,7 @@ void Game::Init() {
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
 	
-	_modeltest = new Entity3D(_renderer, "res/g/backpack.obj");
+	_modeltest = new Entity3D(_renderer, "res/h/model.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
 		int x = 0;
@@ -116,8 +116,9 @@ void Game::Init() {
 
 	//--------FLOOR----------
 	_floor = new Sprite(_renderer);
-	_floor->Init(SPRITE_TYPE::CUBE);
+	_floor->Init(SPRITE_TYPE::QUAD);
 	_floor->SetMateria(defaultM);
+	_floor->SetName("piso");
 	//----------------------
 
 
@@ -158,6 +159,8 @@ void Game::Init() {
 
 	_cam->SetCameraType(CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
+
+	_cam->ToogleEjes();
 	//_cam->SetFoward(vec3(0, 0, -1));
 	//_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }

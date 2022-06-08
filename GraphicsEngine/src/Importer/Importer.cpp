@@ -11,11 +11,11 @@ Importer::~Importer()
 
 std::vector<Mesh> Importer::loadModel(std::string path)
 {
-	Model* newModel = new Model(path);
+	Model* newModel1 = new Model(path);
 
-	vector<Mesh> meshes;
+	vector<Mesh> importerMeshes = newModel1->GetMeshes();
 
-	vector<Mesh> importerMeshes = newModel->GetMeshes();
-
-	return newModel->GetMeshes();
+	delete newModel1;
+	
+	return importerMeshes;
 }
