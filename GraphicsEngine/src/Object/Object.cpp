@@ -10,6 +10,7 @@ namespace JuliEngine
 	{
 		m_instanceID = m_index;
 		m_index++;
+		lisObjects.push_front(this);
 	}
 	Object::~Object()
 	{
