@@ -100,6 +100,9 @@
     <Filter Include="src\Object">
       <UniqueIdentifier>{90cd60a1-933a-47ef-be2d-2bdf14e3364c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Component">
+      <UniqueIdentifier>{31b34d4b-d892-469c-9a51-1e062f5a839c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="src\Object\Object.cpp">
       <Filter>src\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Component\Component.cpp">
+      <Filter>src\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -367,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="src\Object\HideFlags.h">
       <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Component\Component.h">
+      <Filter>src\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
