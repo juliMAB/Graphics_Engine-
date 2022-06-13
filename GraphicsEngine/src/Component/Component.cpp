@@ -4,11 +4,11 @@ namespace JuliEngine
 #pragma region PRIVATE_VARIABLES
 #pragma endregion
 #pragma region CONSTRUCTORS
-Component::Component()
-{
-}
+	Component::Component() : Object()
+	{
+	}
 
-Component::~Component()
+	Component::~Component()
 {
 }
 
