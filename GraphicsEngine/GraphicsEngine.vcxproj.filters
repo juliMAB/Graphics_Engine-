@@ -94,6 +94,12 @@
     <Filter Include="Archivos de encabezado\MyMesh">
       <UniqueIdentifier>{deee2740-7162-4f1e-baaa-71e7a7a415c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{c6dff739-13f1-4635-bdd1-90aa2ccbe590}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Object">
+      <UniqueIdentifier>{90cd60a1-933a-47ef-be2d-2bdf14e3364c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -206,6 +212,9 @@
     </ClCompile>
     <ClCompile Include="src\MyMesh\Mesh.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Object\Object.cpp">
+      <Filter>src\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="src\Texture\Texture.h">
       <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\Object.h">
+      <Filter>src\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Object\HideFlags.h">
+      <Filter>src\Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
