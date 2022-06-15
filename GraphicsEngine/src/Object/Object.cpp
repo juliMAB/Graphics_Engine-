@@ -9,20 +9,16 @@ namespace JuliEngine
 	Object::Object()
 	{
 		m_instanceID = m_index;
-		m_index++;
 		lisObjects.push_front(this);
+		_name = "Object + " + m_index;
+		m_index++;
 	}
 	Object::~Object()
 	{
+		lisObjects.remove(this);
 	}
 #pragma endregion
 #pragma region GETTERS
-
-
-	HideFlags Object::GethideFlags()
-	{
-		return _hideFlags;
-	}
 
 
 	string Object::Getname()
@@ -37,10 +33,6 @@ namespace JuliEngine
 	void Object::Setname(string name)
 	{
 		_name = name;
-	}
-	void Object::SethideFlags(HideFlags hidenFlags)
-	{
-		_hideFlags = hidenFlags;
 	}
 
 #pragma endregion
