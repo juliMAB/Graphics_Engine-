@@ -8,15 +8,14 @@
 #include "Juli/Jinterface.h"
 #include <iostream>
 #include <list>
-#include "Behaviour/Behaviour.h"
+#include "GameObject/GameObject.h"
 namespace JuliEngine
 {
-	class GraficosEngine_API Entity2 : public Behaviour {
+	class GraficosEngine_API Entity2 : public GameObject {
 	public:
 		static int CuantityEntitys;
 		static std::list<Entity2*> EntitysLists;
 		////---C y D----------
-		//Entity2();
 		//Entity2(Renderer* renderer);
 		//~Entity2();
 		////------------------
@@ -58,16 +57,11 @@ namespace JuliEngine
 	protected:
 		Renderer* _renderer;
 
-		Transform transform;
-
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
 
 		//virtual void SetUniforms();
-		//
-		//void UpdateMatrixData();
-		//void UpdateTransform();
 	};
 }
 
