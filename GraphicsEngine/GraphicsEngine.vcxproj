@@ -250,6 +250,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Entity\Entity3D.h" />
     <ClInclude Include="src\Entity\vertexs.h" />
     <ClInclude Include="src\Exports\Exports.h" />
+    <ClInclude Include="src\GameObject\GameObject.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imconfig.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imgui_internal.h" />

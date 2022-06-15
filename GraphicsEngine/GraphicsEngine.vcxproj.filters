@@ -115,6 +115,9 @@
     <Filter Include="src\Entity2">
       <UniqueIdentifier>{95e5bbb4-4394-455c-9d66-b0f8dbb739da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameObject">
+      <UniqueIdentifier>{486c6d8c-23b9-44b8-bfcd-3e1bbffc3c32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -406,6 +409,9 @@
     </ClInclude>
     <ClInclude Include="src\Entity2\Entity2.h">
       <Filter>src\Entity2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GameObject.h">
+      <Filter>src\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
