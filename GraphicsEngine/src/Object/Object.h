@@ -20,8 +20,8 @@ namespace JuliEngine
 		void Setname(string name);
 
 
-		static bool operator ==(Object x, Object y);
-		static bool operator !=(Object x, Object y);
+		bool operator==(const Object& x) const;
+		bool operator!=(const Object& x) const;
 	private:
 		//
 		// Resumen:

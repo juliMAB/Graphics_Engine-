@@ -46,14 +46,18 @@ namespace JuliEngine
 #pragma endregion
 #pragma region OPERATORS
 
-	bool Object::operator==(Object x, Object y)
+
+
+
+
+	bool Object::operator==(const Object& x) const
 	{
-		return(&x==&y);
+		return *this == x;
 	}
 
-	bool Object::operator!=(Object x, Object y)
+	bool Object::operator!=(const Object& x) const
 	{
-		return(&x != &y);
+		return *this != x;
 	}
 #pragma endregion
 
