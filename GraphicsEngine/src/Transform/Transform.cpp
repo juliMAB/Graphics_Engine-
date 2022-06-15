@@ -44,6 +44,41 @@ namespace JuliEngine
 		return q;
 	}
 
+	Transform::Transform()
+	{
+		 position = vec3(0,0,0);
+		 localPosition = vec3(0,0,0);
+		 eulerAngles = vec3(0,0,0);
+		 right = vec3(1,0,0);
+		 up = vec3(0,1,0);
+		 forward = vec3(0,0,1);
+		 rotation = quat(0,0,0,1);
+		 localRotation = quat(0, 0, 0, 1);
+		 localScale = vec3(1);
+		 lossyScale = vec3(1);
+		 parent = nullptr;
+		 worldToLocalMatrix = mat4();
+		 localToWorldMatrix = mat4();
+		 baseMatrix = mat4();
+		 translate  = mat4();
+		 rotationX  = mat4();
+		 rotationY  = mat4();
+		 rotationZ  = mat4();
+		 scale      = mat4();
+		childs = list<Transform*>();
+
+	}
+
+	Transform::~Transform()
+	{
+		if (childs.size()>0)
+		{
+			for (std::list<Transform*>::iterator it = childs.begin(); it != childs.end(); it++)
+				delete *it;
+			childs.clear();
+		}
+	}
+
 	void Transform::updateTransformRotation()
 	{
 		rotation = EulerToQuat(eulerAngles);

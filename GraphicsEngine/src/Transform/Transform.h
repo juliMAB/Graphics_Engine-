@@ -1,17 +1,20 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
-#include "Component/Component.h"
 #include "GLM/glm.hpp"
-//#include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
+#include "Exports/Exports.h"
+#include <list>
 using namespace glm;
+using namespace std;
 namespace JuliEngine
 {
-	class Transform : Component
+	class GraficosEngine_API Transform
 	{
 	public:
+
 		Transform();
 		~Transform();
+	protected:
 #pragma region GETTERS
 		vec3 getposition()			{ return position		; };
 		vec3 getlocalPosition()		{ return localPosition	; };
@@ -62,7 +65,7 @@ namespace JuliEngine
 		mat4 rotationY;
 		mat4 rotationZ;
 		mat4 scale;
-		list<Transform> childs;
+		list<Transform*> childs;
 
 
 		void setWMatrixTranslate() { translate = glm::translate(mat4(1.0f), position);  }

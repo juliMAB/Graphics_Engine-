@@ -10,9 +10,11 @@ namespace JuliEngine
 {
 	class GraficosEngine_API Object
 	{
-	protected:
+	public:
+
 		Object();
 		~Object();
+	protected:
 
 		string Getname();
 		void Setname(string name);
