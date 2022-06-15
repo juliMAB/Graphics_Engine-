@@ -232,6 +232,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Tile\TileMap.cpp" />
     <ClCompile Include="src\Tile\tinyxml2.cpp" />
     <ClCompile Include="src\Time\Time.cpp" />
+    <ClCompile Include="src\Transform\Transform.cpp" />
     <ClCompile Include="src\Window\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -275,6 +276,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Renderer\Renderer.h" />
     <ClInclude Include="src\Shader\Shader.h" />
     <ClInclude Include="src\Shape\Shape.h" />
+    <ClInclude Include="src\Space\Space.h" />
     <ClInclude Include="src\Sprite\Sprite.h" />
     <ClInclude Include="src\TextureImporter\stb_image.h" />
     <ClInclude Include="src\TextureImporter\TextureImporter.h" />
@@ -284,6 +286,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Tile\TileMap.h" />
     <ClInclude Include="src\Tile\tinyxml2.h" />
     <ClInclude Include="src\Time\Time.h" />
+    <ClInclude Include="src\Transform\Transform.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

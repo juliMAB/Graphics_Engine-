@@ -103,6 +103,12 @@
     <Filter Include="src\Component">
       <UniqueIdentifier>{31b34d4b-d892-469c-9a51-1e062f5a839c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Transform">
+      <UniqueIdentifier>{aac0a272-d0e0-4290-ba8f-1f06600c486d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Space">
+      <UniqueIdentifier>{7ea7dd25-528a-41e3-8c89-a7880d044aa3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -221,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="src\Component\Component.cpp">
       <Filter>src\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Transform\Transform.cpp">
+      <Filter>src\Transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +385,12 @@
     </ClInclude>
     <ClInclude Include="src\Component\Component.h">
       <Filter>src\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Transform\Transform.h">
+      <Filter>src\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Space\Space.h">
+      <Filter>src\Space</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
