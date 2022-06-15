@@ -1,30 +1,33 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include "Object/Object.h"
+#include "Transform/Transform.h"
 namespace JuliEngine
 {
-	class Component : Object
+	class GraficosEngine_API Component : public Object
 	{
-	public:
+    public:
 		Component();
 		~Component();
 
-       // public Transform transform{ get; }
+    protected:
             
        
-        void SetTag(string tag);
-        string GetTag();
+        void setTag(string v) { tag = v; };
+        string getTag() { return tag; };
+        Transform getTransform() { return transform; };
 	private:
             //
             // Resumen:
             //     The tag of this game object.
-        string _tag;
+        string tag;
         //
             // Resumen:
             //     The game object this component is attached to. A component is always attached
             //     to a game object.
         // public GameObject gameObject{ get; }
 
+        Transform transform;
 
 	};
 }
