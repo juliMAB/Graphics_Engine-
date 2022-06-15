@@ -14,7 +14,6 @@ namespace JuliEngine
 
 		Transform();
 		~Transform();
-	protected:
 #pragma region GETTERS
 		vec3 getposition()			{ return position		; };
 		vec3 getlocalPosition()		{ return localPosition	; };
@@ -31,19 +30,20 @@ namespace JuliEngine
 #pragma endregion
 
 #pragma region SETTERS
-		void setposition(vec3 v) { position = v; setWMatrixTranslate(); };
-		void setlocalPosition(vec3 v) { localPosition = v; };
-		void seteulerAngles(vec3 v) { eulerAngles = v; };
-		void setright(vec3 v) { right = v; };
-		void setup(vec3 v) { up = v; };
-		void setforward(vec3 v) { forward = v; };
-		void setrotation(vec3 v) { rotation = v; };
-		void setlocalRotation(vec3 v) { localRotation = v; };
-		void setlocalScale(vec3 v) { localScale = v; };
-		void setlossyScale(vec3 v) { lossyScale = v; };
+		void setposition(vec3 v) { position = v; setWMatrixTranslate(); updateMatrix(); };
+		void setlocalPosition(vec3 v) { localPosition = v; setWMatrixTranslate(); updateMatrix(); };
+		void seteulerAngles(vec3 v) { eulerAngles = v; baseRotation(v); updateTransformRotation(); updateMatrix(); };
+		//void setright(vec3 v) { right = v; };
+		//void setup(vec3 v) { up = v; };
+		//void setforward(vec3 v) { forward = v; };
+		//void setrotation(vec3 v) { rotation = v; };
+		void setlocalRotation(vec3 v) { seteulerAngles(v); };
+		void setlocalScale(vec3 v) { localScale = v; updateScaleMat(); };
+		//void setlossyScale(vec3 v) { lossyScale = v; };
 		void setparent(Transform* v) { parent = v; };
 
 #pragma endregion
+	protected:
 
 	private:
 		vec3 position;
@@ -70,6 +70,8 @@ namespace JuliEngine
 
 		void setWMatrixTranslate() { translate = glm::translate(mat4(1.0f), position);  }
 		void updateTransformRotation();
+		void baseRotation(vec3 v);
+		void updateScaleMat() { scale = scale4(mat4(1.0f), localScale);}
 		void updateMatrix() { baseMatrix = translate * rotationX * rotationY * rotationZ * scale; }
 	};
 #pragma region OTHERS

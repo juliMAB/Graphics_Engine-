@@ -243,6 +243,9 @@
     <ClCompile Include="src\Behaviour\Behaviour.cpp">
       <Filter>src\Behaviour</Filter>
     </ClCompile>
+    <ClCompile Include="src\Entity2\Entity2.cpp">
+      <Filter>src\Entity2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Juli\Utilitis.h">

@@ -86,5 +86,13 @@ namespace JuliEngine
 		up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
 		right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
 	}
+	void Transform::baseRotation(vec3 v)
+	{
+		localRotation = v;
+		eulerAngles = v;
+		rotationX = glm::rotate(glm::mat4(1.f), glm::radians(v.x), glm::vec3(1.f, 0.f, 0.f));
+		rotationY = glm::rotate(glm::mat4(1.f), glm::radians(v.y), glm::vec3(0.f, 1.f, 0.f));
+		rotationZ = glm::rotate(glm::mat4(1.f), glm::radians(v.z), glm::vec3(0.f, 0.f, 1.f));
 
+	}
 }
