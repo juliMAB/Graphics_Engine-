@@ -1,8 +1,7 @@
 #ifndef ENTITY3D_H
 #define ENTITY3D_H
-#include "Exports/Exports.h"
-#include "Renderer/Renderer.h"
 #include "Entity.h"
+#include "Entity2/Entity2.h"
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
@@ -20,17 +19,17 @@
 #include <Material/material.h>
 #include "Importer/Importer.h"
 #include <vector>
-
-class GraficosEngine_API Entity3D : public Entity
+namespace JuliEngine
 {
-public:
-	Entity3D();
-	Entity3D(Renderer* render, std::string path);
-	~Entity3D();
-	void draw();
-	void deinit();
-private:
-	std::vector<Mesh> meshes;
-};
+	class GraficosEngine_API Entity3D : public Entity2
+	{
+	public:
+		Entity3D(Renderer* render, std::string path);
+		~Entity3D() {};
+		void draw();
+	private:
+		std::vector<Mesh> meshes;
+	};
+}
 
 #endif

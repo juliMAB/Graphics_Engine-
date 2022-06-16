@@ -7,7 +7,7 @@ namespace JuliEngine
 	class GraficosEngine_API GameObject : protected Object
 	{
 	public:
-		GameObject() { active = true; layer = 0; transform = Transform(); tag = ""; };
+		GameObject() { active = true; layer = 0; /*transform = Transform();*/ tag = ""; };
 		~GameObject() { transform.~Transform(); };
 		Transform getTransform() { return transform; };
 		int getLayer() { return layer; };

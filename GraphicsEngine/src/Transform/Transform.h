@@ -26,7 +26,7 @@ namespace JuliEngine
 		vec3 getlocalScale()		{ return localScale		; };
 		vec3 getlossyScale()		{ return lossyScale		; };
 		Transform* getparent()		{ return parent			; };
-
+		mat4 getmodel()				{ updateMatrix(); return baseMatrix		; };
 #pragma endregion
 
 #pragma region SETTERS

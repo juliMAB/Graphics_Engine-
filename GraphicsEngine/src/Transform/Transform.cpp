@@ -57,16 +57,19 @@ namespace JuliEngine
 		 localScale = vec3(1);
 		 lossyScale = vec3(1);
 		 parent = nullptr;
-		 worldToLocalMatrix = mat4();
-		 localToWorldMatrix = mat4();
-		 baseMatrix = mat4();
-		 translate  = mat4();
-		 rotationX  = mat4();
-		 rotationY  = mat4();
-		 rotationZ  = mat4();
-		 scale      = mat4();
+		 worldToLocalMatrix = mat4(1);
+		 localToWorldMatrix = mat4(1);
+		 baseMatrix = mat4(1);
+		 translate  = mat4(1);
+		 rotationX  = mat4(1);
+		 rotationY  = mat4(1);
+		 rotationZ  = mat4(1);
+		 scale      = mat4(1);
 		childs = list<Transform*>();
-
+		setWMatrixTranslate();
+		baseRotation(eulerAngles);
+		updateTransformRotation();
+		updateMatrix();
 	}
 
 	Transform::~Transform()
