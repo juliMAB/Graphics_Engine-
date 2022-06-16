@@ -14,7 +14,7 @@ namespace JuliEngine
 	void Entity3D::draw()
 	{
 		SetUniforms();
-		_renderer->UpdateMVP(transform.getmodel());
+		_renderer->UpdateMVP(getTransform().getmodel());
 
 		for (int i = 0; i < meshes.size(); i++)
 		{

@@ -18,15 +18,19 @@ namespace JuliEngine
 		void setLayer(int v) { layer = v; };
 		void setActive(bool v) { active = v; };
 		void setTag(string v) { tag = v; };
+		/// <summary>
+		/// Tener en cuenta que mientras sea estatic no se puede mover.
+		/// </summary>
+		/// <param name="value"></param>
 		void setisStatic(bool v) { isStatic = v; };
 
 	protected:
+	private:
 		Transform transform;
 		int layer;
 		bool active;
 		string tag;
 		bool isStatic;
-	private:
 
 	};
 

@@ -245,6 +245,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Camera\Camera.h" />
     <ClInclude Include="src\Collision\Collision.h" />
     <ClInclude Include="src\Component\Component.h" />
+    <ClInclude Include="src\Data\Vertex.h" />
     <ClInclude Include="src\Entity2D\Entity2D.h" />
     <ClInclude Include="src\Entity2\Entity2.h" />
     <ClInclude Include="src\Entity\Entity.h" />

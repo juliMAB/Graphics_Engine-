@@ -17,13 +17,13 @@ namespace JuliEngine
 
 	Entity2::~Entity2()
 	{
-		transform.~Transform();
+		getTransform().~Transform();
 	}
 
 	void Entity2::DebugInfo()
 	{
 		cout << endl << "-----ExampleDebugInfoEntity2------" << endl;
-
+		Transform transform = getTransform();
 		cout << "pos: " + VecToString::vec3toString(transform.getposition())		<< std::endl;
 		cout << "rot: " + VecToString::vec3toString(transform.geteulerAngles())		<< std::endl;
 		cout << "sca: " + VecToString::vec3toString(transform.getlocalScale())		<< std::endl;

@@ -16,28 +16,28 @@ namespace JuliEngine
 		~Entity2();
 		////------------------
 		////----SetPos--------
-		void SetPos(glm::vec3 pos)				{ transform.setposition(pos			   ); }
-		void SetPos(float x, float y, float z)	{ SetPos(vec3(x	   , y    , z		  )); }
-		void SetPos(float x, float y)			{ SetPos(vec3(x	   , y    , getPos().z)); }
-		void SetPos(glm::vec2 pos)				{ SetPos(vec3(pos.x, pos.y, getPos().z)); }
+		void SetPos(glm::vec3 pos)				{if(getisStatic())return;             getTransform().setposition(pos	   ); }
+		void SetPos(float x, float y, float z)	{SetPos(vec3(x	   , y    , z		  )); }
+		void SetPos(float x, float y)			{SetPos(vec3(x	   , y    , getPos().z)); }
+		void SetPos(glm::vec2 pos)				{SetPos(vec3(pos.x, pos.y, getPos().z)); }
 		////------------------
 		////----SetRot--------
-		void SetRotations(glm::vec3 rotation)	 { transform.seteulerAngles(rotation); }
-		void SetRotX(float x)					 { vec3 a = transform.geteulerAngles(); SetRotations(vec3(x, a.y, a.z)); }
-		void SetRotY(float y)                    { vec3 a = transform.geteulerAngles(); SetRotations(vec3(a.x, y, a.z)); }
-		void SetRotZ(float z)                    { vec3 a = transform.geteulerAngles(); SetRotations(vec3(a.x, a.y, z)); }
+		void SetRotations(glm::vec3 rotation)	 {if(getisStatic())return; getTransform().seteulerAngles(rotation); }
+		void SetRotX(float x)					 {vec3 a = getTransform().geteulerAngles(); SetRotations(vec3(x, a.y, a.z)); }
+		void SetRotY(float y)                    {vec3 a = getTransform().geteulerAngles(); SetRotations(vec3(a.x, y, a.z)); }
+		void SetRotZ(float z)                    {vec3 a = getTransform().geteulerAngles(); SetRotations(vec3(a.x, a.y, z)); }
 		void SetRotations(float x, float y, float z)								  { SetRotations(vec3(x, y, z));	 }
 		////------------------
 		////----SetScale------
-		void SetScale(glm::vec3 v)				 { transform.setlocalScale(v);			}
+		void SetScale(glm::vec3 v)				 { if (getisStatic())return; getTransform().setlocalScale(v);		}
 		void SetScale(float x, float y)			 { SetScale(vec3(x, y, getScale().z	)); }
 		void SetScale(float x, float y, float z) { SetScale(vec3(x, y, z));				}
 		void SetScaleAllSame(float v)			 { SetScale(v, v, v);					}
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
-		glm::vec3 getPos()		{ return transform.getposition	 (); }
-		glm::vec3 getRot()		{ return transform.geteulerAngles(); }
-		glm::vec3 getScale()	{ return transform.getlocalScale (); }
+		glm::vec3 getPos()		{ return getTransform().getposition	 (); }
+		glm::vec3 getRot()		{ return getTransform().geteulerAngles(); }
+		glm::vec3 getScale()	{ return getTransform().getlocalScale (); }
 		////---other---
 		void DebugInfo();
 
