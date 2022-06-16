@@ -8,6 +8,7 @@ class Game : BaseGame {
 	//Sprite* _sprites[quantity];
 	//Shape* _pj;
 	//Sprite* _pjS;
+	JuliEngine::Entity2* _a;
 	Entity3D* _modeltest;
 	Camera* _cam;
 	float cameraSpeed = 30.f;
