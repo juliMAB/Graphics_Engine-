@@ -1,11 +1,8 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
-
+#define IMPORTER true
 #include "../Exports/Exports.h"
 #include "../Renderer/Renderer.h"
-//#include "Mesh/MyMesh.h"
-//#include "Mesh/Mesh.h"
-//#include "Model/Model.h"
 #include <MyMesh/Mesh.h>
 #include <vector>
 
@@ -18,8 +15,7 @@ public:
 
 protected:
 private:
-	//static myVertex convertType(Vertex vertex);
-	//static myTexture convertType(Texture texture);
+
 };
 	
 
