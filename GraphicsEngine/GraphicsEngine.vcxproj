@@ -204,6 +204,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Entity2\Entity2.cpp" />
     <ClCompile Include="src\Entity\Entity.cpp" />
     <ClCompile Include="src\Entity\Entity3D.cpp" />
+    <ClCompile Include="src\GameObject\GameObject.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_demo.cpp" />
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_draw.cpp" />

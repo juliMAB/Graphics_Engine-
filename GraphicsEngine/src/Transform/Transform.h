@@ -3,16 +3,17 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/type_ptr.hpp"
 #include "Exports/Exports.h"
+#include "Component/Component.h"
 #include <list>
 using namespace glm;
 using namespace std;
 namespace JuliEngine
 {
-	class GraficosEngine_API Transform
+	class GraficosEngine_API Transform : Component
 	{
 	public:
-
-		Transform();
+		Transform(){};
+		Transform(GameObject* gameObject);
 		~Transform();
 #pragma region GETTERS
 		vec3 getposition()			{ return position		; };

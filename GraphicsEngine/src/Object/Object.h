@@ -14,11 +14,11 @@ namespace JuliEngine
 
 		Object();
 		~Object();
+		void AddDescription(string name);
 	protected:
 
 		string Getname();
 		void Setname(string name);
-
 
 		bool operator==(const Object& x) const;
 		bool operator!=(const Object& x) const;
@@ -27,6 +27,7 @@ namespace JuliEngine
 			// Resumen:
 			//     The name of the object.
 		string _name;
+		string _baseDescription;
 		int m_instanceID;
 		int static m_index;
 		static list<Object*> lisObjects;

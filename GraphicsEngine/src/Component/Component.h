@@ -1,21 +1,25 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include "Object/Object.h"
-#include "Transform/Transform.h"
+//#include "Transform/Transform.h"
 namespace JuliEngine
 {
+class Transform;
+class GameObject;
 	class GraficosEngine_API Component : public Object
 	{
     public:
-		Component();
-		~Component();
+        Component() { tag = "default"; AddDescription("-> ||Component|| ");};
+        Component(Transform* transform, GameObject* gameObject);
+		~Component(){};
 
     protected:
             
        
         void setTag(string v) { tag = v; };
         string getTag() { return tag; };
-        Transform getTransform() { return transform; };
+        Transform* getTransform() { return transform; };
+        GameObject* getGameObject() { return gameObject; };
 	private:
             //
             // Resumen:
@@ -27,7 +31,8 @@ namespace JuliEngine
             //     to a game object.
         // public GameObject gameObject{ get; }
 
-        Transform transform;
+        Transform* transform;
+        GameObject* gameObject;
 
 	};
 }

@@ -50,7 +50,7 @@ namespace JuliEngine
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
-
+		//void (*ptr_funct)(void) = getPos;
 		virtual void SetUniforms();
 	};
 }

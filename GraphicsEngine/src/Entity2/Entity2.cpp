@@ -12,6 +12,7 @@ namespace JuliEngine
 		_locationTexCoord =0;
 		EntitysLists.push_front(this);
 		 Setname("Entity " + std::to_string(CuantityEntitys));
+		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
 	}
 

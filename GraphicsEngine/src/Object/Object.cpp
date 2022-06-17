@@ -10,7 +10,8 @@ namespace JuliEngine
 	{
 		m_instanceID = m_index;
 		lisObjects.push_front(this);
-		_name = "Object + " + m_index;
+		_name = "Object + " + to_string(m_index);
+		_baseDescription = _name;
 		m_index++;
 	}
 	Object::~Object()
@@ -33,6 +34,11 @@ namespace JuliEngine
 	void Object::Setname(string name)
 	{
 		_name = name;
+	}
+
+	void Object::AddDescription(string name)
+	{
+		_baseDescription += name;
 	}
 
 #pragma endregion

@@ -249,6 +249,9 @@
     <ClCompile Include="src\Entity2\Entity2.cpp">
       <Filter>src\Entity2</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameObject\GameObject.cpp">
+      <Filter>src\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Juli\Utilitis.h">

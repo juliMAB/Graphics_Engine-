@@ -44,7 +44,7 @@ namespace JuliEngine
 		return q;
 	}
 
-	Transform::Transform()
+	Transform::Transform(GameObject* gameObject) : Component(this,gameObject)
 	{
 		 position = vec3(0,0,0);
 		 localPosition = vec3(0,0,0);
@@ -70,6 +70,7 @@ namespace JuliEngine
 		baseRotation(eulerAngles);
 		updateTransformRotation();
 		updateMatrix();
+		AddDescription("-> ||Transform|| ");
 	}
 
 	Transform::~Transform()
