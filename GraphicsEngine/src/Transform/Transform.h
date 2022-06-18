@@ -4,9 +4,10 @@
 #include "GLM/gtc/type_ptr.hpp"
 #include "Exports/Exports.h"
 #include "Component/Component.h"
-#include <list>
+//#include <list>
 using namespace glm;
 using namespace std;
+#define MAXCHILDREN 500;
 namespace JuliEngine
 {
 	class GraficosEngine_API Transform : Component
@@ -47,6 +48,8 @@ namespace JuliEngine
 	protected:
 
 	private:
+		int const MAXCHILDRENS = 500;
+
 		vec3 position;
 		vec3 localPosition;
 		vec3 eulerAngles;

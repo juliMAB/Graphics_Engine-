@@ -106,7 +106,8 @@ void Game::Init() {
 	_cam = _mainCamera;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_a = new JuliEngine::Entity2(_renderer);
+	
+	//_a = new JuliEngine::Entity2(_renderer);
 	_modeltest = new Entity3D(_renderer, "res/h/model.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });

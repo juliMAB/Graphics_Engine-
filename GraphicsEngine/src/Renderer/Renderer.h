@@ -92,7 +92,7 @@ public:
 	void SetUniform(uint& uniform, const char* loc);
 	void SetBackgroundColor(glm::vec4 color);
 	void SetLight(uint uColor, uint uPos, uint uAmbient, glm::vec3 colorLight, glm::vec3 posLight, float ambient);
-	void DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO);
+	//void DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO);
 	Shader* GetShader() { return _shader; }
 };
 #endif

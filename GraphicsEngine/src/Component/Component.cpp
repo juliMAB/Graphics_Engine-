@@ -18,5 +18,8 @@ namespace JuliEngine
 		tag = "default";
 		AddDescription("-> ||Component|| ");
 	}
+	Component::~Component()
+	{
+	}
 }
 

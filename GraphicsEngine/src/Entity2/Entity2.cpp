@@ -18,7 +18,8 @@ namespace JuliEngine
 
 	Entity2::~Entity2()
 	{
-		getTransform().~Transform();
+		printf(getName().c_str());
+		printf(GetDescription().c_str());
 	}
 
 	void Entity2::DebugInfo()

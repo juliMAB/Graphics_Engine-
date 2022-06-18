@@ -121,6 +121,24 @@
     <Filter Include="src\Data">
       <UniqueIdentifier>{4b3a1921-dae0-4c3b-b3fd-4245f8255f29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Importer2">
+      <UniqueIdentifier>{8a4a4b82-a275-49bc-9a0b-db2b8c9d5ebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model2">
+      <UniqueIdentifier>{73cc2d8e-c224-4778-a8ec-0e76feabf625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Vertex2">
+      <UniqueIdentifier>{c6a775c6-2287-429d-ba10-d11a6703234e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Texture2">
+      <UniqueIdentifier>{68acf2c5-1ac3-4e1e-b50f-2775f65b5ae5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Mesh2">
+      <UniqueIdentifier>{f0968486-db8d-4ded-a2b2-6667d3f2aaae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Extras">
+      <UniqueIdentifier>{c4989400-82b1-4bfc-b7cd-346d915fe889}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -251,6 +269,12 @@
     </ClCompile>
     <ClCompile Include="src\GameObject\GameObject.cpp">
       <Filter>src\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh2\Mesh2.cpp">
+      <Filter>src\Mesh2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Importer\Importer2.cpp">
+      <Filter>src\Importer2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +448,24 @@
     </ClInclude>
     <ClInclude Include="src\Data\Vertex.h">
       <Filter>src\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Importer\Importer2.h">
+      <Filter>src\Importer2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Model2.h">
+      <Filter>src\Model2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vertex\Vertex2.h">
+      <Filter>src\Vertex2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Texture2\Texture2.h">
+      <Filter>src\Texture2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Mesh2\Mesh2.h">
+      <Filter>src\Mesh2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Importer\assimpIncludes.h">
+      <Filter>src\Extras</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

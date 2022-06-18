@@ -65,7 +65,7 @@ namespace JuliEngine
 		 rotationY  = mat4(1);
 		 rotationZ  = mat4(1);
 		 scale      = mat4(1);
-		childs = list<Transform*>();
+		childs = list<Transform*>(0);
 		setWMatrixTranslate();
 		baseRotation(eulerAngles);
 		updateTransformRotation();
@@ -75,12 +75,6 @@ namespace JuliEngine
 
 	Transform::~Transform()
 	{
-		if (childs.size()>0)
-		{
-			for (std::list<Transform*>::iterator it = childs.begin(); it != childs.end(); it++)
-				delete *it;
-			childs.clear();
-		}
 	}
 
 	void Transform::updateTransformRotation()

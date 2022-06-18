@@ -8,8 +8,7 @@ namespace JuliEngine
 	{
 	public:
 		GameObject();
-		~GameObject() { transform.~Transform(); };
-		Transform getTransform() { return transform; };
+		~GameObject();
 		int getLayer() { return layer; };
 		bool getactive() { return active; };
 		string getTag() { return tag; };
@@ -27,8 +26,9 @@ namespace JuliEngine
 		void setName(string v) { _name = v; };
 
 	protected:
+		Transform getTransform() { return *transform; }
 	private:
-		Transform transform;
+		Transform* transform;
 		int layer;
 		bool active;
 		string tag;

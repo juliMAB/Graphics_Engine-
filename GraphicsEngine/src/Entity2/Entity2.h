@@ -38,6 +38,7 @@ namespace JuliEngine
 		glm::vec3 getPos()		{ return getTransform().getposition	 (); }
 		glm::vec3 getRot()		{ return getTransform().geteulerAngles(); }
 		glm::vec3 getScale()	{ return getTransform().getlocalScale (); }
+		Renderer* getRender()	{ return _renderer; }
 		////---other---
 		void DebugInfo();
 

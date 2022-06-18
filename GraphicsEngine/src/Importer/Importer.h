@@ -1,22 +1,18 @@
 #ifndef IMPORTER_H
 #define IMPORTER_H
 #define IMPORTER true
-#include "../Exports/Exports.h"
 #include "../Renderer/Renderer.h"
 #include <MyMesh/Mesh.h>
 #include <vector>
+#include "Model/Model2.h"
 
-class GraficosEngine_API Importer {
-public:
-
-	Importer();
-	~Importer();
-	static std::vector<Mesh> loadModel(std::string path);
-
-protected:
-private:
-
-};
+namespace JuliEngine
+{
+	class GraficosEngine_API Importer {
+	public:
+		Model2 static LoadModel(string path);
+	};
+}
 	
 
 

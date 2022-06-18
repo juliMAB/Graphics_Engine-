@@ -3,7 +3,10 @@
 //#include "Entity.h"
 #include "Entity2/Entity2.h"
 #define IMPORTER false
-#include "Importer/Importer.h"
+#include "Importer/Importer2.h"
+#if !IMPORTER
+#include "Model/Model2.h"
+#endif
 #include <Material/material.h>
 namespace JuliEngine
 {
@@ -14,7 +17,7 @@ namespace JuliEngine
 		~Entity3D() {};
 		void draw();
 	private:
-		std::vector<Mesh> meshes;
+		Model2* model;
 	};
 }
 

@@ -11,15 +11,15 @@ class GameObject;
     public:
         Component() { tag = "default"; AddDescription("-> ||Component|| ");};
         Component(Transform* transform, GameObject* gameObject);
-		~Component(){};
+		~Component();
+        Transform* getTransform() { return transform; };
+        GameObject* getGameObject() { return gameObject; };
 
     protected:
             
        
         void setTag(string v) { tag = v; };
         string getTag() { return tag; };
-        Transform* getTransform() { return transform; };
-        GameObject* getGameObject() { return gameObject; };
 	private:
             //
             // Resumen:

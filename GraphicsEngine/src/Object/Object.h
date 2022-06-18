@@ -15,6 +15,8 @@ namespace JuliEngine
 		Object();
 		~Object();
 		void AddDescription(string name);
+
+		string GetDescription() { return _baseDescription; };
 	protected:
 
 		string Getname();

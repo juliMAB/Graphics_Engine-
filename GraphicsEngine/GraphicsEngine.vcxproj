@@ -214,6 +214,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.cpp" />
     <ClCompile Include="src\ImGui\MyImGui.cpp" />
     <ClCompile Include="src\Importer\Importer.cpp" />
+    <ClCompile Include="src\Importer\Importer2.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Juli\Jinterface.cpp" />
     <ClCompile Include="src\LightManager\lightManager.cpp" />
@@ -222,6 +223,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Light\pointLight.cpp" />
     <ClCompile Include="src\Light\spotLight.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
+    <ClCompile Include="src\Mesh2\Mesh2.cpp" />
     <ClCompile Include="src\MyMesh\Mesh.cpp" />
     <ClCompile Include="src\Object\Object.cpp" />
     <ClCompile Include="src\Renderer\Renderer.cpp" />
@@ -264,7 +266,9 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3.h" />
     <ClInclude Include="src\ImGui\ImGuiMaster\Source\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="src\ImGui\MyImGui.h" />
+    <ClInclude Include="src\Importer\assimpIncludes.h" />
     <ClInclude Include="src\Importer\Importer.h" />
+    <ClInclude Include="src\Importer\Importer2.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
@@ -275,8 +279,10 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Light\pointLight.h" />
     <ClInclude Include="src\Light\spotLight.h" />
     <ClInclude Include="src\Material\Material.h" />
+    <ClInclude Include="src\Mesh2\Mesh2.h" />
     <ClInclude Include="src\Mesh\Mesh2.h" />
     <ClInclude Include="src\Model\Model.h" />
+    <ClInclude Include="src\Model\Model2.h" />
     <ClInclude Include="src\MyMesh\Mesh.h" />
     <ClInclude Include="src\Object\HideFlags.h" />
     <ClInclude Include="src\Object\Object.h" />
@@ -285,6 +291,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Shape\Shape.h" />
     <ClInclude Include="src\Space\Space.h" />
     <ClInclude Include="src\Sprite\Sprite.h" />
+    <ClInclude Include="src\Texture2\Texture2.h" />
     <ClInclude Include="src\TextureImporter\stb_image.h" />
     <ClInclude Include="src\TextureImporter\TextureImporter.h" />
     <ClInclude Include="src\Texture\MyTexture.h" />
@@ -294,6 +301,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Tile\tinyxml2.h" />
     <ClInclude Include="src\Time\Time.h" />
     <ClInclude Include="src\Transform\Transform.h" />
+    <ClInclude Include="src\Vertex\Vertex2.h" />
     <ClInclude Include="src\Window\Window.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

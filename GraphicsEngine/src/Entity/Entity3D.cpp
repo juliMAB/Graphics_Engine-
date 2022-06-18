@@ -4,10 +4,11 @@ namespace JuliEngine
 {
 	Entity3D::Entity3D(Renderer* render, std::string path) : Entity2(render)
 	{
+		model = new Model2(render, false);
 		Setname("Entity3D");
 		_renderer = render;
 	#if IMPORTER
-		meshes = Importer::loadModel(path);
+		Importer2::loadModel(model,path);
 	#endif // IMPORTER
 	}
 
@@ -15,10 +16,6 @@ namespace JuliEngine
 	{
 		SetUniforms();
 		_renderer->UpdateMVP(getTransform().getmodel());
-
-		for (int i = 0; i < meshes.size(); i++)
-		{
-			_renderer->DrawMesh(meshes[i].vertices, meshes[i].indices, meshes[i].textures, meshes[i].VAO);
-		}
+		model->Draw();
 	}
 }
