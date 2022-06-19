@@ -4,7 +4,7 @@
 #include "Exports/Exports.h"
 #include "HideFlags.h"
 #include <string>
-#include <list>
+//#include <list>
 using namespace std;
 namespace JuliEngine
 {
@@ -19,8 +19,8 @@ namespace JuliEngine
 		string GetDescription() { return _baseDescription; };
 	protected:
 
-		string Getname();
-		void Setname(string name);
+		string GetnameOBJ();
+		void SetnameOBJ(string name);
 
 		bool operator==(const Object& x) const;
 		bool operator!=(const Object& x) const;
@@ -32,7 +32,7 @@ namespace JuliEngine
 		string _baseDescription;
 		int m_instanceID;
 		int static m_index;
-		static list<Object*> lisObjects;
+		//static list<Object*> lisObjects;
 	};
 }
 #endif // !OBJECT_H

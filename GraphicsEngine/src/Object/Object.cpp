@@ -3,26 +3,26 @@ namespace JuliEngine
 {
 #pragma region PRIVATE_VARIABLES
 	int Object::m_index = 0;
-	list<Object*> Object::lisObjects;
+	//list<Object*> Object::lisObjects;
 #pragma endregion
 #pragma region CONSTRUCTORS
 	Object::Object()
 	{
 		m_instanceID = m_index;
-		lisObjects.push_front(this);
+		//lisObjects.push_front(this);
 		_name = "Object + " + to_string(m_index);
 		_baseDescription = _name;
 		m_index++;
 	}
 	Object::~Object()
 	{
-		lisObjects.remove(this);
+		//lisObjects.remove(this);
 	}
 #pragma endregion
 #pragma region GETTERS
 
 
-	string Object::Getname()
+	string Object::GetnameOBJ()
 	{
 		return _name;
 	}
@@ -31,7 +31,7 @@ namespace JuliEngine
 
 #pragma endregion
 #pragma region SETTERS
-	void Object::Setname(string name)
+	void Object::SetnameOBJ(string name)
 	{
 		_name = name;
 	}

@@ -65,7 +65,7 @@ namespace JuliEngine
 		 rotationY  = mat4(1);
 		 rotationZ  = mat4(1);
 		 scale      = mat4(1);
-		childs = list<Transform*>(0);
+		//childs = list<Transform*>(0);
 		setWMatrixTranslate();
 		baseRotation(eulerAngles);
 		updateTransformRotation();

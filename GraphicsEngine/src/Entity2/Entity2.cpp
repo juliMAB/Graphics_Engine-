@@ -3,23 +3,23 @@
 namespace JuliEngine
 {
 	int Entity2::CuantityEntitys = 0;
-	std::list<Entity2*> Entity2::EntitysLists;
+	//std::list<Entity2*> Entity2::EntitysLists;
 	Entity2::Entity2(Renderer* renderer) : GameObject()
 	{
 		_renderer = renderer;
 		_locationPosition =0;
 		_locationNormal	  =0;
 		_locationTexCoord =0;
-		EntitysLists.push_front(this);
-		 Setname("Entity " + std::to_string(CuantityEntitys));
+		//EntitysLists.push_front(this);
+		 SetnameOBJ("Entity " + std::to_string(CuantityEntitys));
+		 setName("Entity " + std::to_string(CuantityEntitys));
 		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
 	}
 
 	Entity2::~Entity2()
 	{
-		printf(getName().c_str());
-		printf(GetDescription().c_str());
+		
 	}
 
 	void Entity2::DebugInfo()

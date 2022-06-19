@@ -5,6 +5,7 @@
 #include "Exports/Exports.h"
 #include "Component/Component.h"
 //#include <list>
+//#include <list>
 using namespace glm;
 using namespace std;
 #define MAXCHILDREN 500;
@@ -69,7 +70,7 @@ namespace JuliEngine
 		mat4 rotationY;
 		mat4 rotationZ;
 		mat4 scale;
-		list<Transform*> childs;
+		//list<Transform*> childs;
 
 
 		void setWMatrixTranslate() { translate = glm::translate(mat4(1.0f), position);  }

@@ -9,21 +9,33 @@
 
 namespace JuliEngine
 {
-    class GraficosEngine_API Mesh2 {
+    class GraficosEngine_API MeshData
+    {
     public:
-        // mesh Data
         vector<Vertex2>       vertices;
         vector<unsigned int> indices;
         vector<Texture2>      textures;
-        unsigned int VAO, VBO, EBO;
-        Renderer* _rend;
 
-        // constructor
-        Mesh2(vector<Vertex2> vertices, vector<unsigned int> indices, vector<Texture2> textures, Renderer* rend)
+        MeshData(vector<Vertex2> vertices, vector<unsigned int> indices, vector<Texture2> textures)
         {
             this->vertices = vertices;
             this->indices = indices;
             this->textures = textures;
+        }
+        MeshData(){}
+        ~MeshData() {}
+    };
+    class GraficosEngine_API Mesh2 : Entity2 {
+    public:
+        // mesh Data
+        MeshData data;
+        unsigned int VAO, VBO, EBO;
+        Renderer* _rend;
+
+        // constructor
+        Mesh2(MeshData data, Renderer* rend) : Entity2(rend)
+        {
+            this->data = data;
             this->_rend = rend;
 
             // now that we have all the required data, set the vertex buffers and its attribute pointers.

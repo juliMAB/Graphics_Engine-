@@ -22,6 +22,7 @@ namespace JuliEngine
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);
+        theModel->OnEndImportData();
     }
     void Importer2::processNode(aiNode* node, const aiScene* scene)
     {
@@ -31,9 +32,9 @@ namespace JuliEngine
             // the node object only contains indices to index the actual objects in the scene. 
             // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            Mesh2 myMesh = processMesh(mesh, scene);
+            MeshData myMesh = processMesh(mesh, scene);
             
-            newModel->meshes.push_back(myMesh);
+            newModel->meshesData.push_back(myMesh);
         }
         // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
         for (unsigned int i = 0; i < node->mNumChildren; i++)
@@ -81,7 +82,7 @@ namespace JuliEngine
 
         return textureID;
     }
-    Mesh2 Importer2::processMesh(aiMesh* mesh, const aiScene* scene)
+    MeshData Importer2::processMesh(aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
         vector<Vertex2> vertices;
@@ -162,7 +163,7 @@ namespace JuliEngine
         //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
         // return a mesh object created from the extracted mesh data
-        return Mesh2(vertices, indices, textures, newModel->getRender());
+        return MeshData(vertices, indices, textures);
     }
     ///
     ///checks all material textures of a given type and loads the textures if they're not loaded yet.

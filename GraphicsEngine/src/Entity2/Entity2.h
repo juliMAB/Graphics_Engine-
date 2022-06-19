@@ -3,14 +3,14 @@
 #include "Exports/Exports.h"
 #include "Renderer/Renderer.h"
 #include <iostream>
-#include <list>
+//#include <list>
 #include "GameObject/GameObject.h"
 namespace JuliEngine
 {
 	class GraficosEngine_API Entity2 : public GameObject {
 	public:
 		static int CuantityEntitys;
-		static std::list<Entity2*> EntitysLists;
+		//static std::list<Entity2*> EntitysLists;
 		
 		Entity2(Renderer* renderer);
 		~Entity2();
