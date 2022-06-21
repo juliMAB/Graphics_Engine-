@@ -57,7 +57,11 @@ void MyImGui::Update()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    UpdateWindowsTwo();
+    UpdateMainWindows();
+    if (ShowEntity2List)
+    {
+        UpdateWindowsEntity2();
+    }
 }
 
 void MyImGui::Draw()
@@ -83,10 +87,20 @@ bool MyImGui::SliderFloat3(std::string a,vec3 * b, float min, float max)
 {
     return ImGui::SliderFloat3(a.c_str(), (float*)&b, min, max); 
 }
+
+void MyImGui::UpdateMainWindows()
+{
+    ImGui::Begin("Ventana de configuracion By juli");
+    if (ImGui::Button("ENTITY2",ImVec2(ImGui::GetWindowWidth(),20)))
+    {
+        ShowEntity2List = !ShowEntity2List;
+    }
+    ImGui::End();
+}
 void MyImGui::UpdateWindowsTwo()
 {
 
-    ImGui::Begin("Ventana de configuracion By juli");                          // Create a window called "Hello, world!" and append into it.
+                              // Create a window called "Hello, world!" and append into it.
     ImGui::Text("Entitys");
     for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
     {
@@ -123,6 +137,33 @@ void MyImGui::UpdateWindowsTwo()
         (*it)->SetDiffuse(diffuse);
     }
     ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::End();
+}
+using namespace JuliEngine;
+void MyImGui::UpdateWindowsEntity2()
+{
+    ImGui::Begin("Entity2");
+    if (Entity2::EntitysLists.size()>0)
+    {
+        for (std::list<Entity2*>::iterator it = Entity2::EntitysLists.begin(); it != Entity2::EntitysLists.end(); it++)
+        {
+            bool enabled = (*it)->getactive();
+            if (ImGui::Checkbox(((*it)->getName() + "enabled").c_str(), &enabled))
+                enabled = !enabled;
+            if (enabled)
+            {
+                glm::vec3 pos = (* it)->getPos();
+                glm::vec3 rot = (*it)->getRot();
+                glm::vec3 scale = (**it).getScale();
+                if (ImGui::SliderFloat3(((*it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
+                    (**it).SetPos(pos);
+                if( ImGui::SliderFloat3(((*it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
+                    (**it).SetPos(rot);
+                if (ImGui::SliderFloat3(((*it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
+                    (**it).SetScale(scale);
+            }
+        }
+    }
     ImGui::End();
 }
 

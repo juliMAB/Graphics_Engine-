@@ -22,7 +22,6 @@ namespace JuliEngine
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);
-        theModel->OnEndImportData();
     }
     void Importer2::processNode(aiNode* node, const aiScene* scene)
     {
@@ -32,9 +31,10 @@ namespace JuliEngine
             // the node object only contains indices to index the actual objects in the scene. 
             // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            MeshData myMesh = processMesh(mesh, scene);
-            
-            newModel->meshesData.push_back(myMesh);
+            MeshData* myMeshData = new MeshData(processMesh(mesh, scene));
+            Mesh2* myMesh = new Mesh2(myMeshData, newModel->getRender());
+            myMesh->setName(node->mName.C_Str() + JuliEngine::to_string(i));
+            newModel->meshes.push_back(myMesh);
         }
         // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
         for (unsigned int i = 0; i < node->mNumChildren; i++)

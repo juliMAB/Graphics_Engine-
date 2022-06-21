@@ -26,7 +26,7 @@ namespace JuliEngine
 		void setName(string v) { _name = v; };
 
 	protected:
-		Transform getTransform() { return *transform; }
+		Transform* getTransform() { return transform; }
 	private:
 		Transform* transform;
 		int layer;

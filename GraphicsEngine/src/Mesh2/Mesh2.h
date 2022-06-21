@@ -25,15 +25,15 @@ namespace JuliEngine
         MeshData(){}
         ~MeshData() {}
     };
-    class GraficosEngine_API Mesh2 : Entity2 {
+    class GraficosEngine_API Mesh2 :public Entity2 {
     public:
         // mesh Data
-        MeshData data;
+        MeshData* data;
         unsigned int VAO, VBO, EBO;
         Renderer* _rend;
 
         // constructor
-        Mesh2(MeshData data, Renderer* rend) : Entity2(rend)
+        Mesh2(MeshData* data, Renderer* rend) : Entity2(rend)
         {
             this->data = data;
             this->_rend = rend;
@@ -41,7 +41,10 @@ namespace JuliEngine
             // now that we have all the required data, set the vertex buffers and its attribute pointers.
             setupMesh();
         }
-        //~Mesh2(){}
+        ~Mesh2()
+        {
+        
+        }
         // render the mesh
         void Draw();
 

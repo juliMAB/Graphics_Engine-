@@ -4,7 +4,7 @@
 #include "Exports/Exports.h"
 #include "HideFlags.h"
 #include <string>
-//#include <list>
+#include <list>
 using namespace std;
 namespace JuliEngine
 {
@@ -32,7 +32,7 @@ namespace JuliEngine
 		string _baseDescription;
 		int m_instanceID;
 		int static m_index;
-		//static list<Object*> lisObjects;
+		static list<Object*> lisObjects;
 	};
 }
 #endif // !OBJECT_H
