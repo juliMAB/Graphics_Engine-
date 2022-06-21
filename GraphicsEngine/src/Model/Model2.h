@@ -13,6 +13,7 @@ namespace JuliEngine
         vector<Texture2> textures_loaded;	// stores all the textures loaded so far, optimization to make sure textures aren't loaded more than once.
         vector<MeshData>    meshesData;
         list<Mesh2*>    meshes;
+        list<Entity2*>  nodes;
         string directory;
         bool gammaCorrection = false;
 
@@ -24,16 +25,9 @@ namespace JuliEngine
         void Draw()
         {
             if (getactive())
-            {
-
-                //getRender()->UpdateMVP((*it)->getTransform()->getmodel());
-            
                 for (std::list<Mesh2*>::iterator it = meshes.begin(); it != meshes.end(); it++)
-                {
-                    (*it)->Draw();
-                    getRender()->UpdateMVP((**it).getTransform()->getmodel());
-                }
-            }
+                    if ((*it)->getactive())
+                        (*it)->Draw();
         }
         list<Mesh2*> GetMeshes() { return meshes; };
     };

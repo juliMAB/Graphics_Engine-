@@ -149,8 +149,8 @@ void MyImGui::UpdateWindowsEntity2()
         {
             bool enabled = (*it)->getactive();
             if (ImGui::Checkbox(((*it)->getName() + "enabled").c_str(), &enabled))
-                enabled = !enabled;
-            if (enabled)
+                (*it)->setActive(enabled);
+            if ((*it)->getactive())
             {
                 glm::vec3 pos = (* it)->getPos();
                 glm::vec3 rot = (*it)->getRot();

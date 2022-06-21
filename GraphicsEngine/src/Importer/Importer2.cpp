@@ -4,6 +4,7 @@
 namespace JuliEngine
 {
     Model2* Importer2::newModel = nullptr;
+    Transform* Importer2::parent = nullptr;
     void Importer2::loadModel(Model2* theModel, string const& path)
     {
         newModel = theModel;
@@ -21,10 +22,11 @@ namespace JuliEngine
         newModel->directory = path.substr(0, path.find_last_of('/'));
 
         // process ASSIMP's root node recursively
-        processNode(scene->mRootNode, scene);
+        processNode(scene->mRootNode, scene, newModel->getTransform());
     }
-    void Importer2::processNode(aiNode* node, const aiScene* scene)
+    void Importer2::processNode(aiNode* node, const aiScene* scene, Transform* currentParent)
     {
+        
         // process each mesh located at the current node
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
@@ -35,13 +37,20 @@ namespace JuliEngine
             Mesh2* myMesh = new Mesh2(myMeshData, newModel->getRender());
             myMesh->setName(node->mName.C_Str() + JuliEngine::to_string(i));
             newModel->meshes.push_back(myMesh);
+            myMesh->getTransform()->setparent(currentParent);
         }
         // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            processNode(node->mChildren[i], scene);
+            Entity2* mynode = new Entity2(newModel->getRender());
+            string n = "node ";
+            string name = node->mName.C_Str();
+            mynode->setName("Node_" + name +  "_" + JuliEngine::to_string(i));
+            newModel->nodes.push_back(mynode);
+            mynode->getTransform()->setparent(currentParent);
+            
+            processNode(node->mChildren[i], scene, mynode->getTransform());
         }
-
     }
     unsigned int TextureFromFileMine(const char* path, const string& directory)
     {

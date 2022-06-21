@@ -11,7 +11,7 @@ using namespace std;
 #define MAXCHILDREN 500;
 namespace JuliEngine
 {
-	class GraficosEngine_API Transform : Component
+	class GraficosEngine_API Transform :public Component
 	{
 	public:
 		Transform(){};
@@ -30,6 +30,15 @@ namespace JuliEngine
 		vec3 getlossyScale()		{ return lossyScale		; };
 		Transform* getparent()		{ return parent			; };
 		mat4 getmodel()				{return baseMatrix		; };
+		list<Transform*> getChilds(){ return childs			; };
+		Transform* getChilds(int v) {
+			list<Transform*>::iterator it = childs.begin();
+			for (int i = 0; i < v; i++)
+			{
+				it++;
+			}
+			return *it;
+		}
 #pragma endregion
 
 #pragma region SETTERS
@@ -43,7 +52,7 @@ namespace JuliEngine
 		void setlocalRotation(vec3 v) { seteulerAngles(v); };
 		void setlocalScale(vec3 v) { localScale = v; updateScaleMat(); };
 		//void setlossyScale(vec3 v) { lossyScale = v; };
-		void setparent(Transform* v) { parent = v; };
+		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
 
 #pragma endregion
 	protected:
@@ -70,7 +79,7 @@ namespace JuliEngine
 		mat4 rotationY;
 		mat4 rotationZ;
 		mat4 scale;
-		//list<Transform*> childs;
+		list<Transform*> childs;
 
 
 		void setWMatrixTranslate() { translate = glm::translate(mat4(1.0f), position);  }

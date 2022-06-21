@@ -2,6 +2,7 @@
 
 void JuliEngine::Mesh2::Draw()
 {
+    getRender()->UpdateMVP(getTransform()->getmodel());
     // bind appropriate textures
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;

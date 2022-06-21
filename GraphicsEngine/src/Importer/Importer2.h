@@ -16,7 +16,9 @@ namespace JuliEngine
 	private:
 		void static processNode(aiNode* node, const aiScene* scene);
 		MeshData static processMesh(aiMesh* mesh, const aiScene* scene);
+		void static processNode(aiNode* node, const aiScene* scene, Transform* currentParent);
 		vector<Texture2> static loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+		static Transform* parent;
 	};
 }
 
