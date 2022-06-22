@@ -2,15 +2,14 @@
 #define LIGHT_H
 
 #include "Exports/Exports.h"
-#include "Entity/Entity.h"
+#include "Entity2/Entity2.h"
 #include "GLM/ext/matrix_transform.hpp"
 #include "Juli/Jinterface.h"
-
-
-	class GraficosEngine_API Light : public Entity
+namespace JuliEngine
+{
+	class GraficosEngine_API Light : public Entity2
 	{
 	public:
-		Light();
 		Light(Renderer* render);
 
 		//void  SetUniforms();
@@ -41,5 +40,5 @@
 		friend class MyImGui;
 	};
 
-
+}
 #endif // !LIGHT_H

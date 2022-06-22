@@ -19,39 +19,9 @@ bool firstMouse = true;
 
 
 
-//MaterialS emerald{ 
-//	{0.0215f,	0.1745f, 0.0215f},
-//	{0.07568f,	0.61424f,	0.07568f},
-//	{0.633f,	0.727811f,	0.633f,},
-//0.60f *100
-//};
-//MaterialS jade{
-//	{0.135f,	0.2225f,	0.1575f},
-//	{0.54f,	0.89f,	0.63f},
-//	{0.316228f,	0.316228f,	0.316228f},
-//	1
-//};
-//MaterialS obsidian{
-//	{0.05375f,	0.05f,	0.06625f},
-//	{0.18275f,	0.17f,	0.22525f},
-//	{0.332741f,	0.328634f, 0.346435f},
-//	0.3f
-//};
-//MaterialS defaultMat{
-//	{0.2f, 0.2f, 0.2f},
-//	{0.5f, 0.5f, 0.5f},
-//	{1.0f, 1.0f, 1.0f},
-//	64.f
-//};
 MaterialS* defaultM;
 
-//enum DIR
-//{
-//	DOWN,
-//	RIGHT,
-//	LEFT,
-//	UP
-//};
+
 int Down,Left,Right,Up;
 
 glm::vec3 cubePositions[] = {
@@ -120,7 +90,7 @@ void Game::Init() {
 	_floor = new Sprite(_renderer);
 	_floor->Init(SPRITE_TYPE::QUAD);
 	_floor->SetMateria(defaultM);
-	_floor->SetName("piso");
+	_floor->setName("piso");
 	//----------------------
 
 
@@ -210,17 +180,17 @@ void Game::processInput()
 	float t = _time->_deltaTime * speed;
 
 	if (Input::IsKeyPressed(Input::KEY_W))
-		a += _cam->GetFront();
+		a += _cam->getTransform()->getforward();
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a -= _cam->GetFront();
+		a -= _cam->getTransform()->getforward();
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a -= _cam->GetRight();
+		a -= _cam->getTransform()->getright();
 	if (Input::IsKeyPressed(Input::KEY_D))
-		a += _cam->GetRight();
+		a += _cam->getTransform()->getright();
 	if (Input::IsKeyPressed(Input::KEY_Q))
-		a -= _cam->GetUp();
+		a -= _cam->getTransform()->getup();
 	if (Input::IsKeyPressed(Input::KEY_E))
-		a += _cam->GetUp();
+		a += _cam->getTransform()->getup();
 	if (auxCheck2 == CAMERA_TYPE::FC)
 		_cam->SetPos(_cam->getPos() + a * _time->_deltaTime*cameraSpeed);
 	
@@ -241,18 +211,6 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
 	glm::vec3 b(0);
-	if (Input::IsKeyPressed(Input::KEY_UP))
-		b += _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_DOWN))
-		b -= _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_LEFT))
-		b -= _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_RIGHT))
-		b += _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_KP_0))
-		b -= _cam->GetUp();
-	if (Input::IsKeyPressed(Input::KEY_KP_1))
-		b += _cam->GetUp();
 	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
 	//if (Input::IsKeyPressed(Input::KEY_Z))
 	//	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));

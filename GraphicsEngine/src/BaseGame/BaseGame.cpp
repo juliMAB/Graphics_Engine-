@@ -108,8 +108,7 @@ void BaseGame::InitInput() {
 	Input::SetCam(_mainCamera);
 }
 void BaseGame::InitCamera() {
-	_mainCamera = new Camera();
-	_mainCamera->Init(_renderer,_window);
+	_mainCamera = new Camera2(_renderer, _window);
 }
 
 bool BaseGame::InitWindow(int windowSizeX, int windowSizeY, std::string windowName) {

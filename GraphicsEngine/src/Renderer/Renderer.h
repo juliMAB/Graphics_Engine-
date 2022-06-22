@@ -28,7 +28,6 @@ enum TypeShape {
 //	std::string path;  // we store the path of the texture to compare with other textures
 //};
 
-
 typedef unsigned int uint;
 static class GraficosEngine_API Renderer {
 private:

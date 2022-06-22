@@ -2,7 +2,7 @@
 #include "../Internal/Internal.h"
 
 Window*  Input::window = nullptr;
-Camera* Input::mainCam = nullptr;
+Camera2* Input::mainCam = nullptr;
 std::list<int> Input::currentKeysDown = std::list<int>();
 char                keys[GLFW_KEY_LAST + 1];
 
@@ -148,6 +148,6 @@ void Input::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 void Input::SetWindow(Window* _window) {
 	window = _window;
 }
-void Input::SetCam(Camera* _cam) {
+void Input::SetCam(Camera2* _cam) {
 	mainCam = _cam;
 }

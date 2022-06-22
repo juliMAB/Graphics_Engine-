@@ -2,12 +2,12 @@
 #define INPUT_H
 #include "Window/Window.h"
 #include "GLM/glm.hpp"
-#include "Camera/Camera.h"
+#include "Camera2/Camera2.h"
 #include <list>
-
+using namespace JuliEngine;
 class GraficosEngine_API Input {
 	static Window* window;
-	static Camera* mainCam;
+	static Camera2* mainCam;
 public:
 	Input();
 	void Init();
@@ -158,7 +158,7 @@ public:
 
 	static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	static void SetWindow(Window* _window);
-	static void SetCam(Camera* _cam);
+	static void SetCam(Camera2* _cam);
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void lock_cursor(bool value);
 

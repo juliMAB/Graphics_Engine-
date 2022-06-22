@@ -13,8 +13,9 @@
 #include "../ImGui/MyImGui.h"
 #include "../Entity/Entity3D.h"
 #include "../Entity2/Entity2.h"
+#include "Camera2/Camera2.h"
 
-
+using namespace JuliEngine;
 class GraficosEngine_API BaseGame {
 private:
 	Input* _input;
@@ -26,7 +27,7 @@ protected:
 	Window* _window;
 	Renderer* _renderer;
 	Time* _time;
-	Camera* _mainCamera;
+	Camera2* _mainCamera;
 	MyImGui* _myImgui;
 	//glm::vec4 backgroundColor;
 public:
