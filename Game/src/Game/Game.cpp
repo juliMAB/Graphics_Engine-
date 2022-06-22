@@ -172,6 +172,7 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
+	_modeltest->Update();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();

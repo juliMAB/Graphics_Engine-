@@ -43,6 +43,8 @@ namespace JuliEngine
 		////---other---
 		void DebugInfo();
 
+		void Update();
+
 
 	private:
 		friend class MyImGui;

@@ -4,6 +4,7 @@ namespace JuliEngine
 {
 	Entity3D::Entity3D(Renderer* render, std::string path) : Entity2(render)
 	{
+		setName("ENTITY3d ");
 		model = new Model2(render, false);
 		model->setName("MODELO ");
 		model->getTransform()->setparent(this->getTransform());
@@ -14,7 +15,10 @@ namespace JuliEngine
 
 	void Entity3D::draw()
 	{
-		//_renderer->UpdateMVP(getTransform()->getmodel());
-		model->Draw();
+		if (getactive())
+		{
+			getRender()->UpdateMVP(getTransform()->getmodel());
+			model->Draw();
+		}
 	}
 }

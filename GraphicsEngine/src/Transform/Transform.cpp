@@ -47,29 +47,19 @@ namespace JuliEngine
 	Transform::Transform(GameObject* gameObject) : Component(this,gameObject)
 	{
 		 position = vec3(0,0,0);
-		 localPosition = vec3(0,0,0);
 		 eulerAngles = vec3(0,0,0);
+		 localScale = vec3(1);
+		 
+		 forward = vec3(0,0,1);
 		 right = vec3(1,0,0);
 		 up = vec3(0,1,0);
-		 forward = vec3(0,0,1);
-		 rotation = quat(0,0,0,1);
-		 localRotation = quat(0, 0, 0, 1);
-		 localScale = vec3(1);
-		 lossyScale = vec3(1);
-		 parent = nullptr;
-		 worldToLocalMatrix = mat4(1);
-		 localToWorldMatrix = mat4(1);
-		 baseMatrix = mat4(1);
-		 translate  = mat4(1);
-		 rotationX  = mat4(1);
-		 rotationY  = mat4(1);
-		 rotationZ  = mat4(1);
-		 scale      = mat4(1);
-		//childs = list<Transform*>(0);
-		setWMatrixTranslate();
-		baseRotation(eulerAngles);
+		 
+		m_modelMatrix = mat4(1);
+		
+		parent = nullptr;
+		childs = list<Transform*>(0);
+		
 		updateTransformRotation();
-		updateMatrix();
 		AddDescription("-> ||Transform|| ");
 	}
 
@@ -77,20 +67,60 @@ namespace JuliEngine
 	{
 	}
 
+	Transform* Transform::getChilds(int v)
+	{
+		list<Transform*>::iterator it = childs.begin();
+		for (int i = 0; i < v; i++)
+		{
+			it++;
+		}
+		return *it;
+	}
+
+	glm::mat4 Transform::getLocalModelMatrix()
+	{
+		updateTransformRotation();
+		const mat4 transformX = glm::rotate(mat4(1.0f),radians(eulerAngles.x), vec3(1.0f, 0.0f, 0.0f));
+		const mat4 transformY = glm::rotate(mat4(1.0f),radians(eulerAngles.y), vec3(0.0f, 1.0f, 0.0f));
+		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(eulerAngles.z), vec3(0.0f, 0.0f, 1.0f));
+		// Y * X * Z
+		const mat4 roationMatrix = transformY * transformX * transformZ;
+		// translation * rotation * scale (also know as TRS matrix)
+		return glm::translate(glm::mat4(1.0f), position) * roationMatrix * glm::scale4(mat4(1.0f), localScale);
+	}
+
 	void Transform::updateTransformRotation()
 	{
-		rotation = EulerToQuat(eulerAngles);
+		quat rotation = EulerToQuat(eulerAngles);
 		forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
 		up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
 		right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
 	}
-	void Transform::baseRotation(vec3 v)
+	void Transform::updateSelfAndChild()
 	{
-		localRotation = v;
-		eulerAngles = v;
-		rotationX = glm::rotate(glm::mat4(1.f), glm::radians(v.x), glm::vec3(1.f, 0.f, 0.f));
-		rotationY = glm::rotate(glm::mat4(1.f), glm::radians(v.y), glm::vec3(0.f, 1.f, 0.f));
-		rotationZ = glm::rotate(glm::mat4(1.f), glm::radians(v.z), glm::vec3(0.f, 0.f, 1.f));
+		if (!m_isDirty)
+			return;
+		forceUpdateSelfAndChild();
+	}
+	void Transform::computeModelMatrix()
+	{
+		m_modelMatrix = getLocalModelMatrix();
+	}
+	void Transform::computeModelMatrix(const glm::mat4& parentGlobalModelMatrix)
+	{
+		m_modelMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
+	}
+	void Transform::forceUpdateSelfAndChild()
+	{
+		if (parent!=NULL)
+			computeModelMatrix(parent->getmodel());
+		else
+			computeModelMatrix();
 
+		for (int i=0;childs.size()>i;i++)
+		{
+			getChilds(i)->forceUpdateSelfAndChild();
+		}
 	}
 }
+

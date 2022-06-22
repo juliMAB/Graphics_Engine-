@@ -25,9 +25,12 @@ namespace JuliEngine
         void Draw()
         {
             if (getactive())
+            {
+                getRender()->UpdateMVP(getTransform()->getmodel());
                 for (std::list<Mesh2*>::iterator it = meshes.begin(); it != meshes.end(); it++)
                     if ((*it)->getactive())
                         (*it)->Draw();
+            }
         }
         list<Mesh2*> GetMeshes() { return meshes; };
     };

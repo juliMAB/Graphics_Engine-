@@ -158,7 +158,7 @@ void MyImGui::UpdateWindowsEntity2()
                 if (ImGui::SliderFloat3(((*it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
                     (**it).SetPos(pos);
                 if( ImGui::SliderFloat3(((*it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
-                    (**it).SetPos(rot);
+                    (**it).SetRotations(rot);
                 if (ImGui::SliderFloat3(((*it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
                     (**it).SetScale(scale);
             }

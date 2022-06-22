@@ -166,4 +166,12 @@ GraficosEngine_API typedef struct VecToString
 	}
 };
 
+
+GraficosEngine_API typedef struct VecUtils {
+#include <cmath>
+	static float magnitude(vec3 v)
+	{
+		return (sqrtf(powf(v.x,2)+ powf(v.y,2)+ powf(v.z,2)));
+	}
+};
 #endif //JINTERFACE_H

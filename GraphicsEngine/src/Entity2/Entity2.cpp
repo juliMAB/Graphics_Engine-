@@ -40,6 +40,10 @@ namespace JuliEngine
 		cout << "up:  " + VecToString::vec3toString(transform->getup())				<< std::endl;
 		cout << "rig: " + VecToString::vec3toString(transform->getright())			<< std::endl;
 	}
+	void Entity2::Update()
+	{
+		getTransform()->updateSelfAndChild();
+	}
 
 	void Entity2::SetUniforms()
 	{
