@@ -20,13 +20,12 @@ namespace JuliEngine
 			_renderer->SetUniform(_uniformAmbient, (v+".ambient").c_str());
 			_renderer->SetUniform(_uniformDiffuse, (v+".diffuse").c_str());
 			_renderer->SetUniform(_uniformSpecular, (v+".specular").c_str());
-
 		}
 
 		void Light::UpdateLight()
 		{
 			_renderer->UseShader();
-
+			Draw();
 			_renderer->UpdateVec3(_uniformAmbient, ambient);
 			_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 			_renderer->UpdateVec3(_uniformSpecular, specular);

@@ -45,15 +45,21 @@ namespace JuliEngine
 
 		void Update();
 
+		void Draw();
+
 
 	private:
 		friend class MyImGui;
 	protected:
+		vec3 _color;
+
 		Renderer* _renderer;
 
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
+		uint _uniformColor;
+		uint _uniformAplha;
 		//void (*ptr_funct)(void) = getPos;
 		virtual void SetUniforms();
 	};

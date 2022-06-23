@@ -45,14 +45,6 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
-	//for (int i = 0; i < quantity; i++)
-	//	_sprites[i] = nullptr;
-	//_pj					  =nullptr;
-	//_pjS				  =nullptr;
-	//_cam				  =nullptr;
-	//cameraSpeed			  =30.f;
-	//for (int i = 0; i < 3; i++)
-	//	_materials[i] = nullptr;
 	_a =nullptr;
 	_floor				  =nullptr;
 	_tex				  =nullptr;
