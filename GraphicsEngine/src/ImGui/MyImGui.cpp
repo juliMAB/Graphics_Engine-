@@ -151,18 +151,28 @@ using namespace JuliEngine;
 
 void baseEntity2Edit(Entity2* it)
 {
-    vec3 pos = (it)->getPos();
-    vec3 rot = (it)->getRot();
-    vec3 scale = (it)->getScale();
-    vec3 color = (it)->getColor();
-    if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
-        (it)->SetPos(pos);
-    if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
-        (it)->SetRotations(rot);
-    if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
-        (it)->SetScale(scale);
-    if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
-        (it)->SetColor(color);
+    bool enabled = (it)->getactive();
+    if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
+        (it)->setActive(enabled);
+    if ((it)->getactive())
+    {
+        vec3 pos = (it)->getPos();
+        vec3 rot = (it)->getRot();
+        vec3 scale = (it)->getScale();
+        vec3 color = (it)->getColor();
+        if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
+            (it)->SetPos(pos);
+        if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
+            (it)->SetRotations(rot);
+        if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
+            (it)->SetScale(scale);
+        if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
+            (it)->SetColor(color);
+    }
+}
+void baseLight2Edit(Light* it)
+{
+
 }
 
 void MyImGui::UpdateWindowsEntity2()
@@ -172,13 +182,9 @@ void MyImGui::UpdateWindowsEntity2()
     {
         for (std::list<Entity2*>::iterator it = Entity2::EntitysLists.begin(); it != Entity2::EntitysLists.end(); it++)
         {
-            bool enabled = (*it)->getactive();
-            if (ImGui::Checkbox(((*it)->getName() + "enabled").c_str(), &enabled))
-                (*it)->setActive(enabled);
-            if ((*it)->getactive())
-            {
-                baseEntity2Edit(*it);
-            }
+          
+            baseEntity2Edit(*it);
+            
         }
     }
     ImGui::End();
@@ -191,6 +197,15 @@ void MyImGui::UpdateWindowsModel()
         for (std::list<Model2*>::iterator it = Model2::listModel.begin(); it != Model2::listModel.end(); it++)
         {
             baseEntity2Edit(*it);
+            if ((*it)->nodes.size()>0)
+            {
+                ImGui::Text("NODES");
+                for (std::list<Entity2*>::iterator it2 = (*it)->nodes.begin(); it2 != (*it)->nodes.end(); it2++)
+                    baseEntity2Edit(*it2);
+                ImGui::Text("MESHES");
+                for (std::list<Mesh2*>::iterator it2 = (*it)->meshes.begin(); it2 != (*it)->meshes.end(); it2++)
+                    baseEntity2Edit(*it2);
+            }
         }
     }
     ImGui::End();
