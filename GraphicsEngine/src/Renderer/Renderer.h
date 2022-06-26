@@ -64,6 +64,7 @@ public:
 	void UpdateMVP(glm::mat4 model);
 	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
 	void UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor);
+	void UpdateColor(uint uniformBaseColor, glm::vec3 baseColor);
 	void UpdateBoolValue(uint uniformStatus, bool status);
 	void UpdateTexture(uint uniformTexture, uint textureId);
 	void UpdateFloatValue(uint uniformFloat, float value);

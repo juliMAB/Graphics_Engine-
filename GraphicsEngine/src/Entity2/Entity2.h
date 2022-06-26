@@ -41,6 +41,8 @@ namespace JuliEngine
 		Renderer* getRender()	{ return _renderer; }
 		Transform* getTransform() { return GameObject::getTransform(); }
 		////---other---
+		vec3 getColor() { return _color; };
+		void SetColor(vec3 v) { _color = v; _renderer->UpdateColor(_uniformColor, _color); };
 		void DebugInfo();
 
 		void Update();
@@ -49,12 +51,13 @@ namespace JuliEngine
 	private:
 		friend class MyImGui;
 	protected:
+		vec3 _color;
 		Renderer* _renderer;
 
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
-		//void (*ptr_funct)(void) = getPos;
+		uint _uniformColor;
 		virtual void SetUniforms();
 	};
 }

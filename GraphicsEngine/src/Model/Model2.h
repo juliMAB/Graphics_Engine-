@@ -16,11 +16,13 @@ namespace JuliEngine
         list<Entity2*>  nodes;
         string directory;
         bool gammaCorrection = false;
+        static list<Model2*> listModel;
 
         // constructor, expects a filepath to a 3D model.
         Model2(Renderer* render, bool gamma) : Entity2(render)
-        {}
-
+        {
+            listModel.push_back(this);
+        }
         // draws the model, and thus all its meshes
         void Draw()
         {
@@ -33,6 +35,7 @@ namespace JuliEngine
             }
         }
         list<Mesh2*> GetMeshes() { return meshes; };
+        friend class MyImGui;
     };
 }
 

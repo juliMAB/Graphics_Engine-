@@ -158,6 +158,10 @@ void Renderer::UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 b
 	glUniform3fv(uniformBaseColor, 1, glm::value_ptr(glm::vec3(baseColor.r, baseColor.g, baseColor.b)));
 	glUniform1fv(uniformAlpha, 1, &(baseColor.a));
 }
+void Renderer::UpdateColor(uint uniformBaseColor, glm::vec3 baseColor)
+{
+	glUniform3fv(uniformBaseColor, 1, glm::value_ptr(glm::vec3(baseColor.r, baseColor.g, baseColor.b)));
+}
 void Renderer::UpdateBoolValue(uint uniformStatus, bool status)
 {
 	glUniform1i(uniformStatus, status);

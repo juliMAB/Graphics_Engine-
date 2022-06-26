@@ -50,6 +50,7 @@ namespace JuliEngine
 		_renderer->SetLocation(_locationPosition, "aPos");
 		_renderer->SetLocation(_locationTexCoord, "aTex");
 		_renderer->SetLocation(_locationNormal, "aNor");
+		_renderer->SetUniform(_uniformColor, "color");
 	}
 
 }

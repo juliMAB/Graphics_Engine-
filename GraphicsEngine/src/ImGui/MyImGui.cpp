@@ -62,6 +62,10 @@ void MyImGui::Update()
     {
         UpdateWindowsEntity2();
     }
+    if (ShowModelList)
+    {
+        UpdateWindowsModel();
+    }
 }
 
 void MyImGui::Draw()
@@ -94,6 +98,10 @@ void MyImGui::UpdateMainWindows()
     if (ImGui::Button("ENTITY2",ImVec2(ImGui::GetWindowWidth(),20)))
     {
         ShowEntity2List = !ShowEntity2List;
+    }
+    if (ImGui::Button("MODEL", ImVec2(ImGui::GetWindowWidth(), 20)))
+    {
+        ShowModelList = !ShowModelList;
     }
     ImGui::End();
 }
@@ -140,6 +148,23 @@ void MyImGui::UpdateWindowsTwo()
     ImGui::End();
 }
 using namespace JuliEngine;
+
+void baseEntity2Edit(Entity2* it)
+{
+    vec3 pos = (it)->getPos();
+    vec3 rot = (it)->getRot();
+    vec3 scale = (it)->getScale();
+    vec3 color = (it)->getColor();
+    if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
+        (it)->SetPos(pos);
+    if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
+        (it)->SetRotations(rot);
+    if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
+        (it)->SetScale(scale);
+    if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
+        (it)->SetColor(color);
+}
+
 void MyImGui::UpdateWindowsEntity2()
 {
     ImGui::Begin("Entity2");
@@ -152,16 +177,20 @@ void MyImGui::UpdateWindowsEntity2()
                 (*it)->setActive(enabled);
             if ((*it)->getactive())
             {
-                glm::vec3 pos = (* it)->getPos();
-                glm::vec3 rot = (*it)->getRot();
-                glm::vec3 scale = (**it).getScale();
-                if (ImGui::SliderFloat3(((*it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
-                    (**it).SetPos(pos);
-                if( ImGui::SliderFloat3(((*it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
-                    (**it).SetRotations(rot);
-                if (ImGui::SliderFloat3(((*it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
-                    (**it).SetScale(scale);
+                baseEntity2Edit(*it);
             }
+        }
+    }
+    ImGui::End();
+}
+void MyImGui::UpdateWindowsModel()
+{
+    ImGui::Begin("MODEL");
+    if (Model2::listModel.size()>0)
+    {
+        for (std::list<Model2*>::iterator it = Model2::listModel.begin(); it != Model2::listModel.end(); it++)
+        {
+            baseEntity2Edit(*it);
         }
     }
     ImGui::End();

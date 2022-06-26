@@ -5,6 +5,7 @@
 #include "ImGuiMaster/Source/imgui_impl_opengl3.h"
 #include "../Entity/Entity.h"
 #include "Entity2/Entity2.h"
+#include "Model/Model2.h"
 #include "../Light/light.h"
 #include <stdio.h>
 #include "../Window/Window.h"
@@ -49,11 +50,13 @@ public:
 	void UpdateWindowsTwo();
 
 	void UpdateWindowsEntity2();
+	void UpdateWindowsModel();
 private:
 	const char* glsl_version;
 	Window* _window;
-	bool ShowEntity2List;
 	void UpdateWindowsOne();
+	bool ShowEntity2List;
+	bool ShowModelList;
 };
 
 #endif
