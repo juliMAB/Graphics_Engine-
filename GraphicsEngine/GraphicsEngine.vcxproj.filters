@@ -139,6 +139,9 @@
     <Filter Include="src\Extras">
       <UniqueIdentifier>{c4989400-82b1-4bfc-b7cd-346d915fe889}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Camera2">
+      <UniqueIdentifier>{b6ff391d-be49-4756-a76e-cfd8f4eb1f79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -278,6 +281,9 @@
     </ClCompile>
     <ClCompile Include="src\Model\Model2.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera2\Camera2.cpp">
+      <Filter>src\Camera2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -469,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="src\Importer\assimpIncludes.h">
       <Filter>src\Extras</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera2\Camera2.h">
+      <Filter>src\Camera2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

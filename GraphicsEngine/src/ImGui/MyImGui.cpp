@@ -172,7 +172,17 @@ void baseEntity2Edit(Entity2* it)
 }
 void baseLight2Edit(Light* it)
 {
-
+    vec3 amb = (it)->GetAmbient();
+    vec3 dif = (it)->GetDiffuse();
+    vec3 spe = (it)->GetSpecular();
+    //if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
+    //    (it)->SetPos(pos);
+    //if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
+    //    (it)->SetRotations(rot);
+    //if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
+    //    (it)->SetScale(scale);
+    //if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
+    //    (it)->SetColor(color);
 }
 
 void MyImGui::UpdateWindowsEntity2()
@@ -182,9 +192,7 @@ void MyImGui::UpdateWindowsEntity2()
     {
         for (std::list<Entity2*>::iterator it = Entity2::EntitysLists.begin(); it != Entity2::EntitysLists.end(); it++)
         {
-          
             baseEntity2Edit(*it);
-            
         }
     }
     ImGui::End();

@@ -13,6 +13,7 @@
 #include "../ImGui/MyImGui.h"
 #include "../Entity/Entity3D.h"
 #include "../Entity2/Entity2.h"
+#include "Camera2/Camera2.h"
 
 
 class GraficosEngine_API BaseGame {

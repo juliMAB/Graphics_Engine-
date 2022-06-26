@@ -14,7 +14,6 @@ namespace JuliEngine
 	class GraficosEngine_API Transform :public Component
 	{
 	public:
-		Transform(){};
 		Transform(GameObject* gameObject);
 		~Transform();
 #pragma region GETTERS
@@ -37,6 +36,10 @@ namespace JuliEngine
 		void setposition(vec3 v) { position = v; m_isDirty = true; updateSelfAndChild(); };
 		void seteulerAngles(vec3 v) { eulerAngles = v; updateTransformRotation(); updateSelfAndChild();};
 		void setlocalScale(vec3 v) { localScale = v; updateSelfAndChild();};
+
+		void setForward	(vec3 v) { forward	= v; };
+		void setRight	(vec3 v) { right	= v; };
+		void setUp		(vec3 v) { up		= v; };
 
 		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
 		

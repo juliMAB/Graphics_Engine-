@@ -4,13 +4,14 @@
 //#include "Model/Model.h"
 
 	const int quantity= 20;
-	using namespace JuliEngine;
+	//using namespace JuliEngine;
 class Game : BaseGame {
 	//Sprite* _sprites[quantity];
 	//Shape* _pj;
 	//Sprite* _pjS;
-	Entity2* _a;
-	Entity3D* _modeltest;
+	JuliEngine::Entity2* _a;
+	JuliEngine::Entity3D* _modeltest;
+	JuliEngine::Camera2* _cam2;
 	Camera* _cam;
 	float cameraSpeed = 30.f;
 	//Material* _materials[3];

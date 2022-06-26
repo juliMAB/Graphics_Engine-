@@ -35,9 +35,12 @@ namespace JuliEngine
 		void SetScaleAllSame(float v)			 { SetScale(v, v, v);					}
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
-		glm::vec3 getPos()		{ return getTransform()->getposition	 (); }
+		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
 		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
 		glm::vec3 getScale()	{ return getTransform()->getlocalScale (); }
+		glm::vec3 GetUp()		{ return getTransform()->getup		   (); }
+		glm::vec3 GetFront()	{ return getTransform()->getforward	   (); }
+		glm::vec3 GetRight()	{ return getTransform()->getright	   (); }
 		Renderer* getRender()	{ return _renderer; }
 		Transform* getTransform() { return GameObject::getTransform(); }
 		////---other---
@@ -46,7 +49,6 @@ namespace JuliEngine
 		void DebugInfo();
 
 		void Update();
-
 
 	private:
 		friend class MyImGui;
