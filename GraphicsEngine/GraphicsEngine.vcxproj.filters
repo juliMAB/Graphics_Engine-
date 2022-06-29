@@ -142,6 +142,9 @@
     <Filter Include="src\Camera2">
       <UniqueIdentifier>{b6ff391d-be49-4756-a76e-cfd8f4eb1f79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Input2">
+      <UniqueIdentifier>{bc93dc7c-f42e-4ac3-8cb9-b5e75dcc6f3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="src\Camera2\Camera2.cpp">
       <Filter>src\Camera2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input2\Input2.cpp">
+      <Filter>src\Input2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -478,6 +484,15 @@
     </ClInclude>
     <ClInclude Include="src\Camera2\Camera2.h">
       <Filter>src\Camera2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\Input2.h">
+      <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\KeyState.h">
+      <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\KeyCode.h">
+      <Filter>src\Input2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

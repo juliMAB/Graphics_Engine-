@@ -216,6 +216,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\ImGui\MyImGui.cpp" />
     <ClCompile Include="src\Importer\Importer.cpp" />
     <ClCompile Include="src\Importer\Importer2.cpp" />
+    <ClCompile Include="src\Input2\Input2.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Juli\Jinterface.cpp" />
     <ClCompile Include="src\LightManager\lightManager.cpp" />
@@ -272,6 +273,9 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Importer\assimpIncludes.h" />
     <ClInclude Include="src\Importer\Importer.h" />
     <ClInclude Include="src\Importer\Importer2.h" />
+    <ClInclude Include="src\Input2\Input2.h" />
+    <ClInclude Include="src\Input2\KeyCode.h" />
+    <ClInclude Include="src\Input2\KeyState.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Internal\Internal.h" />
     <ClInclude Include="src\Juli\Jinterface.h" />
