@@ -61,6 +61,17 @@ namespace JuliEngine
 		glfwSetCursorPosCallback(_window->GetWindow(), mouse_callback);
 		glfwSetScrollCallback(_window->GetWindow(), scroll_callback);
 	}
+	void Input2::Init(Window* w, Camera2* c)
+	{
+		_window = w;
+		_mainCam = c;
+		glfwSetInputMode(_window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		lastX = _window->GetWidth() / 2.0f;
+		lastY = _window->GetHeight() / 2.0f;
+		glfwSetKeyCallback(_window->GetWindow(), key_callback);
+		glfwSetCursorPosCallback(_window->GetWindow(), mouse_callback);
+		glfwSetScrollCallback(_window->GetWindow(), scroll_callback);
+	}
 
 	void Input2::mouse_callback(double xposIn, double yposIn)
 	{

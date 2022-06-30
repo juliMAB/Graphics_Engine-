@@ -17,13 +17,11 @@ namespace JuliEngine
 		Transform(GameObject* gameObject);
 		~Transform();
 #pragma region GETTERS
-		vec3 getposition()			{ return position		; };
-		vec3 geteulerAngles()		{ return eulerAngles	; };
-		vec3 getlocalScale()		{ return localScale		; };
+		vec3 getposition()			{ return m_pos			; };
+		vec3 geteulerAngles()		{ return m_eulerRot		; };
+		vec3 getlocalScale()		{ return m_scale		; };
 
-		vec3 getright()				{ return right			; };
-		vec3 getup()				{ return up				; };
-		vec3 getforward()			{ return forward		; };
+
 		
 		Transform* getparent()		{ return parent			; };
 		list<Transform*> getChilds(){ return childs			; };
@@ -32,10 +30,9 @@ namespace JuliEngine
 		Transform* getChilds(int v);
 #pragma endregion
 
-#pragma region SETTERS
-		void setposition(vec3 v) { position = v; m_isDirty = true; updateSelfAndChild(); };
-		void seteulerAngles(vec3 v) { eulerAngles = v; updateTransformRotation(); updateSelfAndChild();};
-		void setlocalScale(vec3 v) { localScale = v; updateSelfAndChild();};
+		void setposition(vec3 v) { m_pos = v; m_isDirty = true; updateSelfAndChild(); };
+		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); updateSelfAndChild();};
+		void setlocalScale(vec3 v) { m_scale = v; updateSelfAndChild();};
 
 		void setForward	(vec3 v) { forward	= v; };
 		void setRight	(vec3 v) { right	= v; };
@@ -44,19 +41,30 @@ namespace JuliEngine
 		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
 		
 		glm::mat4 getLocalModelMatrix();
-#pragma endregion
 		void updateSelfAndChild();
-	protected:
 
+		glm::vec3 getRight()	;
+		glm::vec3 getUp()		;
+		glm::vec3 getBackward() ;
+		glm::vec3 getForward()  ;
+
+		glm::vec3 getGlobalScale();
+
+		const glm::vec3& getGlobalPosition() const;
+		const glm::vec3& getLocalPosition() const;
+		const glm::vec3& getLocalRotation() const;
+		const glm::vec3& getLocalScale() const;
+		const glm::mat4& getModelMatrix() const;
+	protected:
 	private:
 		int const MAXCHILDRENS = 500;
 
-		vec3 position;
-		vec3 eulerAngles;
+		vec3 m_pos;
+		vec3 m_eulerRot;
 		vec3 right;
 		vec3 up;
 		vec3 forward;
-		vec3 localScale;
+		vec3 m_scale;
 		Transform* parent;
 		bool m_isDirty;
 
@@ -67,6 +75,9 @@ namespace JuliEngine
 		void computeModelMatrix();
 		void computeModelMatrix(const glm::mat4& parentGlobalModelMatrix);
 		void forceUpdateSelfAndChild();
+		
+
+
 	};
 #pragma region OTHERS
 	vec3 static QuatToVec(quat quat, vec3 vec);

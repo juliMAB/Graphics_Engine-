@@ -5,6 +5,7 @@
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
 #include "Entity2/Entity2.h"
+#include "Frustum/Frustrum.h"
 namespace JuliEngine
 {
 
@@ -58,6 +59,7 @@ namespace JuliEngine
 	private:
 		friend class MyImGui;
 
+		Frustum* camFrustrum;
 		Entity2* _target;
 		Window* _window;
 

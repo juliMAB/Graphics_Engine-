@@ -12,6 +12,7 @@ namespace JuliEngine
         static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
         static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
         Input2(Window* w, Camera2* c);
+        static void Init(Window* w, Camera2* c);
         ~Input2() {};
         static void mouse_callback(double xposIn, double yposIn);
         #include "KeyState.h"

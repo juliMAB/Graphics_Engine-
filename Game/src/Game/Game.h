@@ -11,8 +11,8 @@ class Game : BaseGame {
 	//Sprite* _pjS;
 	JuliEngine::Entity2* _a;
 	JuliEngine::Entity3D* _modeltest;
-	JuliEngine::Camera2* _cam2;
-	Camera* _cam;
+	JuliEngine::Camera2* _cam;
+	//Camera* _cam2;
 	float cameraSpeed = 30.f;
 	//Material* _materials[3];
 	Sprite* _floor;
@@ -38,6 +38,5 @@ public:
 	void processInput();
 
 	void UpdateCameraType();
-
 };
 #endif

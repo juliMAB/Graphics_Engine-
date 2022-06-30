@@ -103,11 +103,9 @@ void Game::Init() {
 	vec3 a = { 1,1,1 };
 	defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
-	_cam = _mainCamera;
+	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	
-	//_a = new JuliEngine::Entity2(_renderer);
 	_modeltest = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
@@ -159,10 +157,11 @@ void Game::Init() {
 	_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
 	_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
 
-	_cam->SetCameraType(CAMERA_TYPE::FC);
+	_cam->SetCameraType(JuliEngine::CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
 
 	_cam->ToogleEjes();
+
 	//_cam->SetFoward(vec3(0, 0, -1));
 	//_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }
@@ -175,6 +174,7 @@ void Game::Update()
 	_modeltest->Update();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
+	//_cam->Update();
 	_cam->Update();
 	_floor->UpdateMaterial();
 	LightsUpdate();
@@ -189,10 +189,7 @@ void Game::Draw() {
 }
 void Game::UpdateImgui()
 {
-	/*_myImgui->Begin("Camera Config");
-	vec3 camLook =_cam.look;
-	_myImgui->SliderFloat3("look",_cam->DebugInfo)
-	_myImgui->End();*/
+
 }
 void Game::LightsUpdate()
 {
@@ -237,7 +234,7 @@ void Game::processInput()
 	}
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
-	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
+	_cam->SetCameraType((JuliEngine::CAMERA_TYPE)auxCheck2);
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
 	glm::vec3 b(0);

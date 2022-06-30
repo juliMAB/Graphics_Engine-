@@ -14,7 +14,7 @@
 #include "../Entity/Entity3D.h"
 #include "../Entity2/Entity2.h"
 #include "Camera2/Camera2.h"
-
+#include "Input2/Input2.h"
 
 class GraficosEngine_API BaseGame {
 private:
@@ -28,6 +28,7 @@ protected:
 	Renderer* _renderer;
 	Time* _time;
 	Camera* _mainCamera;
+	JuliEngine::Camera2* _mainCamera2;
 	MyImGui* _myImgui;
 	//glm::vec4 backgroundColor;
 public:

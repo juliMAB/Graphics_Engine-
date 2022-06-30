@@ -36,9 +36,9 @@ namespace JuliEngine
 		cout << "pos: " + VecToString::vec3toString(transform->getposition())		<< std::endl;
 		cout << "rot: " + VecToString::vec3toString(transform->geteulerAngles())		<< std::endl;
 		cout << "sca: " + VecToString::vec3toString(transform->getlocalScale())		<< std::endl;
-		cout << "for: " + VecToString::vec3toString(transform->getforward())			<< std::endl;
-		cout << "up:  " + VecToString::vec3toString(transform->getup())				<< std::endl;
-		cout << "rig: " + VecToString::vec3toString(transform->getright())			<< std::endl;
+		cout << "for: " + VecToString::vec3toString(transform->getForward())			<< std::endl;
+		cout << "up:  " + VecToString::vec3toString(transform->getUp())				<< std::endl;
+		cout << "rig: " + VecToString::vec3toString(transform->getRight())			<< std::endl;
 	}
 	void Entity2::Update()
 	{

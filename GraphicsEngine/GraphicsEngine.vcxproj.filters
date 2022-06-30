@@ -145,6 +145,18 @@
     <Filter Include="src\Input2">
       <UniqueIdentifier>{bc93dc7c-f42e-4ac3-8cb9-b5e75dcc6f3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Plan">
+      <UniqueIdentifier>{f5e78df4-539c-4185-98e9-c8feff8315c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Frustrum">
+      <UniqueIdentifier>{d41727ea-0ef8-4f7b-9fb6-1906b7a2d4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\BoundingVolume">
+      <UniqueIdentifier>{10dfc63f-b351-47e6-9c8e-d145079276a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Collision">
+      <UniqueIdentifier>{a803bfac-6866-47b9-a56f-2571c343f1a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -493,6 +505,24 @@
     </ClInclude>
     <ClInclude Include="src\Input2\KeyCode.h">
       <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Plan\Plan.h">
+      <Filter>src\Plan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frustum\Frustrum.h">
+      <Filter>src\Frustrum</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingVolume\BoundingVolume.h">
+      <Filter>src\BoundingVolume</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\Sphere.h">
+      <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\SquareAABB.h">
+      <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\AABB.h">
+      <Filter>src\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

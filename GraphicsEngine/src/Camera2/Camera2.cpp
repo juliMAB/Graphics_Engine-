@@ -20,6 +20,7 @@ namespace JuliEngine
 		UpdateProjection();
 		UpdateView();
 		_renderer->SetUniform(_uniformViewPos, "viewPos");
+		camFrustrum = new Frustum(getTransform(), _aspect, _fov, _near, _far);
 	}
 
 	void Camera2::SetAspect(float width, float height)
@@ -45,9 +46,9 @@ namespace JuliEngine
 		direction.y = sin(glm::radians(Pitch));
 		direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		getTransform()->setForward(glm::normalize(direction));
-		getTransform()->setRight(glm::cross(getTransform()->getforward(), getTransform()->getup()));
+		getTransform()->setRight(glm::cross(getTransform()->getForward(), getTransform()->getUp()));
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			getTransform()->setposition(getTransform()->getposition() - getTransform()->getforward() * _offset);
+			getTransform()->setposition(getTransform()->getposition() - getTransform()->getForward() * _offset);
 		UpdateView();
 	}
 	void Camera2::UpdateProjection()
@@ -60,14 +61,14 @@ namespace JuliEngine
 		switch (_cameraType)
 		{
 		case CAMERA_TYPE::FPS:
-			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getforward(), getTransform()->getup());
+			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getForward(), getTransform()->getUp());
 			return;
 		case CAMERA_TYPE::TPS:
 			if (_target != NULL)
-				SetViewMatrix(getTransform()->getposition(), _target->getPos(), getTransform()->getup());
+				SetViewMatrix(getTransform()->getposition(), _target->getPos(), getTransform()->getUp());
 			return;
 		case CAMERA_TYPE::FC:
-			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getforward(), getTransform()->getup());
+			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getForward(), getTransform()->getUp());
 			break;
 		}
 	}
@@ -80,7 +81,7 @@ namespace JuliEngine
 			_fov = 45.0f;
 		UpdateProjection();
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			SetViewMatrix(getPos(), _target->getPos(), getTransform()->getup());
+			SetViewMatrix(getPos(), _target->getPos(), getTransform()->getUp());
 	}
 	void Camera2::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 	{

@@ -2,8 +2,8 @@
 
 SpotLight::SpotLight(Renderer* render) : PointLight(render)
 {
-	_cam=nullptr;
-
+	_cam  = nullptr;
+	_cam2 = nullptr;
 	cutOff=0;
 	outerCutOff=0;
 
@@ -29,9 +29,17 @@ void SpotLight::UpdateLight()
 	PointLight::UpdateLight();
 
 	_renderer->UseShader();
+	if (_cam != nullptr)
+	{
+		_renderer->UpdateVec3(_uniformPosition, _cam->getPos());
+		_renderer->UpdateVec3(_uniformDirection, _cam->GetFront());
+	}
+	if (_cam2 != nullptr)
+	{
+		_renderer->UpdateVec3(_uniformPosition, _cam2->getPos());
+		_renderer->UpdateVec3(_uniformDirection, _cam2->GetFront());
+	}
 
-	_renderer->UpdateVec3(_uniformPosition, _cam->getPos());
-	_renderer->UpdateVec3(_uniformDirection, _cam->GetFront());
 	_renderer->UpdateFloatValue(_uniformCutOff, cutOff);
 	_renderer->UpdateFloatValue(_uniformOuterCutOff, outerCutOff);
 
@@ -45,6 +53,11 @@ SpotLight::~SpotLight()
 void SpotLight::SetCamera(Camera* cam)
 {
 	this->_cam = cam;
+}
+
+void SpotLight::SetCamera(JuliEngine::Camera2* cam)
+{
+	this->_cam2 = cam;
 }
 
 void SpotLight::SetCutOff(float cutOff)

@@ -3,6 +3,7 @@
 
 #include "pointLight.h"
 #include "../Camera/Camera.h"
+#include "Camera2/Camera2.h"
 
 
 class GraficosEngine_API SpotLight : public PointLight
@@ -15,6 +16,7 @@ public:
 
 	~SpotLight();
 	void SetCamera(Camera* cam);
+	void SetCamera(JuliEngine::Camera2* cam);
 	void SetCutOff(float cutOff);
 	void SetOuterCutOff(float outerCutOff);
 	static int CuantitySpots;
@@ -22,6 +24,7 @@ public:
 protected:
 
 	Camera* _cam;
+	JuliEngine::Camera2* _cam2;
 	float cutOff;
 	float outerCutOff;
 

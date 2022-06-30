@@ -46,9 +46,9 @@ namespace JuliEngine
 
 	Transform::Transform(GameObject* gameObject) : Component(this,gameObject)
 	{
-		 position = vec3(0,0,0);
-		 eulerAngles = vec3(0,0,0);
-		 localScale = vec3(1);
+		 m_pos = vec3(0,0,0);
+		 m_eulerRot = vec3(0,0,0);
+		 m_scale = vec3(1);
 		 
 		 forward = vec3(0,0,1);
 		 right = vec3(1,0,0);
@@ -80,18 +80,18 @@ namespace JuliEngine
 	glm::mat4 Transform::getLocalModelMatrix()
 	{
 		updateTransformRotation();
-		const mat4 transformX = glm::rotate(mat4(1.0f),radians(eulerAngles.x), vec3(1.0f, 0.0f, 0.0f));
-		const mat4 transformY = glm::rotate(mat4(1.0f),radians(eulerAngles.y), vec3(0.0f, 1.0f, 0.0f));
-		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(eulerAngles.z), vec3(0.0f, 0.0f, 1.0f));
+		const mat4 transformX = glm::rotate(mat4(1.0f),radians(m_eulerRot.x), vec3(1.0f, 0.0f, 0.0f));
+		const mat4 transformY = glm::rotate(mat4(1.0f),radians(m_eulerRot.y), vec3(0.0f, 1.0f, 0.0f));
+		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(m_eulerRot.z), vec3(0.0f, 0.0f, 1.0f));
 		// Y * X * Z
 		const mat4 roationMatrix = transformY * transformX * transformZ;
 		// translation * rotation * scale (also know as TRS matrix)
-		return glm::translate(glm::mat4(1.0f), position) * roationMatrix * glm::scale4(mat4(1.0f), localScale);
+		return glm::translate(glm::mat4(1.0f), m_pos) * roationMatrix * glm::scale4(mat4(1.0f), m_scale);
 	}
 
 	void Transform::updateTransformRotation()
 	{
-		quat rotation = EulerToQuat(eulerAngles);
+		quat rotation = EulerToQuat(m_eulerRot);
 		forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
 		up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
 		right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
@@ -121,6 +121,57 @@ namespace JuliEngine
 		{
 			getChilds(i)->forceUpdateSelfAndChild();
 		}
+	}
+
+	const glm::vec3& Transform::getGlobalPosition() const
+	{
+		return m_modelMatrix[3];
+	}
+
+	const glm::vec3& Transform::getLocalPosition() const
+	{
+		return m_pos;
+	}
+
+	const glm::vec3& Transform::getLocalRotation() const
+	{
+		return m_eulerRot;
+	}
+
+	const glm::vec3& Transform::getLocalScale() const
+	{
+		return m_scale;
+	}
+
+	const glm::mat4& Transform::getModelMatrix() const
+	{
+		return m_modelMatrix;
+	}
+
+	glm::vec3 Transform::getRight()
+	{
+		return m_modelMatrix[0];
+	}
+
+
+	glm::vec3 Transform::getUp()
+	{
+		return m_modelMatrix[1];
+	}
+
+	glm::vec3 Transform::getBackward()
+	{
+		return m_modelMatrix[2];
+	}
+
+	glm::vec3 Transform::getForward()
+	{
+		return -m_modelMatrix[2];
+	}
+
+	glm::vec3 Transform::getGlobalScale()
+	{
+		return { glm::length(getRight()), glm::length(getUp()), glm::length(getBackward()) };
 	}
 }
 
