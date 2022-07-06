@@ -13,7 +13,7 @@ namespace JuliEngine
 			: BoundingVolume{}, center{ (max + min) * 0.5f }, extents{ max.x - center.x, max.y - center.y, max.z - center.z }
 		{}
 
-		AABB(glm::vec3& inCenter, float iI, float iJ, float iK)
+		AABB(glm::vec3 inCenter, float iI, float iJ, float iK)
 			: BoundingVolume{}, center{ inCenter }, extents{ iI, iJ, iK }
 		{}
 
@@ -32,7 +32,7 @@ namespace JuliEngine
 		}
 
 		//see https://gdbooks.gitbooks.io/3dcollisions/content/Chapter2/static_aabb_plan.html
-		bool isOnOrForwardPlan(Plan& plan)
+		bool isOnOrForwardPlan(Plan plan)
 		{
 			// Compute the projection interval radius of b onto L(t) = b.c + t * p.n
 			const float r = extents.x * std::abs(plan.normal.x) + extents.y * std::abs(plan.normal.y) +
@@ -41,15 +41,15 @@ namespace JuliEngine
 			return -r <= plan.getSignedDistanceToPlan(center);
 		}
 
-		bool isOnFrustum(Frustum& camFrustum, Transform& transform)
+		bool isOnFrustum(Frustum* camFrustum, Transform* transform)
 		{
 			//Get global scale thanks to our transform
-			glm::vec3 globalCenter{ transform.getModelMatrix() * glm::vec4(center, 1.f) };
+			glm::vec3 globalCenter{ transform->getModelMatrix() * glm::vec4(center, 1.f) };
 
 			// Scaled orientation
-			glm::vec3 right = transform.getRight() * extents.x;
-			glm::vec3 up = transform.getUp() * extents.y;
-			glm::vec3 forward = transform.getForward() * extents.z;
+			glm::vec3 right =	transform->getRight() * extents.x;
+			glm::vec3 up =		transform->getUp() * extents.y;
+			glm::vec3 forward = transform->getForward() * extents.z;
 
 			float newIi = std::abs(glm::dot(glm::vec3{ 1.f, 0.f, 0.f }, right)) +
 				std::abs(glm::dot(glm::vec3{ 1.f, 0.f, 0.f }, up)) +
@@ -65,12 +65,12 @@ namespace JuliEngine
 
 			AABB globalAABB(globalCenter, newIi, newIj, newIk);
 
-			return (globalAABB.isOnOrForwardPlan(camFrustum.leftFace) &&
-				globalAABB.isOnOrForwardPlan(camFrustum.rightFace) &&
-				globalAABB.isOnOrForwardPlan(camFrustum.topFace) &&
-				globalAABB.isOnOrForwardPlan(camFrustum.bottomFace) &&
-				globalAABB.isOnOrForwardPlan(camFrustum.nearFace) &&
-				globalAABB.isOnOrForwardPlan(camFrustum.farFace));
+			return (globalAABB.isOnOrForwardPlan(camFrustum->leftFace) &&
+				globalAABB.isOnOrForwardPlan	(camFrustum->rightFace) &&
+				globalAABB.isOnOrForwardPlan	(camFrustum->topFace) &&
+				globalAABB.isOnOrForwardPlan	(camFrustum->bottomFace) &&
+				globalAABB.isOnOrForwardPlan	(camFrustum->nearFace) &&
+				globalAABB.isOnOrForwardPlan	(camFrustum->farFace));
 		};
 	};
 }

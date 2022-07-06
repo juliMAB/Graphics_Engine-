@@ -24,6 +24,8 @@ namespace JuliEngine
         {
             listModel.push_back(this);
             setModelPtr(this);
+            generateAABB();
+            //boundingVolume = std::make_unique<AABB>(generateAABB());
         }
         //draws the model, and thus all its meshes
         void Draw();
@@ -31,7 +33,7 @@ namespace JuliEngine
         friend class MyImGui;
         void generateAABB();
 
-        void drawSelfAndChild(Frustum& frustum);
+        void drawSelfAndChild(Frustum* frustum);
         
         
     };

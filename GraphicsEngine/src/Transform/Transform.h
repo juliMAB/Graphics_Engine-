@@ -33,9 +33,9 @@ namespace JuliEngine
 		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); updateSelfAndChild();};
 		void setlocalScale(vec3 v) { m_scale = v; updateSelfAndChild();};
 
-		void setForward	(vec3 v) { forward	= v; };
-		void setRight	(vec3 v) { right	= v; };
-		void setUp		(vec3 v) { up		= v; };
+		void setForward(vec3 v);// { forward = v; };
+		void setRight(vec3 v);// { right	= v;};
+		void setUp(vec3 v);
 
 		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
 		
@@ -60,9 +60,9 @@ namespace JuliEngine
 
 		vec3 m_pos;
 		vec3 m_eulerRot;
-		vec3 right;
-		vec3 up;
-		vec3 forward;
+		//vec3 right;
+		//vec3 up;
+		//vec3 forward;
 		vec3 m_scale;
 		Transform* parent;
 		bool m_isDirty;

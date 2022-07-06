@@ -29,15 +29,14 @@ namespace JuliEngine
 	{
 		if (getactive())
 		{
-			getRender()->UpdateMVP(getTransform()->getmodel());
 			for (std::list<Mesh2*>::iterator it = meshes.begin(); it != meshes.end(); it++)
 				if ((*it)->getactive())
 					(*it)->Draw();
 		}
 	}
-	void Model2::drawSelfAndChild(Frustum& frustum)
+	void Model2::drawSelfAndChild(Frustum* frustum)
 	{
-		if (boundingVolume->isOnFrustum(frustum, getPrTransform()))
+		if (volume->isOnFrustum(frustum, getTransform()))
 		{
 			_renderer->UpdateModel(getTransform()->getModelMatrix());
 
@@ -46,7 +45,10 @@ namespace JuliEngine
 
 		for (auto&& child : getTransform()->getChilds())
 		{
-			child->getEntity()->getModelPtr()->drawSelfAndChild(frustum);
+			if (child->getEntity()->getModelPtr()!=nullptr)
+			{
+				child->getEntity()->getModelPtr()->drawSelfAndChild(frustum);
+			}
 		}
 	}
 }

@@ -71,8 +71,6 @@ void Game::Init() {
 	_modeltest = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
-		int x = 0;
-		int y = 0;
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
@@ -123,9 +121,6 @@ void Game::Init() {
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
 
 	_cam->ToogleEjes();
-
-	//_cam->SetFoward(vec3(0, 0, -1));
-	//_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }
 
 void Game::Deinit() {
@@ -136,7 +131,6 @@ void Game::Update()
 	_modeltest->Update();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
-	//_cam->Update();
 	_cam->Update();
 	_floor->UpdateMaterial();
 	LightsUpdate();
@@ -145,7 +139,7 @@ void Game::Update()
 }
 void Game::Draw() {
 	_floor->Draw();
-	_modeltest->draw();
+	_modeltest->draw(_cam->getfrustrum());
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 }
@@ -181,8 +175,8 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += _cam->GetUp();
 	if (auxCheck2 == CAMERA_TYPE::FC)
-		_cam->Move(a * _time->_deltaTime * cameraSpeed);
-	
+		_cam->Move(a * _time->_deltaTime);
+
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
@@ -199,23 +193,6 @@ void Game::processInput()
 	_cam->SetCameraType((JuliEngine::CAMERA_TYPE)auxCheck2);
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
-	glm::vec3 b(0);
-	if (Input::IsKeyPressed(Input::KEY_UP))
-		b += _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_DOWN))
-		b -= _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_LEFT))
-		b -= _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_RIGHT))
-		b += _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_KP_0))
-		b -= _cam->GetUp();
-	if (Input::IsKeyPressed(Input::KEY_KP_1))
-		b += _cam->GetUp();
-	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
-	//if (Input::IsKeyPressed(Input::KEY_Z))
-	//	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
-
 }
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;

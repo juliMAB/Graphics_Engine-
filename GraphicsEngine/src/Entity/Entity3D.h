@@ -16,6 +16,7 @@ namespace JuliEngine
 		Entity3D(Renderer* render, std::string path);
 		~Entity3D() {};
 		void draw();
+		void draw(Frustum* frustum);
 	private:
 		Model2* model;
 	};

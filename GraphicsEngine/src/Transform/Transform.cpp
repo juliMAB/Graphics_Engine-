@@ -49,9 +49,9 @@ namespace JuliEngine
 		m_eulerRot = vec3(0, 0, 0);
 		m_scale = vec3(1);
 
-		forward = vec3(0, 0, 1);
-		right = vec3(1, 0, 0);
-		up = vec3(0, 1, 0);
+		//forward = vec3(0, 0, 1);
+		//right = vec3(1, 0, 0);
+		//up = vec3(0, 1, 0);
 
 		m_modelMatrix = mat4(1);
 
@@ -67,9 +67,9 @@ namespace JuliEngine
 		 m_eulerRot = vec3(0,0,0);
 		 m_scale = vec3(1);
 		 
-		 forward = vec3(0,0,1);
-		 right = vec3(1,0,0);
-		 up = vec3(0,1,0);
+		//forward = vec3(0,0,1);
+		//right = vec3(1,0,0);
+		//up = vec3(0,1,0);
 		 
 		m_modelMatrix = mat4(1);
 		
@@ -94,6 +94,28 @@ namespace JuliEngine
 		return *it;
 	}
 
+	void Transform::setForward(vec3 v)
+	{
+		m_modelMatrix[2].x = -v.x;
+		m_modelMatrix[2].y = -v.y;
+		m_modelMatrix[2].z = -v.z;
+		m_modelMatrix[2].w = -0;
+	}
+	void Transform::setRight(vec3 v)
+	{
+		m_modelMatrix[0].x = v.x;
+		m_modelMatrix[0].y = v.y;
+		m_modelMatrix[0].z = v.z;
+		m_modelMatrix[0].w = 0;
+	};
+	void Transform::setUp(vec3 v)
+	{
+		m_modelMatrix[1].x = v.x;
+		m_modelMatrix[1].y = v.y;
+		m_modelMatrix[1].z = v.z;
+		m_modelMatrix[1].w = 0;
+	};
+
 	glm::mat4 Transform::getLocalModelMatrix()
 	{
 		updateTransformRotation();
@@ -109,9 +131,12 @@ namespace JuliEngine
 	void Transform::updateTransformRotation()
 	{
 		quat rotation = EulerToQuat(m_eulerRot);
-		forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
-		up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
-		right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
+		vec3 forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
+		vec3 up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
+		vec3 right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
+		setForward(forward);
+		setUp(up);
+		setRight(right);
 	}
 	void Transform::updateSelfAndChild()
 	{

@@ -54,6 +54,7 @@ namespace JuliEngine
 		Entity2* GetTarget() { return _target; };
 		CAMERA_TYPE GetCameraType() { return _cameraType; };
 
+		Frustum* getfrustrum() { return camFrustrum; };
 		//--------Others--------
 		void DebugInfo();
 		bool _ejes;

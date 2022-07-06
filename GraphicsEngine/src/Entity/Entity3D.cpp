@@ -17,8 +17,14 @@ namespace JuliEngine
 	{
 		if (getactive())
 		{
-			getRender()->UpdateMVP(getTransform()->getmodel());
 			model->Draw();
+		}
+	}
+	void Entity3D::draw(Frustum* frustum)
+	{
+		if (getactive())
+		{
+			model->drawSelfAndChild(frustum);
 		}
 	}
 }
