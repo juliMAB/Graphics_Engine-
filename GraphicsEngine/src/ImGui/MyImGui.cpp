@@ -66,6 +66,10 @@ void MyImGui::Update()
     {
         UpdateWindowsModel();
     }
+    if (ShowCamera2)
+    {
+        UpdateWindowsCamera();
+    }
 }
 
 void MyImGui::Draw()
@@ -102,6 +106,10 @@ void MyImGui::UpdateMainWindows()
     if (ImGui::Button("MODEL", ImVec2(ImGui::GetWindowWidth(), 20)))
     {
         ShowModelList = !ShowModelList;
+    }
+    if (ImGui::Button("CAMERA2", ImVec2(ImGui::GetWindowWidth(), 20)))
+    {
+        ShowCamera2 = !ShowCamera2;
     }
     ImGui::End();
 }
@@ -216,6 +224,14 @@ void MyImGui::UpdateWindowsModel()
             }
         }
     }
+    ImGui::End();
+}
+
+void MyImGui::UpdateWindowsCamera()
+{
+    ImGui::Begin("CAMERA");
+    Camera2* it = Camera2::_mainCamera;
+    (ImGui::SliderFloat(((it)->getName() + " Speed").c_str(), (float*)&(it)->MovementSpeed, -10.0f, 10.0f));
     ImGui::End();
 }
 

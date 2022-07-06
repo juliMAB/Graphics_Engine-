@@ -62,6 +62,7 @@ public:
 	void SetBaseAttribs(uint location, int size, GLsizei stride, const void* offset);
 	void SetTextureAttribs(uint location, int size, int stride, int offset);
 	void UpdateMVP(glm::mat4 model);
+	void UpdateModel(glm::mat4 model);
 	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
 	void UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor);
 	void UpdateColor(uint uniformBaseColor, glm::vec3 baseColor);

@@ -2,6 +2,7 @@
 #include <Juli/Jinterface.h>
 namespace JuliEngine
 {
+	Camera2* Camera2::_mainCamera;
 	Camera2::Camera2(Renderer* render, Window* window) : Entity2(render)
 	{
 		_renderer = render;
@@ -21,6 +22,7 @@ namespace JuliEngine
 		UpdateView();
 		_renderer->SetUniform(_uniformViewPos, "viewPos");
 		camFrustrum = new Frustum(getTransform(), _aspect, _fov, _near, _far);
+		_mainCamera = this;
 	}
 
 	void Camera2::SetAspect(float width, float height)

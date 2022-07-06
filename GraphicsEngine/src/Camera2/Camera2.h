@@ -48,6 +48,8 @@ namespace JuliEngine
 		void ProcessMouseScroll(float yoffset);
 		void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 		void ToogleEjes();
+
+		void Move(vec3 v) { Entity2::Move(v * MovementSpeed); };
 		//--------Getters-------
 		Entity2* GetTarget() { return _target; };
 		CAMERA_TYPE GetCameraType() { return _cameraType; };
@@ -56,6 +58,7 @@ namespace JuliEngine
 		void DebugInfo();
 		bool _ejes;
 		bool _mouseMoveCamera;
+		static Camera2* _mainCamera;
 	private:
 		friend class MyImGui;
 

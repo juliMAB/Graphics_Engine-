@@ -6,6 +6,7 @@
 #include "../Entity/Entity.h"
 #include "Entity2/Entity2.h"
 #include "Model/Model2.h"
+#include "Camera2/Camera2.h"
 #include "../Light/light.h"
 #include <stdio.h>
 #include "../Window/Window.h"
@@ -51,12 +52,14 @@ public:
 
 	void UpdateWindowsEntity2();
 	void UpdateWindowsModel();
+	void UpdateWindowsCamera();
 private:
 	const char* glsl_version;
 	Window* _window;
 	void UpdateWindowsOne();
 	bool ShowEntity2List;
 	bool ShowModelList;
+	bool ShowCamera2;
 };
 
 #endif

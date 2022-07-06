@@ -18,6 +18,14 @@ namespace JuliEngine
 		tag = "default";
 		AddDescription("-> ||Component|| ");
 	}
+	Component::Component(Transform* transform, GameObject* gameObject, Entity2* ourEntity)
+	{
+		this->transform = transform;
+		this->gameObject = gameObject;
+		this->ourEntity = ourEntity;
+		tag = "default";
+		AddDescription("-> ||Component|| ");
+	}
 	Component::~Component()
 	{
 	}

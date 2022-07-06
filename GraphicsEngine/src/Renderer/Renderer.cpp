@@ -149,6 +149,10 @@ void Renderer::UpdateMVP(glm::mat4 model)
 	glUniformMatrix4fv(_uniformView, 1, GL_FALSE, glm::value_ptr(_view));
 	glUniformMatrix4fv(_uniformProjection, 1, GL_FALSE, glm::value_ptr(_projection));
 }
+void Renderer::UpdateModel(glm::mat4 model)
+{
+	glUniformMatrix4fv(_uniformTransform, 1, GL_FALSE, glm::value_ptr(model));
+}
 void Renderer::UpdateVec3(uint uniformVec3, glm::vec3 vec3Value)
 {
 	glUniform3fv(uniformVec3, 1, glm::value_ptr(vec3Value));

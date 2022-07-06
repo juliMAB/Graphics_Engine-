@@ -4,7 +4,7 @@ namespace JuliEngine
 {
 	int Entity2::CuantityEntitys = 0;
 	std::list<Entity2*> Entity2::EntitysLists;
-	Entity2::Entity2(Renderer* renderer) : GameObject()
+	Entity2::Entity2(Renderer* renderer) : GameObject(this)
 	{
 		_renderer = renderer;
 		_locationPosition =0;
@@ -16,7 +16,6 @@ namespace JuliEngine
 		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
 	}
-
 	Entity2::~Entity2()
 	{
 		EntitysLists.remove(this);
@@ -52,5 +51,4 @@ namespace JuliEngine
 		_renderer->SetLocation(_locationNormal, "aNor");
 		_renderer->SetUniform(_uniformColor, "color");
 	}
-
 }

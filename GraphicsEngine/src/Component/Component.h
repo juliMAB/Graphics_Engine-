@@ -1,20 +1,21 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 #include "Object/Object.h"
-//#include "Transform/Transform.h"
 namespace JuliEngine
 {
 class Transform;
 class GameObject;
+class Entity2;
 	class GraficosEngine_API Component : public Object
 	{
     public:
         Component() { tag = "default"; AddDescription("-> ||Component|| ");};
         Component(Transform* transform, GameObject* gameObject);
+        Component(Transform* transform, GameObject* gameObject, Entity2* ourEntity);
 		~Component();
         Transform* getTransform() { return transform; };
         GameObject* getGameObject() { return gameObject; };
-
+        Entity2* getEntity() { return ourEntity; };
     protected:
             
        
@@ -33,7 +34,7 @@ class GameObject;
 
         Transform* transform;
         GameObject* gameObject;
-
+        Entity2* ourEntity;
 	};
 }
 #endif // !COMPONENT_H

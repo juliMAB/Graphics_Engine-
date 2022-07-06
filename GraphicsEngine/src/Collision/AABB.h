@@ -1,7 +1,6 @@
 #ifndef AABB_H
 #define AABB_H
 #include "BoundingVolume/BoundingVolume.h"
-#include "Model/Model2.h"
 #include <array>
 namespace JuliEngine
 {
@@ -74,26 +73,5 @@ namespace JuliEngine
 				globalAABB.isOnOrForwardPlan(camFrustum.farFace));
 		};
 	};
-	AABB generateAABB(Model2& model)
-	{
-		glm::vec3 minAABB = glm::vec3(std::numeric_limits<float>::max());
-		glm::vec3 maxAABB = glm::vec3(std::numeric_limits<float>::min());
-
-		for (std::list<Mesh2*>::iterator it = model.meshes.begin(); it != model.meshes.end(); it++)
-		{
-			MeshData* data = (**it).data;
-			for (auto&& vertex : data->vertices)
-			{
-				minAABB.x = std::min(minAABB.x, vertex.Position.x);
-				minAABB.y = std::min(minAABB.y, vertex.Position.y);
-				minAABB.z = std::min(minAABB.z, vertex.Position.z);
-
-				maxAABB.x = std::max(maxAABB.x, vertex.Position.x);
-				maxAABB.y = std::max(maxAABB.y, vertex.Position.y);
-				maxAABB.z = std::max(maxAABB.z, vertex.Position.z);
-			}
-		}
-		return AABB(minAABB, maxAABB);
-	}
 }
 #endif // !AABB

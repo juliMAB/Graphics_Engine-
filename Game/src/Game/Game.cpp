@@ -19,39 +19,9 @@ bool firstMouse = true;
 
 
 
-//MaterialS emerald{ 
-//	{0.0215f,	0.1745f, 0.0215f},
-//	{0.07568f,	0.61424f,	0.07568f},
-//	{0.633f,	0.727811f,	0.633f,},
-//0.60f *100
-//};
-//MaterialS jade{
-//	{0.135f,	0.2225f,	0.1575f},
-//	{0.54f,	0.89f,	0.63f},
-//	{0.316228f,	0.316228f,	0.316228f},
-//	1
-//};
-//MaterialS obsidian{
-//	{0.05375f,	0.05f,	0.06625f},
-//	{0.18275f,	0.17f,	0.22525f},
-//	{0.332741f,	0.328634f, 0.346435f},
-//	0.3f
-//};
-//MaterialS defaultMat{
-//	{0.2f, 0.2f, 0.2f},
-//	{0.5f, 0.5f, 0.5f},
-//	{1.0f, 1.0f, 1.0f},
-//	64.f
-//};
+
 MaterialS* defaultM;
 
-//enum DIR
-//{
-//	DOWN,
-//	RIGHT,
-//	LEFT,
-//	UP
-//};
 int Down,Left,Right,Up;
 
 glm::vec3 cubePositions[] = {
@@ -75,14 +45,6 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
-	//for (int i = 0; i < quantity; i++)
-	//	_sprites[i] = nullptr;
-	//_pj					  =nullptr;
-	//_pjS				  =nullptr;
-	//_cam				  =nullptr;
-	//cameraSpeed			  =30.f;
-	//for (int i = 0; i < 3; i++)
-	//	_materials[i] = nullptr;
 	_a =nullptr;
 	_floor				  =nullptr;
 	_tex				  =nullptr;
@@ -219,7 +181,7 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += _cam->GetUp();
 	if (auxCheck2 == CAMERA_TYPE::FC)
-		_cam->SetPos(_cam->getPos() + a * _time->_deltaTime*cameraSpeed);
+		_cam->Move(a * _time->_deltaTime * cameraSpeed);
 	
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();

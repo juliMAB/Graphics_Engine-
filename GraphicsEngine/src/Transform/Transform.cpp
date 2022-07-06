@@ -43,8 +43,25 @@ namespace JuliEngine
 		q.z = cr * cp * sy - sr * sp * cy;
 		return q;
 	}
+	Transform::Transform(GameObject* gameObject) : Component(this, gameObject)
+	{
+		m_pos = vec3(0, 0, 0);
+		m_eulerRot = vec3(0, 0, 0);
+		m_scale = vec3(1);
 
-	Transform::Transform(GameObject* gameObject) : Component(this,gameObject)
+		forward = vec3(0, 0, 1);
+		right = vec3(1, 0, 0);
+		up = vec3(0, 1, 0);
+
+		m_modelMatrix = mat4(1);
+
+		parent = nullptr;
+		childs = list<Transform*>(0);
+
+		updateTransformRotation();
+		AddDescription("-> ||Transform|| ");
+	}
+	Transform::Transform(GameObject* gameObject,Entity2* ourEntity) : Component(this,gameObject, ourEntity)
 	{
 		 m_pos = vec3(0,0,0);
 		 m_eulerRot = vec3(0,0,0);

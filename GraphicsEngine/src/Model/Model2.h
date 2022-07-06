@@ -2,6 +2,7 @@
 #define MODEL_H
 
 #include "Mesh2/Mesh2.h"
+#include "Collision/AABB.h"
 #include <list>
 using namespace std;
 namespace JuliEngine 
@@ -22,20 +23,17 @@ namespace JuliEngine
         Model2(Renderer* render, bool gamma) : Entity2(render)
         {
             listModel.push_back(this);
+            setModelPtr(this);
         }
-        // draws the model, and thus all its meshes
-        void Draw()
-        {
-            if (getactive())
-            {
-                getRender()->UpdateMVP(getTransform()->getmodel());
-                for (std::list<Mesh2*>::iterator it = meshes.begin(); it != meshes.end(); it++)
-                    if ((*it)->getactive())
-                        (*it)->Draw();
-            }
-        }
+        //draws the model, and thus all its meshes
+        void Draw();
         list<Mesh2*> GetMeshes() { return meshes; };
         friend class MyImGui;
+        void generateAABB();
+
+        void drawSelfAndChild(Frustum& frustum);
+        
+        
     };
 }
 

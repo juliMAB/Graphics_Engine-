@@ -4,8 +4,6 @@
 #include "GLM/gtc/type_ptr.hpp"
 #include "Exports/Exports.h"
 #include "Component/Component.h"
-//#include <list>
-//#include <list>
 using namespace glm;
 using namespace std;
 #define MAXCHILDREN 500;
@@ -15,6 +13,7 @@ namespace JuliEngine
 	{
 	public:
 		Transform(GameObject* gameObject);
+		Transform(GameObject* gameObject, Entity2* ourEntity);
 		~Transform();
 #pragma region GETTERS
 		vec3 getposition()			{ return m_pos			; };

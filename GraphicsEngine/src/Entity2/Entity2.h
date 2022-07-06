@@ -5,8 +5,10 @@
 #include <iostream>
 #include <list>
 #include "GameObject/GameObject.h"
+#include "Collision/AABB.h"
 namespace JuliEngine
 {
+	class Model2;
 	class GraficosEngine_API Entity2 : public GameObject {
 	public:
 		static int CuantityEntitys;
@@ -42,7 +44,6 @@ namespace JuliEngine
 		glm::vec3 GetFront()	{ return getTransform()->getForward	   (); }
 		glm::vec3 GetRight()	{ return getTransform()->getRight	   (); }
 		Renderer* getRender()	{ return _renderer; }
-		Transform* getTransform() { return GameObject::getTransform(); }
 		////---other---
 		vec3 getColor() { return _color; };
 		void SetColor(vec3 v) { _color = v; _renderer->UpdateColor(_uniformColor, _color); };
@@ -50,17 +51,29 @@ namespace JuliEngine
 
 		void Update();
 
+		void setModelPtr(Model2* ptr) { _modelPtr = ptr; };
+		Model2* getModelPtr() { return _modelPtr; };
+
+
+		void Move(vec3 v) { SetPos(getPos() + v); };
 	private:
 		friend class MyImGui;
 	protected:
 		vec3 _color;
 		Renderer* _renderer;
+		
+		Model2* _modelPtr;
 
+		//vector<glm::vec3> aabb;
+		//vector<glm::vec3> localAABB;
+		AABB* volume;
+		std::unique_ptr<AABB> boundingVolume;
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
 		uint _uniformColor;
 		virtual void SetUniforms();
+
 	};
 }
 
