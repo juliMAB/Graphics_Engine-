@@ -174,8 +174,8 @@ void baseEntity2Edit(Entity2* it)
             (it)->SetRotations(rot);
         if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
             (it)->SetScale(scale);
-        if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
-            (it)->SetColor(color);
+        //if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
+            //(it)->SetColor(color);
     }
 }
 void baseLight2Edit(Light* it)
