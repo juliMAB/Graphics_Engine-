@@ -43,9 +43,7 @@ namespace JuliEngine
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
             Entity2* mynode = new Entity2(newModel->getRender());
-            string n = "node ";
-            string name = node->mName.C_Str();
-            mynode->setName("Node_" + name +  "_" + JuliEngine::to_string(i));
+            mynode->setName(node->mChildren[i]->mName.C_Str());
             newModel->nodes.push_back(mynode);
             mynode->getTransform()->setparent(currentParent);
             
