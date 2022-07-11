@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -224,6 +224,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Light\light.cpp" />
     <ClCompile Include="src\Light\pointLight.cpp" />
     <ClCompile Include="src\Light\spotLight.cpp" />
+    <ClCompile Include="src\line\line.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
     <ClCompile Include="src\Mesh2\Mesh2.cpp" />
     <ClCompile Include="src\Model\Model2.cpp" />
@@ -290,6 +291,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Light\light.h" />
     <ClInclude Include="src\Light\pointLight.h" />
     <ClInclude Include="src\Light\spotLight.h" />
+    <ClInclude Include="src\line\line.h" />
     <ClInclude Include="src\Material\Material.h" />
     <ClInclude Include="src\Mesh2\Mesh2.h" />
     <ClInclude Include="src\Mesh\Mesh2.h" />

@@ -30,7 +30,9 @@ namespace JuliEngine
         void Draw();
         list<Mesh2*> GetMeshes() { return meshes; };
         friend class MyImGui;
-        void generateAABB();
+        AABB* generateAABB();
+
+        void UpdateAABB();
 
         void drawSelfAndChild(Frustum* frustum);
         

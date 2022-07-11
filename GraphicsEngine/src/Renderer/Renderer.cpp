@@ -99,6 +99,11 @@ void Renderer::BindUV(uint UVB, int tam, float* vertices)
 	glBindBuffer(GL_ARRAY_BUFFER, UVB);
 	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_DYNAMIC_DRAW);
 }
+void Renderer::reBindBuffer(uint UVB, int tam, const void* vertices)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, UVB);
+	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_DYNAMIC_DRAW);
+}
 void Renderer::UnBind(uint& VAO, uint& VBO, uint& EBO)
 {
 	glDeleteVertexArrays(1, &VAO);
@@ -208,7 +213,14 @@ void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts,
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
+void Renderer::DrawLines(uint VAO, uint vertices)
+{
+	glBindVertexArray(VAO);
 
+	glDrawArrays(GL_LINES, 0, vertices);
+
+	glBindVertexArray(0);
+}
 //void Renderer::DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO)
 //{
 //	unsigned int diffuseNr = 1;

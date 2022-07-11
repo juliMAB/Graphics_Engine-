@@ -10,6 +10,7 @@ namespace JuliEngine
 		_locationPosition =0;
 		_locationNormal	  =0;
 		_locationTexCoord =0;
+		_color = glm::vec3(1, 1, 1);
 		EntitysLists.push_front(this);
 		 SetnameOBJ("Entity " + std::to_string(CuantityEntitys));
 		 setName("Entity " + std::to_string(CuantityEntitys));

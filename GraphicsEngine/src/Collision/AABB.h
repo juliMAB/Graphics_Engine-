@@ -12,6 +12,11 @@ namespace JuliEngine
 		AABB(glm::vec3& min, glm::vec3& max)
 			: BoundingVolume{}, center{ (max + min) * 0.5f }, extents{ max.x - center.x, max.y - center.y, max.z - center.z }
 		{}
+		void Set(glm::vec3 min, glm::vec3 max)
+		{
+			center = { (max + min) * 0.5f }, extents = { max.x - center.x, max.y - center.y, max.z - center.z };
+		}
+		
 
 		AABB(glm::vec3 inCenter, float iI, float iJ, float iK)
 			: BoundingVolume{}, center{ inCenter }, extents{ iI, iJ, iK }
@@ -72,6 +77,39 @@ namespace JuliEngine
 				globalAABB.isOnOrForwardPlan	(camFrustum->nearFace) &&
 				globalAABB.isOnOrForwardPlan	(camFrustum->farFace));
 		};
+
+		std::vector<Vertex2> GetVertexs()
+		{
+			glm::vec3 vertice[8];
+			vertice[0] = { center.x - extents.x, center.y - extents.y, center.z - extents.z };
+			vertice[1] = { center.x + extents.x, center.y - extents.y, center.z - extents.z };
+			vertice[2] = { center.x - extents.x, center.y + extents.y, center.z - extents.z };
+			vertice[3] = { center.x + extents.x, center.y + extents.y, center.z - extents.z };
+			vertice[4] = { center.x - extents.x, center.y - extents.y, center.z + extents.z };
+			vertice[5] = { center.x + extents.x, center.y - extents.y, center.z + extents.z };
+			vertice[6] = { center.x - extents.x, center.y + extents.y, center.z + extents.z };
+			vertice[7] = { center.x + extents.x, center.y + extents.y, center.z + extents.z };
+
+			std::vector<Vertex2> vertexs = std::vector<Vertex2>();
+			for (int i = 0; i < 8; i++)
+			{
+				Vertex2 vertex;
+				vertex.Position = vertice[i];
+				vertex.Normal = glm::vec3(1.f, 1.f, 1.f);
+				vertexs.push_back(vertex);
+			}
+
+			return vertexs;
+		}
+		void Init(Renderer* render)
+		{
+			lines = new Line(GetVertexs(), render);
+			lines->Init();
+		}
+		void Draw()
+		{
+			lines->Draw();
+		}
 	};
 }
 #endif // !AABB

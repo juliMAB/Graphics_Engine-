@@ -74,6 +74,7 @@ public:
 	void SetProjection(glm::mat4 projection);
 	void DrawMesh(uint VAO, std::vector<unsigned int> indices);
 	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
+	void DrawLines(uint VAO, uint vertices);
 	void ClearScreen();
 	void PostRender(Window* window);
 	void TextureEnable(uint textureId);
@@ -88,6 +89,7 @@ public:
 	void BlendDisable();
 	void BindIndexes(uint& EBO, int tam, uint* indexs);
 	void BindUV(uint UVB, int tam, float* vertices);
+	void reBindBuffer(uint UVB, int tam, const void* vertices);
 	void UnBind(uint& VAO, uint& VBO, uint& EBO);
 	void UnBind(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
 	void SetLocation(uint& location, const char* loc);

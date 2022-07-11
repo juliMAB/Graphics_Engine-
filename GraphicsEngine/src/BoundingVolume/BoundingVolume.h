@@ -2,6 +2,7 @@
 #define BOUNDINGVOLUME_H
 #include "Frustum/Frustrum.h"
 #include "Transform/Transform.h"
+#include <line/line.h>
 namespace JuliEngine
 {
 	struct BoundingVolume
@@ -19,6 +20,7 @@ namespace JuliEngine
 				isOnOrForwardPlan		(camFrustum->nearFace) &&
 				isOnOrForwardPlan		(camFrustum->farFace));
 		};
+		Line* lines;
 	};
 }
 #endif // !BOUNDINGVOLUME_H

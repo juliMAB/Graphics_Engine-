@@ -4,7 +4,7 @@ namespace JuliEngine
 	list<Model2*> Model2::listModel;
 
 
-	void Model2::generateAABB()
+	AABB* Model2::generateAABB()
 	{
 		glm::vec3 minAABB = glm::vec3(std::numeric_limits<float>::max());
 		glm::vec3 maxAABB = glm::vec3(std::numeric_limits<float>::min());
@@ -14,16 +14,37 @@ namespace JuliEngine
 			MeshData* data = (**it).data;
 			for (auto&& vertex : data->vertices)
 			{
-				minAABB.x = std::min(minAABB.x, vertex.Position.x);
-				minAABB.y = std::min(minAABB.y, vertex.Position.y);
-				minAABB.z = std::min(minAABB.z, vertex.Position.z);
+				minAABB.x = std::min(minAABB.x, vertex.Position.x +(**it).getGlobalPos().x);
+				minAABB.y = std::min(minAABB.y, vertex.Position.y +(**it).getGlobalPos().y);
+				minAABB.z = std::min(minAABB.z, vertex.Position.z +(**it).getGlobalPos().z);
 	
-				maxAABB.x = std::max(maxAABB.x, vertex.Position.x);
-				maxAABB.y = std::max(maxAABB.y, vertex.Position.y);
-				maxAABB.z = std::max(maxAABB.z, vertex.Position.z);
+				maxAABB.x = std::max(maxAABB.x, vertex.Position.x +(**it).getGlobalPos().x);
+				maxAABB.y = std::max(maxAABB.y, vertex.Position.y +(**it).getGlobalPos().y);
+				maxAABB.z = std::max(maxAABB.z, vertex.Position.z +(**it).getGlobalPos().z);
 			}
 		}
-		volume = new AABB(minAABB, maxAABB);
+		return new AABB(minAABB, maxAABB);
+	}
+	void Model2::UpdateAABB()
+	{
+		glm::vec3 minAABB = glm::vec3(std::numeric_limits<float>::max());
+		glm::vec3 maxAABB = glm::vec3(std::numeric_limits<float>::min());
+
+		for (std::list<Mesh2*>::iterator it = meshes.begin(); it != meshes.end(); it++)
+		{
+			MeshData* data = (**it).data;
+			for (auto&& vertex : data->vertices)
+			{
+				minAABB.x = std::min(minAABB.x, vertex.Position.x + (**it).getGlobalPos().x);
+				minAABB.y = std::min(minAABB.y, vertex.Position.y + (**it).getGlobalPos().y);
+				minAABB.z = std::min(minAABB.z, vertex.Position.z + (**it).getGlobalPos().z);
+
+				maxAABB.x = std::max(maxAABB.x, vertex.Position.x + (**it).getGlobalPos().x);
+				maxAABB.y = std::max(maxAABB.y, vertex.Position.y + (**it).getGlobalPos().y);
+				maxAABB.z = std::max(maxAABB.z, vertex.Position.z + (**it).getGlobalPos().z);
+			}
+		}
+		volume->Set(minAABB, maxAABB);
 	}
 	void Model2::Draw()
 	{
@@ -36,8 +57,12 @@ namespace JuliEngine
 	}
 	void Model2::drawSelfAndChild(Frustum* frustum)
 	{
+			UpdateAABB();
+			volume->lines->SetVertexs(volume->GetVertexs());
+			volume->lines->Draw();
 		if (volume->isOnFrustum(frustum, getTransform()))
 		{
+			_renderer->UpdateColor(_uniformColor, _color);
 			_renderer->UpdateModel(getTransform()->getModelMatrix());
 
 			Draw();

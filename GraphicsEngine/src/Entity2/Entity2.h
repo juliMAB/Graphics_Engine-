@@ -38,6 +38,7 @@ namespace JuliEngine
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
 		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
+		glm::vec3 getGlobalPos(){ return getTransform()->getGlobalPosition(); }
 		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
 		glm::vec3 getScale()	{ return getTransform()->getlocalScale (); }
 		glm::vec3 GetUp()		{ return getTransform()->getUp		   (); }
@@ -53,7 +54,8 @@ namespace JuliEngine
 
 		void setModelPtr(Model2* ptr) { _modelPtr = ptr; };
 		Model2* getModelPtr() { return _modelPtr; };
-
+		AABB* getVolume() { return volume; }
+		void setVolume(AABB* vol) { volume = vol; }
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 	private:

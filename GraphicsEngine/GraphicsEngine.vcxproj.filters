@@ -157,6 +157,9 @@
     <Filter Include="src\Collision">
       <UniqueIdentifier>{a803bfac-6866-47b9-a56f-2571c343f1a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Line">
+      <UniqueIdentifier>{1ca4e79f-4486-485b-937c-fe49907f6296}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -302,6 +305,9 @@
     </ClCompile>
     <ClCompile Include="src\Input2\Input2.cpp">
       <Filter>src\Input2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\line\line.cpp">
+      <Filter>src\Line</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -523,6 +529,9 @@
     </ClInclude>
     <ClInclude Include="src\Collision\AABB.h">
       <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\line\line.h">
+      <Filter>src\Line</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
