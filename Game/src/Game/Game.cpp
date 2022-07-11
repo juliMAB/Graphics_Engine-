@@ -68,7 +68,7 @@ void Game::Init() {
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_modeltest = new JuliEngine::Entity3D(_renderer, "res/i/w.dae");
+	_modeltest = new JuliEngine::Entity3D(_renderer, "res/i/cubo.dae");
 	_modeltest->SetPos({ 0,0,0 });
 	_modeltest->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);

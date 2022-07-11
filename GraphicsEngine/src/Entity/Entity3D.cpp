@@ -11,6 +11,7 @@ namespace JuliEngine
 	#if IMPORTER
 		Importer2::loadModel(model,path);
 	#endif // IMPORTER
+		model->generateAABB();
 	}
 
 	void Entity3D::draw()
