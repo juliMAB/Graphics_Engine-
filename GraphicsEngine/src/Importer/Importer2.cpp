@@ -32,7 +32,7 @@ namespace JuliEngine
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
             Mesh newMesh = processMesh(mesh, scene);
-            newModel->GetBaseNode()->AddMesh(newMesh);
+            //newModel->GetBaseNode()->AddMesh(newMesh);
             nodeMeshes.push_back(newMesh);
         }
         currentParent->SetMeshes(nodeMeshes);

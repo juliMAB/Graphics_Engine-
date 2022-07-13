@@ -51,7 +51,7 @@ namespace JuliEngine
 		float fov = cam->getFOV();
 		float aspect = cam->getAspect();
 
-		float halfheight = cam->getFar() * tan(fov * .5f);
+		float halfheight = cam->getFar() * (glm::tan((fov * .5f) * glm::pi<float>() / 180.f));
 		float halfWidth = halfheight * aspect;
 		glm::vec3 frontFar = cam->getFar() * cam->GetFront();
 
