@@ -4,9 +4,8 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
-//#include "Entity2/Entity2.h"
-#include "Transform/Transform.h"
 #include "Renderer/Renderer.h"
+#include "Transform/Transform.h"
 namespace JuliEngine
 {
 
@@ -39,7 +38,7 @@ namespace JuliEngine
 		void SetSensitivity(float v) { _sensitivity = v; };
 		void SetOffset(float v) { _offset = v; };
 		void SetCameraType(CAMERA_TYPE v) { _cameraType = v; };
-		void SetPos(vec3 v) { myTransform.setposition(v); };
+		void SetPos(vec3 v) { pos = v; };
 		//------------------------
 		//------Updates-----------
 		void Update();
@@ -76,10 +75,13 @@ namespace JuliEngine
 
 		uint _uniformViewPos;
 
+		glm::vec3 pos;
 		glm::vec3 targetLook;
 		glm::vec3 WorldUp;
 
-		JuliEngine::Transform myTransform;
+		glm::vec3 Front;
+		glm::vec3 Right;
+		glm::vec3 Up;
 
 		CAMERA_TYPE _cameraType;
 
