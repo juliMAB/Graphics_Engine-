@@ -133,6 +133,42 @@ void Renderer::SetLight(uint uColor, uint uPos, uint uAmbient, glm::vec3 colorLi
 	UpdateVec3(uColor, colorLight);
 	UpdateFloatValue(uAmbient, ambient);
 }
+void Renderer::drawMesh(std::vector<JuliEngine::Vertex> vertices, std::vector<unsigned int> indices, std::vector<JuliEngine::Texture> textures, unsigned int VAO, glm::vec3 color)
+{
+	unsigned int diffuseNr = 1;
+	unsigned int specularNr = 1;
+
+	unsigned int colorLoc = glGetUniformLocation(GetShaderId(), "color");
+	glUniform3fv(colorLoc, 1, glm::value_ptr(color));
+
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
+		// retrieve texture number (the N in diffuse_textureN)
+		std::string number;
+		std::string name = textures[i].type;
+		if (name == "texture_diffuse")
+		{
+			number = std::to_string(diffuseNr++);
+			name = "diffuse";
+		}
+		else if (name == "texture_specular")
+		{
+			number = std::to_string(specularNr++);
+			name = "specular";
+		}
+		uint a;
+		SetUniform(a,("material." + name + number).c_str());
+		UpdateFloatValue(a, i);
+		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+	}
+	glActiveTexture(GL_TEXTURE0);
+
+	// draw mesh
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
 void Renderer::SetBaseAttribs(uint location, int size, int stride, int offset)
 {
 	glVertexAttribPointer(location, size, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(offset * sizeof(float)));

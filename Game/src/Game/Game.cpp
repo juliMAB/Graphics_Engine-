@@ -68,9 +68,11 @@ void Game::Init() {
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_modeltest = new JuliEngine::Entity3D(_renderer, "res/i/w.dae");
-	_modeltest->SetPos({ 0,0,0 });
-	_modeltest->SetScale({ 1,1,1 });
+	_entity3d = new JuliEngine::Entity3D(_renderer, "res/i/w.dae");
+	_modeltest = _entity3d->model;
+	_modeltest->GetBaseNode()->Init();
+	_modeltest->GetBaseNode()->SetPos({0,0,0});
+	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 
@@ -128,7 +130,6 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	_modeltest->Update();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();
@@ -139,7 +140,7 @@ void Game::Update()
 }
 void Game::Draw() {
 	_floor->Draw();
-	_modeltest->draw(_cam->getfrustrum());
+	_modeltest->GetBaseNode()->setDraw(_cam->getfrustrum());
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 }

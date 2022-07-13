@@ -2,13 +2,12 @@
 #define ENTITY2_H
 #include "Exports/Exports.h"
 #include "Renderer/Renderer.h"
-#include <iostream>
-#include <list>
 #include "GameObject/GameObject.h"
 #include "Collision/AABB.h"
+#include "Mesh2/Mesh2.h"
 namespace JuliEngine
 {
-	class Model2;
+	class Model;
 	class GraficosEngine_API Entity2 : public GameObject {
 	public:
 		static int CuantityEntitys;
@@ -52,30 +51,73 @@ namespace JuliEngine
 
 		void Update();
 
-		void setModelPtr(Model2* ptr) { _modelPtr = ptr; };
-		Model2* getModelPtr() { return _modelPtr; };
+		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
+		Model* getModelPtr() { return _modelPtr; };
 		AABB* getVolume() { return volume; }
 		void setVolume(AABB* vol) { volume = vol; }
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
+
+		void SetMeshes(vector<Mesh> meshes);
+		void AddMesh(Mesh mesh) { this->meshes.push_back(mesh); };
+		void SetParent(Entity2* parent);
+		void setChildren(vector<Entity2*> children);
+		void setDraw(Frustum* camFrustrum);
+		void Init();
+		vector<Entity2*> getChildren() { return children; };
+		Entity2* getParent() { return parent; };
+		vector<Mesh> getMeshes() { return meshes; };
+
+		void generateAABB();
 	private:
 		friend class MyImGui;
 	protected:
 		vec3 _color;
 		Renderer* _renderer;
 		
-		Model2* _modelPtr;
+		Model* _modelPtr;
 
-		//vector<glm::vec3> aabb;
-		//vector<glm::vec3> localAABB;
+		vector<glm::vec3> aabb;
+		vector<glm::vec3> localAABB;
+
+		bool drawThisFrame;
+
 		AABB* volume;
 		std::unique_ptr<AABB> boundingVolume;
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
 		uint _uniformColor;
+
+		glm::mat4 worldModel;
+		glm::mat4 localModel;
+		glm::mat4 parentModel;
+
 		virtual void SetUniforms();
 
+		bool canDrawThisFrame();
+
+		
+
+		void setWorldModelWithParentModel(glm::mat4 parentModel);
+
+		
+
+		void updateModelMatrix();
+
+		void addBoundsToAABB(vector<glm::vec3> childAABB);
+
+		vector<glm::vec3> getLocalAABB();
+
+		void draw();
+
+		//void updateAABBPositions();
+
+
+		vector<Entity2*> children;
+		Entity2* parent;
+
+		vector<Mesh> meshes;
 	};
 }
 

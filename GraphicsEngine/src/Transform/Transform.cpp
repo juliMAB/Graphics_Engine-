@@ -55,9 +55,6 @@ namespace JuliEngine
 
 		m_modelMatrix = mat4(1);
 
-		parent = nullptr;
-		childs = list<Transform*>(0);
-
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
 	}
@@ -73,8 +70,6 @@ namespace JuliEngine
 		 
 		m_modelMatrix = mat4(1);
 		
-		parent = nullptr;
-		childs = list<Transform*>(0);
 		
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -84,15 +79,7 @@ namespace JuliEngine
 	{
 	}
 
-	Transform* Transform::getChilds(int v)
-	{
-		list<Transform*>::iterator it = childs.begin();
-		for (int i = 0; i < v; i++)
-		{
-			it++;
-		}
-		return *it;
-	}
+
 
 	void Transform::setForward(vec3 v)
 	{
@@ -138,12 +125,6 @@ namespace JuliEngine
 		setUp(up);
 		setRight(right);
 	}
-	void Transform::updateSelfAndChild()
-	{
-		if (!m_isDirty)
-			return;
-		forceUpdateSelfAndChild();
-	}
 	void Transform::computeModelMatrix()
 	{
 		m_modelMatrix = getLocalModelMatrix();
@@ -151,18 +132,6 @@ namespace JuliEngine
 	void Transform::computeModelMatrix(const glm::mat4& parentGlobalModelMatrix)
 	{
 		m_modelMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
-	}
-	void Transform::forceUpdateSelfAndChild()
-	{
-		if (parent!=NULL)
-			computeModelMatrix(parent->getmodel());
-		else
-			computeModelMatrix();
-
-		for (int i=0;childs.size()>i;i++)
-		{
-			getChilds(i)->forceUpdateSelfAndChild();
-		}
 	}
 
 	const glm::vec3& Transform::getGlobalPosition() const
@@ -185,8 +154,9 @@ namespace JuliEngine
 		return m_scale;
 	}
 
-	const glm::mat4& Transform::getModelMatrix() const
+	 glm::mat4 Transform::getModelMatrix()
 	{
+		 computeModelMatrix();
 		return m_modelMatrix;
 	}
 

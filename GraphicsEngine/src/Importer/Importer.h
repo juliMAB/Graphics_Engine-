@@ -10,7 +10,7 @@ namespace JuliEngine
 {
 	class GraficosEngine_API Importer {
 	public:
-		Model2 static LoadModel(string path);
+		Model static LoadModel(string path);
 	};
 }
 	

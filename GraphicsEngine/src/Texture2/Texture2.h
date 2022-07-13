@@ -3,7 +3,7 @@
 #include <string>
 namespace JuliEngine
 {
-    struct Texture2 {
+    struct Texture{
         unsigned int id;
         std::string type;
         std::string path;

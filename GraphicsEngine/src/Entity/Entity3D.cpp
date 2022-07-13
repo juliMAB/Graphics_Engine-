@@ -2,32 +2,12 @@
 
 namespace JuliEngine
 {
-	Entity3D::Entity3D(Renderer* render, std::string path) : Entity2(render)
+	Entity3D::Entity3D(Renderer* render, std::string path)
 	{
-		setName("ENTITY3d ");
-		model = new Model2(render, false);
-		model->setName("MODELO ");
-		model->getTransform()->setparent(this->getTransform());
+		model = new Model(render);
 	#if IMPORTER
-		Importer2::loadModel(model,path);
+		Importer2 inp;
+		inp.loadModel(model, path);
 	#endif // IMPORTER
-		model->setVolume(model->generateAABB());
-		volume = model->getVolume();
-		volume->Init(render);
-	}
-
-	void Entity3D::draw()
-	{
-		if (getactive())
-		{
-			model->Draw();
-		}
-	}
-	void Entity3D::draw(Frustum* frustum)
-	{
-		if (getactive())
-		{
-			model->drawSelfAndChild(frustum);
-		}
 	}
 }

@@ -40,7 +40,7 @@ namespace JuliEngine
 				globalSphere.isOnOrForwardPlan(camFrustum.bottomFace));
 		};
 	};
-	Sphere generateSphereBV(Model2& model)
+	Sphere generateSphereBV(Model& model)
 	{
 		glm::vec3 minAABB = glm::vec3(std::numeric_limits<float>::max());
 		glm::vec3 maxAABB = glm::vec3(std::numeric_limits<float>::min());

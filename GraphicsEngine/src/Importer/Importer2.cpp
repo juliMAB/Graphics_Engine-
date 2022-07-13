@@ -3,9 +3,7 @@
     
 namespace JuliEngine
 {
-    Model2* Importer2::newModel = nullptr;
-    Transform* Importer2::parent = nullptr;
-    void Importer2::loadModel(Model2* theModel, string const& path)
+    void Importer2::loadModel(Model* theModel, string const& path) 
     {
         newModel = theModel;
         stbi_set_flip_vertically_on_load(true);
@@ -19,36 +17,42 @@ namespace JuliEngine
             return;
         }
         // retrieve the directory path of the filepath
-        newModel->directory = path.substr(0, path.find_last_of('/'));
+        directory = path.substr(0, path.find_last_of('/'));
 
         // process ASSIMP's root node recursively
-        processNode(scene->mRootNode, scene, newModel->getTransform());
+        Entity2* baseNode = new Entity2(theModel->GetRender());
+        newModel->SetBaseNode(baseNode);
+        processNode(scene->mRootNode, scene, theModel->GetBaseNode());
     }
-    void Importer2::processNode(aiNode* node, const aiScene* scene, Transform* currentParent)
+    void Importer2::processNode(aiNode* node, const aiScene* scene, Entity2* currentParent)
     {
-        
+        vector<Mesh> nodeMeshes;
         // process each mesh located at the current node
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
-            // the node object only contains indices to index the actual objects in the scene. 
-            // the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-            MeshData* myMeshData = new MeshData(processMesh(mesh, scene));
-            Mesh2* myMesh = new Mesh2(myMeshData, newModel->getRender());
-            myMesh->setName(node->mName.C_Str() + JuliEngine::to_string(i));
-            newModel->meshes.push_back(myMesh);
-            myMesh->getTransform()->setparent(currentParent);
+            Mesh newMesh = processMesh(mesh, scene);
+            newModel->GetBaseNode()->AddMesh(newMesh);
+            nodeMeshes.push_back(newMesh);
         }
-        // after we've processed all of the meshes (if any) we then recursively process each of the children nodes
+        currentParent->SetMeshes(nodeMeshes);
+        currentParent->setName(node->mName.C_Str());
+
+        vector<Entity2*> childrenNodes;
+        childrenNodes.clear();
+
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
-            Entity2* mynode = new Entity2(newModel->getRender());
-            mynode->setName(node->mChildren[i]->mName.C_Str());
-            newModel->nodes.push_back(mynode);
-            mynode->getTransform()->setparent(currentParent);
+            Entity2* mynode = new Entity2(newModel->GetRender());
+            processNode(node->mChildren[i], scene, mynode);
             
-            processNode(node->mChildren[i], scene, mynode->getTransform());
+            mynode->setName(node->mChildren[i]->mName.C_Str());
+            mynode->SetParent(currentParent);
+            childrenNodes.push_back(mynode);
         }
+
+        if (childrenNodes.size() > 0)
+            currentParent->setChildren(childrenNodes);
     }
     unsigned int TextureFromFileMine(const char* path, const string& directory)
     {
@@ -89,17 +93,17 @@ namespace JuliEngine
 
         return textureID;
     }
-    MeshData Importer2::processMesh(aiMesh* mesh, const aiScene* scene)
+    Mesh Importer2::processMesh(aiMesh* mesh, const aiScene* scene)
     {
         // data to fill
-        vector<Vertex2> vertices;
+        vector<Vertex> vertices;
         vector<unsigned int> indices;
-        vector<Texture2> textures;
+        vector<Texture> textures;
 
         // walk through each of the mesh's vertices
         for (unsigned int i = 0; i < mesh->mNumVertices; i++)
         {
-            Vertex2 vertex;
+            Vertex vertex;
             glm::vec3 vector; // we declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
             // positions
             vector.x = mesh->mVertices[i].x;
@@ -122,7 +126,7 @@ namespace JuliEngine
                 // use models where a vertex can have multiple texture coordinates so we always take the first set (0).
                 vec.x = mesh->mTextureCoords[0][i].x;
                 vec.y = mesh->mTextureCoords[0][i].y;
-                //vertex.TexCoords = vec;
+                vertex.TexCoords = vec;
                 // tangent
                 //vector.x = mesh->mTangents[i].x;
                 //vector.y = mesh->mTangents[i].y;
@@ -148,60 +152,64 @@ namespace JuliEngine
                 indices.push_back(face.mIndices[j]);
         }
         // process materials
-        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-        // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
-        // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
-        // Same applies to other texture as the following list summarizes:
-        // diffuse: texture_diffuseN
-        // specular: texture_specularN
-        // normal: texture_normalN
+        if (mesh->mMaterialIndex>=0)
+        {
 
-        // 1. diffuse maps
-        vector<Texture2> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
-        textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-        // 2. specular maps
-        vector<Texture2> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
-        textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-        // 3. normal maps
-        //std::vector<Texture2> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
-        //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
-        // 4. height maps
-        //std::vector<Texture2> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
-        //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+            // we assume a convention for sampler names in the shaders. Each diffuse texture should be named
+            // as 'texture_diffuseN' where N is a sequential number ranging from 1 to MAX_SAMPLER_NUMBER. 
+            // Same applies to other texture as the following list summarizes:
+            // diffuse: texture_diffuseN
+            // specular: texture_specularN
+            // normal: texture_normalN
+
+            // 1. diffuse maps
+            vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+            textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+            // 2. specular maps
+            vector<Texture> specularMaps = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
+            textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+            // 3. normal maps
+            //std::vector<Texture> normalMaps = loadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
+            //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+            // 4. height maps
+            //std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
+            //textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+        }
 
         // return a mesh object created from the extracted mesh data
-        return MeshData(vertices, indices, textures);
+        return Mesh(vertices, indices, textures);
     }
     ///
     ///checks all material textures of a given type and loads the textures if they're not loaded yet.
     /// the required info is returned as a Texture struct.
     ///
-    vector<Texture2> Importer2::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
+    vector<Texture> Importer2::loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName)
     {
-        vector<Texture2> textures;
+        vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
             aiString str;
             mat->GetTexture(type, i, &str);
             // check if texture was loaded before and if so, continue to next iteration: skip loading a new texture
             bool skip = false;
-            for (unsigned int j = 0; j < newModel->textures_loaded.size(); j++)
+            for (unsigned int j = 0; j < textures_loaded.size(); j++)
             {
-                if (std::strcmp(newModel->textures_loaded[j].path.data(), str.C_Str()) == 0)
+                if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
                 {
-                    textures.push_back(newModel->textures_loaded[j]);
+                    textures.push_back(textures_loaded[j]);
                     skip = true; // a texture with the same filepath has already been loaded, continue to next one. (optimization)
                     break;
                 }
             }
             if (!skip)
             {   // if texture hasn't been loaded already, load it
-                Texture2 texture;
-                texture.id = TextureFromFileMine(str.C_Str(), newModel->directory);
+                Texture texture;
+                texture.id = TextureFromFileMine(str.C_Str(), directory);
                 texture.type = typeName;
                 texture.path = str.C_Str();
                 textures.push_back(texture);
-                newModel->textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
+                textures_loaded.push_back(texture);  // store it as texture loaded for entire model, to ensure we won't unnecesery load duplicate textures.
             }
         }
         return textures;

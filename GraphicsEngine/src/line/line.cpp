@@ -12,7 +12,7 @@ namespace JuliEngine
 		VBO = 0;
 		EBO = 0;
 
-		vertexs = std::vector<Vertex2>();
+		vertexs = std::vector<Vertex>();
 		indexes = std::vector<uint>();
 
 		locationPosition = 0;
@@ -21,7 +21,7 @@ namespace JuliEngine
 		uniformAlpha = 0;
 	}
 
-	Line::Line(std::vector<Vertex2> vertexs, Renderer* render)
+	Line::Line(std::vector<Vertex> vertexs, Renderer* render)
 	{
 		this->render = render;
 		this->vertexs = vertexs;
@@ -47,17 +47,17 @@ namespace JuliEngine
 	{
 		SetUniforms();
 
-		for (int i = 0; i < cube2IndexTam; i++)
+		for (int i = 0; i < 8; i++)
 		{
-			indexes.push_back(cube2Indexes[i]);
+			indexes.push_back(i);
 		}
 
 		render->GenBuffers(VAO, VBO, EBO);
-		render->BindBuffer(VAO, VBO, vertexs.size() * sizeof(Vertex2), &vertexs[0]);
+		render->BindBuffer(VAO, VBO, vertexs.size() * sizeof(Vertex), &vertexs[0]);
 		render->BindIndexes(EBO, indexes.size() * sizeof(unsigned int), &indexes[0]);
 
-		render->SetBaseAttribs(locationPosition, 3, sizeof(Vertex2), (void*)0);
-		render->SetBaseAttribs(locationNormal, 3, sizeof(Vertex2), (void*)offsetof(Vertex2, Normal));
+		render->SetBaseAttribs(locationPosition, 3, sizeof(Vertex), (void*)0);
+		render->SetBaseAttribs(locationNormal, 3, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
 	}
 
 	void Line::Draw()
@@ -74,21 +74,21 @@ namespace JuliEngine
 		indexes.clear();
 	}
 
-	void Line::SetVertexs(std::vector<Vertex2> vertexs)
+	void Line::SetVertexs(std::vector<Vertex> vertexs)
 	{
 		this->vertexs = vertexs;
 
 		UpdateVertexs();
 	}
 
-	std::vector<Vertex2> Line::GetVertexs()
+	std::vector<Vertex> Line::GetVertexs()
 	{
 		return vertexs;
 	}
 
 	void Line::UpdateVertexs()
 	{
-		render->reBindBuffer(VBO, vertexs.size() * sizeof(Vertex2), &vertexs[0]);
+		render->reBindBuffer(VBO, vertexs.size() * sizeof(Vertex), &vertexs[0]);
 	}
 
 	void Line::SetUniforms()

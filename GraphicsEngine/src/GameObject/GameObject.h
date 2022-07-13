@@ -20,17 +20,8 @@ namespace JuliEngine
 		void setActive(bool v) 
 		{
 			active = v;
-			if (transform->getChilds().size() > 0)
-				for (int i = 0; i < transform->getChilds().size(); i++)
-				{
-					transform->getChilds(i)->getGameObject()->setActive(v);
-				}
 		};
 		void setTag(string v) { tag = v; };
-		/// <summary>
-		/// Tener en cuenta que mientras sea estatic no se puede mover.
-		/// </summary>
-		/// <param name="value"></param>
 		void setisStatic(bool v) { isStatic = v; };
 		void setName(string v) { _name = v; };
 

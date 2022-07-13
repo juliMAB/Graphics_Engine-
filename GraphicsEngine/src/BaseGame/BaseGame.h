@@ -11,10 +11,11 @@
 #include "../Juli/Jinterface.h"
 #include "../LightManager/lightManager.h"
 #include "../ImGui/MyImGui.h"
-#include "../Entity/Entity3D.h"
 #include "../Entity2/Entity2.h"
 #include "Camera2/Camera2.h"
 #include "Input2/Input2.h"
+#include "Model/Model.h"
+#include "Entity/Entity3D.h"
 
 class GraficosEngine_API BaseGame {
 private:

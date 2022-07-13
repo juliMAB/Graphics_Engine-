@@ -2,7 +2,7 @@
 #define LINE_H
 
 #include "Exports/Exports.h"
-#include "Vertex/Vertex2.h"
+#include "Vertex/Vertex.h"
 
 #include "Renderer/renderer.h"
 
@@ -15,22 +15,22 @@ namespace JuliEngine
 	public:
 
 		Line(Renderer* render);
-		Line(std::vector<Vertex2> vertexs, Renderer* render);
+		Line(std::vector<Vertex> vertexs, Renderer* render);
 		~Line();
 
 		void Init();
 		void Draw();
 		void DeInit();
 
-		void SetVertexs(std::vector<Vertex2> vertexs);
-		std::vector<Vertex2> GetVertexs();
+		void SetVertexs(std::vector<Vertex> vertexs);
+		std::vector<Vertex> GetVertexs();
 
 		glm::vec3 color;
 	private:
 		Renderer* render;
 
 		uint VAO, VBO, EBO;
-		std::vector<Vertex2> vertexs;
+		std::vector<Vertex> vertexs;
 		std::vector<uint> indexes;
 
 		uint locationPosition;

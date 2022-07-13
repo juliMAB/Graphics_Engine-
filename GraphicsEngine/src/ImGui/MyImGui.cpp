@@ -208,22 +208,22 @@ void MyImGui::UpdateWindowsEntity2()
 void MyImGui::UpdateWindowsModel()
 {
     ImGui::Begin("MODEL");
-    if (Model2::listModel.size()>0)
-    {
-        for (std::list<Model2*>::iterator it = Model2::listModel.begin(); it != Model2::listModel.end(); it++)
-        {
-            baseEntity2Edit(*it);
-            if ((*it)->nodes.size()>0)
-            {
-                ImGui::Text("NODES");
-                for (std::list<Entity2*>::iterator it2 = (*it)->nodes.begin(); it2 != (*it)->nodes.end(); it2++)
-                    baseEntity2Edit(*it2);
-                ImGui::Text("MESHES");
-                for (std::list<Mesh2*>::iterator it2 = (*it)->meshes.begin(); it2 != (*it)->meshes.end(); it2++)
-                    baseEntity2Edit(*it2);
-            }
-        }
-    }
+    //if (Model::listModel.size()>0)
+    //{
+    //    for (std::list<Model*>::iterator it = Model::listModel.begin(); it != Model::listModel.end(); it++)
+    //    {
+    //        baseEntity2Edit(*it);
+    //        if ((*it)->nodes.size()>0)
+    //        {
+    //            ImGui::Text("NODES");
+    //            for (std::list<Entity2*>::iterator it2 = (*it)->nodes.begin(); it2 != (*it)->nodes.end(); it2++)
+    //                baseEntity2Edit(*it2);
+    //            ImGui::Text("MESHES");
+    //            //for (std::list<Mesh2*>::iterator it2 = (*it)->meshes.begin(); it2 != (*it)->meshes.end(); it2++)
+    //            //    baseEntity2Edit(*it2);
+    //        }
+    //    }
+    //}
     ImGui::End();
 }
 

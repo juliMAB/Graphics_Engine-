@@ -10,7 +10,8 @@ class Game : BaseGame {
 	//Shape* _pj;
 	//Sprite* _pjS;
 	JuliEngine::Entity2* _a;
-	JuliEngine::Entity3D* _modeltest;
+	JuliEngine::Entity3D* _entity3d;
+	JuliEngine::Model* _modeltest;
 	JuliEngine::Camera2* _cam;
 	Sprite* _floor;
 	MyTexture* _tex;

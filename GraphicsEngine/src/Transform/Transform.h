@@ -21,26 +21,20 @@ namespace JuliEngine
 		vec3 getlocalScale()		{ return m_scale		; };
 
 
-		
-		Transform* getparent()		{ return parent			; };
-		list<Transform*> getChilds(){ return childs			; };
+	
 		
 		mat4 getmodel()				{return m_modelMatrix	; };
-		Transform* getChilds(int v);
 #pragma endregion
 
-		void setposition(vec3 v) { m_pos = v; m_isDirty = true; updateSelfAndChild(); };
-		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); updateSelfAndChild();};
-		void setlocalScale(vec3 v) { m_scale = v; updateSelfAndChild();};
+		void setposition(vec3 v) { m_pos = v; m_isDirty = true;  };
+		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); };
+		void setlocalScale(vec3 v) { m_scale = v;};
 
 		void setForward(vec3 v);// { forward = v; };
 		void setRight(vec3 v);// { right	= v;};
 		void setUp(vec3 v);
 
-		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
-		
 		glm::mat4 getLocalModelMatrix();
-		void updateSelfAndChild();
 
 		glm::vec3 getRight()	;
 		glm::vec3 getUp()		;
@@ -53,27 +47,22 @@ namespace JuliEngine
 		const glm::vec3& getLocalPosition() const;
 		const glm::vec3& getLocalRotation() const;
 		const glm::vec3& getLocalScale() const;
-		const glm::mat4& getModelMatrix() const;
+		glm::mat4 getModelMatrix();
 	protected:
 	private:
 		int const MAXCHILDRENS = 500;
 
 		vec3 m_pos;
 		vec3 m_eulerRot;
-		//vec3 right;
-		//vec3 up;
-		//vec3 forward;
 		vec3 m_scale;
-		Transform* parent;
+
 		bool m_isDirty;
 
 		mat4 m_modelMatrix;
-		list<Transform*> childs;
 
 		void updateTransformRotation();
 		void computeModelMatrix();
 		void computeModelMatrix(const glm::mat4& parentGlobalModelMatrix);
-		void forceUpdateSelfAndChild();
 		
 
 

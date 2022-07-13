@@ -78,7 +78,7 @@ namespace JuliEngine
 				globalAABB.isOnOrForwardPlan	(camFrustum->farFace));
 		};
 
-		std::vector<Vertex2> GetVertexs()
+		std::vector<Vertex> GetVertexs()
 		{
 			glm::vec3 vertice[8];
 			vertice[0] = { center.x - extents.x, center.y - extents.y, center.z - extents.z };
@@ -90,10 +90,10 @@ namespace JuliEngine
 			vertice[6] = { center.x - extents.x, center.y + extents.y, center.z + extents.z };
 			vertice[7] = { center.x + extents.x, center.y + extents.y, center.z + extents.z };
 
-			std::vector<Vertex2> vertexs = std::vector<Vertex2>();
+			std::vector<Vertex> vertexs = std::vector<Vertex>();
 			for (int i = 0; i < 8; i++)
 			{
-				Vertex2 vertex;
+				Vertex vertex;
 				vertex.Position = vertice[i];
 				vertex.Normal = glm::vec3(1.f, 1.f, 1.f);
 				vertexs.push_back(vertex);
