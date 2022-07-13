@@ -86,17 +86,14 @@ namespace JuliEngine
 
 		for (int i = 0; i < getChildren().size(); i++)
 		{
+			//al child le paso la matriz del padere, para que en la proxima valor de i, ya se pase la posicion actualizada.
 			getChildren()[i]->setWorldModelWithParentModel(getTransform()->getWorldModel());
+			//con la nueva posicion del padre, se hace recursiva esta funcion en cada hijo, hasta no tener hijo.
 			getChildren()[i]->setDraw();
+			//una vez que llege al ultimo hijo, se comienza a actualizar el aabb.
 			addBoundsToAABB(getChildren()[i]->getLocalAABB());
-
-			if (getChildren()[i]->canDrawThisFrame())
-			{
-				drawThisFrame = true;
-				draw();
-			}
 		}
-
+		//despues de actualizar los aabb y las posiciones procede a dibujarse siempre que se encuentre en el frustrum.
 		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getWorldModel()))
 		{
 			drawThisFrame = true;
