@@ -24,6 +24,7 @@ namespace JuliEngine
 		_renderer->SetUniform(_uniformDiffuse, (v + ".diffuse").c_str());
 		_renderer->SetUniform(_uniformSpecular, (v + ".specular").c_str());
 		Entity2::SetUniforms();
+		_renderer->SetUniform(_uniformColor, (v + ".color").c_str());
 	}
 
 	void Light::UpdateLight()

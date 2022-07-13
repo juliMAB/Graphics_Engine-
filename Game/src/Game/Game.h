@@ -11,7 +11,9 @@ class Game : BaseGame {
 	//Sprite* _pjS;
 	JuliEngine::Entity2* _a;
 	JuliEngine::Entity3D* _entity3d;
+	JuliEngine::Entity3D* _entity3d2;
 	JuliEngine::Model* _modeltest;
+	JuliEngine::Model* _modeltest2;
 	JuliEngine::Camera2* _cam;
 	Sprite* _floor;
 	MyTexture* _tex;

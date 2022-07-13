@@ -68,9 +68,13 @@ void Game::Init() {
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_entity3d = new JuliEngine::Entity3D(_renderer, "res/i/A2.dae");
+	_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
+	_entity3d2 = new JuliEngine::Entity3D(_renderer, "res/i/A2.dae");
 	_modeltest = _entity3d->model;
+	_modeltest2 = _entity3d2->model;
+	_entity3d2->model->GetBaseNode()->SetPos(0, 0, 5);
 	_modeltest->GetBaseNode()->Init();
+	_modeltest2->GetBaseNode()->Init();
 	_modeltest->GetBaseNode()->SetPos({0,0,0});
 	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
@@ -83,7 +87,7 @@ void Game::Init() {
 	_floor->SetMateria(defaultM);
 	_floor->SetName("piso");
 	_floor->SetPos(0, -5);
-	_floor->SetRotations(0, 90,0);
+	_floor->SetRotations(90, 0,0);
 	_floor->SetScale(10);
 	//----------------------
 
@@ -145,6 +149,7 @@ void Game::Update()
 void Game::Draw() {
 	_floor->Draw();
 	_modeltest->GetBaseNode()->setDraw();
+	_modeltest2->GetBaseNode()->setDraw();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 }

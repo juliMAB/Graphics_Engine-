@@ -125,6 +125,7 @@ using namespace JuliEngine;
 
 void baseEntity2Edit(Entity2* it)
 {
+    ImGui::Text("-------------");
     bool enabled = (it)->getactive();
     if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
         (it)->setActive(enabled);
@@ -172,6 +173,14 @@ void baseEntity2Edit(Entity2* it)
     {
         ImGui::Text("PADRE: NULL");
     }
+    if ((it)->getMeshes().size()>0)
+    {
+        int a = (it)->getMeshes().size();
+        
+        std::string val("MESHES:" + std::to_string(a));
+        ImGui::Text(val.c_str());
+    }
+    ImGui::Text("-------------");
 }
 void baseLight2Edit(Light* it)
 {
@@ -190,6 +199,8 @@ void baseLight2Edit(Light* it)
             (it)->SetDiffuse(dif);
         if (ImGui::SliderFloat3(((it)->getName() + " spe").c_str(), (float*)&spe, 0.0f, 1.0f))
             (it)->SetSpecular(spe);
+        if (ImGui::ColorEdit3(((it)->getName() + " spe").c_str(), (float*)&col))
+            (it)->SetColor(col);
     }
 }
 

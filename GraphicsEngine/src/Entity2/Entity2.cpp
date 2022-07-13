@@ -99,6 +99,15 @@ namespace JuliEngine
 			drawThisFrame = true;
 			draw();
 		}
+		if (children.size()>0)
+		{
+			for (int i = 0; i < children.size(); i++)
+				if (children[i]->drawThisFrame)
+				{
+					drawThisFrame = true;
+					break;
+				}
+		}
 	}
 	void Entity2::Init()
 	{
