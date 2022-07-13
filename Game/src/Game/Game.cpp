@@ -88,7 +88,7 @@ void Game::Init() {
 	//----------------------
 
 
-	_dirLight = new DirectionLight(_renderer);
+	_dirLight = new JuliEngine::DirectionLight(_renderer);
 	_dirLight->Init();
 	_dirLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
 	_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
@@ -97,7 +97,7 @@ void Game::Init() {
 
 	for (int i = 0; i < 4; i++)
 	{
-		_pointLight[i] = new PointLight(_renderer);
+		_pointLight[i] = new JuliEngine::PointLight(_renderer);
 		_pointLight[i]->Init();
 		_pointLight[i]->SetPos(pointLightPositions[i]);
 		_pointLight[i]->SetAmbient(vec3(0.05f, 0.05f, 0.05f));
@@ -111,7 +111,7 @@ void Game::Init() {
 		_lightcubes[i]->Init(SHAPE_TYPE::QUAD);
 	}
 	
-	_spotLight = new SpotLight(_renderer);
+	_spotLight = new JuliEngine::SpotLight(_renderer);
 	_spotLight->Init();
 	_spotLight->SetCamera(_cam);
 	_spotLight->SetAmbient(vec3(0.0f, 0.0f, 0.0f));

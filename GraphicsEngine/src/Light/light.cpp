@@ -1,23 +1,13 @@
 #include "light.h"
-
-std::list<Light*> Light::LightsLists;
-Light::Light() 
+namespace JuliEngine
 {
-	_renderer = nullptr;
-	_color = color::RGBA();
-	ambient = glm::vec3(0.f);
-	diffuse = glm::vec3(0.f);
-	specular = glm::vec3(0.f);
 
-	_locationPosition = 0;
-	_uniformAmbient = 0;
-	_uniformDiffuse = 0;
-	_uniformSpecular = 0;
-}
 
-Light::Light(Renderer* render) : Entity(render)
+	std::list<Light*> Light::LightsLists;
+
+	Light::Light(Renderer* render) : Entity2(render)
 	{
-		_color = color::RGBA();
+		_color = glm::vec3(1.f,1.f,1.f);
 		ambient = glm::vec3(0.f);
 		diffuse = glm::vec3(0.f);
 		specular = glm::vec3(0.f);
@@ -30,10 +20,10 @@ Light::Light(Renderer* render) : Entity(render)
 	}
 	void Light::SetUniforms(std::string v)
 	{
-		_renderer->SetUniform(_uniformAmbient, (v+".ambient").c_str());
-		_renderer->SetUniform(_uniformDiffuse, (v+".diffuse").c_str());
-		_renderer->SetUniform(_uniformSpecular, (v+".specular").c_str());
-
+		_renderer->SetUniform(_uniformAmbient, (v + ".ambient").c_str());
+		_renderer->SetUniform(_uniformDiffuse, (v + ".diffuse").c_str());
+		_renderer->SetUniform(_uniformSpecular, (v + ".specular").c_str());
+		Entity2::SetUniforms();
 	}
 
 	void Light::UpdateLight()
@@ -43,9 +33,10 @@ Light::Light(Renderer* render) : Entity(render)
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);
-		if (!_enabled)
+		_renderer->UpdateColor(_uniformColor, _color);
+		if (!getactive())
 		{
-			_renderer->UpdateVec3(_uniformAmbient, vec3(0,0,0));
+			_renderer->UpdateVec3(_uniformAmbient, vec3(0, 0, 0));
 			_renderer->UpdateVec3(_uniformDiffuse, vec3(0, 0, 0));
 			_renderer->UpdateVec3(_uniformSpecular, vec3(0, 0, 0));
 		}
@@ -85,3 +76,4 @@ Light::Light(Renderer* render) : Entity(render)
 	{
 		return specular;
 	}
+}

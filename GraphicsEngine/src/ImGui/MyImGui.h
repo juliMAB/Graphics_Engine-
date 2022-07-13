@@ -44,22 +44,19 @@ public:
 
 	bool SliderFloat3(std::string a, vec3* b, float min, float max);
 
-
-
 	void UpdateMainWindows();
 
-	void UpdateWindowsTwo();
-
 	void UpdateWindowsEntity2();
+	void UpdateWindowsLights();
 	void UpdateWindowsModel();
 	void UpdateWindowsCamera();
 private:
 	const char* glsl_version;
 	Window* _window;
-	void UpdateWindowsOne();
 	bool ShowEntity2List;
 	bool ShowModelList;
 	bool ShowCamera2;
+	bool ShowLights;
 };
 
 #endif

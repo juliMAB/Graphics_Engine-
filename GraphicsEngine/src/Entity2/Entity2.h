@@ -45,7 +45,10 @@ namespace JuliEngine
 		Renderer* getRender()	{ return _renderer; }
 		////---other---
 		vec3 getColor() { return _color; };
-		void SetColor(vec3 v) { _color = v; _renderer->UpdateColor(_uniformColor, _color); };
+		void SetColor(vec3 v) 
+		{ 
+			_color = v; _renderer->UpdateColor(_uniformColor, _color); 
+		};
 		void DebugInfo();
 
 		void Update();

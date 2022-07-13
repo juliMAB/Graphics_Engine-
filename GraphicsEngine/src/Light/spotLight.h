@@ -4,35 +4,38 @@
 #include "pointLight.h"
 #include "../Camera/Camera.h"
 #include "Camera2/Camera2.h"
-
-
-class GraficosEngine_API SpotLight : public PointLight
+namespace JuliEngine
 {
-public:
-	SpotLight(Renderer* render);
-	void Init();
-	void SetUniforms(std::string name) override;
-	void UpdateLight() override;
 
-	~SpotLight();
-	void SetCamera(Camera* cam);
-	void SetCamera(JuliEngine::Camera2* cam);
-	void SetCutOff(float cutOff);
-	void SetOuterCutOff(float outerCutOff);
-	static int CuantitySpots;
+	class GraficosEngine_API SpotLight : public PointLight
+	{
+	public:
+		SpotLight(Renderer* render);
+		void Init();
+		void SetUniforms(std::string name) override;
+		void UpdateLight() override;
 
-protected:
+		~SpotLight();
+		void SetCamera(Camera* cam);
+		void SetCamera(JuliEngine::Camera2* cam);
+		void SetCutOff(float cutOff);
+		void SetOuterCutOff(float outerCutOff);
+		static int CuantitySpots;
 
-	Camera* _cam;
-	JuliEngine::Camera2* _cam2;
-	float cutOff;
-	float outerCutOff;
+	protected:
 
-	uint _uniformDirection;
-	uint _uniformCutOff;
-	uint _uniformOuterCutOff;
-	static std::list<SpotLight*> SpotLists;
-};
+		Camera* _cam;
+		JuliEngine::Camera2* _cam2;
+		float cutOff;
+		float outerCutOff;
+
+		uint _uniformDirection;
+		uint _uniformCutOff;
+		uint _uniformOuterCutOff;
+		static std::list<SpotLight*> SpotLists;
+	};
+}
+
 
 
 #endif // !LIGHT_H

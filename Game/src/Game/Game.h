@@ -16,9 +16,9 @@ class Game : BaseGame {
 	Sprite* _floor;
 	MyTexture* _tex;
 	MyTexture* _tex2;
-	DirectionLight* _dirLight;
-	PointLight* _pointLight[4];
-	SpotLight* _spotLight;
+	JuliEngine::DirectionLight* _dirLight;
+	JuliEngine::PointLight* _pointLight[4];
+	JuliEngine::SpotLight* _spotLight;
 	Shape* _lightcubes[4];
 	//bool show_window = true;
 	
