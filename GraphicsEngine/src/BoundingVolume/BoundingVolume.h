@@ -1,26 +1,21 @@
 #ifndef BOUNDINGVOLUME_H
 #define BOUNDINGVOLUME_H
-#include "Frustum/Frustrum.h"
-#include "Transform/Transform.h"
-#include <line/line.h>
+
+#include "Camera/occlusionCulling.h"
+#include "Plan/Plane.h"
+
 namespace JuliEngine
 {
-	struct BoundingVolume
+	class GraficosEngine_API volume
 	{
-		virtual bool isOnFrustum(Frustum* camFrustum, Transform* transform) = 0;
+	public:
+		volume() { };
+		~volume() { };
 
-		virtual bool isOnOrForwardPlan(Plan plan) = 0;
+		virtual bool isOnFrustum(glm::mat4 worldModel) = 0;
 
-		bool isOnFrustum(Frustum* camFrustum)
-		{
-			return (isOnOrForwardPlan	(camFrustum->leftFace) &&
-				isOnOrForwardPlan		(camFrustum->rightFace) &&
-				isOnOrForwardPlan		(camFrustum->topFace) &&
-				isOnOrForwardPlan		(camFrustum->bottomFace) &&
-				isOnOrForwardPlan		(camFrustum->nearFace) &&
-				isOnOrForwardPlan		(camFrustum->farFace));
-		};
-		Line* lines;
+	protected:
+		virtual bool isOnPlane(plane plane) = 0;
 	};
 }
 #endif // !BOUNDINGVOLUME_H

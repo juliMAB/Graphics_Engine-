@@ -10,6 +10,7 @@ class Entity2;
 	{
     public:
         Component() { tag = "default"; AddDescription("-> ||Component|| ");};
+        Component(Transform* transform);
         Component(Transform* transform, GameObject* gameObject);
         Component(Transform* transform, GameObject* gameObject, Entity2* ourEntity);
 		~Component();

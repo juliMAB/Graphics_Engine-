@@ -75,6 +75,7 @@ void Game::Init() {
 	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
+	JuliEngine::OcclusionCulling::Init(_cam);
 
 	//--------FLOOR----------
 	_floor = new Sprite(_renderer);
@@ -136,11 +137,11 @@ void Game::Update()
 	_floor->UpdateMaterial();
 	LightsUpdate();
 	processInput();
-
+	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
 	_floor->Draw();
-	_modeltest->GetBaseNode()->setDraw(_cam->getfrustrum());
+	_modeltest->GetBaseNode()->setDraw();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 }

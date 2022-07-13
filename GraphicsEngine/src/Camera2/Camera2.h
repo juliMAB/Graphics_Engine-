@@ -4,8 +4,9 @@
 #include "GLM/glm.hpp"
 #include "GLM/gtc/matrix_transform.hpp"
 #include "GLM/gtc/type_ptr.hpp"
-#include "Entity2/Entity2.h"
-#include "Frustum/Frustrum.h"
+//#include "Entity2/Entity2.h"
+#include "Transform/Transform.h"
+#include "Renderer/Renderer.h"
 namespace JuliEngine
 {
 
@@ -24,7 +25,7 @@ namespace JuliEngine
 		Max
 	};
 
-	class GraficosEngine_API Camera2 : public Entity2
+	class GraficosEngine_API Camera2
 	{
 	public:
 		//--------Builder Destroy Init----------
@@ -34,10 +35,11 @@ namespace JuliEngine
 		//--------Seters----------
 		void SetAspect(float width, float height);
 		void SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector);
-		void SetTarget(Entity2* v) { _target = v; };
+		void SetTarget(Transform* v) { _target = v; };
 		void SetSensitivity(float v) { _sensitivity = v; };
 		void SetOffset(float v) { _offset = v; };
 		void SetCameraType(CAMERA_TYPE v) { _cameraType = v; };
+		void SetPos(vec3 v) { myTransform.setposition(v); };
 		//------------------------
 		//------Updates-----------
 		void Update();
@@ -49,22 +51,27 @@ namespace JuliEngine
 		void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 		void ToogleEjes();
 
-		void Move(vec3 v) { Entity2::Move(v * MovementSpeed); };
+		void Move(vec3 v) { myTransform.setposition(myTransform.getLocalPosition() + v * _moveSpeed); };
 		//--------Getters-------
-		Entity2* GetTarget() { return _target; };
+		Transform* GetTarget() { return _target; };
 		CAMERA_TYPE GetCameraType() { return _cameraType; };
-
-		Frustum* getfrustrum() { return camFrustrum; };
+		float getFOV() { return _fov; };
+		float getAspect() { return _aspect; };
+		float getFar() { return _far; };
+		float getNear() { return _near; };
 		//--------Others--------
 		void DebugInfo();
+		glm::vec3 GetFront();
+		glm::vec3 GetRight();
+		glm::vec3 GetUp();
+		glm::vec3 getPos();
 		bool _ejes;
 		bool _mouseMoveCamera;
 		static Camera2* _mainCamera;
 	private:
 		friend class MyImGui;
 
-		Frustum* camFrustrum;
-		Entity2* _target;
+		Transform* _target;
 		Window* _window;
 
 		uint _uniformViewPos;
@@ -72,20 +79,24 @@ namespace JuliEngine
 		glm::vec3 targetLook;
 		glm::vec3 WorldUp;
 
+		JuliEngine::Transform myTransform;
 
 		CAMERA_TYPE _cameraType;
 
+		Renderer* _render;
+
 		float Yaw;
 		float Pitch;
-
-		float MovementSpeed;
-		float _sensitivity;
+		
 		float _fov;
+
 		float _aspect;
 		float _near;
 		float _far;
-		float _offset;
 
+		float _moveSpeed;
+		float _offset;
+		float _sensitivity;
 
 	};
 }

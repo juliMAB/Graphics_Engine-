@@ -12,6 +12,7 @@ namespace JuliEngine
 	class GraficosEngine_API Transform :public Component
 	{
 	public:
+		Transform();
 		Transform(GameObject* gameObject);
 		Transform(GameObject* gameObject, Entity2* ourEntity);
 		~Transform();

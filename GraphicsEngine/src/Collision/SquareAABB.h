@@ -3,16 +3,16 @@
 #include "BoundingVolume/BoundingVolume.h"
 namespace JuliEngine
 {
-	struct SquareAABB : public BoundingVolume
+	struct SquareAABB : public volume
 	{
 		glm::vec3 center{ 0.f, 0.f, 0.f };
 		float extent{ 0.f };
 
 		SquareAABB(const glm::vec3& inCenter, float inExtent)
-			: BoundingVolume{}, center{ inCenter }, extent{ inExtent }
+			: volume{}, center{ inCenter }, extent{ inExtent }
 		{}
 
-		bool isOnOrForwardPlan(Plan& plan)
+		bool isOnOrForwardPlan(Plane& plan)
 		{
 			// Compute the projection interval radius of b onto L(t) = b.c + t * p.n
 			const float r = extent * (std::abs(plan.normal.x) + std::abs(plan.normal.y) + std::abs(plan.normal.z));

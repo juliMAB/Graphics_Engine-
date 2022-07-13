@@ -231,7 +231,7 @@ void MyImGui::UpdateWindowsCamera()
 {
     ImGui::Begin("CAMERA");
     Camera2* it = Camera2::_mainCamera;
-    (ImGui::SliderFloat(((it)->getName() + " Speed").c_str(), (float*)&(it)->MovementSpeed, -10.0f, 10.0f));
+    //(ImGui::SliderFloat(((it)->getName() + " Speed").c_str(), (float*)&(it)->MovementSpeed, -10.0f, 10.0f));
     ImGui::End();
 }
 

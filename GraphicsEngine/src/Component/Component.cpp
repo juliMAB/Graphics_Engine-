@@ -11,6 +11,13 @@ namespace JuliEngine
 #pragma endregion
 #pragma region OPERATORS
 #pragma endregion
+	Component::Component(Transform* transform)
+	{
+		this->transform = transform;
+		this->gameObject = nullptr;
+		tag = "default";
+		AddDescription("-> ||Component|| ");
+	}
 	Component::Component(Transform* transform, GameObject* gameObject)
 	{
 		this->transform = transform;

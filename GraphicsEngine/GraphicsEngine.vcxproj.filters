@@ -139,9 +139,6 @@
     <Filter Include="src\Input2">
       <UniqueIdentifier>{bc93dc7c-f42e-4ac3-8cb9-b5e75dcc6f3b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Plan">
-      <UniqueIdentifier>{f5e78df4-539c-4185-98e9-c8feff8315c0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Frustrum">
       <UniqueIdentifier>{d41727ea-0ef8-4f7b-9fb6-1906b7a2d4da}</UniqueIdentifier>
     </Filter>
@@ -159,6 +156,12 @@
     </Filter>
     <Filter Include="src\Entity3d">
       <UniqueIdentifier>{5605b732-e927-44ff-b1b6-85aaebae6ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Camera">
+      <UniqueIdentifier>{67832890-07c1-4e8e-ac80-b1bb4cac1df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Plane">
+      <UniqueIdentifier>{f5e78df4-539c-4185-98e9-c8feff8315c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -308,6 +311,15 @@
     </ClCompile>
     <ClCompile Include="src\Entity\Entity3D.cpp">
       <Filter>src\Entity3d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\occlusionCulling.cpp">
+      <Filter>src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Plan\Plane.cpp">
+      <Filter>src\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision\AABB.cpp">
+      <Filter>src\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -497,8 +509,8 @@
     <ClInclude Include="src\Input2\KeyCode.h">
       <Filter>src\Input2</Filter>
     </ClInclude>
-    <ClInclude Include="src\Plan\Plan.h">
-      <Filter>src\Plan</Filter>
+    <ClInclude Include="src\Plan\Plane.h">
+      <Filter>src\Plane</Filter>
     </ClInclude>
     <ClInclude Include="src\Frustum\Frustrum.h">
       <Filter>src\Frustrum</Filter>
@@ -520,6 +532,9 @@
     </ClInclude>
     <ClInclude Include="src\Entity\Entity3D.h">
       <Filter>src\Entity3d</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\occlusionCulling.h">
+      <Filter>src\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

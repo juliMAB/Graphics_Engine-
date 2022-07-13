@@ -4,15 +4,15 @@
 #include "Model/Model2.h"
 namespace JuliEngine
 {
-	struct Sphere : public BoundingVolume
+	struct Sphere : public volume
 	{
 		glm::vec3 center{ 0.f, 0.f, 0.f };
 		float radius{ 0.f };
 
-		Sphere(glm::vec3& inCenter, float inRadius): BoundingVolume{}, center{ inCenter }, radius{ inRadius }
+		Sphere(glm::vec3& inCenter, float inRadius): volume{}, center{ inCenter }, radius{ inRadius }
 		{}
 
-		bool isOnOrForwardPlan(Plan& plan)
+		bool isOnOrForwardPlan(Plane& plan)
 		{
 			return plan.getSignedDistanceToPlan(center) > -radius;
 		}

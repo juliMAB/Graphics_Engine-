@@ -53,8 +53,8 @@ namespace JuliEngine
 
 		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
 		Model* getModelPtr() { return _modelPtr; };
-		AABB* getVolume() { return volume; }
-		void setVolume(AABB* vol) { volume = vol; }
+		aabb* getVolume() { return volume; }
+		void setVolume(aabb* vol) { volume = vol; }
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 
@@ -62,7 +62,7 @@ namespace JuliEngine
 		void AddMesh(Mesh mesh) { this->meshes.push_back(mesh); };
 		void SetParent(Entity2* parent);
 		void setChildren(vector<Entity2*> children);
-		void setDraw(Frustum* camFrustrum);
+		void setDraw();
 		void Init();
 		vector<Entity2*> getChildren() { return children; };
 		Entity2* getParent() { return parent; };
@@ -82,8 +82,7 @@ namespace JuliEngine
 
 		bool drawThisFrame;
 
-		AABB* volume;
-		std::unique_ptr<AABB> boundingVolume;
+		JuliEngine::aabb* volume;
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;

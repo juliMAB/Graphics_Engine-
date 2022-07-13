@@ -16,6 +16,7 @@
 #include "Input2/Input2.h"
 #include "Model/Model.h"
 #include "Entity/Entity3D.h"
+#include "Camera/occlusionCulling.h"
 
 class GraficosEngine_API BaseGame {
 private:

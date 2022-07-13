@@ -3,25 +3,24 @@
 namespace JuliEngine
 {
 	Camera2* Camera2::_mainCamera;
-	Camera2::Camera2(Renderer* render, Window* window) : Entity2(render)
+	Camera2::Camera2(Renderer* render, Window* window)
 	{
-		_renderer = render;
+		_render = render;
 		_window = window;
 		Yaw = YAW;
 		Pitch = PITCH;
-		MovementSpeed = SPEED;
+		_moveSpeed = SPEED;
 		_sensitivity = SENSITIVITY;
+		_offset = OFFSET;
 		_fov = ZOOM;
 		_near = 0.1f;
 		_far = 100.f;
-		_offset = OFFSET;
 		float width = _window->GetWidth();
 		float height = _window->GetHeight();
 		SetAspect(width, height);
 		UpdateProjection();
 		UpdateView();
-		_renderer->SetUniform(_uniformViewPos, "viewPos");
-		camFrustrum = new Frustum(getTransform(), _aspect, _fov, _near, _far);
+		_render->SetUniform(_uniformViewPos, "viewPos");
 		_mainCamera = this;
 	}
 
@@ -33,10 +32,10 @@ namespace JuliEngine
 	void Camera2::Update()
 	{
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			getTransform()->getposition() = _target->getPos();
+			myTransform.setposition(_target->getposition());
 		UpdateCameraVectors();
-		_renderer->UseShader();
-		_renderer->UpdateVec3(_uniformViewPos, getPos());
+		_render->UseShader();
+		_render->UpdateVec3(_uniformViewPos, myTransform.getposition());
 	}
 	void Camera2::UpdateCameraVectors()
 	{
@@ -47,30 +46,30 @@ namespace JuliEngine
 		direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		direction.y = sin(glm::radians(Pitch));
 		direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-		getTransform()->setForward(glm::normalize(direction));
-		getTransform()->setRight(glm::cross(getTransform()->getForward(), getTransform()->getUp()));
+		myTransform.setForward(glm::normalize(direction));
+		myTransform.setRight(glm::cross(myTransform.getForward(), myTransform.getUp()));
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			getTransform()->setposition(getTransform()->getposition() - getTransform()->getForward() * _offset);
+			myTransform.setposition(myTransform.getposition() - myTransform.getForward() * _offset);
 		UpdateView();
 	}
 	void Camera2::UpdateProjection()
 	{
 		glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
-		_renderer->SetProjection(projection);
+		_render->SetProjection(projection);
 	}
 	void Camera2::UpdateView()
 	{
 		switch (_cameraType)
 		{
 		case CAMERA_TYPE::FPS:
-			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getForward(), getTransform()->getUp());
+			SetViewMatrix(myTransform.getposition(), myTransform.getposition() + myTransform.getForward(), myTransform.getUp());
 			return;
 		case CAMERA_TYPE::TPS:
 			if (_target != NULL)
-				SetViewMatrix(getTransform()->getposition(), _target->getPos(), getTransform()->getUp());
+				SetViewMatrix(myTransform.getposition(), _target->getposition(), myTransform.getUp());
 			return;
 		case CAMERA_TYPE::FC:
-			SetViewMatrix(getTransform()->getposition(), getTransform()->getposition() + getTransform()->getForward(), getTransform()->getUp());
+			SetViewMatrix(myTransform.getposition(), myTransform.getposition() + myTransform.getForward(), myTransform.getUp());
 			break;
 		}
 	}
@@ -83,7 +82,7 @@ namespace JuliEngine
 			_fov = 45.0f;
 		UpdateProjection();
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			SetViewMatrix(getPos(), _target->getPos(), getTransform()->getUp());
+			SetViewMatrix(myTransform.getposition(), _target->getposition(), myTransform.getUp());
 	}
 	void Camera2::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 	{
@@ -109,7 +108,7 @@ namespace JuliEngine
 	{
 		targetLook = lookPosition;
 		WorldUp = upVector;
-		_renderer->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
+		_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 	}
 	void Camera2::ToogleEjes()
 	{
@@ -119,8 +118,25 @@ namespace JuliEngine
 	void Camera2::DebugInfo()
 	{
 		std::cout << "---CAMARA INFO---" << std::endl;
-		std::cout << "	Camera pos: " + VecToString::vec3toString(getPos()) << std::endl;
+		std::cout << "	Camera pos: " + VecToString::vec3toString(myTransform.getposition()) << std::endl;
 		std::cout << "	Camera look: " + VecToString::vec3toString(targetLook) << std::endl;
 		std::cout << "	Camera up: " + VecToString::vec3toString(WorldUp) << std::endl;
+	}
+
+	glm::vec3 Camera2::GetFront()
+	{
+		return myTransform.getForward();
+	}
+	glm::vec3 Camera2::GetRight()
+	{
+		return myTransform.getRight();
+	}
+	glm::vec3 Camera2::GetUp()
+	{
+		return myTransform.getUp();
+	}
+	glm::vec3 Camera2::getPos()
+	{
+		return myTransform.getposition();;
 	}
 }

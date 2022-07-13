@@ -69,14 +69,14 @@ namespace JuliEngine
 	{
 		this->children = children;
 	}
-	void Entity2::setDraw(Frustum* camFrustrum)
+	void Entity2::setDraw()
 	{
 		drawThisFrame = false;
 
 		for (int i = 0; i < getChildren().size(); i++)
 		{
 			getChildren()[i]->setWorldModelWithParentModel(worldModel);
-			getChildren()[i]->setDraw(camFrustrum);
+			getChildren()[i]->setDraw();
 			addBoundsToAABB(getChildren()[i]->getLocalAABB());
 
 			if (getChildren()[i]->canDrawThisFrame())
@@ -86,7 +86,7 @@ namespace JuliEngine
 			}
 		}
 
-		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(camFrustrum,getTransform()))
+		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getmodel()))
 		{
 			drawThisFrame = true;
 			draw();
@@ -131,7 +131,7 @@ namespace JuliEngine
 				}
 			}
 
-			volume = new AABB(minAABB, maxAABB);
+			volume = new JuliEngine::aabb(minAABB, maxAABB);
 		}
 	}
 

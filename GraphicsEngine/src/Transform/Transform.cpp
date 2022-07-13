@@ -43,6 +43,17 @@ namespace JuliEngine
 		q.z = cr * cp * sy - sr * sp * cy;
 		return q;
 	}
+	Transform::Transform() : Component(this)
+	{
+		m_pos = vec3(0, 0, 0);
+		m_eulerRot = vec3(0, 0, 0);
+		m_scale = vec3(1);
+
+		m_modelMatrix = mat4(1);
+
+		updateTransformRotation();
+		AddDescription("-> ||Transform|| ");
+	}
 	Transform::Transform(GameObject* gameObject) : Component(this, gameObject)
 	{
 		m_pos = vec3(0, 0, 0);
