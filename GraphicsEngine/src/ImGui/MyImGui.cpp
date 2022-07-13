@@ -182,6 +182,8 @@ void baseEntity2Edit(Entity2* it)
             (it)->SetRotations(rot);
         if (ImGui::SliderFloat3(("scl "+(it)->getName()).c_str(), (float*)&scale, -0.0f, 3.0f))
             (it)->SetScale(scale);
+        if (ImGui::ColorEdit3(("clo " + (it)->getName()).c_str(), (float*)&color))
+            (it)->SetColor(color);
     }
     if ((it)->getChildren().size() > 0)
     {
