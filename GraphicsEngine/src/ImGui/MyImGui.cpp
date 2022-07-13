@@ -175,16 +175,22 @@ void baseEntity2Edit(Entity2* it)
 }
 void baseLight2Edit(Light* it)
 {
-    vec3 amb = (it)->GetAmbient();
-    vec3 dif = (it)->GetDiffuse();
-    vec3 spe = (it)->GetSpecular();
-    vec3 col = (it)->getColor();
-    if (ImGui::SliderFloat3(((it)->getName() + " amb").c_str(), (float*)&amb, 0.0f, 1.0f))
-        (it)->SetAmbient(amb);
-    if (ImGui::SliderFloat3(((it)->getName() + " dif").c_str(), (float*)&dif, 0.0f, 1.0f))
-        (it)->SetDiffuse(dif);
-    if (ImGui::SliderFloat3(((it)->getName() + " spe").c_str(), (float*)&spe, 0.0f, 1.0f))
-        (it)->SetSpecular(spe);
+    bool enabled = (it)->getactive();
+    if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
+        (it)->setActive(enabled);
+    if ((it)->getactive())
+    {
+        vec3 amb = (it)->GetAmbient();
+        vec3 dif = (it)->GetDiffuse();
+        vec3 spe = (it)->GetSpecular();
+        vec3 col = (it)->getColor();
+        if (ImGui::SliderFloat3(((it)->getName() + " amb").c_str(), (float*)&amb, 0.0f, 1.0f))
+            (it)->SetAmbient(amb);
+        if (ImGui::SliderFloat3(((it)->getName() + " dif").c_str(), (float*)&dif, 0.0f, 1.0f))
+            (it)->SetDiffuse(dif);
+        if (ImGui::SliderFloat3(((it)->getName() + " spe").c_str(), (float*)&spe, 0.0f, 1.0f))
+            (it)->SetSpecular(spe);
+    }
 }
 
 void MyImGui::UpdateWindowsEntity2()
