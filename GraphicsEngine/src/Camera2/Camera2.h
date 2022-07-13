@@ -51,7 +51,7 @@ namespace JuliEngine
 		void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true);
 		void ToogleEjes();
 
-		void Move(vec3 v) { myTransform.setposition(myTransform.getLocalPosition() + v * _moveSpeed); };
+		void Move(vec3 v);
 		//--------Getters-------
 		Transform* GetTarget() { return _target; };
 		CAMERA_TYPE GetCameraType() { return _cameraType; };

@@ -47,14 +47,6 @@ namespace JuliEngine
 			std::abs(glm::dot(glm::vec3{ 0.f, 0.f, 1.f }, forward));
 
 		aabb globalAABB(globalCenter, newIi, newIj, newIk);
-		//plane nullplane = plane();
-
-		//return (globalAABB.isOnPlane(nullplane) &&
-		//	globalAABB.isOnPlane	(nullplane) &&
-		//	globalAABB.isOnPlane	(nullplane) &&
-		//	globalAABB.isOnPlane	(nullplane) &&
-		//	globalAABB.isOnPlane	(nullplane) &&
-		//	globalAABB.isOnPlane	(nullplane));
 
 		return (globalAABB.isOnPlane(OcclusionCulling::left) &&
 			globalAABB.isOnPlane	(OcclusionCulling::right) &&

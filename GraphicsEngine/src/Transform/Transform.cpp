@@ -49,7 +49,7 @@ namespace JuliEngine
 		m_eulerRot = vec3(0, 0, 0);
 		m_scale = vec3(1);
 
-		m_modelMatrix = mat4(1);
+		worldModel = mat4(1);
 
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -64,7 +64,7 @@ namespace JuliEngine
 		//right = vec3(1, 0, 0);
 		//up = vec3(0, 1, 0);
 
-		m_modelMatrix = mat4(1);
+		worldModel = mat4(1);
 
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -79,7 +79,7 @@ namespace JuliEngine
 		//right = vec3(1,0,0);
 		//up = vec3(0,1,0);
 		 
-		m_modelMatrix = mat4(1);
+		 worldModel = mat4(1);
 		
 		
 		updateTransformRotation();
@@ -92,29 +92,30 @@ namespace JuliEngine
 
 
 
+
 	void Transform::setForward(vec3 v)
 	{
-		m_modelMatrix[2].x = -v.x;
-		m_modelMatrix[2].y = -v.y;
-		m_modelMatrix[2].z = -v.z;
-		m_modelMatrix[2].w = -0;
+		localModel[2].x = -v.x;
+		localModel[2].y = -v.y;
+		localModel[2].z = -v.z;
+		localModel[2].w = -0;
 	}
 	void Transform::setRight(vec3 v)
 	{
-		m_modelMatrix[0].x = v.x;
-		m_modelMatrix[0].y = v.y;
-		m_modelMatrix[0].z = v.z;
-		m_modelMatrix[0].w = 0;
+		localModel[0].x = v.x;
+		localModel[0].y = v.y;
+		localModel[0].z = v.z;
+		localModel[0].w = 0;
 	};
 	void Transform::setUp(vec3 v)
 	{
-		m_modelMatrix[1].x = v.x;
-		m_modelMatrix[1].y = v.y;
-		m_modelMatrix[1].z = v.z;
-		m_modelMatrix[1].w = 0;
-	};
+		localModel[1].x = v.x;
+		localModel[1].y = v.y;
+		localModel[1].z = v.z;
+		localModel[1].w = 0;
+	}
 
-	glm::mat4 Transform::getLocalModelMatrix()
+	void Transform::updateLocalModelMatrix()
 	{
 		updateTransformRotation();
 		const mat4 transformX = glm::rotate(mat4(1.0f),radians(m_eulerRot.x), vec3(1.0f, 0.0f, 0.0f));
@@ -123,7 +124,7 @@ namespace JuliEngine
 		// Y * X * Z
 		const mat4 roationMatrix = transformY * transformX * transformZ;
 		// translation * rotation * scale (also know as TRS matrix)
-		return glm::translate(glm::mat4(1.0f), m_pos) * roationMatrix * glm::scale4(mat4(1.0f), m_scale);
+		localModel = glm::translate(glm::mat4(1.0f), m_pos) * roationMatrix * glm::scale4(mat4(1.0f), m_scale);
 	}
 
 	void Transform::updateTransformRotation()
@@ -136,65 +137,26 @@ namespace JuliEngine
 		setUp(up);
 		setRight(right);
 	}
-	void Transform::computeModelMatrix()
-	{
-		m_modelMatrix = getLocalModelMatrix();
-	}
-	void Transform::computeModelMatrix(const glm::mat4& parentGlobalModelMatrix)
-	{
-		m_modelMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
-	}
-
-	const glm::vec3& Transform::getGlobalPosition() const
-	{
-		return m_modelMatrix[3];
-	}
-
-	const glm::vec3& Transform::getLocalPosition() const
-	{
-		return m_pos;
-	}
-
-	const glm::vec3& Transform::getLocalRotation() const
-	{
-		return m_eulerRot;
-	}
-
-	const glm::vec3& Transform::getLocalScale() const
-	{
-		return m_scale;
-	}
-
-	 glm::mat4 Transform::getModelMatrix()
-	{
-		 computeModelMatrix();
-		return m_modelMatrix;
-	}
 
 	glm::vec3 Transform::getRight()
 	{
-		return m_modelMatrix[0];
+		return worldModel[0];
 	}
 
 
 	glm::vec3 Transform::getUp()
 	{
-		return m_modelMatrix[1];
+		return worldModel[1];
 	}
 
 	glm::vec3 Transform::getBackward()
 	{
-		return m_modelMatrix[2];
+		return worldModel[2];
 	}
 
 	glm::vec3 Transform::getForward()
 	{
-		return -m_modelMatrix[2];
-	}
-
-	glm::vec3 Transform::getGlobalScale()
-	{
-		return { glm::length(getRight()), glm::length(getUp()), glm::length(getBackward()) };
+		return -worldModel[2];
 	}
 }
 

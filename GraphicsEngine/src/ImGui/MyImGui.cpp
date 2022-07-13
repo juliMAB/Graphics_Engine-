@@ -176,16 +176,34 @@ void baseEntity2Edit(Entity2* it)
         {
             ImGui::Text("No Se dibuja");
         }
-        if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
+        if (ImGui::SliderFloat3(("pos "+(it)->getName()).c_str(), (float*)&pos, -5.0f, 5.0f))
             (it)->SetPos(pos);
-        if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
+        if (ImGui::SliderFloat3(("rot "+(it)->getName()).c_str(), (float*)&rot, -180.0f, 180.0f))
             (it)->SetRotations(rot);
-        if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
+        if (ImGui::SliderFloat3(("scl "+(it)->getName()).c_str(), (float*)&scale, -0.0f, 3.0f))
             (it)->SetScale(scale);
+    }
+    if ((it)->getChildren().size() > 0)
+    {
+        ImGui::Text("HIJOS: ");
+        for (int i = 0; i < (it)->getChildren().size(); i++)
+            ImGui::Text((it)->getChildren()[i]->getName().c_str());
+    }
+    else
+    {
+        ImGui::Text("HIJOS: NULL");
     }
     if ((it)->getChildren().size()>0)
         for (int i = 0; i < (it)->getChildren().size(); i++)
             baseEntity2Edit((it)->getChildren()[i]);
+    if ((it)->getParent()!=nullptr)
+    {
+        ImGui::Text(("PADRE: "+ (it)->getParent()->getName()).c_str());
+    }
+    else
+    {
+        ImGui::Text("PADRE: NULL");
+    }
 }
 void baseLight2Edit(Light* it)
 {

@@ -50,6 +50,8 @@ namespace JuliEngine
 		myTransform.setRight(glm::cross(myTransform.getForward(), myTransform.getUp()));
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
 			myTransform.setposition(myTransform.getposition() - myTransform.getForward() * _offset);
+		myTransform.updateLocalModelMatrix();
+		myTransform.setWorldModel(myTransform.getLocalModel());
 		UpdateView();
 	}
 	void Camera2::UpdateProjection()
@@ -113,7 +115,12 @@ namespace JuliEngine
 	void Camera2::ToogleEjes()
 	{
 		_ejes = !_ejes;
+		
 		std::cout << "Camera update set (" << _ejes << ")" << std::endl;
+	}
+	void Camera2::Move(vec3 v)
+	{
+		myTransform.setposition(myTransform.getposition() + v * _moveSpeed);
 	}
 	void Camera2::DebugInfo()
 	{

@@ -25,9 +25,20 @@ namespace JuliEngine
 
 	void Entity2::SetPos(glm::vec3 pos)
 	{
-		if (getisStatic())
-			return;
 		getTransform()->setposition(pos);
+		updateModelMatrix();
+	}
+
+	void Entity2::SetRotations(glm::vec3 rotation)
+	{
+		getTransform()->seteulerAngles(rotation);
+		updateModelMatrix();
+	}
+
+	void Entity2::SetScale(glm::vec3 v)
+	{
+		getTransform()->setlocalScale(v);
+		updateModelMatrix();
 	}
 
 	void Entity2::DebugInfo()
@@ -75,7 +86,7 @@ namespace JuliEngine
 
 		for (int i = 0; i < getChildren().size(); i++)
 		{
-			getChildren()[i]->setWorldModelWithParentModel(worldModel);
+			getChildren()[i]->setWorldModelWithParentModel(getTransform()->getWorldModel());
 			getChildren()[i]->setDraw();
 			addBoundsToAABB(getChildren()[i]->getLocalAABB());
 
@@ -86,7 +97,7 @@ namespace JuliEngine
 			}
 		}
 
-		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getmodel()))
+		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getWorldModel()))
 		{
 			drawThisFrame = true;
 			draw();
@@ -102,7 +113,7 @@ namespace JuliEngine
 	}
 	void Entity2::setWorldModelWithParentModel(glm::mat4 parentModel)
 	{
-		this->parentModel = parentModel;
+		getTransform()->setParentModel(parentModel);
 
 		updateModelMatrix();
 	}
@@ -137,14 +148,15 @@ namespace JuliEngine
 
 	void Entity2::updateModelMatrix()
 	{
+			getTransform()->updateLocalModelMatrix();
 		if (getParent() != NULL)
 		{
-			localModel = getTransform()->getLocalModelMatrix();
-			worldModel = parentModel * localModel;
+			getTransform()->setLocalModel(getTransform()->getLocalModel());
+			getTransform()->setWorldModel(getTransform()->getParentModel() * getTransform()->getLocalModel());
 		}
 		else
 		{
-			worldModel = getTransform()->getLocalModelMatrix();
+			getTransform()->setWorldModel(getTransform()->getLocalModel());
 		}
 	}
 
@@ -185,11 +197,9 @@ namespace JuliEngine
 	}
 	void Entity2::draw()
 	{
-		_renderer->UpdateMVP(getTransform()->getModelMatrix());
+		_renderer->UpdateMVP(getTransform()->getWorldModel());
 
 		for (int i = 0; i < meshes.size(); i++)
-		{
-			_renderer->drawMesh(meshes[i].vertices, meshes[i].indices, meshes[i].textures, meshes[i].VAO, vec3(1,1,1));
-		}
+			_renderer->drawMesh(meshes[i].vertices, meshes[i].indices, meshes[i].textures, meshes[i].VAO, _color);
 	}
 }
