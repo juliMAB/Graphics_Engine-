@@ -107,7 +107,7 @@ namespace JuliEngine
 	void Camera2::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 	{
 		targetLook = lookPosition;
-		WorldUp = upVector;
+		Up = upVector;
 		_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 	}
 	void Camera2::ToogleEjes()

@@ -49,7 +49,9 @@ namespace JuliEngine
 		m_eulerRot = vec3(0, 0, 0);
 		m_scale = vec3(1);
 
-		worldModel = mat4(1);
+		worldModel  = mat4(1);
+		localModel  = mat4(1);
+		parentModel = mat4(1);
 
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -65,6 +67,8 @@ namespace JuliEngine
 		//up = vec3(0, 1, 0);
 
 		worldModel = mat4(1);
+		localModel = mat4(1);
+		parentModel = mat4(1);
 
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -80,7 +84,8 @@ namespace JuliEngine
 		//up = vec3(0,1,0);
 		 
 		 worldModel = mat4(1);
-		
+		 localModel = mat4(1);
+		 parentModel = mat4(1);
 		
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");

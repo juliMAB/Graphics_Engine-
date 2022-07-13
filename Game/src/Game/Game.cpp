@@ -82,6 +82,9 @@ void Game::Init() {
 	_floor->Init(SPRITE_TYPE::QUAD);
 	_floor->SetMateria(defaultM);
 	_floor->SetName("piso");
+	_floor->SetPos(0, -5);
+	_floor->SetRotations(0, 90,0);
+	_floor->SetScale(10);
 	//----------------------
 
 
