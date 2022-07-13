@@ -168,15 +168,24 @@ void baseEntity2Edit(Entity2* it)
         vec3 rot = (it)->getRot();
         vec3 scale = (it)->getScale();
         vec3 color = (it)->getColor();
+        if ((it)->canDrawThisFrame())
+        {
+            ImGui::Text("Se dibuja");
+        }
+        else
+        {
+            ImGui::Text("No Se dibuja");
+        }
         if (ImGui::SliderFloat3(((it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
             (it)->SetPos(pos);
         if (ImGui::SliderFloat3(((it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
             (it)->SetRotations(rot);
         if (ImGui::SliderFloat3(((it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
             (it)->SetScale(scale);
-        //if (ImGui::SliderFloat3(((it)->getName() + " clr").c_str(), (float*)&color, -10.0f, 10.0f))
-            //(it)->SetColor(color);
     }
+    if ((it)->getChildren().size()>0)
+        for (int i = 0; i < (it)->getChildren().size(); i++)
+            baseEntity2Edit((it)->getChildren()[i]);
 }
 void baseLight2Edit(Light* it)
 {
@@ -208,22 +217,19 @@ void MyImGui::UpdateWindowsEntity2()
 void MyImGui::UpdateWindowsModel()
 {
     ImGui::Begin("MODEL");
-    //if (Model::listModel.size()>0)
-    //{
-    //    for (std::list<Model*>::iterator it = Model::listModel.begin(); it != Model::listModel.end(); it++)
-    //    {
-    //        baseEntity2Edit(*it);
-    //        if ((*it)->nodes.size()>0)
-    //        {
-    //            ImGui::Text("NODES");
-    //            for (std::list<Entity2*>::iterator it2 = (*it)->nodes.begin(); it2 != (*it)->nodes.end(); it2++)
-    //                baseEntity2Edit(*it2);
-    //            ImGui::Text("MESHES");
-    //            //for (std::list<Mesh2*>::iterator it2 = (*it)->meshes.begin(); it2 != (*it)->meshes.end(); it2++)
-    //            //    baseEntity2Edit(*it2);
-    //        }
-    //    }
-    //}
+    if (Entity3D::entitys3dList.size()>0)
+    {
+        for (std::list<Entity3D*>::iterator it = Entity3D::entitys3dList.begin(); it != Entity3D::entitys3dList.end(); it++)
+        {
+            baseEntity2Edit((*it)->model->GetBaseNode());
+            //ImGui::Text("NODES");
+            //for (int i = 0; i < (*it)->model->GetBaseNode()->getChildren().size(); i++)
+            //{
+            //    Entity2* node = (*it)->model->GetBaseNode()->getChildren()[i];
+            //    baseEntity2Edit(node);
+            //}
+        }
+    }
     ImGui::End();
 }
 

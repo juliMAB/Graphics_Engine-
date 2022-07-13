@@ -12,9 +12,11 @@ namespace JuliEngine
 	{
 	public:
 		Entity3D(Renderer* render, std::string path);
-		~Entity3D() {};
+		~Entity3D();
 		Model* model;
+		static std::list<Entity3D*> entitys3dList;
 	private:
+		friend class MyImGui;
 	};
 }
 

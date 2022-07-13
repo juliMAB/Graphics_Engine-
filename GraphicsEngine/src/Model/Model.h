@@ -11,7 +11,6 @@ namespace JuliEngine
     public:
         Model(Renderer* rend);
         ~Model();
-        //vector<Mesh> GetMeshes  () { return meshes  ; };
         Entity2*     GetBaseNode() { return baseNode; };
         Renderer*    GetRender  () { return shader  ; };
 
@@ -20,12 +19,10 @@ namespace JuliEngine
 
     protected:
         // model data 
-        //vector<Mesh   > meshes;
         string          directory;
         Entity2*        baseNode;
         Renderer*       shader;
-
-
+        
     };
 }
 

@@ -6,6 +6,7 @@
 #include "../Entity/Entity.h"
 #include "Entity2/Entity2.h"
 #include "Camera2/Camera2.h"
+#include "Entity/Entity3D.h"
 #include "../Light/light.h"
 #include <stdio.h>
 #include "../Window/Window.h"

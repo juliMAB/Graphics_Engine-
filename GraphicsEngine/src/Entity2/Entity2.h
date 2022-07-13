@@ -69,6 +69,7 @@ namespace JuliEngine
 		vector<Mesh> getMeshes() { return meshes; };
 
 		void generateAABB();
+		bool canDrawThisFrame();
 	private:
 		friend class MyImGui;
 	protected:
@@ -94,7 +95,6 @@ namespace JuliEngine
 
 		virtual void SetUniforms();
 
-		bool canDrawThisFrame();
 
 		
 

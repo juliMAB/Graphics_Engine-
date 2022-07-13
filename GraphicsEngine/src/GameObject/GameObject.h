@@ -28,11 +28,12 @@ namespace JuliEngine
 		Transform* getTransform() { return transform; }
 	protected:
 		Transform& getPrTransform() { return *transform; }
+		bool isShoweable;
 	private:
 		Transform* transform;
 		int layer;
 		bool active;
-		//bool isShoweable;
+		bool showeable;
 		string tag;
 		bool isStatic;
 		string _name;
