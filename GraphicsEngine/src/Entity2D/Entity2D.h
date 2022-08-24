@@ -5,6 +5,7 @@
 #include "../Entity2/Entity2.h"
 #include "../Material/Material.h"
 #include "../Entity/vertexs.h"
+#include <Juli\Jinterface.h>
 namespace JuliEngine
 {
 
@@ -19,15 +20,13 @@ namespace JuliEngine
 		void UpdateMaterial();
 
 
-		
+		//color::RGBA _color;
 		void AffectedLight(bool value);
 
 	protected:
 		Material* _material;
 
 		uint _VAO, _VBO, _EBO, tam, vertices;
-
-		
 		float* vertexs;
 
 

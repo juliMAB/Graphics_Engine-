@@ -71,7 +71,6 @@ namespace JuliEngine
 
 		void Sprite::Draw()
 		{
-			
 			_renderer->BlendEnable();
 			UpdateShader();
 			_renderer->TextureEnableDiffuse(_material->GetDiffuse()->_id);

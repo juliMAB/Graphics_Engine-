@@ -13,7 +13,6 @@ namespace JuliEngine
 
 	void Entity2D::Draw()
 	{
-		Entity2::Draw();
 		if (_material != nullptr)
 		{
 			_material->UpdateMaterial();
@@ -36,7 +35,6 @@ namespace JuliEngine
 		useTexture = false;
 		useMaterial = false;
 		affectedLight = true;
-		SetUniforms();
 	}
 
 	Entity2D::~Entity2D()
@@ -60,7 +58,5 @@ namespace JuliEngine
 	void Entity2D::SetUniforms()
 	{
 		Entity2::SetUniforms();
-		_renderer->SetUniform(_uniformColor, "color");
-		_renderer->SetUniform(_uniformAplha, "alpha");
 	}
 }

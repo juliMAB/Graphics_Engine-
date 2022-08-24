@@ -2,7 +2,6 @@
 
 void JuliEngine::Mesh2::Draw()
 {
-    Entity2::Draw();
     getRender()->UpdateMVP(getTransform()->getmodel());
     // bind appropriate textures
     unsigned int diffuseNr = 1;

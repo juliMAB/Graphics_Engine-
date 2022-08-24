@@ -15,8 +15,6 @@ namespace JuliEngine
 		 setName("Entity " + std::to_string(CuantityEntitys));
 		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
-		_color = vec3(1, 1, 1);
-		renderer->SetUniform(_uniformColor, "color");
 	}
 
 	Entity2::~Entity2()
@@ -45,10 +43,6 @@ namespace JuliEngine
 	void Entity2::Update()
 	{
 		getTransform()->updateSelfAndChild();
-	}
-	void Entity2::Draw()
-	{
-		_renderer->UpdateVec3(_uniformColor, _color);
 	}
 
 	void Entity2::SetUniforms()
