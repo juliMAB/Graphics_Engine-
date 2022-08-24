@@ -8,6 +8,7 @@ namespace JuliEngine
 	{
 	public:
 		GameObject();
+		GameObject(Entity2* ourEntity);
 		~GameObject();
 		int getLayer() { return layer; };
 		bool getactive() { return active; };
@@ -19,27 +20,20 @@ namespace JuliEngine
 		void setActive(bool v) 
 		{
 			active = v;
-			if (transform->getChilds().size() > 0)
-				for (int i = 0; i < transform->getChilds().size(); i++)
-				{
-					transform->getChilds(i)->getGameObject()->setActive(v);
-				}
 		};
 		void setTag(string v) { tag = v; };
-		/// <summary>
-		/// Tener en cuenta que mientras sea estatic no se puede mover.
-		/// </summary>
-		/// <param name="value"></param>
 		void setisStatic(bool v) { isStatic = v; };
 		void setName(string v) { _name = v; };
 
-	protected:
 		Transform* getTransform() { return transform; }
+	protected:
+		Transform& getPrTransform() { return *transform; }
+		bool isShoweable;
 	private:
 		Transform* transform;
 		int layer;
 		bool active;
-		//bool isShoweable;
+		bool showeable;
 		string tag;
 		bool isStatic;
 		string _name;

@@ -4,20 +4,19 @@
 #include "Entity2/Entity2.h"
 #define IMPORTER false
 #include "Importer/Importer2.h"
-#if !IMPORTER
-#include "Model/Model2.h"
-#endif
+#include "Model/Model.h"
 #include <Material/material.h>
 namespace JuliEngine
 {
-	class GraficosEngine_API Entity3D : public Entity2
+	class GraficosEngine_API Entity3D
 	{
 	public:
 		Entity3D(Renderer* render, std::string path);
-		~Entity3D() {};
-		void draw();
+		~Entity3D();
+		Model* model;
+		static std::list<Entity3D*> entitys3dList;
 	private:
-		Model2* model;
+		friend class MyImGui;
 	};
 }
 

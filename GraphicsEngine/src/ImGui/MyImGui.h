@@ -5,6 +5,8 @@
 #include "ImGuiMaster/Source/imgui_impl_opengl3.h"
 #include "../Entity/Entity.h"
 #include "Entity2/Entity2.h"
+#include "Camera2/Camera2.h"
+#include "Entity/Entity3D.h"
 #include "../Light/light.h"
 #include <stdio.h>
 #include "../Window/Window.h"
@@ -42,18 +44,19 @@ public:
 
 	bool SliderFloat3(std::string a, vec3* b, float min, float max);
 
-
-
 	void UpdateMainWindows();
 
-	void UpdateWindowsTwo();
-
 	void UpdateWindowsEntity2();
+	void UpdateWindowsLights();
+	void UpdateWindowsModel();
+	void UpdateWindowsCamera();
 private:
 	const char* glsl_version;
 	Window* _window;
 	bool ShowEntity2List;
-	void UpdateWindowsOne();
+	bool ShowModelList;
+	bool ShowCamera2;
+	bool ShowLights;
 };
 
 #endif

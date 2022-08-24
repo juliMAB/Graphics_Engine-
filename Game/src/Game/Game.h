@@ -4,22 +4,23 @@
 //#include "Model/Model.h"
 
 	const int quantity= 20;
-	using namespace JuliEngine;
+	//using namespace JuliEngine;
 class Game : BaseGame {
 	//Sprite* _sprites[quantity];
 	//Shape* _pj;
 	//Sprite* _pjS;
-	Entity2* _a;
-	Entity3D* _modeltest;
-	Camera* _cam;
-	float cameraSpeed = 30.f;
-	//Material* _materials[3];
+	JuliEngine::Entity2* _a;
+	JuliEngine::Entity3D* _entity3d;
+	JuliEngine::Entity3D* _entity3d2;
+	JuliEngine::Model* _modeltest;
+	JuliEngine::Model* _modeltest2;
+	JuliEngine::Camera2* _cam;
 	Sprite* _floor;
 	MyTexture* _tex;
 	MyTexture* _tex2;
-	DirectionLight* _dirLight;
-	PointLight* _pointLight[4];
-	SpotLight* _spotLight;
+	JuliEngine::DirectionLight* _dirLight;
+	JuliEngine::PointLight* _pointLight[4];
+	JuliEngine::SpotLight* _spotLight;
 	Shape* _lightcubes[4];
 	//bool show_window = true;
 	
@@ -37,6 +38,5 @@ public:
 	void processInput();
 
 	void UpdateCameraType();
-
 };
 #endif

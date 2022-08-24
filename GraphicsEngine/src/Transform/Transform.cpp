@@ -43,21 +43,49 @@ namespace JuliEngine
 		q.z = cr * cp * sy - sr * sp * cy;
 		return q;
 	}
-
-	Transform::Transform(GameObject* gameObject) : Component(this,gameObject)
+	Transform::Transform() : Component(this)
 	{
-		 position = vec3(0,0,0);
-		 eulerAngles = vec3(0,0,0);
-		 localScale = vec3(1);
+		m_pos = vec3(0, 0, 0);
+		m_eulerRot = vec3(0, 0, 0);
+		m_scale = vec3(1);
+
+		worldModel  = mat4(1);
+		localModel  = mat4(1);
+		parentModel = mat4(1);
+
+		updateTransformRotation();
+		AddDescription("-> ||Transform|| ");
+	}
+	Transform::Transform(GameObject* gameObject) : Component(this, gameObject)
+	{
+		m_pos = vec3(0, 0, 0);
+		m_eulerRot = vec3(0, 0, 0);
+		m_scale = vec3(1);
+
+		//forward = vec3(0, 0, 1);
+		//right = vec3(1, 0, 0);
+		//up = vec3(0, 1, 0);
+
+		worldModel = mat4(1);
+		localModel = mat4(1);
+		parentModel = mat4(1);
+
+		updateTransformRotation();
+		AddDescription("-> ||Transform|| ");
+	}
+	Transform::Transform(GameObject* gameObject,Entity2* ourEntity) : Component(this,gameObject, ourEntity)
+	{
+		 m_pos = vec3(0,0,0);
+		 m_eulerRot = vec3(0,0,0);
+		 m_scale = vec3(1);
 		 
-		 forward = vec3(0,0,1);
-		 right = vec3(1,0,0);
-		 up = vec3(0,1,0);
+		//forward = vec3(0,0,1);
+		//right = vec3(1,0,0);
+		//up = vec3(0,1,0);
 		 
-		m_modelMatrix = mat4(1);
-		
-		parent = nullptr;
-		childs = list<Transform*>(0);
+		 worldModel = mat4(1);
+		 localModel = mat4(1);
+		 parentModel = mat4(1);
 		
 		updateTransformRotation();
 		AddDescription("-> ||Transform|| ");
@@ -67,60 +95,73 @@ namespace JuliEngine
 	{
 	}
 
-	Transform* Transform::getChilds(int v)
+
+
+
+	void Transform::setForward(vec3 v)
 	{
-		list<Transform*>::iterator it = childs.begin();
-		for (int i = 0; i < v; i++)
-		{
-			it++;
-		}
-		return *it;
+		localModel[2].x = -v.x;
+		localModel[2].y = -v.y;
+		localModel[2].z = -v.z;
+		localModel[2].w = -0;
+	}
+	void Transform::setRight(vec3 v)
+	{
+		localModel[0].x = v.x;
+		localModel[0].y = v.y;
+		localModel[0].z = v.z;
+		localModel[0].w = 0;
+	};
+	void Transform::setUp(vec3 v)
+	{
+		localModel[1].x = v.x;
+		localModel[1].y = v.y;
+		localModel[1].z = v.z;
+		localModel[1].w = 0;
 	}
 
-	glm::mat4 Transform::getLocalModelMatrix()
+	void Transform::updateLocalModelMatrix()
 	{
 		updateTransformRotation();
-		const mat4 transformX = glm::rotate(mat4(1.0f),radians(eulerAngles.x), vec3(1.0f, 0.0f, 0.0f));
-		const mat4 transformY = glm::rotate(mat4(1.0f),radians(eulerAngles.y), vec3(0.0f, 1.0f, 0.0f));
-		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(eulerAngles.z), vec3(0.0f, 0.0f, 1.0f));
+		const mat4 transformX = glm::rotate(mat4(1.0f),radians(m_eulerRot.x), vec3(1.0f, 0.0f, 0.0f));
+		const mat4 transformY = glm::rotate(mat4(1.0f),radians(m_eulerRot.y), vec3(0.0f, 1.0f, 0.0f));
+		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(m_eulerRot.z), vec3(0.0f, 0.0f, 1.0f));
 		// Y * X * Z
 		const mat4 roationMatrix = transformY * transformX * transformZ;
 		// translation * rotation * scale (also know as TRS matrix)
-		return glm::translate(glm::mat4(1.0f), position) * roationMatrix * glm::scale4(mat4(1.0f), localScale);
+		localModel = glm::translate(glm::mat4(1.0f), m_pos) * roationMatrix * glm::scale4(mat4(1.0f), m_scale);
 	}
 
 	void Transform::updateTransformRotation()
 	{
-		quat rotation = EulerToQuat(eulerAngles);
-		forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
-		up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
-		right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
+		quat rotation = EulerToQuat(m_eulerRot);
+		vec3 forward = QuatToVec(rotation, vec3(0.f, 0.f, 1.f));
+		vec3 up = QuatToVec(rotation, vec3(0.f, 1.f, 0.f));
+		vec3 right = QuatToVec(rotation, vec3(1.f, 0.f, 0.f));
+		setForward(forward);
+		setUp(up);
+		setRight(right);
 	}
-	void Transform::updateSelfAndChild()
-	{
-		if (!m_isDirty)
-			return;
-		forceUpdateSelfAndChild();
-	}
-	void Transform::computeModelMatrix()
-	{
-		m_modelMatrix = getLocalModelMatrix();
-	}
-	void Transform::computeModelMatrix(const glm::mat4& parentGlobalModelMatrix)
-	{
-		m_modelMatrix = parentGlobalModelMatrix * getLocalModelMatrix();
-	}
-	void Transform::forceUpdateSelfAndChild()
-	{
-		if (parent!=NULL)
-			computeModelMatrix(parent->getmodel());
-		else
-			computeModelMatrix();
 
-		for (int i=0;childs.size()>i;i++)
-		{
-			getChilds(i)->forceUpdateSelfAndChild();
-		}
+	glm::vec3 Transform::getRight()
+	{
+		return worldModel[0];
+	}
+
+
+	glm::vec3 Transform::getUp()
+	{
+		return worldModel[1];
+	}
+
+	glm::vec3 Transform::getBackward()
+	{
+		return worldModel[2];
+	}
+
+	glm::vec3 Transform::getForward()
+	{
+		return -worldModel[2];
 	}
 }
 

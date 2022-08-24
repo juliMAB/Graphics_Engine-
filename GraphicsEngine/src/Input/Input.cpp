@@ -3,6 +3,7 @@
 
 Window*  Input::window = nullptr;
 Camera* Input::mainCam = nullptr;
+JuliEngine::Camera2* Input::mainCam2 = nullptr;
 std::list<int> Input::currentKeysDown = std::list<int>();
 char                keys[GLFW_KEY_LAST + 1];
 
@@ -63,7 +64,10 @@ void Input::mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 
 	lastX = xpos;
 	lastY = ypos;
-	mainCam->ProcessMouseMovement(xoffset, yoffset);
+	if (mainCam!=nullptr)
+		mainCam->ProcessMouseMovement(xoffset, yoffset);
+	if (mainCam2 != nullptr)
+		mainCam2->ProcessMouseMovement(xoffset, yoffset);
 }
 
 void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -142,7 +146,11 @@ bool Input::IsKeyUp(KeyCode keyCode) {
 void Input::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
 	//std::cout << "callback_Scroll: X:" << xoffset << " Y: " << yoffset << std::endl;
-	mainCam->ProcessMouseScroll(static_cast<float>(yoffset));
+
+	if (mainCam != nullptr)
+		mainCam->ProcessMouseScroll(static_cast<float>(yoffset));
+	if (mainCam2 != nullptr)
+		mainCam2->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
 void Input::SetWindow(Window* _window) {
@@ -150,4 +158,7 @@ void Input::SetWindow(Window* _window) {
 }
 void Input::SetCam(Camera* _cam) {
 	mainCam = _cam;
+}
+void Input::SetCam(JuliEngine::Camera2* _cam) {
+	mainCam2 = _cam;
 }

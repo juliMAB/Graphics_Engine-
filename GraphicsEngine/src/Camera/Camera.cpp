@@ -111,6 +111,8 @@ void Camera::SetOffset(float offset) {
 }
 void Camera::Update()
 {
+	if (!_enabled)
+		return;
 	if (_target != NULL && cameraType == CAMERA_TYPE::TPS)
 		transform.position = _target->getPos();
 	UpdateCameraVectors();

@@ -62,6 +62,18 @@ void MyImGui::Update()
     {
         UpdateWindowsEntity2();
     }
+    if (ShowModelList)
+    {
+        UpdateWindowsModel();
+    }
+    if (ShowCamera2)
+    {
+        UpdateWindowsCamera();
+    }
+    if (ShowLights)
+    {
+        UpdateWindowsLights();
+    }
 }
 
 void MyImGui::Draw()
@@ -95,51 +107,103 @@ void MyImGui::UpdateMainWindows()
     {
         ShowEntity2List = !ShowEntity2List;
     }
-    ImGui::End();
-}
-void MyImGui::UpdateWindowsTwo()
-{
-
-                              // Create a window called "Hello, world!" and append into it.
-    ImGui::Text("Entitys");
-    for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
+    if (ImGui::Button("MODEL", ImVec2(ImGui::GetWindowWidth(), 20)))
     {
-        vec3 rot = (*it)->transform.eulerAngles;
-        vec3 pos = (*it)->transform.position;
-        vec3 sca = (*it)->transform.scale;
-        
-        if(ImGui::SliderFloat3(((*it)->_name + "pos").c_str(), (float*)&pos, -10.0f, 10.0f))
-        {
-            (*it)->SetPos(pos);
-        }
-        if (ImGui::SliderFloat3(((*it)->_name + "rot").c_str(), (float*)&rot, -90.0f, 90.0f))
-        {
-            (*it)->SetRotations(rot);
-        }
-        if (ImGui::SliderFloat3(((*it)->_name + "sca").c_str(), (float*)&sca, 0.1f, 2.0f))
-        {
-            (*it)->SetScale(sca);
-        }
-
-        ImGui::Checkbox(((*it)->_name + "enabled").c_str(), &(*it)->_enabled);
+        ShowModelList = !ShowModelList;
     }
-    ImGui::Text("Lights");
-    for (std::list<Light*>::iterator it = Light::LightsLists.begin(); it != Light::LightsLists.end(); it++)
+    if (ImGui::Button("CAMERA2", ImVec2(ImGui::GetWindowWidth(), 20)))
     {
-        vec3 ambient = (*it)->ambient;
-        vec3 specular = (*it)->specular;
-        vec3 diffuse = (*it)->diffuse;
-        ImGui::SliderFloat3(((*it)->_name + "ambient").c_str(), (float*)&ambient, 0.0f, 1.0f);
-        ImGui::SliderFloat3(((*it)->_name + "specular").c_str(), (float*)&specular, 0.0f, 1.0f);
-        ImGui::SliderFloat3(((*it)->_name + "diffuse").c_str(), (float*)&diffuse, 0.0f, 1.0f);
-        (*it)->SetAmbient(ambient);
-        (*it)->SetSpecular(specular);
-        (*it)->SetDiffuse(diffuse);
+        ShowCamera2 = !ShowCamera2;
     }
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    if (ImGui::Button("LIGHTS", ImVec2(ImGui::GetWindowWidth(), 20)))
+    {
+        ShowLights = !ShowLights;
+    }
     ImGui::End();
 }
 using namespace JuliEngine;
+
+void baseEntity2Edit(Entity2* it)
+{
+    ImGui::Text("-------------");
+    bool enabled = (it)->getactive();
+    if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
+        (it)->setActive(enabled);
+    if ((it)->getactive())
+    {
+        vec3 pos = (it)->getPos();
+        vec3 rot = (it)->getRot();
+        vec3 scale = (it)->getScale();
+        vec3 color = (it)->getColor();
+        if ((it)->canDrawThisFrame())
+        {
+            ImGui::Text("Se dibuja");
+        }
+        else
+        {
+            ImGui::Text("No Se dibuja");
+        }
+        if (ImGui::SliderFloat3(("pos "+(it)->getName()).c_str(), (float*)&pos, -5.0f, 5.0f))
+            (it)->SetPos(pos);
+        if (ImGui::SliderFloat3(("rot "+(it)->getName()).c_str(), (float*)&rot, -180.0f, 180.0f))
+            (it)->SetRotations(rot);
+        if (ImGui::SliderFloat3(("scl "+(it)->getName()).c_str(), (float*)&scale, -0.0f, 3.0f))
+            (it)->SetScale(scale);
+        if (ImGui::ColorEdit3(("clo " + (it)->getName()).c_str(), (float*)&color))
+            (it)->SetColor(color);
+    }
+    if ((it)->getChildren().size() > 0)
+    {
+        ImGui::Text("HIJOS: ");
+        for (int i = 0; i < (it)->getChildren().size(); i++)
+            ImGui::Text((it)->getChildren()[i]->getName().c_str());
+    }
+    else
+    {
+        ImGui::Text("HIJOS: NULL");
+    }
+    if ((it)->getChildren().size()>0)
+        for (int i = 0; i < (it)->getChildren().size(); i++)
+            baseEntity2Edit((it)->getChildren()[i]);
+    if ((it)->getParent()!=nullptr)
+    {
+        ImGui::Text(("PADRE: "+ (it)->getParent()->getName()).c_str());
+    }
+    else
+    {
+        ImGui::Text("PADRE: NULL");
+    }
+    if ((it)->getMeshes().size()>0)
+    {
+        int a = (it)->getMeshes().size();
+        
+        std::string val("MESHES:" + std::to_string(a));
+        ImGui::Text(val.c_str());
+    }
+    ImGui::Text("-------------");
+}
+void baseLight2Edit(Light* it)
+{
+    bool enabled = (it)->getactive();
+    if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
+        (it)->setActive(enabled);
+    if ((it)->getactive())
+    {
+        vec3 amb = (it)->GetAmbient();
+        vec3 dif = (it)->GetDiffuse();
+        vec3 spe = (it)->GetSpecular();
+        vec3 col = (it)->getColor();
+        if (ImGui::SliderFloat3(((it)->getName() + " amb").c_str(), (float*)&amb, 0.0f, 1.0f))
+            (it)->SetAmbient(amb);
+        if (ImGui::SliderFloat3(((it)->getName() + " dif").c_str(), (float*)&dif, 0.0f, 1.0f))
+            (it)->SetDiffuse(dif);
+        if (ImGui::SliderFloat3(((it)->getName() + " spe").c_str(), (float*)&spe, 0.0f, 1.0f))
+            (it)->SetSpecular(spe);
+        if (ImGui::ColorEdit3(((it)->getName() + " spe").c_str(), (float*)&col))
+            (it)->SetColor(col);
+    }
+}
+
 void MyImGui::UpdateWindowsEntity2()
 {
     ImGui::Begin("Entity2");
@@ -147,35 +211,41 @@ void MyImGui::UpdateWindowsEntity2()
     {
         for (std::list<Entity2*>::iterator it = Entity2::EntitysLists.begin(); it != Entity2::EntitysLists.end(); it++)
         {
-            bool enabled = (*it)->getactive();
-            if (ImGui::Checkbox(((*it)->getName() + "enabled").c_str(), &enabled))
-                (*it)->setActive(enabled);
-            if ((*it)->getactive())
-            {
-                glm::vec3 pos = (* it)->getPos();
-                glm::vec3 rot = (*it)->getRot();
-                glm::vec3 scale = (**it).getScale();
-                if (ImGui::SliderFloat3(((*it)->getName() + " pos").c_str(), (float*)&pos, -10.0f, 10.0f))
-                    (**it).SetPos(pos);
-                if( ImGui::SliderFloat3(((*it)->getName() + " rot").c_str(), (float*)&rot, -10.0f, 10.0f))
-                    (**it).SetRotations(rot);
-                if (ImGui::SliderFloat3(((*it)->getName() + " scl").c_str(), (float*)&scale, -10.0f, 10.0f))
-                    (**it).SetScale(scale);
-            }
+            baseEntity2Edit(*it);
+        }
+    }
+    ImGui::End();
+}
+void MyImGui::UpdateWindowsLights()
+{
+    ImGui::Begin("Lights");
+    if (Entity2::EntitysLists.size() > 0)
+    {
+        for (std::list<Light*>::iterator it = Light::LightsLists.begin(); it != Light::LightsLists.end(); it++)
+        {
+            baseLight2Edit(*it);
+        }
+    }
+    ImGui::End();
+}
+void MyImGui::UpdateWindowsModel()
+{
+    ImGui::Begin("MODEL");
+    if (Entity3D::entitys3dList.size()>0)
+    {
+        for (std::list<Entity3D*>::iterator it = Entity3D::entitys3dList.begin(); it != Entity3D::entitys3dList.end(); it++)
+        {
+            baseEntity2Edit((*it)->model->GetBaseNode());
         }
     }
     ImGui::End();
 }
 
-void MyImGui::UpdateWindowsOne()
+void MyImGui::UpdateWindowsCamera()
 {
-        ImGui::Begin("Ventana 2");                    
-        for (std::list<Entity*>::iterator it = Entity::EntitysLists.begin(); it != Entity::EntitysLists.end(); it++)
-        {
-            glm::vec3 a = (*it)->transform.position;
-            ImGui::SliderFloat3(((*it)->_name + " pos").c_str(), (float*)&(*it)->transform.position, -10.0f, 10.0f);
-            (*it)->SetPos((*it)->transform.position);
-        }
-        ImGui::End();
+    ImGui::Begin("CAMERA");
+    Camera2* it = Camera2::_mainCamera;
+    //(ImGui::SliderFloat(((it)->getName() + " Speed").c_str(), (float*)&(it)->MovementSpeed, -10.0f, 10.0f));
+    ImGui::End();
 }
 

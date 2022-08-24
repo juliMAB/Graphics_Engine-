@@ -4,29 +4,17 @@
 #include "Window/Window.h"
 #include "GLM/mat4x4.hpp"
 #include "Shader/Shader.h"
+#include "Vertex/Vertex.h"
+#include "Texture2/Texture2.h"
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <vector>
-#include <Data/Texture.h>
-#include "Data/Vertex.h"
 
 enum TypeShape {
 	Triangle=3, Quad
 };
-
-//struct  myVertex {
-//	glm::vec3 Position;
-//	glm::vec3 Normal;
-//	glm::vec2 TexCoords;
-//};
-//
-//struct myTexture {
-//	unsigned int id;
-//	std::string type;
-//	std::string path;  // we store the path of the texture to compare with other textures
-//};
 
 
 typedef unsigned int uint;
@@ -62,8 +50,10 @@ public:
 	void SetBaseAttribs(uint location, int size, GLsizei stride, const void* offset);
 	void SetTextureAttribs(uint location, int size, int stride, int offset);
 	void UpdateMVP(glm::mat4 model);
+	void UpdateModel(glm::mat4 model);
 	void UpdateVec3(uint uniformVec3, glm::vec3 vec3Value);
 	void UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 baseColor);
+	void UpdateColor(uint uniformBaseColor, glm::vec3 baseColor);
 	void UpdateBoolValue(uint uniformStatus, bool status);
 	void UpdateTexture(uint uniformTexture, uint textureId);
 	void UpdateFloatValue(uint uniformFloat, float value);
@@ -72,6 +62,7 @@ public:
 	void SetProjection(glm::mat4 projection);
 	void DrawMesh(uint VAO, std::vector<unsigned int> indices);
 	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
+	void DrawLines(uint VAO, uint vertices);
 	void ClearScreen();
 	void PostRender(Window* window);
 	void TextureEnable(uint textureId);
@@ -86,13 +77,14 @@ public:
 	void BlendDisable();
 	void BindIndexes(uint& EBO, int tam, uint* indexs);
 	void BindUV(uint UVB, int tam, float* vertices);
+	void reBindBuffer(uint UVB, int tam, const void* vertices);
 	void UnBind(uint& VAO, uint& VBO, uint& EBO);
 	void UnBind(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
 	void SetLocation(uint& location, const char* loc);
 	void SetUniform(uint& uniform, const char* loc);
 	void SetBackgroundColor(glm::vec4 color);
 	void SetLight(uint uColor, uint uPos, uint uAmbient, glm::vec3 colorLight, glm::vec3 posLight, float ambient);
-	//void DrawMesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, unsigned int VAO);
+	void drawMesh(std::vector<JuliEngine::Vertex> vertices, std::vector<unsigned int> indices, std::vector<JuliEngine::Texture> textures, unsigned int VAO, glm::vec3 color);
 	Shader* GetShader() { return _shader; }
 };
 #endif

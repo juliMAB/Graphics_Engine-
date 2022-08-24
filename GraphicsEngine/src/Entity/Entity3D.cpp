@@ -2,23 +2,18 @@
 
 namespace JuliEngine
 {
-	Entity3D::Entity3D(Renderer* render, std::string path) : Entity2(render)
+	std::list<Entity3D*> Entity3D::entitys3dList;
+	Entity3D::Entity3D(Renderer* render, std::string path)
 	{
-		setName("ENTITY3d ");
-		model = new Model2(render, false);
-		model->setName("MODELO ");
-		model->getTransform()->setparent(this->getTransform());
+		model = new Model(render);
 	#if IMPORTER
-		Importer2::loadModel(model,path);
+		Importer2 inp;
+		inp.loadModel(model, path);
 	#endif // IMPORTER
+		entitys3dList.push_back(this);
 	}
-
-	void Entity3D::draw()
+	Entity3D::~Entity3D()
 	{
-		if (getactive())
-		{
-			getRender()->UpdateMVP(getTransform()->getmodel());
-			model->Draw();
-		}
+		entitys3dList.remove(this);
 	}
 }

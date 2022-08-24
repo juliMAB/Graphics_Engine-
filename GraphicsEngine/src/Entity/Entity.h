@@ -77,7 +77,7 @@ static std::list<Entity*> EntitysLists;
 	//---other---
 	void DebugInfo();
 	void SetName(std::string name) { this->_name = name; };
-
+	void SetEnabled(bool a) { _enabled = a; };
 
 private:
 	glm::vec3 QuatToVec(glm::quat quat, glm::vec3 vec);

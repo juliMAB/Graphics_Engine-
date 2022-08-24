@@ -1,7 +1,7 @@
 #ifndef IMPORTER2_H
 #define IMPORTER2_H
 #define IMPORTER true
-#include "Model/Model2.h"
+#include "Model/Model.h"
 #include <STB/stb_image.h>
 #include <ASSIMP/Importer.hpp>
 #include <ASSIMP/postprocess.h>
@@ -11,14 +11,14 @@ namespace JuliEngine
 {
 	class GraficosEngine_API Importer2 {
 	public:
-		void static loadModel(Model2* theModel, string const& path);
-		static Model2* newModel;
+		 void loadModel(Model* theModel, string const& path);
 	private:
-		void static processNode(aiNode* node, const aiScene* scene);
-		MeshData static processMesh(aiMesh* mesh, const aiScene* scene);
-		void static processNode(aiNode* node, const aiScene* scene, Transform* currentParent);
-		vector<Texture2> static loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
-		static Transform* parent;
+		 void processNode(aiNode* node, const aiScene* scene, Entity2* currentParent);
+		 Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+		 vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+		 vector<Texture> textures_loaded;
+		 Model* newModel;
+		 string directory;
 	};
 }
 

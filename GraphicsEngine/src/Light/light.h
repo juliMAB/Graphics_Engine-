@@ -2,18 +2,17 @@
 #define LIGHT_H
 
 #include "Exports/Exports.h"
-#include "Entity/Entity.h"
+//#include "Entity/Entity.h"
 #include "GLM/ext/matrix_transform.hpp"
 #include "Juli/Jinterface.h"
-
-
-	class GraficosEngine_API Light : public Entity
+#include "Entity2/Entity2.h"
+namespace JuliEngine
+{
+	class GraficosEngine_API Light : public Entity2
 	{
 	public:
-		Light();
 		Light(Renderer* render);
 
-		//void  SetUniforms();
 		void virtual SetUniforms(std::string name);
 		void virtual UpdateLight();
 
@@ -28,8 +27,8 @@
 		glm::vec3 GetDiffuse();
 		glm::vec3 GetSpecular();
 
-	protected:
 		static std::list<Light*> LightsLists;
+	protected:
 		glm::vec3 ambient;
 		glm::vec3 diffuse;
 		glm::vec3 specular;
@@ -40,6 +39,6 @@
 	private:
 		friend class MyImGui;
 	};
-
+}
 
 #endif // !LIGHT_H

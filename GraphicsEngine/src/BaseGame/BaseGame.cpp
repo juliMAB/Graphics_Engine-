@@ -7,9 +7,11 @@
 BaseGame::BaseGame() {
 	_input = nullptr;
 	_mainCamera = nullptr;
+	_mainCamera2 = nullptr;
 	_renderer = nullptr;
 	_time = nullptr;
 	_window = nullptr;
+	//_input2 = nullptr;
 	//backgroundColor = glm::vec4();
 
 }
@@ -105,11 +107,12 @@ void BaseGame::InitImgur()
 void BaseGame::InitInput() {
 	Input::SetWindow(_window);
 	Input::StartInputSystem();
-	Input::SetCam(_mainCamera);
+	Input::SetCam(_mainCamera2);
 }
 void BaseGame::InitCamera() {
 	_mainCamera = new Camera();
 	_mainCamera->Init(_renderer,_window);
+	_mainCamera2 = new JuliEngine::Camera2(_renderer,_window);
 }
 
 bool BaseGame::InitWindow(int windowSizeX, int windowSizeY, std::string windowName) {

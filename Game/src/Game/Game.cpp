@@ -19,39 +19,9 @@ bool firstMouse = true;
 
 
 
-//MaterialS emerald{ 
-//	{0.0215f,	0.1745f, 0.0215f},
-//	{0.07568f,	0.61424f,	0.07568f},
-//	{0.633f,	0.727811f,	0.633f,},
-//0.60f *100
-//};
-//MaterialS jade{
-//	{0.135f,	0.2225f,	0.1575f},
-//	{0.54f,	0.89f,	0.63f},
-//	{0.316228f,	0.316228f,	0.316228f},
-//	1
-//};
-//MaterialS obsidian{
-//	{0.05375f,	0.05f,	0.06625f},
-//	{0.18275f,	0.17f,	0.22525f},
-//	{0.332741f,	0.328634f, 0.346435f},
-//	0.3f
-//};
-//MaterialS defaultMat{
-//	{0.2f, 0.2f, 0.2f},
-//	{0.5f, 0.5f, 0.5f},
-//	{1.0f, 1.0f, 1.0f},
-//	64.f
-//};
+
 MaterialS* defaultM;
 
-//enum DIR
-//{
-//	DOWN,
-//	RIGHT,
-//	LEFT,
-//	UP
-//};
 int Down,Left,Right,Up;
 
 glm::vec3 cubePositions[] = {
@@ -75,14 +45,6 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
-	//for (int i = 0; i < quantity; i++)
-	//	_sprites[i] = nullptr;
-	//_pj					  =nullptr;
-	//_pjS				  =nullptr;
-	//_cam				  =nullptr;
-	//cameraSpeed			  =30.f;
-	//for (int i = 0; i < 3; i++)
-	//	_materials[i] = nullptr;
 	_a =nullptr;
 	_floor				  =nullptr;
 	_tex				  =nullptr;
@@ -103,28 +65,34 @@ void Game::Init() {
 	vec3 a = { 1,1,1 };
 	defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
-	_cam = _mainCamera;
+	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	
-	//_a = new JuliEngine::Entity2(_renderer);
-	_modeltest = new Entity3D(_renderer, "res/h/model.obj");
-	_modeltest->SetPos({ 0,0,0 });
-	_modeltest->SetScale({ 1,1,1 });
-		int x = 0;
-		int y = 0;
+	_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
+	_entity3d2 = new JuliEngine::Entity3D(_renderer, "res/i/A2.dae");
+	_modeltest = _entity3d->model;
+	_modeltest2 = _entity3d2->model;
+	_entity3d2->model->GetBaseNode()->SetPos(0, 0, 5);
+	_modeltest->GetBaseNode()->Init();
+	_modeltest2->GetBaseNode()->Init();
+	_modeltest->GetBaseNode()->SetPos({0,0,0});
+	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
+	JuliEngine::OcclusionCulling::Init(_cam);
 
 	//--------FLOOR----------
 	_floor = new Sprite(_renderer);
 	_floor->Init(SPRITE_TYPE::QUAD);
 	_floor->SetMateria(defaultM);
 	_floor->SetName("piso");
+	_floor->SetPos(0, -5);
+	_floor->SetRotations(90, 0,0);
+	_floor->SetScale(10);
 	//----------------------
 
 
-	_dirLight = new DirectionLight(_renderer);
+	_dirLight = new JuliEngine::DirectionLight(_renderer);
 	_dirLight->Init();
 	_dirLight->SetDirection(glm::vec3(-0.2f, -1.0f, -0.3f));
 	_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
@@ -133,7 +101,7 @@ void Game::Init() {
 
 	for (int i = 0; i < 4; i++)
 	{
-		_pointLight[i] = new PointLight(_renderer);
+		_pointLight[i] = new JuliEngine::PointLight(_renderer);
 		_pointLight[i]->Init();
 		_pointLight[i]->SetPos(pointLightPositions[i]);
 		_pointLight[i]->SetAmbient(vec3(0.05f, 0.05f, 0.05f));
@@ -147,7 +115,7 @@ void Game::Init() {
 		_lightcubes[i]->Init(SHAPE_TYPE::QUAD);
 	}
 	
-	_spotLight = new SpotLight(_renderer);
+	_spotLight = new JuliEngine::SpotLight(_renderer);
 	_spotLight->Init();
 	_spotLight->SetCamera(_cam);
 	_spotLight->SetAmbient(vec3(0.0f, 0.0f, 0.0f));
@@ -159,12 +127,10 @@ void Game::Init() {
 	_spotLight->SetCutOff(glm::cos(glm::radians(12.5f)));
 	_spotLight->SetOuterCutOff(glm::cos(glm::radians(15.0f)));
 
-	_cam->SetCameraType(CAMERA_TYPE::FC);
+	_cam->SetCameraType(JuliEngine::CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
 
 	_cam->ToogleEjes();
-	//_cam->SetFoward(vec3(0, 0, -1));
-	//_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
 }
 
 void Game::Deinit() {
@@ -172,27 +138,24 @@ void Game::Deinit() {
 }
 void Game::Update()
 {	
-	_modeltest->Update();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();
 	_floor->UpdateMaterial();
 	LightsUpdate();
 	processInput();
-
+	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
 	_floor->Draw();
-	_modeltest->draw();
+	_modeltest->GetBaseNode()->setDraw();
+	_modeltest2->GetBaseNode()->setDraw();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 }
 void Game::UpdateImgui()
 {
-	/*_myImgui->Begin("Camera Config");
-	vec3 camLook =_cam.look;
-	_myImgui->SliderFloat3("look",_cam->DebugInfo)
-	_myImgui->End();*/
+
 }
 void Game::LightsUpdate()
 {
@@ -222,8 +185,8 @@ void Game::processInput()
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += _cam->GetUp();
 	if (auxCheck2 == CAMERA_TYPE::FC)
-		_cam->SetPos(_cam->getPos() + a * _time->_deltaTime*cameraSpeed);
-	
+		_cam->Move(a * _time->_deltaTime);
+
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
@@ -237,26 +200,9 @@ void Game::processInput()
 	}
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
-	_cam->SetCameraType((CAMERA_TYPE)auxCheck2);
+	_cam->SetCameraType((JuliEngine::CAMERA_TYPE)auxCheck2);
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
-	glm::vec3 b(0);
-	if (Input::IsKeyPressed(Input::KEY_UP))
-		b += _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_DOWN))
-		b -= _cam->GetFront();
-	if (Input::IsKeyPressed(Input::KEY_LEFT))
-		b -= _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_RIGHT))
-		b += _cam->GetRight();
-	if (Input::IsKeyPressed(Input::KEY_KP_0))
-		b -= _cam->GetUp();
-	if (Input::IsKeyPressed(Input::KEY_KP_1))
-		b += _cam->GetUp();
-	_pointLight[0]->SetPos(_pointLight[0]->getPos() + b * _time->_deltaTime * cameraSpeed);
-	//if (Input::IsKeyPressed(Input::KEY_Z))
-	//	_cam->SetTargetLook(vec3(0.0f, 0.0f, 9.0f));
-
 }
 void Game::UpdateCameraType() {
 	int C = (int)auxCheck2;

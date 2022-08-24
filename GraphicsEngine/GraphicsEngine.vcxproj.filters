@@ -82,9 +82,6 @@
     <Filter Include="Archivos de encabezado\Mesh">
       <UniqueIdentifier>{84001d92-52a3-4639-85b1-0cf881f4b82e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de encabezado\Model">
-      <UniqueIdentifier>{5df157b3-7d34-4a22-a600-e6d8d20d12fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\Importer">
       <UniqueIdentifier>{40a36cfa-90a6-4303-bfa7-6c34d24cf08e}</UniqueIdentifier>
     </Filter>
@@ -124,9 +121,6 @@
     <Filter Include="src\Importer2">
       <UniqueIdentifier>{8a4a4b82-a275-49bc-9a0b-db2b8c9d5ebd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Model2">
-      <UniqueIdentifier>{73cc2d8e-c224-4778-a8ec-0e76feabf625}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Vertex2">
       <UniqueIdentifier>{c6a775c6-2287-429d-ba10-d11a6703234e}</UniqueIdentifier>
     </Filter>
@@ -138,6 +132,36 @@
     </Filter>
     <Filter Include="src\Extras">
       <UniqueIdentifier>{c4989400-82b1-4bfc-b7cd-346d915fe889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Camera2">
+      <UniqueIdentifier>{b6ff391d-be49-4756-a76e-cfd8f4eb1f79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Input2">
+      <UniqueIdentifier>{bc93dc7c-f42e-4ac3-8cb9-b5e75dcc6f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Frustrum">
+      <UniqueIdentifier>{d41727ea-0ef8-4f7b-9fb6-1906b7a2d4da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\BoundingVolume">
+      <UniqueIdentifier>{10dfc63f-b351-47e6-9c8e-d145079276a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Collision">
+      <UniqueIdentifier>{a803bfac-6866-47b9-a56f-2571c343f1a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Line">
+      <UniqueIdentifier>{1ca4e79f-4486-485b-937c-fe49907f6296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Model">
+      <UniqueIdentifier>{73cc2d8e-c224-4778-a8ec-0e76feabf625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Entity3d">
+      <UniqueIdentifier>{5605b732-e927-44ff-b1b6-85aaebae6ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Camera">
+      <UniqueIdentifier>{67832890-07c1-4e8e-ac80-b1bb4cac1df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Plane">
+      <UniqueIdentifier>{f5e78df4-539c-4185-98e9-c8feff8315c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -243,9 +267,6 @@
     <ClCompile Include="src\ImGui\ImGuiMaster\Imgui\imgui_widgets.cpp">
       <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
     </ClCompile>
-    <ClCompile Include="src\Entity\Entity3D.cpp">
-      <Filter>Archivos de origen\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="src\Importer\Importer.cpp">
       <Filter>Archivos de encabezado\Importer</Filter>
     </ClCompile>
@@ -275,6 +296,30 @@
     </ClCompile>
     <ClCompile Include="src\Importer\Importer2.cpp">
       <Filter>src\Importer2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera2\Camera2.cpp">
+      <Filter>src\Camera2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input2\Input2.cpp">
+      <Filter>src\Input2</Filter>
+    </ClCompile>
+    <ClCompile Include="src\line\line.cpp">
+      <Filter>src\Line</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Model.cpp">
+      <Filter>src\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Entity\Entity3D.cpp">
+      <Filter>src\Entity3d</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera\occlusionCulling.cpp">
+      <Filter>src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Plan\Plane.cpp">
+      <Filter>src\Plane</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Collision\AABB.cpp">
+      <Filter>src\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -401,15 +446,6 @@
     <ClInclude Include="src\ImGui\ImGuiMaster\Imgui\imstb_truetype.h">
       <Filter>Archivos de encabezado\Imgui\Master\Imgur</Filter>
     </ClInclude>
-    <ClInclude Include="src\Mesh\Mesh2.h">
-      <Filter>Archivos de encabezado\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Model\Model.h">
-      <Filter>Archivos de encabezado\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Entity\Entity3D.h">
-      <Filter>Archivos de encabezado\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="src\Importer\Importer.h">
       <Filter>Archivos de encabezado\Importer</Filter>
     </ClInclude>
@@ -417,9 +453,6 @@
       <Filter>Archivos de encabezado\MyMesh</Filter>
     </ClInclude>
     <ClInclude Include="Vertex.h">
-      <Filter>Data</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Texture\Texture.h">
       <Filter>Data</Filter>
     </ClInclude>
     <ClInclude Include="src\Object\Object.h">
@@ -446,16 +479,13 @@
     <ClInclude Include="src\GameObject\GameObject.h">
       <Filter>src\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="src\Data\Vertex.h">
-      <Filter>src\Data</Filter>
-    </ClInclude>
     <ClInclude Include="src\Importer\Importer2.h">
       <Filter>src\Importer2</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model\Model2.h">
-      <Filter>src\Model2</Filter>
+    <ClInclude Include="src\Model\Model.h">
+      <Filter>src\Model</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vertex\Vertex2.h">
+    <ClInclude Include="src\Vertex\Vertex.h">
       <Filter>src\Vertex2</Filter>
     </ClInclude>
     <ClInclude Include="src\Texture2\Texture2.h">
@@ -466,6 +496,45 @@
     </ClInclude>
     <ClInclude Include="src\Importer\assimpIncludes.h">
       <Filter>src\Extras</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera2\Camera2.h">
+      <Filter>src\Camera2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\Input2.h">
+      <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\KeyState.h">
+      <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input2\KeyCode.h">
+      <Filter>src\Input2</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Plan\Plane.h">
+      <Filter>src\Plane</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Frustum\Frustrum.h">
+      <Filter>src\Frustrum</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BoundingVolume\BoundingVolume.h">
+      <Filter>src\BoundingVolume</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\Sphere.h">
+      <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\SquareAABB.h">
+      <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision\AABB.h">
+      <Filter>src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="src\line\line.h">
+      <Filter>src\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Entity\Entity3D.h">
+      <Filter>src\Entity3d</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera\occlusionCulling.h">
+      <Filter>src\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
