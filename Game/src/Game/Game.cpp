@@ -45,15 +45,22 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
-	_a =nullptr;
-	_floor				  =nullptr;
-	_tex				  =nullptr;
-	_tex2				  =nullptr;
-	_dirLight			  =nullptr;
+	if (_a					!=nullptr)
+		_a					  =nullptr;
+	if (_floor!=nullptr)
+		_floor				  =nullptr;
+	if (_tex != nullptr)
+		_tex				  =nullptr;
+	if (_tex2 != nullptr)
+		_tex2				  =nullptr;
+	if (_dirLight != nullptr)
+		_dirLight			  =nullptr;
 	for (int i = 0; i < 4; i++)
-		_pointLight[i] = nullptr;
+		if (_pointLight[i] != nullptr)
+			_pointLight[i] = nullptr;
 	for (int i = 0; i < 4; i++)
-		_lightcubes[i] = nullptr;
+		if (_lightcubes[i] != nullptr)
+			_lightcubes[i] = nullptr;
 
 	_spotLight	  =nullptr;
 	_modeltest	  =nullptr;

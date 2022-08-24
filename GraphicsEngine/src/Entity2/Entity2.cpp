@@ -17,6 +17,7 @@ namespace JuliEngine
 		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
 		meshes = vector<Mesh>();
+		parent = nullptr;
 	}
 	Entity2::~Entity2()
 	{

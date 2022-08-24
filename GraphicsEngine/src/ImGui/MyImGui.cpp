@@ -119,6 +119,8 @@ void MyImGui::UpdateMainWindows()
     {
         ShowLights = !ShowLights;
     }
+
+    ImGui::Text("Inputs:");
     ImGui::End();
 }
 using namespace JuliEngine;
