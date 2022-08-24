@@ -2,44 +2,48 @@
 #define ENTITY2D_H
 
 #include "../Exports/Exports.h"
-#include "../Entity2/Entity2.h"
+#include "../Entity/Entity.h"
 #include "../Material/Material.h"
 #include "../Entity/vertexs.h"
-#include <Juli\Jinterface.h>
-namespace JuliEngine
-{
 
-	class GraficosEngine_API Entity2D : public Entity2 {
-	public:
-		void Draw();
+class GraficosEngine_API Entity2D : public Entity {
+public:
+
+	bool _hasCollider, _moveable;
+	glm::vec3 pivot;
+	glm::vec3 colliderSize;
+	glm::vec3 GetPivot();
+	void InitCollider();
+
+	void Draw();
 	
-		Entity2D(Renderer* render);
-		~Entity2D();
+	Entity2D();
+	Entity2D(Renderer* render);
+	~Entity2D();
 
-		void SetMateria(MaterialS* mat);
-		void UpdateMaterial();
-
-
-		//color::RGBA _color;
-		void AffectedLight(bool value);
-
-	protected:
-		Material* _material;
-
-		uint _VAO, _VBO, _EBO, tam, vertices;
-		float* vertexs;
+	void SetMateria(MaterialS* mat);
+	void UpdateMaterial();
 
 
-		bool useTexture;
-		bool useLightMaps;
-		bool useMaterial;
-		bool affectedLight;
+	//color::RGBA color;
+	void AffectedLight(bool value);
 
-		void SetUniforms();
-		void UpdateShader();
-	private:
-	};
-}
+protected:
+	Material* _material;
+
+	uint _VAO, _VBO, _EBO, tam, vertices;
+	float* vertexs;
+
+
+	bool useTexture;
+	bool useLightMaps;
+	bool useMaterial;
+	bool affectedLight;
+
+	void SetUniforms();
+	void UpdateShader();
+private:
+};
 	
 
 

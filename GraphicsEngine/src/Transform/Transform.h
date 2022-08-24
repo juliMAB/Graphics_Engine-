@@ -38,10 +38,6 @@ namespace JuliEngine
 		void seteulerAngles(vec3 v) { eulerAngles = v; updateTransformRotation(); updateSelfAndChild();};
 		void setlocalScale(vec3 v) { localScale = v; updateSelfAndChild();};
 
-		void setright	(vec3 v) { right	= v; };
-		void setforward	(vec3 v) { forward	= v; };
-		void setup		(vec3 v) { up		= v; };
-
 		void setparent(Transform* v) { parent = v; v->childs.push_back(this); };
 		
 		glm::mat4 getLocalModelMatrix();

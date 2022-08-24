@@ -16,47 +16,44 @@
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
-namespace JuliEngine
+
+static void glfw_error_callback(int error, const char* description)
 {
-	static void glfw_error_callback(int error, const char* description)
-	{
-		fprintf(stderr, "Glfw Error %d: %s\n", error, description);
-	}
-
-	class GraficosEngine_API MyImGui
-	{
-	public:
-		MyImGui();
-		void Init();
-		void InitAfterWindow(Window* win);
-		void Update();
-		void Draw();
-		~MyImGui();
-
-		void Begin(std::string);
-
-		void End();
-
-		void Text(std::string a);
-
-		void SliderFloat(std::string a, float* b, float min, float max);
-
-		bool SliderFloat3(std::string a, vec3* b, float min, float max);
-
-
-
-		void UpdateMainWindows();
-
-		void UpdateWindowsEntity2();
-
-		void UpdateWindowsLights();
-	private:
-		const char* glsl_version;
-		Window* _window;
-		bool ShowEntity2List;
-		bool ShowLightsList;
-	};
+	fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
+class GraficosEngine_API MyImGui
+{
+public:
+	MyImGui();
+	void Init();
+	void InitAfterWindow(Window* win);
+	void Update();
+	void Draw();
+	~MyImGui();
+
+	void Begin(std::string);
+
+	void End();
+
+	void Text(std::string a);
+
+	void SliderFloat(std::string a, float* b, float min, float max);
+
+	bool SliderFloat3(std::string a, vec3* b, float min, float max);
+
+
+
+	void UpdateMainWindows();
+
+	void UpdateWindowsTwo();
+
+	void UpdateWindowsEntity2();
+private:
+	const char* glsl_version;
+	Window* _window;
+	bool ShowEntity2List;
+	void UpdateWindowsOne();
+};
 
 #endif

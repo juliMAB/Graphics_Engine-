@@ -11,7 +11,7 @@ class Game : BaseGame {
 	//Sprite* _pjS;
 	Entity2* _a;
 	Entity3D* _modeltest;
-	Camera2* _cam;
+	Camera* _cam;
 	float cameraSpeed = 30.f;
 	//Material* _materials[3];
 	Sprite* _floor;

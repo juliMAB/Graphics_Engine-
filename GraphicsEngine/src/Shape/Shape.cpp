@@ -1,6 +1,10 @@
 #include "shape.h"
-namespace JuliEngine
-{
+
+
+	Shape::Shape() : Entity2D()
+	{
+	}
+
 	Shape::Shape(Renderer* render) : Entity2D(render)
 	{
 	}
@@ -51,7 +55,8 @@ namespace JuliEngine
 
 		_renderer->SetBaseAttribs(_locationPosition, 3, 6, 0);
 		_renderer->SetBaseAttribs(_locationNormal, 3, 6, 3);
-		//_color._A = 1;
+
+		_color._A = 1;
 	}
 
 	void Shape::Draw()
@@ -66,6 +71,3 @@ namespace JuliEngine
 	{
 		_renderer->UnBind(_VAO, _VBO, _EBO);
 	}
-
-}
-

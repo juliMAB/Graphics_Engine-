@@ -139,9 +139,6 @@
     <Filter Include="src\Extras">
       <UniqueIdentifier>{c4989400-82b1-4bfc-b7cd-346d915fe889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Camera2">
-      <UniqueIdentifier>{638c5b2f-f427-473f-bc3c-f3c28ee61327}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -278,9 +275,6 @@
     </ClCompile>
     <ClCompile Include="src\Importer\Importer2.cpp">
       <Filter>src\Importer2</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera2\Camera2.cpp">
-      <Filter>src\Camera2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -473,12 +467,6 @@
     <ClInclude Include="src\Importer\assimpIncludes.h">
       <Filter>src\Extras</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Camera2\Camera2.h">
-      <Filter>src\Camera2</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\SolidFragmentShader.shader">
@@ -505,10 +493,5 @@
     <Natvis Include="src\ImGui\ImGuiMaster\Source\imgui.natvis">
       <Filter>Archivos de encabezado\Imgui\Master\Source</Filter>
     </Natvis>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GraphicsEngine.rc">
-      <Filter>Archivos de recursos</Filter>
-    </ResourceCompile>
   </ItemGroup>
 </Project>
