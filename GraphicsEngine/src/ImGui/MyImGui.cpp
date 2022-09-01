@@ -145,7 +145,7 @@ void baseEntity2Edit(Entity2* it)
         {
             ImGui::Text("No Se dibuja");
         }
-        if (ImGui::SliderFloat3(("pos "+(it)->getName()).c_str(), (float*)&pos, -5.0f, 5.0f))
+        if (ImGui::SliderFloat3(("pos "+(it)->getName()).c_str(), (float*)&pos, -15.0f, 15.0f))
             (it)->SetPos(pos);
         if (ImGui::SliderFloat3(("rot "+(it)->getName()).c_str(), (float*)&rot, -180.0f, 180.0f))
             (it)->SetRotations(rot);

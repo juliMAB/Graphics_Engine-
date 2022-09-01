@@ -17,6 +17,7 @@
 #include "Model/Model.h"
 #include "Entity/Entity3D.h"
 #include "Camera/occlusionCulling.h"
+#include "BSP/BSP.h"
 
 class GraficosEngine_API BaseGame {
 private:
@@ -31,6 +32,7 @@ protected:
 	Time* _time;
 	Camera* _mainCamera;
 	JuliEngine::Camera2* _mainCamera2;
+	JuliEngine::BSP* _bsp;
 	MyImGui* _myImgui;
 	//glm::vec4 backgroundColor;
 public:

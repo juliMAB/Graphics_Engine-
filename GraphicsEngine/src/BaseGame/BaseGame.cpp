@@ -135,6 +135,7 @@ void BaseGame::InitTime() {
 	_time = new Time();
 }
 
+
 void BaseGame::SetBackGroundColor(color::RGBA color) {
 	_renderer->SetBackgroundColor(color.GetColorV4());
 }

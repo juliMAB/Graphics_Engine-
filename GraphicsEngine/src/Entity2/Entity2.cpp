@@ -18,6 +18,7 @@ namespace JuliEngine
 		CuantityEntitys++;
 		meshes = vector<Mesh>();
 		parent = nullptr;
+		volume = nullptr;
 	}
 	Entity2::~Entity2()
 	{

@@ -163,6 +163,9 @@
     <Filter Include="src\Plane">
       <UniqueIdentifier>{f5e78df4-539c-4185-98e9-c8feff8315c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\BSP">
+      <UniqueIdentifier>{da348a2c-c33a-4a9c-b21a-3f714c6d56a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -320,6 +323,9 @@
     </ClCompile>
     <ClCompile Include="src\Collision\AABB.cpp">
       <Filter>src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BSP\BSP.cpp">
+      <Filter>src\BSP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -535,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="src\Camera\occlusionCulling.h">
       <Filter>src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BSP\BSP.h">
+      <Filter>src\BSP</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

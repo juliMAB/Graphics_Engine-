@@ -45,6 +45,8 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
+	if (_Wall1!=nullptr)
+		_Wall1 = nullptr;
 	if (_a					!=nullptr)
 		_a					  =nullptr;
 	if (_floor!=nullptr)
@@ -67,8 +69,10 @@ Game::Game() {
 }
 Game::~Game() {}
 void Game::Init() {
+	
 	_tex = new MyTexture("res/e.png", false);
 	_tex2 = new MyTexture("res/f.png", false);
+	
 	vec3 a = { 1,1,1 };
 	defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
@@ -96,6 +100,15 @@ void Game::Init() {
 	_floor->SetPos(0, -5);
 	_floor->SetRotations(90, 0,0);
 	_floor->SetScale(10);
+	//----------------------
+	//--------WALL----------
+	_Wall1 = new Sprite(_renderer);
+	_Wall1->Init(SPRITE_TYPE::QUAD);
+	_Wall1->SetMateria(defaultM);
+	_Wall1->SetName("Wall");
+	_Wall1->SetPos(10, 0, 0);
+	_Wall1->SetRotations(0, 90, 0);
+	_Wall1->SetScale(10);
 	//----------------------
 
 
@@ -136,8 +149,22 @@ void Game::Init() {
 
 	_cam->SetCameraType(JuliEngine::CAMERA_TYPE::FC);
 	_cam->SetPos(vec3(0.0f, 0.0f, 10.0f));
-
+		
 	_cam->ToogleEjes();
+
+	_bsp = new JuliEngine::BSP(_renderer, _cam);
+
+
+
+	for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+	{
+		_bsp->AddEntity((*it2));
+	}
+	vec3 xa = _Wall1->getPos() + vec3(0, 0, 1);
+	vec3 xb = _Wall1->getPos() + vec3(0, 0, -1);
+	vec3 xc = _Wall1->getPos() + vec3(0, 1, 0);
+	_planeXample = new JuliEngine::plane(xa, xb, xc);
+	_bsp->AddPlane(_planeXample);
 }
 
 void Game::Deinit() {
@@ -149,16 +176,20 @@ void Game::Update()
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();
 	_floor->UpdateMaterial();
+	_Wall1->UpdateMaterial();
 	LightsUpdate();
 	processInput();
 	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
 	_floor->Draw();
-	_modeltest->GetBaseNode()->setDraw();
-	_modeltest2->GetBaseNode()->setDraw();
+	_Wall1->Draw();
+	//_modeltest->GetBaseNode()->setDraw();
+	//_modeltest2->GetBaseNode()->setDraw();
+	_bsp->Draw();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
+
 }
 void Game::UpdateImgui()
 {
