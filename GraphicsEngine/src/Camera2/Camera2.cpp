@@ -73,6 +73,35 @@ namespace JuliEngine
 			break;
 		}
 	}
+
+	void Camera2::UpdateCameraType()
+	{
+		
+		int c = (int)_cameraType;
+		c++;
+		if (c > (int)CAMERA_TYPE::Max)
+		{
+			c = 0;
+		}
+		_cameraType = (CAMERA_TYPE)c;
+		switch (_cameraType)
+		{
+		case CAMERA_TYPE::FC:
+			std::cout << "Camera:Free Camera" << std::endl;
+			break;
+		case CAMERA_TYPE::FPS:
+			std::cout << "Camera:First Person Shooter" << std::endl;
+			break;
+		case CAMERA_TYPE::TPS:
+			std::cout << "Camera:Three Person Shooter" << std::endl;
+			break;
+		case CAMERA_TYPE::Max:
+			std::cout << "Camera:NONE" << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
 	void Camera2::ProcessMouseScroll(float yoffset)
 	{
 		_fov -= (float)yoffset;

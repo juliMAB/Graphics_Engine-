@@ -38,6 +38,7 @@ namespace JuliEngine
 		void SetSensitivity(float v) { _sensitivity = v; };
 		void SetOffset(float v) { _offset = v; };
 		void SetCameraType(CAMERA_TYPE v) { _cameraType = v; };
+		void UpdateCameraType();
 		void SetPos(vec3 v) { pos = v; };
 		//------------------------
 		//------Updates-----------

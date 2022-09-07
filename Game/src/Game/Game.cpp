@@ -11,7 +11,6 @@ glm::vec3 scale = { 1, 1, 1 };
 float scaleForce = 0.2f;
 float scale1=0;
 bool auxCheck = false;
-CAMERA_TYPE auxCheck2 = CAMERA_TYPE::FPS;
 
 float lastX=0;
 float lastY=0;
@@ -230,36 +229,7 @@ void Game::processInput()
 	if (Input::IsKeyDown(Input::KEY_C))
 		Input::toggle_lock_cursor();
 	if (Input::IsKeyDown(Input::KEY_B))
-		UpdateCameraType();
-	_cam->SetCameraType((JuliEngine::CAMERA_TYPE)auxCheck2);
+		_cam->UpdateCameraType();
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
-}
-void Game::UpdateCameraType() {
-	int C = (int)auxCheck2;
-	C++;
-	if (C > (int)CAMERA_TYPE::Max)
-	{
-		C = 0;
-	}
-
-	auxCheck2 = (CAMERA_TYPE)C;
-	switch (auxCheck2)
-	{
-	case CAMERA_TYPE::FC:
-		std::cout << "Camera:Free Camera" << std::endl;
-		break;
-	case CAMERA_TYPE::FPS:
-		std::cout << "Camera:First Person Shooter" << std::endl;
-		break;
-	case CAMERA_TYPE::TPS:
-		std::cout << "Camera:Three Person Shooter" << std::endl;
-		break;
-	case CAMERA_TYPE::Max:
-		std::cout << "Camera:NONE" << std::endl;
-		break;
-	default:
-		break;
-
-	}
 }
