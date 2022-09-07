@@ -3,9 +3,8 @@
 namespace JuliEngine
 {
 	Camera2* Camera2::_mainCamera;
-	Camera2::Camera2(Renderer* render, Window* window)
+	Camera2::Camera2(Renderer* render, Window* window) : Entity2(render)
 	{
-		_render = render;
 		_window = window;
 		Yaw = YAW;
 		Pitch = PITCH;
@@ -20,7 +19,7 @@ namespace JuliEngine
 		SetAspect(width, height);
 		UpdateProjection();
 		UpdateView();
-		_render->SetUniform(_uniformViewPos, "viewPos");
+		_renderer->SetUniform(_uniformViewPos, "viewPos");
 		_mainCamera = this;
 		WorldUp = { 0,1,0 };
 	}
@@ -33,10 +32,10 @@ namespace JuliEngine
 	void Camera2::Update()
 	{
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			pos = (_target->getposition());
+			SetPos((_target->getposition()));
 		UpdateCameraVectors();
-		_render->UseShader();
-		_render->UpdateVec3(_uniformViewPos,pos);
+		_renderer->UseShader();
+		_renderer->UpdateVec3(_uniformViewPos, getPos());
 	}
 	void Camera2::UpdateCameraVectors()
 	{
@@ -47,29 +46,29 @@ namespace JuliEngine
 		direction.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
 		direction.y = sin(glm::radians(Pitch));
 		direction.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-		Front = (glm::normalize(direction));
-		Right = glm::normalize(glm::cross(Front, WorldUp));
-		Up    = glm::normalize(glm::cross(Right, Front  ));
+		SetForward((glm::normalize(direction)));
+		SetRight(glm::normalize(glm::cross(GetFront(), WorldUp)));
+		setUp(glm::normalize(glm::cross(GetRight(), GetFront())));
 		UpdateView();
 	}
 	void Camera2::UpdateProjection()
 	{
 		glm::mat4 projection = glm::perspective(glm::radians(_fov), _aspect, _near, _far);
-		_render->SetProjection(projection);
+		_renderer->SetProjection(projection);
 	}
 	void Camera2::UpdateView()
 	{
 		switch (_cameraType)
 		{
 		case CAMERA_TYPE::FPS:
-			SetViewMatrix(pos, pos + Front, Up);
+			SetViewMatrix(getPos(), getPos() + GetFront(), GetUp());
 			return;
 		case CAMERA_TYPE::TPS:
 			if (_target != NULL)
-				SetViewMatrix(pos, _target->getposition(), Up);
+				SetViewMatrix(getPos(), _target->getposition(), GetUp());
 			return;
 		case CAMERA_TYPE::FC:
-			SetViewMatrix(pos, pos + Front, Up);
+			SetViewMatrix(getPos(), getPos() + GetFront(), GetUp());
 			break;
 		}
 	}
@@ -111,7 +110,7 @@ namespace JuliEngine
 			_fov = 45.0f;
 		UpdateProjection();
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
-			SetViewMatrix(pos, _target->getposition(), Up);
+			SetViewMatrix(getPos(), _target->getposition(), GetUp());
 	}
 	void Camera2::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 	{
@@ -136,8 +135,8 @@ namespace JuliEngine
 	void Camera2::SetViewMatrix(glm::vec3 startingPosition, glm::vec3 lookPosition, glm::vec3 upVector)
 	{
 		targetLook = lookPosition;
-		Up = upVector;
-		_render->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
+		setUp(upVector);
+		_renderer->SetView(glm::lookAt(startingPosition, lookPosition, upVector));
 	}
 	void Camera2::ToogleEjes()
 	{
@@ -147,30 +146,13 @@ namespace JuliEngine
 	}
 	void Camera2::Move(vec3 v)
 	{
-		pos += v * _moveSpeed;
+		SetPos(getPos() + v * _moveSpeed);
 	}
 	void Camera2::DebugInfo()
 	{
 		std::cout << "---CAMARA INFO---" << std::endl;
-		std::cout << "	Camera pos: " + VecToString::vec3toString(pos) << std::endl;
+		std::cout << "	Camera pos: " + VecToString::vec3toString(getPos()) << std::endl;
 		std::cout << "	Camera look: " + VecToString::vec3toString(targetLook) << std::endl;
 		std::cout << "	Camera up: " + VecToString::vec3toString(WorldUp) << std::endl;
-	}
-
-	glm::vec3 Camera2::GetFront()
-	{
-		return Front;
-	}
-	glm::vec3 Camera2::GetRight()
-	{
-		return Right;
-	}
-	glm::vec3 Camera2::GetUp()
-	{
-		return Up;
-	}
-	glm::vec3 Camera2::getPos()
-	{
-		return pos;
 	}
 }

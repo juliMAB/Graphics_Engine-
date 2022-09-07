@@ -1,6 +1,7 @@
 #include "aabb.h"
 #include "GLEW/glew.h"
 #include <GLFW/glfw3.h>
+#include "Camera/occlusionCulling.h"
 
 namespace JuliEngine
 {

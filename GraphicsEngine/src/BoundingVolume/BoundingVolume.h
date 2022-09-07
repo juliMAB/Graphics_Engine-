@@ -1,7 +1,7 @@
 #ifndef BOUNDINGVOLUME_H
 #define BOUNDINGVOLUME_H
 
-#include "Camera/occlusionCulling.h"
+//#include "Camera/occlusionCulling.h"
 #include "Plan/Plane.h"
 
 namespace JuliEngine

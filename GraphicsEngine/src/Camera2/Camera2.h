@@ -1,11 +1,6 @@
 #ifndef CAMERA2_H
 #define CAMERA2_H
-#include "Exports/Exports.h"
-#include "GLM/glm.hpp"
-#include "GLM/gtc/matrix_transform.hpp"
-#include "GLM/gtc/type_ptr.hpp"
-#include "Renderer/Renderer.h"
-#include "Transform/Transform.h"
+#include "Entity2/Entity2.h"
 namespace JuliEngine
 {
 
@@ -24,7 +19,7 @@ namespace JuliEngine
 		Max
 	};
 
-	class GraficosEngine_API Camera2
+	class GraficosEngine_API Camera2 : public Entity2
 	{
 	public:
 		//--------Builder Destroy Init----------
@@ -39,7 +34,7 @@ namespace JuliEngine
 		void SetOffset(float v) { _offset = v; };
 		void SetCameraType(CAMERA_TYPE v) { _cameraType = v; };
 		void UpdateCameraType();
-		void SetPos(vec3 v) { pos = v; };
+		void SetPos(vec3 v) { Entity2::SetPos(v); };
 		//------------------------
 		//------Updates-----------
 		void Update();
@@ -61,10 +56,7 @@ namespace JuliEngine
 		float getNear() { return _near; };
 		//--------Others--------
 		void DebugInfo();
-		glm::vec3 GetFront();
-		glm::vec3 GetRight();
-		glm::vec3 GetUp();
-		glm::vec3 getPos();
+
 		bool _ejes;
 		bool _mouseMoveCamera;
 		static Camera2* _mainCamera;
@@ -76,17 +68,10 @@ namespace JuliEngine
 
 		uint _uniformViewPos;
 
-		glm::vec3 pos;
 		glm::vec3 targetLook;
 		glm::vec3 WorldUp;
 
-		glm::vec3 Front;
-		glm::vec3 Right;
-		glm::vec3 Up;
-
 		CAMERA_TYPE _cameraType;
-
-		Renderer* _render;
 
 		float Yaw;
 		float Pitch;
@@ -103,4 +88,5 @@ namespace JuliEngine
 
 	};
 }
+
 #endif

@@ -207,22 +207,21 @@ void Game::LightsUpdate()
 void Game::processInput()
 {
 	glm::vec3 a(0);
-	float t = _time->_deltaTime * speed;
 
 	if (Input::IsKeyPressed(Input::KEY_W))
-		a += _cam->GetFront() *t;
+		a += _cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a -= _cam->GetFront() *t;
+		a -= _cam->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a -= _cam->GetRight() *t;
+		a -= _cam->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_D))
-		a += _cam->GetRight() *t;
+		a += _cam->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_Q))
-		a -= _cam->GetUp() *t;
+		a -= _cam->GetUp();
 	if (Input::IsKeyPressed(Input::KEY_E))
-		a += _cam->GetUp() *t;
-	if (auxCheck2 == CAMERA_TYPE::FC)
-		_cam->Move(a * _time->_deltaTime);
+		a += _cam->GetUp();
+	if (_cam->GetCameraType() == JuliEngine::CAMERA_TYPE::FC)
+		_cam->Move(a * _time->_deltaTime * speed);
 
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
