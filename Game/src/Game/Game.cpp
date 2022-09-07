@@ -211,31 +211,24 @@ void Game::processInput()
 	float t = _time->_deltaTime * speed;
 
 	if (Input::IsKeyPressed(Input::KEY_W))
-		a += _cam->GetFront();
+		a += _cam->GetFront() *t;
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a -= _cam->GetFront();
+		a -= _cam->GetFront() *t;
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a -= _cam->GetRight();
+		a -= _cam->GetRight() *t;
 	if (Input::IsKeyPressed(Input::KEY_D))
-		a += _cam->GetRight();
+		a += _cam->GetRight() *t;
 	if (Input::IsKeyPressed(Input::KEY_Q))
-		a -= _cam->GetUp();
+		a -= _cam->GetUp() *t;
 	if (Input::IsKeyPressed(Input::KEY_E))
-		a += _cam->GetUp();
+		a += _cam->GetUp() *t;
 	if (auxCheck2 == CAMERA_TYPE::FC)
 		_cam->Move(a * _time->_deltaTime);
 
 	if (Input::IsKeyDown(Input::KEY_X))
 		_cam->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
-	{
-		auxCheck = !auxCheck;
-		Input::lock_cursor(auxCheck);
-		if (auxCheck)
-			std::cout << "Lock Cursor (ON)" << std::endl;
-		else
-			std::cout << "Lock Cursor (OFF)" << std::endl;
-	}
+		Input::toggle_lock_cursor();
 	if (Input::IsKeyDown(Input::KEY_B))
 		UpdateCameraType();
 	_cam->SetCameraType((JuliEngine::CAMERA_TYPE)auxCheck2);

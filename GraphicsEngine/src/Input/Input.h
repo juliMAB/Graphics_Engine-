@@ -164,6 +164,7 @@ public:
     static void SetCam(JuliEngine::Camera2* _cam);
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
     static void lock_cursor(bool value);
+    static void toggle_lock_cursor();
 
 
 private:

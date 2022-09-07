@@ -84,9 +84,24 @@ void Input::key_callback(GLFWwindow* window, int key, int scancode, int action, 
 void Input::lock_cursor(bool value)
 {
 	if (value)
+	{
 		glfwSetInputMode(Input::window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		std::cout << "Lock Cursor (ON)" << std::endl;
+	}
 	else
+	{
 		glfwSetInputMode(Input::window->GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		std::cout << "Lock Cursor (OFF)" << std::endl;
+	}
+}
+
+void Input::toggle_lock_cursor()
+{
+	if (GLFW_CURSOR_NORMAL == glfwGetInputMode(Input::window->GetWindow(), GLFW_CURSOR))
+		lock_cursor(true);
+	else
+		lock_cursor(false);
+	
 }
 int Input::GetKey(int key)
 {
