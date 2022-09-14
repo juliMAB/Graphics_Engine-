@@ -27,6 +27,7 @@ namespace JuliEngine
 
 		glm::vec3 getRight()	;
 		glm::vec3 getUp()		;
+		glm::vec3 getBackward() ;
 		glm::vec3 getForward()  ;
 		
 		void setposition   (vec3 v) { m_pos      = v; };
@@ -50,10 +51,6 @@ namespace JuliEngine
 		vec3 m_pos;
 		vec3 m_eulerRot;
 		vec3 m_scale;
-
-		vec3 Front;
-		vec3 Right;
-		vec3 Up;
 
 		glm::mat4 worldModel;
 		glm::mat4 localModel;

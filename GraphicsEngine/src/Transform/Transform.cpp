@@ -104,7 +104,6 @@ namespace JuliEngine
 		localModel[2].y = -v.y;
 		localModel[2].z = -v.z;
 		localModel[2].w = -0;
-		Front = v;
 	}
 	void Transform::setRight(vec3 v)
 	{
@@ -112,7 +111,6 @@ namespace JuliEngine
 		localModel[0].y = v.y;
 		localModel[0].z = v.z;
 		localModel[0].w = 0;
-		Right = v;
 	};
 	void Transform::setUp(vec3 v)
 	{
@@ -120,7 +118,6 @@ namespace JuliEngine
 		localModel[1].y = v.y;
 		localModel[1].z = v.z;
 		localModel[1].w = 0;
-		Up = v;
 	}
 
 	void Transform::updateLocalModelMatrix()
@@ -148,18 +145,23 @@ namespace JuliEngine
 
 	glm::vec3 Transform::getRight()
 	{
-		return Right;
+		return worldModel[0];
 	}
 
 
 	glm::vec3 Transform::getUp()
 	{
-		return Up;
+		return worldModel[1];
+	}
+
+	glm::vec3 Transform::getBackward()
+	{
+		return worldModel[2];
 	}
 
 	glm::vec3 Transform::getForward()
 	{
-		return Front;
+		return -worldModel[2];
 	}
 }
 

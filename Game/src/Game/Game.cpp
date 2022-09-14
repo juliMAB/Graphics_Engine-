@@ -220,7 +220,6 @@ void Game::processInput()
 		a -= _cam->GetUp();
 	if (Input::IsKeyPressed(Input::KEY_E))
 		a += _cam->GetUp();
-	if (_cam->GetCameraType() == JuliEngine::CAMERA_TYPE::FC)
 		_cam->Move(a * _time->_deltaTime * speed);
 
 	if (Input::IsKeyDown(Input::KEY_X))

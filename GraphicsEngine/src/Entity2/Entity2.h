@@ -35,13 +35,6 @@ namespace JuliEngine
 		void SetScale(float x, float y, float z) { SetScale(vec3(x, y, z));				}
 		void SetScaleAllSame(float v)			 { SetScale(v, v, v);					}
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
-		////------------------
-		////--SetDirections---
-		void SetForward(vec3 v) { getTransform()->setForward(v); }
-		void SetRight(vec3 v)	{ getTransform()->setRight	(v); }
-		void setUp(vec3 v)		{ getTransform()->setUp		(v); }
-
-		////------------------
 		////----Getters-------
 		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
 		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
@@ -51,9 +44,6 @@ namespace JuliEngine
 		glm::vec3 GetRight()	{ return getTransform()->getRight	   (); }
 		Renderer* getRender()	{ return _renderer; }
 		////---other---
-		
-		
-		
 		vec3 getColor() { return _color; };
 		void SetColor(vec3 v) 
 		{ 

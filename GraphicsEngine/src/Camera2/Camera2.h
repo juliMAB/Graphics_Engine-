@@ -1,6 +1,12 @@
 #ifndef CAMERA2_H
 #define CAMERA2_H
 #include "Entity2/Entity2.h"
+//#include "Exports/Exports.h"
+//#include "GLM/glm.hpp"
+//#include "GLM/gtc/matrix_transform.hpp"
+//#include "GLM/gtc/type_ptr.hpp"
+//#include "Renderer/Renderer.h"
+//#include "Transform/Transform.h"
 namespace JuliEngine
 {
 
@@ -56,7 +62,10 @@ namespace JuliEngine
 		float getNear() { return _near; };
 		//--------Others--------
 		void DebugInfo();
-
+		glm::vec3 GetFront();
+		glm::vec3 GetRight();
+		glm::vec3 GetUp();
+		glm::vec3 getPos();
 		bool _ejes;
 		bool _mouseMoveCamera;
 		static Camera2* _mainCamera;
@@ -68,10 +77,17 @@ namespace JuliEngine
 
 		uint _uniformViewPos;
 
+		//glm::vec3 pos;
 		glm::vec3 targetLook;
 		glm::vec3 WorldUp;
 
+		glm::vec3 Front;
+		glm::vec3 Right;
+		glm::vec3 Up;
+
 		CAMERA_TYPE _cameraType;
+
+		Renderer* _render;
 
 		float Yaw;
 		float Pitch;
@@ -88,5 +104,4 @@ namespace JuliEngine
 
 	};
 }
-
 #endif
