@@ -45,6 +45,8 @@ namespace JuliEngine
 
 
 		void updateLocalModelMatrix();
+
+		
 	protected:
 	private:
 

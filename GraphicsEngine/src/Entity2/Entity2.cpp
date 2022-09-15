@@ -16,7 +16,7 @@ namespace JuliEngine
 		 setName("Entity " + std::to_string(CuantityEntitys));
 		 AddDescription("-> || " + getName() + " || ");
 		CuantityEntitys++;
-		meshes = vector<Mesh>();
+		meshes = vector<Mesh*>();
 		parent = nullptr;
 		volume = nullptr;
 	}
@@ -41,6 +41,126 @@ namespace JuliEngine
 	{
 		getTransform()->setlocalScale(v);
 		updateModelMatrix();
+	}
+
+	void Entity2::SetMatrix(glm::mat4 mat)
+	{
+		SetPos(GetPos(mat));
+		SetRot(GetRot(mat));
+		SetScale(GetScale(mat));
+	}
+	void Entity2::SetRot(glm::vec3 rot)
+	{
+		getTransform()->seteulerAngles(rot);
+
+		updateModelMatrix();
+
+		getTransform()->updateLocalModelMatrix();
+	}
+
+	glm::vec3 Entity2::GetPos(glm::mat4 mat)
+	{
+		return glm::vec3(mat[3][0], mat[3][1], mat[3][2]);
+	}
+
+	glm::vec3 Entity2::GetRot(glm::mat4 mat)
+	{
+		return ToEulerRad(GetRotationByMatrix(mat));
+	}
+	glm::quat Entity2::GetRotationByMatrix(glm::mat4 mat)
+	{
+		glm::vec3 s = GetScale(mat);
+
+		float m00 = mat[0].x / s.x;
+		float m01 = mat[0].y / s.y;
+		float m02 = mat[0].z / s.z;
+		float m10 = mat[1].x / s.x;
+		float m11 = mat[1].y / s.y;
+		float m12 = mat[1].z / s.z;
+		float m20 = mat[2].x / s.x;
+		float m21 = mat[2].y / s.y;
+		float m22 = mat[2].z / s.z;
+
+		glm::quat q = glm::quat();
+		q.w = glm::sqrt(glm::max(0.f, 1.f + m00 + m11 + m22)) / 2.f;
+		q.x = glm::sqrt(glm::max(0.f, 1.f + m00 - m11 - m22)) / 2.f;
+		q.y = glm::sqrt(glm::max(0.f, 1.f - m00 + m11 - m22)) / 2.f;
+		q.z = glm::sqrt(glm::max(0.f, 1.f - m00 - m11 + m22)) / 2.f;
+		q.x *= glm::sign(q.x * (m21 - m12));
+		q.y *= glm::sign(q.y * (m02 - m20));
+		q.z *= glm::sign(q.z * (m10 - m01));
+
+		float qMagnitude = glm::sqrt(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
+		q.w /= qMagnitude;
+		q.x /= qMagnitude;
+		q.y /= qMagnitude;
+		q.z /= qMagnitude;
+
+		return q;
+	}
+
+	glm::vec3 Entity2::GetScale(glm::mat4 mat)
+	{
+		glm::vec4 m0 = glm::vec4(mat[0].x, mat[1].x, mat[2].x, mat[3].x);
+		glm::vec4 m1 = glm::vec4(mat[0].y, mat[1].y, mat[2].y, mat[3].y);
+		glm::vec4 m2 = glm::vec4(mat[0].z, mat[1].z, mat[2].z, mat[3].z);
+
+		return glm::vec3(glm::length(m0), glm::length(m1), glm::length(m2));
+	}
+
+	glm::vec3 Entity2::ToEulerRad(glm::quat rot)
+	{
+		float sqw = rot.w * rot.w;
+		float sqx = rot.x * rot.x;
+		float sqy = rot.y * rot.y;
+		float sqz = rot.z * rot.z;
+		float unit = sqx + sqy + sqz + sqw;
+		float test = rot.x * rot.w - rot.y * rot.z;
+
+		glm::vec3 v = glm::vec3();
+
+		if (test > 0.4995f * unit)
+		{
+			v.y = 2.f * atan2(rot.y, rot.x);
+			v.x = glm::pi<float>() / 2.f;
+			v.z = 0.f;
+
+			return NormalizeAngles(v * 57.29578f);
+		}
+		if (test < -0.4995f * unit)
+		{
+			v.y = -2.f * atan2(rot.y, rot.x);
+			v.x = -glm::pi<float>() / 2.f;
+			v.z = 0.f;
+
+			return NormalizeAngles(v * 57.29578f);
+		}
+
+		glm::vec4 q = glm::vec4(rot.w, rot.z, rot.x, rot.y);
+		v.y = atan2(2.f * q.x * q.w + 2.f * q.y * q.z, 1.f - 2.f * (q.z * q.z + q.w * q.w));
+		v.x = asin(2.f * (q.x * q.z - q.w * q.y));
+		v.z = atan2(2.f * q.x * q.y + 2.f * q.z * q.w, 1.f - 2.f * (q.y * q.y + q.z * q.z));
+
+		return NormalizeAngles(v * 57.29578f);
+	}
+
+	glm::vec3 Entity2::NormalizeAngles(glm::vec3 angles)
+	{
+		angles.x = NormalizeAngle(angles.x);
+		angles.y = NormalizeAngle(angles.y);
+		angles.z = NormalizeAngle(angles.z);
+
+		return angles;
+	}
+
+	float Entity2::NormalizeAngle(float angle)
+	{
+		while (angle > 360.f)
+			angle -= 360.f;
+		while (angle < 0.f)
+			angle += 360.f;
+
+		return angle;
 	}
 
 	void Entity2::DebugInfo()
@@ -70,7 +190,7 @@ namespace JuliEngine
 	{
 		return drawThisFrame;
 	}
-	void Entity2::SetMeshes(vector<Mesh> meshes)
+	void Entity2::SetMeshes(vector<Mesh*> meshes)
 	{
 		this->meshes = meshes;
 	}
@@ -81,6 +201,10 @@ namespace JuliEngine
 	void Entity2::setChildren(vector<Entity2*> children)
 	{
 		this->children = children;
+	}
+	void Entity2::AddChildren(Entity2* children)
+	{
+		this->children.push_back(children);
 	}
 	void Entity2::setDraw()
 	{
@@ -135,10 +259,10 @@ namespace JuliEngine
 
 			for (int i = 0; i < meshes.size(); i++)
 			{
-				Mesh mesh = meshes[i];
-				for (int j = 0; j < mesh.vertices.size(); j++)
+				Mesh* mesh = meshes[i];
+				for (int j = 0; j < mesh->vertices.size(); j++)
 				{
-					Vertex vertex = mesh.vertices[j];
+					Vertex vertex = mesh->vertices[j];
 
 					minAABB.x = glm::min(minAABB.x, vertex.Position.x);
 					minAABB.y = glm::min(minAABB.y, vertex.Position.y);
@@ -208,6 +332,6 @@ namespace JuliEngine
 		_renderer->UpdateMVP(getTransform()->getWorldModel());
 
 		for (int i = 0; i < meshes.size(); i++)
-			_renderer->drawMesh(meshes[i].vertices, meshes[i].indices, meshes[i].textures, meshes[i].VAO, _color);
+			_renderer->drawMesh(meshes[i]->vertices, meshes[i]->indices, meshes[i]->textures, meshes[i]->VAO, _color);
 	}
 }

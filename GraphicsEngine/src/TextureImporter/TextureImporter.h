@@ -2,6 +2,7 @@
 #define TEXTUREIMPORTER_H
 
 #include "../Exports/Exports.h"
+#include "Texture2/Texture2.h"
 #include <string>
 
 
@@ -17,6 +18,7 @@ class GraficosEngine_API TextureImporter {
 
 public:
 	static bool LoadTexture(const std::string& path, uint& texture, int& width, int& height, int& channels,bool flip);
+	static JuliEngine::Texture LoadTexture(const char* path, bool invertImage);
 };
 
 #endif

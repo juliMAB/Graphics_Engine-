@@ -49,10 +49,14 @@ namespace JuliEngine
 		{ 
 			_color = v; _renderer->UpdateColor(_uniformColor, _color); 
 		};
+
+		void SetMatrix(glm::mat4 mat);
+
 		void DebugInfo();
 
+		void AddChildren(Entity2* children);
 		void Update();
-
+		void SetRot(glm::vec3 rot);
 		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
 		Model* getModelPtr() { return _modelPtr; };
 		aabb* getVolume() { return volume; }
@@ -60,15 +64,22 @@ namespace JuliEngine
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 
-		void SetMeshes(vector<Mesh> meshes);
-		void AddMesh(Mesh mesh) { this->meshes.push_back(mesh); };
+		void SetMeshes(vector<Mesh*> meshes);
+		void AddMesh(Mesh* mesh) { this->meshes.push_back(mesh); };
 		void SetParent(Entity2* parent);
 		void setChildren(vector<Entity2*> children);
 		void setDraw();
 		void Init();
+		glm::vec3 GetPos(glm::mat4 mat);
+		glm::quat GetRotationByMatrix(glm::mat4 mat);
+		glm::vec3 GetRot(glm::mat4 mat);
+		glm::vec3 ToEulerRad(glm::quat rot);
+		glm::vec3 GetScale(glm::mat4 mat);
+		float NormalizeAngle(float angle);
+		glm::vec3 NormalizeAngles(glm::vec3 angles);
 		vector<Entity2*> getChildren() { return children; };
 		Entity2* getParent() { return parent; };
-		vector<Mesh> getMeshes() { return meshes; };
+		vector<Mesh*> getMeshes() { return meshes; };
 
 		void generateAABB();
 		bool canDrawThisFrame();
@@ -115,7 +126,7 @@ namespace JuliEngine
 		vector<Entity2*> children;
 		Entity2* parent;
 
-		vector<Mesh> meshes;
+		vector<Mesh*> meshes;
 	};
 }
 

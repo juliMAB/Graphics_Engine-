@@ -8,7 +8,7 @@ namespace JuliEngine
 		model = new Model(render);
 	#if IMPORTER
 		Importer2 inp;
-		inp.loadModel(model, path);
+		model->SetBaseNode(inp.LoadModel(render, path));
 	#endif // IMPORTER
 		entitys3dList.push_back(this);
 	}

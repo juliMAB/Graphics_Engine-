@@ -11,14 +11,19 @@ namespace JuliEngine
 {
 	class GraficosEngine_API Importer2 {
 	public:
-		 void loadModel(Model* theModel, string const& path);
+		Importer2() {};
+		~Importer2() {};
+
+		static Entity2* LoadModel(Renderer* rend, std::string path);
+
 	private:
-		 void processNode(aiNode* node, const aiScene* scene, Entity2* currentParent);
-		 Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-		 vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
-		 vector<Texture> textures_loaded;
-		 Model* newModel;
-		 string directory;
+		static Renderer* render;
+		static std::string directory;
+		static std::vector<Texture> textures_loaded;
+
+		static void ProcessNode(Entity2* parent, glm::mat4 mat, aiNode* node, const aiScene* scene);
+		static Mesh* ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		static std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 	};
 }
 

@@ -166,6 +166,9 @@
     <Filter Include="src\BSP">
       <UniqueIdentifier>{da348a2c-c33a-4a9c-b21a-3f714c6d56a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\MaterialManager">
+      <UniqueIdentifier>{3809011d-7e9a-49b4-abd8-07c45d45629f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -544,6 +547,9 @@
     </ClInclude>
     <ClInclude Include="src\BSP\BSP.h">
       <Filter>src\BSP</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MaterialManager\MaterialManager.h">
+      <Filter>src\MaterialManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
