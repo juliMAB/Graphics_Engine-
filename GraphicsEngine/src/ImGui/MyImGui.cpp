@@ -1,5 +1,5 @@
 #include "MyImGui.h"
-
+#include <iostream>
 MyImGui::MyImGui()
 {
 }
@@ -121,6 +121,34 @@ void MyImGui::UpdateMainWindows()
     }
 
     ImGui::Text("Inputs:");
+    ImGui::Text("W: Forward, S: Back, A: Left, D: Right, Q: Up, E: Down");
+    ImGui::Text("C: LockCursor, B: CameraMode, SPACE: CameraFollowCursor");
+
+    
+   // string v;
+   // switch (Camera2::_mainCamera->GetCameraType())
+   // {
+   // case JuliEngine::CAMERA_TYPE::FC: 
+   //     v = "FC";
+   //     
+   //     break;
+   // case JuliEngine::CAMERA_TYPE::FPS: 
+   //     v = "FPS";
+   //     break;
+   // case JuliEngine::CAMERA_TYPE::TPS: 
+   //     v = "TPS";
+   //     break;
+   // case JuliEngine::CAMERA_TYPE::Max: 
+   //     v = "Max";
+   //     break;
+   // default:
+   //     break;
+   // }
+   // ImGui::Text("Camera Mode:");
+   // ImGui::Text(v.c_str());
+
+    //ImGui::Text("LockCursor Mode:");
+
     ImGui::End();
 }
 using namespace JuliEngine;
