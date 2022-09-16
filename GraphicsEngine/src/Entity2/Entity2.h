@@ -37,6 +37,7 @@ namespace JuliEngine
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
 		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
+		glm::vec3 getGlobPos()  { return getTransform()->getMatPos     (); }
 		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
 		glm::vec3 getScale()	{ return getTransform()->getlocalScale (); }
 		glm::vec3 GetUp()		{ return getTransform()->getUp		   (); }
@@ -53,7 +54,7 @@ namespace JuliEngine
 		void SetMatrix(glm::mat4 mat);
 
 		void DebugInfo();
-
+		glm::vec3 GetPosGlobalMat();
 		void AddChildren(Entity2* children);
 		void Update();
 		void SetRot(glm::vec3 rot);
@@ -64,6 +65,9 @@ namespace JuliEngine
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 
+
+		mat4 getGlobMat(Entity2* parent);
+		mat4 getGlobMat();
 		void SetMeshes(vector<Mesh*> meshes);
 		void AddMesh(Mesh* mesh) { this->meshes.push_back(mesh); };
 		void SetParent(Entity2* parent);
@@ -80,6 +84,8 @@ namespace JuliEngine
 		vector<Entity2*> getChildren() { return children; };
 		Entity2* getParent() { return parent; };
 		vector<Mesh*> getMeshes() { return meshes; };
+		Entity2* GetNode(std::string nodeName);
+		Entity2* GetNode(std::string nodeName, std::string data);
 
 		void generateAABB();
 		bool canDrawThisFrame();

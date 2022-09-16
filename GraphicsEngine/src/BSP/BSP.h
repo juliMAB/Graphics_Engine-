@@ -24,6 +24,7 @@ namespace JuliEngine
 		void AddEntity(Entity2* entity);
 		void AddPlane(glm::vec3 position, glm::vec3 normal);
 		void AddPlane(plane* plan);
+		void AddPlane(Entity2* entity);
 		void TogglePlaneStatus();
 
 	private:

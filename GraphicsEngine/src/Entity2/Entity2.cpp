@@ -48,7 +48,33 @@ namespace JuliEngine
 		SetPos(GetPos(mat));
 		SetRot(GetRot(mat));
 		SetScale(GetScale(mat));
+		updateModelMatrix();
 	}
+
+	mat4 Entity2::getGlobMat()
+	{
+		if (parent == nullptr)
+			return getTransform()->getLocalModel();
+		else
+			getGlobMat(parent) * getTransform()->getLocalModel();
+	}
+	mat4 Entity2::getGlobMat(Entity2* matParent)
+	{
+		if (matParent->parent == nullptr)
+			return getTransform()->getLocalModel();
+		else
+			return getGlobMat(matParent->parent) * getTransform()->getLocalModel();
+	}
+	glm::vec3 Entity2::GetPosGlobalMat()
+	{
+		vec3 text1 = GetPos(getTransform()->getLocalModel());
+		vec3 text2 = GetPos(getTransform()->getLocalModel());
+		text2 = GetPos(getTransform()->getWorldModel());
+
+
+		return GetPos(getTransform()->getWorldModel());
+	}
+
 	void Entity2::SetRot(glm::vec3 rot)
 	{
 		getTransform()->seteulerAngles(rot);
@@ -98,6 +124,48 @@ namespace JuliEngine
 
 		return q;
 	}
+
+	Entity2* Entity2::GetNode(std::string nodeName)
+	{
+		if (getName() == nodeName)
+		{
+			return this;
+		}
+
+		if (children.size() > 0)
+		{
+			Entity2* node = nullptr;
+			for (int i = 0; i < children.size(); i++)
+			{
+				node = children[i]->GetNode(nodeName);
+
+				if (node != nullptr) break;
+			}
+			return node;
+		}
+		return nullptr;
+	}
+	Entity2* Entity2::GetNode(std::string nodeName, std::string data)
+	{
+		if (getName().find(nodeName)!= -1 && getName().find(data)!=-1)
+		{
+			return this;
+		}
+
+		if (children.size() > 0)
+		{
+			Entity2* node = nullptr;
+			for (int i = 0; i < children.size(); i++)
+			{
+				node = children[i]->GetNode(nodeName);
+
+				if (node != nullptr) break;
+			}
+			return node;
+		}
+		return nullptr;
+	}
+
 
 	glm::vec3 Entity2::GetScale(glm::mat4 mat)
 	{
@@ -237,7 +305,7 @@ namespace JuliEngine
 	}
 	void Entity2::Init()
 	{
-		for (int i = 0; i < getChildren().size(); i++)
+		for (int i = 0; i < children.size(); i++)
 		{
 			children[i]->Init();
 		}

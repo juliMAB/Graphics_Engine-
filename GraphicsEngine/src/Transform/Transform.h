@@ -18,6 +18,7 @@ namespace JuliEngine
 		~Transform();
 
 		vec3 getposition()			        { return m_pos			; };
+		vec3 getMatPos()					{ return localModel[3]  ; };
 		vec3 geteulerAngles()		        { return m_eulerRot		; };
 		vec3 getlocalScale()		        { return m_scale		; };
 		

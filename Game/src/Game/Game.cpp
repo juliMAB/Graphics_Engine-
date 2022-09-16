@@ -64,7 +64,7 @@ Game::Game() {
 			_lightcubes[i] = nullptr;
 
 	_spotLight	  =nullptr;
-	_modeltest	  =nullptr;
+	_modeloTanke	  =nullptr;
 }
 Game::~Game() {}
 void Game::Init() {
@@ -78,15 +78,30 @@ void Game::Init() {
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
-	_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
-	_entity3d2 = new JuliEngine::Entity3D(_renderer, "res/i/A2.dae");
-	_modeltest = _entity3d->model;
-	_modeltest2 = _entity3d2->model;
-	_entity3d2->model->GetBaseNode()->SetPos(0, 0, 5);
-	_modeltest->GetBaseNode()->Init();
-	_modeltest2->GetBaseNode()->Init();
-	_modeltest->GetBaseNode()->SetPos({0,0,0});
-	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
+	//_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
+	_entity3dScene = new JuliEngine::Entity3D(_renderer, "res/i/scene.fbx");
+	//_entity3d->model->GetBaseNode()->Init();
+	JuliEngine::Entity2* wantedNode = _entity3dScene->model->GetBaseNode()->GetNode("Tanke");
+	JuliEngine::Entity2* wantedNodeBsp = _entity3dScene->model->GetBaseNode()->GetNode("bsp");
+	if (wantedNode != nullptr)
+	{
+		_modeloTanke = new JuliEngine::Model(GetRenderer());
+		_modeloTanke->SetBaseNode(wantedNode);
+	}
+	if (wantedNodeBsp!= nullptr)
+	{
+		_b = wantedNodeBsp;
+	}
+	//_modeloTanke = _entity3dScene->model;
+	//_entity3d->model->GetBaseNode()->SetPos(0, 0, 5);
+	//_modeloTanke->GetBaseNode()->Init();
+	if (_modeloTanke == nullptr)
+	{
+		_modeloTanke = _entity3dScene->model;
+	}
+	_modeloTanke->GetBaseNode()->Init();
+	_modeloTanke->GetBaseNode()->SetPos({0,0,0});
+	_modeloTanke->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	JuliEngine::OcclusionCulling::Init(_cam);
@@ -153,7 +168,7 @@ void Game::Init() {
 
 	_bsp = new JuliEngine::BSP(_renderer, _cam);
 
-
+	_a = _cam;
 
 	for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
 	{
@@ -163,7 +178,7 @@ void Game::Init() {
 	vec3 xb = _Wall1->getPos() + vec3(0, 0, -1);
 	vec3 xc = _Wall1->getPos() + vec3(0, 1, 0);
 	_planeXample = new JuliEngine::plane(xa, xb, xc);
-	_bsp->AddPlane(_planeXample);
+	_bsp->AddPlane(wantedNodeBsp);
 }
 
 void Game::Deinit() {
@@ -183,7 +198,7 @@ void Game::Update()
 void Game::Draw() {
 	_floor->Draw();
 	_Wall1->Draw();
-	//_modeltest->GetBaseNode()->setDraw();
+	//_modeloTanke->GetBaseNode()->setDraw();
 	//_modeltest2->GetBaseNode()->setDraw();
 	_bsp->Draw();
 	for (int i = 0; i < 4; i++)
@@ -209,25 +224,49 @@ void Game::processInput()
 	glm::vec3 a(0);
 
 	if (Input::IsKeyPressed(Input::KEY_W))
-		a += _cam->GetFront();
+		a += _a->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_S))
-		a -= _cam->GetFront();
+		a -= _a->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_A))
-		a -= _cam->GetRight();
+		a -= _a->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_D))
-		a += _cam->GetRight();
+		a += _a->GetRight();
 	if (Input::IsKeyPressed(Input::KEY_Q))
-		a -= _cam->GetUp();
+		a -= _a->GetUp();
 	if (Input::IsKeyPressed(Input::KEY_E))
-		a += _cam->GetUp();
-		_cam->Move(a * _time->_deltaTime * speed);
+		a += _a->GetUp();
+	_a->Move(a * _time->_deltaTime * speed);
 
 	if (Input::IsKeyDown(Input::KEY_X))
-		_cam->DebugInfo();
+		_a->DebugInfo();
 	if (Input::IsKeyDown(Input::KEY_C))
 		Input::toggle_lock_cursor();
 	if (Input::IsKeyDown(Input::KEY_B))
 		_cam->UpdateCameraType();
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
+
+	if (Input::IsKeyDown(Input::KEY_UP))
+		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.end())
+			{
+				it2--;
+				_a = *it2;
+			}
+	if (Input::IsKeyDown(Input::KEY_DOWN))
+		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.begin())
+			{
+				it2--;
+				_a = *it2;
+			}
+	glm::vec3 b(0);
+
+	if (Input::IsKeyDown(Input::KEY_0))
+		b += _b->GetFront();
+	if (Input::IsKeyDown(Input::KEY_1))
+		b += _b->GetFront();
+	_b->Move(b * _time->_deltaTime * speed);
+	if (Input::IsKeyDown(Input::KEY_2))
+		cout << _b->getPos().x + 48 << _b->getPos().y + 48 << _b->getPos().z + 48 << endl;;
 }

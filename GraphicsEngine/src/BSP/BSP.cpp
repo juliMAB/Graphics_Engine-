@@ -87,6 +87,14 @@ namespace JuliEngine
 	{
 		planes.push_back(plan);
 	}
+	void BSP::AddPlane(Entity2* entity)
+	{
+		if (entity->getName().find("bsp") != std::string::npos)
+		{
+			plane* plan = new JuliEngine::plane(entity->GetFront(), entity->getPos());
+			planes.push_back(plan);
+		}
+	}
 
 	void BSP::TogglePlaneStatus()
 	{

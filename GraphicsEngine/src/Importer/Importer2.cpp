@@ -35,7 +35,7 @@ namespace JuliEngine
     {
         Entity2* entityNode = nullptr;
         std::string name = node->mName.C_Str();
-
+        cout << name << endl;
         if (name.find("$AssimpFbx$") != std::string::npos)
         {
             entityNode = parent;
@@ -60,6 +60,8 @@ namespace JuliEngine
                 m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
 
                 mat *= m;
+
+                entityNode->SetMatrix(mat);
             }
         }
         else
@@ -75,14 +77,18 @@ namespace JuliEngine
 
                 entityNode = new Entity2(render);
                 entityNode->SetMeshes( meshes);
+                entityNode->SetMatrix(mat);
             }
             else
             {
                 entityNode = new Entity2(render);
 
+                entityNode->setName(name);
+
                 if (name.find("bsp") != std::string::npos)
                 {
-                    entityNode->SetMatrix(mat);
+                    glm::mat4 m;
+                    aiMatrix4x4 matrix = node->mTransformation;
                 }
             }
         }
