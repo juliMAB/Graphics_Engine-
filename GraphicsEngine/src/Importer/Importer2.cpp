@@ -36,6 +36,11 @@ namespace JuliEngine
         Entity2* entityNode = nullptr;
         std::string name = node->mName.C_Str();
         cout << name << endl;
+        if (name.find("bsp") != std::string::npos)
+        {
+            cout << name << endl;
+        }
+
         if (name.find("$AssimpFbx$") != std::string::npos)
         {
             entityNode = parent;
@@ -61,11 +66,21 @@ namespace JuliEngine
 
                 mat *= m;
 
-                entityNode->SetMatrix(mat);
+                //entityNode->SetMatrix(mat);
             }
         }
         else
         {
+            entityNode = new Entity2(render);
+            aiMatrix4x4 matrix = node->mTransformation;
+            glm::mat4 m;
+
+            m[0][0] = (float)matrix.a1; m[0][1] = (float)matrix.b1;  m[0][2] = (float)matrix.c1; m[0][3] = (float)matrix.d1;
+            m[1][0] = (float)matrix.a2; m[1][1] = (float)matrix.b2;  m[1][2] = (float)matrix.c2; m[1][3] = (float)matrix.d2;
+            m[2][0] = (float)matrix.a3; m[2][1] = (float)matrix.b3;  m[2][2] = (float)matrix.c3; m[2][3] = (float)matrix.d3;
+            m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
+
+            entityNode->setName(name);
             if (node->mNumMeshes > 0)
             {
                 std::vector<Mesh*> meshes = std::vector<Mesh*>();
@@ -74,10 +89,9 @@ namespace JuliEngine
                     aiMesh* aiMesh = scene->mMeshes[node->mMeshes[i]];
                     meshes.push_back(ProcessMesh(aiMesh, scene));
                 }
-
-                entityNode = new Entity2(render);
                 entityNode->SetMeshes( meshes);
-                entityNode->SetMatrix(mat);
+
+                entityNode->SetMatrix(m);
             }
             else
             {
@@ -85,11 +99,7 @@ namespace JuliEngine
 
                 entityNode->setName(name);
 
-                if (name.find("bsp") != std::string::npos)
-                {
-                    glm::mat4 m;
-                    aiMatrix4x4 matrix = node->mTransformation;
-                }
+                
             }
         }
 
@@ -107,6 +117,7 @@ namespace JuliEngine
             entityNode->Init();
         }
     }
+
 
     Mesh* Importer2::ProcessMesh(aiMesh* mesh, const aiScene* scene)
     {

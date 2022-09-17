@@ -100,8 +100,6 @@ void Game::Init() {
 		_modeloTanke = _entity3dScene->model;
 	}
 	_modeloTanke->GetBaseNode()->Init();
-	_modeloTanke->GetBaseNode()->SetPos({0,0,0});
-	_modeloTanke->GetBaseNode()->SetScale({ 1,1,1 });
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	JuliEngine::OcclusionCulling::Init(_cam);
@@ -263,10 +261,10 @@ void Game::processInput()
 	glm::vec3 b(0);
 
 	if (Input::IsKeyDown(Input::KEY_0))
-		b += _b->GetFront();
+		b += _b->GetRight();
 	if (Input::IsKeyDown(Input::KEY_1))
-		b += _b->GetFront();
+		b -= _b->GetRight();
 	_b->Move(b * _time->_deltaTime * speed);
 	if (Input::IsKeyDown(Input::KEY_2))
-		cout << _b->getPos().x + 48 << _b->getPos().y + 48 << _b->getPos().z + 48 << endl;;
+		cout <<"x: "  << _b->getPos().x << " y: " << _b->getPos().y << " z: " << _b->getPos().z << endl;;
 }
