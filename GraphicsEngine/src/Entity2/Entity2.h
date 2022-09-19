@@ -28,6 +28,8 @@ namespace JuliEngine
 		void SetRotY(float y)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, y, a.z)); }
 		void SetRotZ(float z)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, a.y, z)); }
 		void SetRotations(float x, float y, float z)								  { SetRotations(vec3(x, y, z));	 }
+		void setRotX(float x);
+		
 		////------------------
 		////----SetScale------
 		void SetScale(glm::vec3 v);
@@ -50,7 +52,7 @@ namespace JuliEngine
 		{ 
 			_color = v; _renderer->UpdateColor(_uniformColor, _color); 
 		};
-
+		void SetRotRadian(glm::vec3 rot);
 		void SetMatrix(glm::mat4 mat);
 
 		void DebugInfo();

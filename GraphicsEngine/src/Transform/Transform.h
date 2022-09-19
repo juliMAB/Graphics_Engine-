@@ -33,6 +33,10 @@ namespace JuliEngine
 		
 		void setposition   (vec3 v) { m_pos      = v; };
 		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); };
+		void setRotX(float x);
+		void setRotY(float y);
+		void setRotZ(float z);
+
 		void setlocalScale (vec3 v) { m_scale    = v;};
 
 		void setForward(vec3 v);

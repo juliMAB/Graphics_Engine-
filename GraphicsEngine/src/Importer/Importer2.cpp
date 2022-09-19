@@ -36,7 +36,7 @@ namespace JuliEngine
         Entity2* entityNode = nullptr;
         std::string name = node->mName.C_Str();
         cout << name << endl;
-        if (name.find("bsp") != std::string::npos)
+        if (name == ("bsp"))
         {
             cout << name << endl;
         }

@@ -123,11 +123,11 @@ namespace JuliEngine
 	void Transform::updateLocalModelMatrix()
 	{
 		updateTransformRotation();
-		const mat4 transformX = glm::rotate(mat4(1.0f),radians(m_eulerRot.x), vec3(1.0f, 0.0f, 0.0f));
-		const mat4 transformY = glm::rotate(mat4(1.0f),radians(m_eulerRot.y), vec3(0.0f, 1.0f, 0.0f));
-		const mat4 transformZ = glm::rotate(mat4(1.0f),radians(m_eulerRot.z), vec3(0.0f, 0.0f, 1.0f));
+		const mat4 transformX = glm::rotate(mat4(1.0f),(m_eulerRot.x), vec3(1.0f, 0.0f, 0.0f));
+		const mat4 transformY = glm::rotate(mat4(1.0f),(m_eulerRot.y), vec3(0.0f, 1.0f, 0.0f));
+		const mat4 transformZ = glm::rotate(mat4(1.0f),(m_eulerRot.z), vec3(0.0f, 0.0f, 1.0f));
 		// Y * X * Z
-		const mat4 roationMatrix = transformY * transformX * transformZ;
+		const mat4 roationMatrix = transformX * transformY * transformZ;
 		// translation * rotation * scale (also know as TRS matrix)
 		localModel = glm::translate(glm::mat4(1.0f), m_pos) * roationMatrix * glm::scale4(mat4(1.0f), m_scale);
 	}
@@ -162,6 +162,36 @@ namespace JuliEngine
 	glm::vec3 Transform::getForward()
 	{
 		return -worldModel[2];
+	}
+	void Transform::setRotX(float x)
+	{
+		m_eulerRot.x = x;
+		glm::vec3 axis;
+
+		axis[1] = axis[2] = 0.0f;
+		axis[0] = 1.0f;
+
+		//updateLocalModelMatrix();
+	}
+	void Transform::setRotY(float y)
+	{
+		m_eulerRot.y = y;
+		glm::vec3 axis;
+
+		axis[0] = axis[2] = 0.0f;
+		axis[1] = 1.0f;
+
+		//updateLocalModelMatrix();
+	}
+	void Transform::setRotZ(float z)
+	{
+		m_eulerRot.z = z;
+		glm::vec3 axis;
+
+		axis[0] = axis[1] = 0.0f;
+		axis[2] = 1.0f;
+
+		//updateLocalModelMatrix();
 	}
 }
 

@@ -266,5 +266,6 @@ void Game::processInput()
 		b -= _b->GetRight();
 	_b->Move(b * _time->_deltaTime * speed);
 	if (Input::IsKeyDown(Input::KEY_2))
-		cout <<"x: "  << _b->getPos().x << " y: " << _b->getPos().y << " z: " << _b->getPos().z << endl;;
+		_b->DebugInfo();
+		//cout <<"x: "  << _b->getPos().x << " y: " << _b->getPos().y << " z: " << _b->getPos().z << endl;;
 }

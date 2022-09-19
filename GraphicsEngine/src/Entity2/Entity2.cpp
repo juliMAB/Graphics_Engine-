@@ -46,9 +46,8 @@ namespace JuliEngine
 	void Entity2::SetMatrix(glm::mat4 mat)
 	{
 		SetPos(GetPos(mat));
-		SetRot(GetRot(mat));
+		SetRotRadian(GetRot(mat));
 		SetScale(GetScale(mat));
-		updateModelMatrix();
 	}
 
 	mat4 Entity2::getGlobMat()
@@ -83,6 +82,17 @@ namespace JuliEngine
 
 		getTransform()->updateLocalModelMatrix();
 	}
+
+	void Entity2::SetRotRadian(glm::vec3 rot)
+	{
+		getTransform()->setRotX(glm::radians(rot.x));
+		getTransform()->setRotY(glm::radians(rot.y));
+		getTransform()->setRotZ(glm::radians(rot.z));
+		updateModelMatrix();
+	}
+
+
+
 
 	glm::vec3 Entity2::GetPos(glm::mat4 mat)
 	{
