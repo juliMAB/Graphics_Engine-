@@ -338,9 +338,9 @@ namespace JuliEngine
 			for (int i = 0; i < meshes.size(); i++)
 			{
 				Mesh* mesh = meshes[i];
-				for (int j = 0; j < mesh->vertices.size(); j++)
+				for (int j = 0; j < mesh->vertexs.size(); j++)
 				{
-					Vertex vertex = mesh->vertices[j];
+					Vertex vertex = mesh->vertexs[j];
 
 					minAABB.x = glm::min(minAABB.x, vertex.Position.x);
 					minAABB.y = glm::min(minAABB.y, vertex.Position.y);
@@ -410,6 +410,6 @@ namespace JuliEngine
 		_renderer->UpdateMVP(getTransform()->getWorldModel());
 
 		for (int i = 0; i < meshes.size(); i++)
-			_renderer->drawMesh(meshes[i]->vertices, meshes[i]->indices, meshes[i]->textures, meshes[i]->VAO, _color);
+			meshes[i]->Draw();
 	}
 }

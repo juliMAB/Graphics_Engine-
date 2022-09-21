@@ -30,7 +30,6 @@ namespace JuliEngine
 	void Light::UpdateLight()
 	{
 		_renderer->UseShader();
-
 		_renderer->UpdateVec3(_uniformAmbient, ambient);
 		_renderer->UpdateVec3(_uniformDiffuse, diffuse);
 		_renderer->UpdateVec3(_uniformSpecular, specular);

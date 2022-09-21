@@ -9,7 +9,7 @@ class Game : BaseGame {
 	//Sprite* _sprites[quantity];
 	//Shape* _pj;
 	//Sprite* _pjS;
-	Sprite* _Wall1;
+	//Sprite* _Wall1;
 	JuliEngine::Entity2* _a;
 	JuliEngine::Entity2* _b;
 	//JuliEngine::Entity3D* _entity3d;
@@ -18,13 +18,11 @@ class Game : BaseGame {
 	JuliEngine::Model* _modeltest2;
 	JuliEngine::Camera2* _cam;
 	JuliEngine::plane* _planeXample;
-	Sprite* _floor;
-	MyTexture* _tex;
-	MyTexture* _tex2;
+	//Sprite* _floor;
 	JuliEngine::DirectionLight* _dirLight;
 	JuliEngine::PointLight* _pointLight[4];
 	JuliEngine::SpotLight* _spotLight;
-	Shape* _lightcubes[4];
+	JuliEngine::Shape* _lightcubes[4];
 
 public:
 	Game();
@@ -38,7 +36,5 @@ public:
 	void LightsUpdate();
 
 	void processInput();
-
-	void UpdateCameraType();
 };
 #endif

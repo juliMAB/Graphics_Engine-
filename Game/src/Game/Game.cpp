@@ -16,10 +16,9 @@ float lastX=0;
 float lastY=0;
 bool firstMouse = true;
 
+using namespace JuliEngine;
 
 
-
-MaterialS* defaultM;
 
 int Down,Left,Right,Up;
 
@@ -44,16 +43,12 @@ glm::vec3 pointLightPositions[] = {
 };
 Game::Game() { 
 	MainLoop(960, 540, "In Lovyng");
-	if (_Wall1!=nullptr)
-		_Wall1 = nullptr;
+	//if (_Wall1!=nullptr)
+	//	_Wall1 = nullptr;
 	if (_a					!=nullptr)
 		_a					  =nullptr;
-	if (_floor!=nullptr)
-		_floor				  =nullptr;
-	if (_tex != nullptr)
-		_tex				  =nullptr;
-	if (_tex2 != nullptr)
-		_tex2				  =nullptr;
+	//if (_floor!=nullptr)
+	//	_floor				  =nullptr;
 	if (_dirLight != nullptr)
 		_dirLight			  =nullptr;
 	for (int i = 0; i < 4; i++)
@@ -69,11 +64,11 @@ Game::Game() {
 Game::~Game() {}
 void Game::Init() {
 	
-	_tex = new MyTexture("res/e.png", false);
-	_tex2 = new MyTexture("res/f.png", false);
+	//_tex = new MyTexture("res/e.png", false);
+	//_tex2 = new MyTexture("res/f.png", false);
 	
 	vec3 a = { 1,1,1 };
-	defaultM = new MaterialS{ _tex,_tex2,32.0f };
+	//defaultM = new MaterialS{ _tex,_tex2,32.0f };
 	_renderer->SetDepth();
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
@@ -82,7 +77,9 @@ void Game::Init() {
 	_entity3dScene = new JuliEngine::Entity3D(_renderer, "res/i/scene.fbx");
 	//_entity3d->model->GetBaseNode()->Init();
 	JuliEngine::Entity2* wantedNode = _entity3dScene->model->GetBaseNode()->GetNode("Tanke");
+	JuliEngine::Entity2* wantedNode1 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke1");
 	JuliEngine::Entity2* wantedNodeBsp = _entity3dScene->model->GetBaseNode()->GetNode("bsp");
+	
 	if (wantedNode != nullptr)
 	{
 		_modeloTanke = new JuliEngine::Model(GetRenderer());
@@ -105,22 +102,22 @@ void Game::Init() {
 	JuliEngine::OcclusionCulling::Init(_cam);
 
 	//--------FLOOR----------
-	_floor = new Sprite(_renderer);
-	_floor->Init(SPRITE_TYPE::QUAD);
-	_floor->SetMateria(defaultM);
-	_floor->SetName("piso");
-	_floor->SetPos(0, -5);
-	_floor->SetRotations(90, 0,0);
-	_floor->SetScale(10);
+	//_floor = new Sprite(_renderer);
+	//_floor->Init(SPRITE_TYPE::QUAD);
+	////_floor->SetMateria(defaultM);
+	//_floor->SetName("piso");
+	//_floor->SetPos(0, -5);
+	//_floor->SetRotations(90, 0,0);
+	//_floor->SetScale(10);
 	//----------------------
 	//--------WALL----------
-	_Wall1 = new Sprite(_renderer);
-	_Wall1->Init(SPRITE_TYPE::QUAD);
-	_Wall1->SetMateria(defaultM);
-	_Wall1->SetName("Wall");
-	_Wall1->SetPos(10, 0, 0);
-	_Wall1->SetRotations(0, 90, 0);
-	_Wall1->SetScale(10);
+	//_Wall1 = new Sprite(_renderer);
+	//_Wall1->Init(SPRITE_TYPE::QUAD);
+	////_Wall1->SetMateria(defaultM);
+	//_Wall1->SetName("Wall");
+	//_Wall1->SetPos(10, 0, 0);
+	//_Wall1->SetRotations(0, 90, 0);
+	//_Wall1->SetScale(10);
 	//----------------------
 
 
@@ -130,6 +127,8 @@ void Game::Init() {
 	_dirLight->SetAmbient(glm::vec3(0.05f, 0.05f, 0.05f));
 	_dirLight->SetDiffuse(glm::vec3(0.4f, 0.4f, 0.4f));
 	_dirLight->SetSpecular(glm::vec3(0.5f, 0.5f, 0.5f));
+
+	_renderer->UseShader();
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -145,6 +144,11 @@ void Game::Init() {
 
 		_lightcubes[i] = new Shape(_renderer);
 		_lightcubes[i]->Init(SHAPE_TYPE::QUAD);
+		_lightcubes[i]->SetColor(vec3(75.f / 255.f, 139.f / 255.f, 59.f / 255.f));
+		string name = "_lightcubes[";
+		name += i;
+		name += "]";
+		_lightcubes[i]->setName(name);
 	}
 	
 	_spotLight = new JuliEngine::SpotLight(_renderer);
@@ -168,15 +172,14 @@ void Game::Init() {
 
 	_a = _cam;
 
-	for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
-	{
-		_bsp->AddEntity((*it2));
-	}
-	vec3 xa = _Wall1->getPos() + vec3(0, 0, 1);
-	vec3 xb = _Wall1->getPos() + vec3(0, 0, -1);
-	vec3 xc = _Wall1->getPos() + vec3(0, 1, 0);
-	_planeXample = new JuliEngine::plane(xa, xb, xc);
-	_bsp->AddPlane(wantedNodeBsp);
+
+	//_bsp->AddEntity(wantedNode);
+	//_bsp->AddEntity(wantedNode1);
+	
+
+	//_bsp->AddPlane(wantedNodeBsp);
+
+	_renderer->SetBackgroundColor(vec4((float)(255.f/255.f), (float)(192.f/255.f), (float)(203.f/255.f),0.5f));
 }
 
 void Game::Deinit() {
@@ -187,18 +190,14 @@ void Game::Update()
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->SetPos(_pointLight[i]->getPos());
 	_cam->Update();
-	_floor->UpdateMaterial();
-	_Wall1->UpdateMaterial();
 	LightsUpdate();
 	processInput();
 	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
-	_floor->Draw();
-	_Wall1->Draw();
-	//_modeloTanke->GetBaseNode()->setDraw();
+	_modeloTanke->GetBaseNode()->setDraw();
 	//_modeltest2->GetBaseNode()->setDraw();
-	_bsp->Draw();
+	//_bsp->Draw();
 	for (int i = 0; i < 4; i++)
 		_lightcubes[i]->Draw();
 

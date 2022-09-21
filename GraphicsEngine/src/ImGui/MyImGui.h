@@ -7,7 +7,7 @@
 #include "Entity2/Entity2.h"
 #include "Camera2/Camera2.h"
 #include "Entity/Entity3D.h"
-#include "../Light/light.h"
+#include "Light/DirectionalLight.h"
 #include <stdio.h>
 #include "../Window/Window.h"
 #if defined(IMGUI_IMPL_OPENGL_ES2)
@@ -48,6 +48,7 @@ public:
 
 	void UpdateWindowsEntity2();
 	void UpdateWindowsLights();
+	void UpdateWindowsDirectionLights();
 	void UpdateWindowsModel();
 	void UpdateWindowsCamera();
 private:

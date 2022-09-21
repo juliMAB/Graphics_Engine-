@@ -14,11 +14,15 @@ namespace JuliEngine
 
 		~DirectionLight();
 		void SetDirection(glm::vec3 direction);
+		glm::vec3 GetDirection();
 
+		static std::list<DirectionLight*> DirectionLightLists;
 	protected:
 		glm::vec3 direction;
 
 		uint _uniformDirection;
+	private:
+		friend class MyImGui;
 	};
 
 }

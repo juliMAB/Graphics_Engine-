@@ -58,7 +58,7 @@ void Renderer::Start() {
 void Renderer::InitShader()
 {
 	_shader = new Shader();
-	_shader->CreateShader("Shaders/TextureVertexShader.shader", "Shaders/TextureFragmentShader.shader");
+	_shader->CreateShader("Shaders/vertex.shader", "Shaders/fragment.shader");
 	SetUniform(_uniformTransform, "model");
 	SetUniform(_uniformView, "view");
 	SetUniform(_uniformProjection, "projection");
@@ -75,13 +75,13 @@ void Renderer::GenBuffers(uint& VAO, uint& VBO, uint& EBO,uint& UVB)
 	GenBuffers(VAO, VBO, EBO);
 	glGenBuffers(1, &UVB);
 }
-void Renderer::BindBuffer(uint VAO, uint VBO, int tam, float* vertices)
-{
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
-}
+//void Renderer::BindBuffer(uint VAO, uint VBO, int tam, float* vertices)
+//{
+//	glBindVertexArray(VAO);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+//	glBufferData(GL_ARRAY_BUFFER, tam, vertices, GL_STATIC_DRAW);
+//}
 void Renderer::BindBuffer(uint VAO, uint VBO, int tam, const void* vertices)
 {
 	glBindVertexArray(VAO);
@@ -248,6 +248,12 @@ void Renderer::Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts,
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+void Renderer::Draw(uint VAO, uint vertices)
+{
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, vertices, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+}
 
 void Renderer::DrawLines(uint VAO, uint vertices)
 {
@@ -300,6 +306,15 @@ void Renderer::PostRender(Window* window)
 {
 	glfwSwapBuffers(window->GetWindow());
 	glfwPollEvents();
+}
+void Renderer::CleanTexture()
+{
+	glActiveTexture(GL_TEXTURE0);
+}
+void Renderer::UseTexture(int number, uint id)
+{
+	glActiveTexture(GL_TEXTURE0 + number);
+	glBindTexture(GL_TEXTURE_2D, id);
 }
 void Renderer::TextureEnable(uint textureId)
 {

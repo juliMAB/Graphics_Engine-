@@ -169,6 +169,15 @@
     <Filter Include="src\MaterialManager">
       <UniqueIdentifier>{3809011d-7e9a-49b4-abd8-07c45d45629f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\solidMaterial">
+      <UniqueIdentifier>{efec83e9-c0cc-4e28-ba92-367c37774ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\textureMaterial">
+      <UniqueIdentifier>{99fa6ad3-2842-424a-a35c-b234189dcdc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\color">
+      <UniqueIdentifier>{b96b90fb-9005-4ee4-89ec-863effa286f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Juli\Jinterface.cpp">
@@ -230,9 +239,6 @@
     </ClCompile>
     <ClCompile Include="src\Shader\Shader.cpp">
       <Filter>Archivos de origen\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Material\Material.cpp">
-      <Filter>Archivos de origen\Material</Filter>
     </ClCompile>
     <ClCompile Include="src\Light\light.cpp">
       <Filter>Archivos de origen\Light</Filter>
@@ -329,6 +335,21 @@
     </ClCompile>
     <ClCompile Include="src\BSP\BSP.cpp">
       <Filter>src\BSP</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material\Material.cpp">
+      <Filter>Archivos de encabezado\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material\solidMaterial.cpp">
+      <Filter>src\solidMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material\textureMaterial.cpp">
+      <Filter>src\textureMaterial</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MaterialManager\materialManager.cpp">
+      <Filter>src\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Color\color.cpp">
+      <Filter>src\color</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -551,25 +572,22 @@
     <ClInclude Include="src\MaterialManager\MaterialManager.h">
       <Filter>src\MaterialManager</Filter>
     </ClInclude>
+    <ClInclude Include="src\Material\solidMaterial.h">
+      <Filter>src\solidMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material\textureMaterial.h">
+      <Filter>src\textureMaterial</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Color\color.h">
+      <Filter>src\color</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shaders\SolidFragmentShader.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
-    <None Include="Shaders\SolidVertexShader.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
     <None Include="cpp.hint" />
-    <None Include="Shaders\TextureFragmentShader.shader">
+    <None Include="Shaders\fragment.shader">
       <Filter>res\Shaders</Filter>
     </None>
-    <None Include="Shaders\TextureVertexShader.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
-    <None Include="Shaders\a.shader">
-      <Filter>res\Shaders</Filter>
-    </None>
-    <None Include="Shaders\b.shader">
+    <None Include="Shaders\vertex.shader">
       <Filter>res\Shaders</Filter>
     </None>
   </ItemGroup>

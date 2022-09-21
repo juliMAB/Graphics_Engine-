@@ -44,7 +44,7 @@ public:
 	void CleanShader();
 	void GenBuffers(uint& VAO, uint& VBO, uint& EBO);
 	void GenBuffers(uint& VAO, uint& VBO, uint& EBO, uint& UVB);
-	void BindBuffer(uint VAO, uint VBO, int tam, float* vertices);
+	//void BindBuffer(uint VAO, uint VBO, int tam, float* vertices);
 	void BindBuffer(uint VAO, uint VBO, int tam, const void* vertices);
 	void SetBaseAttribs(uint location, int size, int stride, int offset);
 	void SetBaseAttribs(uint location, int size, GLsizei stride, const void* offset);
@@ -62,9 +62,12 @@ public:
 	void SetProjection(glm::mat4 projection);
 	void DrawMesh(uint VAO, std::vector<unsigned int> indices);
 	void Draw(uint VAO, uint VBO, uint& EBO, uint vertices, uint tamVerts, float* vertexs);
+	void Draw(uint VAO, uint vertices);
 	void DrawLines(uint VAO, uint vertices);
 	void ClearScreen();
 	void PostRender(Window* window);
+	void CleanTexture();
+	void UseTexture(int number, uint id);
 	void TextureEnable(uint textureId);
 	void TextureEnableDiffuse(uint textureId);
 	void TextureEnableSpecular(uint textureId);

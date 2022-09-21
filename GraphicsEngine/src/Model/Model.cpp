@@ -22,6 +22,6 @@ namespace JuliEngine
 		glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
 
 		for (unsigned int i = 0; i < baseNode->getMeshes().size(); i++)
-			baseNode->getMeshes()[i]->Draw(shader);
+			baseNode->getMeshes()[i]->Draw();
 	}
 }

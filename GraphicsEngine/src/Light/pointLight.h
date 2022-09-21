@@ -4,7 +4,7 @@
 #include "light.h"
 namespace JuliEngine
 {
-
+	
 	class GraficosEngine_API PointLight : public Light
 	{
 	public:
@@ -17,6 +17,9 @@ namespace JuliEngine
 		void SetConstant(float constant);
 		void SetLinear(float linear);
 		void SetQuadratic(float quadratic);
+		void SetQuantityLights(int quantity);
+
+		static std::list<PointLight*> PointLightLists;
 
 	protected:
 		vec3 pos;
@@ -25,11 +28,15 @@ namespace JuliEngine
 		float linear;
 		float quadratic;
 
+		static uint _uniformPointLightsQuantity;
+
 		uint _uniformPosition;
 
 		uint _uniformConstant;
 		uint _uniformLinear;
 		uint _uniformQuadratic;
+	private:
+		friend class MyImGui;
 	};
 }
 

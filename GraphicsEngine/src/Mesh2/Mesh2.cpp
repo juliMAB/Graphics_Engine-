@@ -1,87 +1,132 @@
 #include "Mesh2.h"
 namespace JuliEngine
 {
-        void Mesh::Draw(Renderer* render)
-    {
-        // bind appropriate textures
-        unsigned int diffuseNr = 1;
-        unsigned int specularNr = 1;
-        unsigned int normalNr = 1;
-        unsigned int heightNr = 1;
-        for (unsigned int i = 0; i < textures.size(); i++)
-        {
-            glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-            // retrieve texture number (the N in diffuse_textureN)
-            string number;
-            string name = textures[i].type;
-            if (name == "texture_diffuse")
-                number = std::to_string(diffuseNr++);
-            else if (name == "texture_specular")
-                number = std::to_string(specularNr++); // transfer unsigned int to string
-            else if (name == "texture_normal")
-                number = std::to_string(normalNr++); // transfer unsigned int to string
-            else if (name == "texture_height")
-                number = std::to_string(heightNr++); // transfer unsigned int to string
+	Mesh::Mesh()
+	{
+		render = nullptr;
 
-            // now set the sampler to the correct texture unit
-            glUniform1i(glGetUniformLocation(render->GetShaderId(), (name + number).c_str()), i);
-            // and finally bind the texture
-            glBindTexture(GL_TEXTURE_2D, textures[i].id);
-        }
+		material = nullptr;
+		color = Color();
 
-        // draw mesh
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(indices.size()), GL_UNSIGNED_INT, 0);
-        glBindVertexArray(0);
+		vertexs = std::vector<Vertex>();
+		indexes = std::vector<uint>();
+		textures = std::vector<Texture>();
 
-        // always good practice to set everything back to defaults once configured.
-        glActiveTexture(GL_TEXTURE0);
-    }
+		VAO = 0;
+		VBO = 0;
+		EBO = 0;
 
-    void Mesh::setupMesh()
-{
-    // create buffers/arrays
-    glGenVertexArrays(1, &VAO);
-    glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+		uniformColor = 0;
+		uniformAlpha = 0;
+		uniformBaseTexture = 0;
+		uniformUseTexture = 0;
 
-    glBindVertexArray(VAO);
-    // load data into vertex buffers
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // A great thing about structs is that their memory layout is sequential for all its items.
-    // The effect is that we can simply pass a pointer to the struct and it translates perfectly to a glm::vec3/2 array which
-    // again translates to 3/2 floats which translates to a byte array.
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+		locationPosition = 0;
+		locationNormal = 0;
+		locationTexCoord = 0;
+	}
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+	Mesh::Mesh(Renderer* render, std::vector<Vertex> vertexs, std::vector<uint> indexes, std::vector<Texture> textures)
+	{
+		this->render = render;
 
-    // set the vertex attribute pointers
-    // vertex Positions
+		material = nullptr;
+		color = Color();
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
-    glEnableVertexAttribArray(0);
-    // vertex normals
+		this->vertexs = vertexs;
+		this->indexes = indexes;
+		this->textures = textures;
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-    glEnableVertexAttribArray(1);
-    // vertex texture coords
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
-    glEnableVertexAttribArray(2);
-    // vertex tangent
-    //glEnableVertexAttribArray(3);
-    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
-    //// vertex bitangent
-    //glEnableVertexAttribArray(4);
-    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
-    //// ids
-    //glEnableVertexAttribArray(5);
-    //glVertexAttribIPointer(5, 4, GL_INT, sizeof(Vertex), (void*)offsetof(Vertex, m_BoneIDs));
-    //
-    //// weights
-    //glEnableVertexAttribArray(6);
-    //glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, m_Weights));
-    //glBindVertexArray(0);
-}
+		VAO = 0;
+		VBO = 0;
+		EBO = 0;
+
+		uniformColor = 0;
+		uniformAlpha = 0;
+		uniformBaseTexture = 0;
+		uniformUseTexture = 0;
+
+		locationPosition = 0;
+		locationNormal = 0;
+		locationTexCoord = 0;
+	}
+
+	Mesh::~Mesh()
+	{
+	}
+
+	void Mesh::Init()
+	{
+		SetUniforms();
+
+		render->GenBuffers(VAO, VBO, EBO);
+		if (vertexs.size() == 0)
+		{
+			render->BindBuffer(VAO, VBO, vertexs.size() * sizeof(Vertex), 0);
+		}
+		else
+		{
+			render->BindBuffer(VAO, VBO, vertexs.size() * sizeof(Vertex), &vertexs[0]);
+		}
+
+		if (indexes.size() == 0)
+		{
+			render->BindIndexes(EBO, indexes.size() * sizeof(unsigned int), 0);
+		}
+		else
+		{
+			render->BindIndexes(EBO, indexes.size() * sizeof(unsigned int), &indexes[0]);
+		}
+
+		render->SetBaseAttribs(locationPosition, 3, sizeof(Vertex), (void*)0);
+		render->SetBaseAttribs(locationNormal, 3, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
+		render->SetBaseAttribs(locationTexCoord, 2, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+	}
+
+	void Mesh::Draw()
+	{
+		for (int i = 0; i < textures.size(); i++)
+		{
+			render->UseTexture(i, textures[i].id);
+		}
+
+		UpdateShader();
+
+		render->Draw(VAO, indexes.size());
+
+		render->CleanTexture();
+	}
+
+	void Mesh::DeInit()
+	{
+		render->UnBind(VAO, VBO, EBO);
+
+		vertexs.clear();
+		indexes.clear();
+		textures.clear();
+	}
+
+	void Mesh::SetUniforms()
+	{
+		render->SetUniform(uniformColor, "color");
+		render->SetUniform(uniformAlpha, "a");
+		render->SetUniform(uniformBaseTexture, "baseTexture");
+		render->SetUniform(uniformUseTexture, "useTexture");
+		
+		render->SetLocation(locationPosition, "aPos");
+		render->SetLocation(locationNormal, "aNor");
+		render->SetLocation(locationTexCoord, "aTex");
+	}
+
+	void Mesh::UpdateShader()
+	{
+		render->UpdateBoolValue(uniformUseTexture, textures.size() > 0);
+		if (textures.size() > 0)
+			render->UpdateTexture(uniformBaseTexture, textures[0].id);
+
+		if (material != nullptr)
+			material->UpdateShader();
+		render->UpdateColor(uniformColor, uniformAlpha, color.GetColor());
+	}
 }
 

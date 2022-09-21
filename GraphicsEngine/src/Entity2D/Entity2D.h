@@ -2,49 +2,30 @@
 #define ENTITY2D_H
 
 #include "../Exports/Exports.h"
-#include "../Entity/Entity.h"
+#include "Entity2/Entity2.h"
 #include "../Material/Material.h"
 #include "../Entity/vertexs.h"
+#include "Color/color.h"
+namespace JuliEngine
+{
+	class GraficosEngine_API Entity2D : public Entity2 {
+	public:
+		Entity2D(Renderer* render);
+		~Entity2D();
 
-class GraficosEngine_API Entity2D : public Entity {
-public:
+		void Draw();
 
-	bool _hasCollider, _moveable;
-	glm::vec3 pivot;
-	glm::vec3 colliderSize;
-	glm::vec3 GetPivot();
-	void InitCollider();
+		JuliEngine::Material* _material;
 
-	void Draw();
-	
-	Entity2D();
-	Entity2D(Renderer* render);
-	~Entity2D();
+	protected:
 
-	void SetMateria(MaterialS* mat);
-	void UpdateMaterial();
+		uint _VAO, _VBO, _EBO, tam, vertices;
+		float* vertexs;
 
-
-	//color::RGBA color;
-	void AffectedLight(bool value);
-
-protected:
-	Material* _material;
-
-	uint _VAO, _VBO, _EBO, tam, vertices;
-	float* vertexs;
-
-
-	bool useTexture;
-	bool useLightMaps;
-	bool useMaterial;
-	bool affectedLight;
-
-	void SetUniforms();
-	void UpdateShader();
-private:
-};
-	
+		void SetUniforms();
+	private:
+	};
+}
 
 
 #endif

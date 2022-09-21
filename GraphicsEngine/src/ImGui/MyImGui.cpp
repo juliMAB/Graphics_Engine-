@@ -229,6 +229,20 @@ void baseLight2Edit(Light* it)
             (it)->SetColor(col);
     }
 }
+void DirLightEdit(DirectionLight* it)
+{
+    bool enabled = (it)->getactive();
+    if (ImGui::Checkbox(((it)->getName() + "enabled").c_str(), &enabled))
+        (it)->setActive(enabled);
+    if ((it)->getactive())
+    {
+        vec3 dir = (it)->GetDirection();
+        if (ImGui::SliderFloat3(((it)->getName() + " dir").c_str(), (float*)&dir, 0.0f, 1.0f))
+            (it)->SetAmbient(dir);
+        baseLight2Edit(it);
+    }
+
+}
 
 void MyImGui::UpdateWindowsEntity2()
 {
@@ -245,7 +259,7 @@ void MyImGui::UpdateWindowsEntity2()
 void MyImGui::UpdateWindowsLights()
 {
     ImGui::Begin("Lights");
-    if (Entity2::EntitysLists.size() > 0)
+    if (Light::LightsLists.size() > 0)
     {
         for (std::list<Light*>::iterator it = Light::LightsLists.begin(); it != Light::LightsLists.end(); it++)
         {
@@ -254,6 +268,20 @@ void MyImGui::UpdateWindowsLights()
     }
     ImGui::End();
 }
+
+void MyImGui::UpdateWindowsDirectionLights()
+{
+    ImGui::Begin("DirectionLights");
+    if (DirectionLight::DirectionLightLists.size() > 0)
+    {
+        for (std::list<DirectionLight*>::iterator it = DirectionLight::DirectionLightLists.begin(); it != DirectionLight::DirectionLightLists.end(); it++)
+        {
+            DirLightEdit(*it);
+        }
+    }
+    ImGui::End();
+}
+
 void MyImGui::UpdateWindowsModel()
 {
     ImGui::Begin("MODEL");

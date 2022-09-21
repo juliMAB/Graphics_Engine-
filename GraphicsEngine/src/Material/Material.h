@@ -2,45 +2,34 @@
 #define MATERIAL_H
 
 #include "Exports/Exports.h"
-#include "Renderer/Renderer.h"
+
+#include "Renderer/renderer.h"
+
 #include "GLM/ext/matrix_transform.hpp"
-#include "Texture/MyTexture.h"
 
-struct MaterialS
+namespace JuliEngine
 {
-	MyTexture* specular;
-	MyTexture* diffuse;
-	float Shiness;
-};
-
 	class GraficosEngine_API Material
 	{
 	public:
 		Material(Renderer* render);
 		~Material();
 
-		void Init();
-		void UpdateMaterial();
+		virtual void Init() = 0;
+		virtual void UpdateShader();
 
 		void SetShininess(float shininess);
-		void SetDiffuse(MyTexture* diffuse);
-		void SetSpecular(MyTexture* specular);
-		void SetMaterial(MaterialS* mat);
-
 		float GetShininess();
-		MyTexture* GetDiffuse();
-		MyTexture* GetSpecular();
 
-	private:
+	protected:
 		Renderer* render;
-		MaterialS* material;
 
-		bool useMaterial;
+		float shininess;
 
-		uint _uniformShininess;
-		uint _uniformDiffuse;
-		uint _uniformSpecular;
+		uint uniformDiffuse;
+		uint uniformSpecular;
+		uint uniformShininess;
 	};
-
+}
 
 #endif // !MATERIAL_H

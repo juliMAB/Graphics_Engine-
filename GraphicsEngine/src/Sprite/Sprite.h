@@ -10,48 +10,50 @@
 #include "Atlas/Atlas.h"
 #include "Entity/vertexs.h"
 
-enum class ORDER
+namespace JuliEngine
 {
-	RIGHTtoLEFT,
-	UPtoDOWN
-};
+	enum class ORDER
+	{
+		RIGHTtoLEFT,
+		UPtoDOWN
+	};
 
-enum class SPRITE_TYPE
-{
-	QUAD,
-	CUBE
-};
-class GraficosEngine_API Sprite : public Entity2D {
-private:
-	SPRITE_TYPE type;
-	uint _uniformDiffuseTexture;
-	uint _uniformSpecularTexture;
-	uint _UVB;
+	enum class SPRITE_TYPE
+	{
+		QUAD,
+		CUBE
+	};
+	class GraficosEngine_API Sprite : public Entity2D {
+	private:
+		SPRITE_TYPE type;
+		uint _UVB;
 
-	int animIndex = 0;
-	std::vector<Animation*> anim;
-	Frame currFrame;
+		JuliEngine::Texture* baseTexture;
 
-	void SetUniforms();
+		uint _uniformBaseTexture;
 
-	//__________________________
-	bool _settedAnimsValues;
+		void SetTexture(JuliEngine::Texture* texture, JuliEngine::TEXTURE_TYPE type);
 
-	//std::vector<Animation*> anim;
-public:
-	Sprite();
-	Sprite(Renderer* render);
-	~Sprite();
+		void SetUniforms();
 
-	void Init(SPRITE_TYPE type);
-	void Update(float timer);
-	void Draw();
-	void DeInit();
-	void SetTexture(MyTexture* texture);
-	void AddAnimation(Atlas atlas, float speed);
-	void AddAnimation(int rows, int cols, float duration);
-	void ChangeAnimation(int index);
-	void SetTextureCoordinates(Frame f);
-};
+		//__________________________
+		bool _settedAnimsValues;
 
+		//std::vector<Animation*> anim;
+	public:
+		Sprite(Renderer* render);
+		~Sprite();
+
+		void Init(SPRITE_TYPE type);
+		//void Update(float timer);
+		void LoadTexture(const char* path, bool invertImage, JuliEngine::TEXTURE_TYPE type);
+		void Draw();
+		void DeInit();
+		//void SetTexture(MyTexture* texture);
+		//void AddAnimation(Atlas atlas, float speed);
+		//void AddAnimation(int rows, int cols, float duration);
+		//void ChangeAnimation(int index);
+		//void SetTextureCoordinates(Frame f);
+	};
+}
 #endif

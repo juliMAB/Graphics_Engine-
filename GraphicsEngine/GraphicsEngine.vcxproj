@@ -203,6 +203,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Camera\occlusionCulling.cpp" />
     <ClCompile Include="src\Collision\AABB.cpp" />
     <ClCompile Include="src\Collision\Collision.cpp" />
+    <ClCompile Include="src\Color\color.cpp" />
     <ClCompile Include="src\Component\Component.cpp" />
     <ClCompile Include="src\Entity2D\Entity2D.cpp" />
     <ClCompile Include="src\Entity2\Entity2.cpp" />
@@ -228,7 +229,10 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClCompile Include="src\Light\pointLight.cpp" />
     <ClCompile Include="src\Light\spotLight.cpp" />
     <ClCompile Include="src\line\line.cpp" />
+    <ClCompile Include="src\MaterialManager\materialManager.cpp" />
     <ClCompile Include="src\Material\Material.cpp" />
+    <ClCompile Include="src\Material\solidMaterial.cpp" />
+    <ClCompile Include="src\Material\textureMaterial.cpp" />
     <ClCompile Include="src\Mesh2\Mesh2.cpp" />
     <ClCompile Include="src\Model\Model.cpp" />
     <ClCompile Include="src\MyMesh\Mesh.cpp" />
@@ -262,6 +266,7 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\Collision\Collision.h" />
     <ClInclude Include="src\Collision\Sphere.h" />
     <ClInclude Include="src\Collision\SquareAABB.h" />
+    <ClInclude Include="src\Color\color.h" />
     <ClInclude Include="src\Component\Component.h" />
     <ClInclude Include="src\Entity2D\Entity2D.h" />
     <ClInclude Include="src\Entity2\Entity2.h" />
@@ -299,6 +304,8 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
     <ClInclude Include="src\line\line.h" />
     <ClInclude Include="src\MaterialManager\MaterialManager.h" />
     <ClInclude Include="src\Material\Material.h" />
+    <ClInclude Include="src\Material\solidMaterial.h" />
+    <ClInclude Include="src\Material\textureMaterial.h" />
     <ClInclude Include="src\Mesh2\Mesh2.h" />
     <ClInclude Include="src\Model\Model.h" />
     <ClInclude Include="src\MyMesh\Mesh.h" />
@@ -325,12 +332,8 @@ XCOPY "$(ProjectDir)Shaders" "$(SolutionDir)Shaders\" /e /h /y /s</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="cpp.hint" />
-    <None Include="Shaders\a.shader" />
-    <None Include="Shaders\b.shader" />
-    <None Include="Shaders\SolidFragmentShader.shader" />
-    <None Include="Shaders\SolidVertexShader.shader" />
-    <None Include="Shaders\TextureFragmentShader.shader" />
-    <None Include="Shaders\TextureVertexShader.shader" />
+    <None Include="Shaders\fragment.shader" />
+    <None Include="Shaders\vertex.shader" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="src\ImGui\ImGuiMaster\Source\imgui.natvis" />

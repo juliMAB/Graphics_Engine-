@@ -1,5 +1,7 @@
 #include "Importer2.h"
 #include "Entity/Entity3D.h"
+#include <TextureImporter/TextureImporter.h>
+#include "MaterialManager/MaterialManager.h"
     
 namespace JuliEngine
 {
@@ -36,7 +38,7 @@ namespace JuliEngine
         Entity2* entityNode = nullptr;
         std::string name = node->mName.C_Str();
         cout << name << endl;
-        if (name == ("bsp"))
+        if (name == ("Tanke1"))
         {
             cout << name << endl;
         }
@@ -65,8 +67,6 @@ namespace JuliEngine
                 m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
 
                 mat *= m;
-
-                //entityNode->SetMatrix(mat);
             }
         }
         else
@@ -79,7 +79,9 @@ namespace JuliEngine
             m[1][0] = (float)matrix.a2; m[1][1] = (float)matrix.b2;  m[1][2] = (float)matrix.c2; m[1][3] = (float)matrix.d2;
             m[2][0] = (float)matrix.a3; m[2][1] = (float)matrix.b3;  m[2][2] = (float)matrix.c3; m[2][3] = (float)matrix.d3;
             m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
-
+            m *= mat;
+            //mat = m;
+            
             entityNode->setName(name);
             if (node->mNumMeshes > 0)
             {
@@ -90,16 +92,14 @@ namespace JuliEngine
                     meshes.push_back(ProcessMesh(aiMesh, scene));
                 }
                 entityNode->SetMeshes( meshes);
-
                 entityNode->SetMatrix(m);
             }
             else
             {
                 entityNode = new Entity2(render);
+                entityNode->setName(name + "pivot");
+                entityNode->SetMatrix(m);
 
-                entityNode->setName(name);
-
-                
             }
         }
 
@@ -185,19 +185,20 @@ namespace JuliEngine
         aiColor4D color(0.f, 0.f, 0.f, 0.f);
         aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &color);
 
-        //Material* mat = nullptr;
-        //if (textures.size() > 0)
-        //{
-        //    mat = MaterialManager::GetTextureMaterial();
-        //}
-        //else
-        //{
-        //    mat = MaterialManager::GetSolidMaterial();
-        //}
+        Material* mat = nullptr;
+        if (textures.size() > 0)
+        {
+            mat = MaterialManager::GetTextureMaterial();
+        }
+        else
+        {
+            mat = MaterialManager::GetSolidMaterial();
+        }
 
-        Mesh* m = new Mesh(vertices, indices, textures);
-        //m->color = Color(color.r, color.g, color.b);
-        //m->material = mat;
+        Mesh* m = new Mesh(render,vertices, indices, textures);
+        m->Init();
+        m->color = Color(color.r, color.g, color.b);
+        m->material = mat;
 
         return m;
     }

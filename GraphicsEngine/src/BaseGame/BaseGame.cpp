@@ -72,6 +72,7 @@ bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowNa
 	InitTime();
 	InitCamera();
 	InitInput();
+	JuliEngine::MaterialManager::Init(_renderer);
 	if (imGuiEnabled)
 	InitImgur();
 	std::cout << "-Init Engine" << std::endl;

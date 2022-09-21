@@ -5,30 +5,44 @@
 #include "Texture2/Texture2.h"
 #include "Exports/Exports.h"
 #include "Renderer/Renderer.h"
+#include "Color/color.h"
 #include <vector>
+#include <Material/Material.h>
 
 
 namespace JuliEngine
 {
     class GraficosEngine_API Mesh {
     public:
-        // mesh Data
-        vector<Vertex >       vertices;
-        vector<uint   >       indices ;
-        vector<Texture>       textures;
-        //  render data
-        uint VAO, VBO, EBO;
+		Mesh();
+		Mesh(Renderer* render, std::vector<Vertex> vertexs, std::vector<uint> indexes, std::vector<Texture> textures);
+		~Mesh();
 
-        Mesh(vector<Vertex> vertices, vector<uint> indices, vector<Texture> textures)
-        {
-                this->vertices = vertices;
-                this->indices  = indices ;
-                this->textures = textures;
-                setupMesh();
-        }
-        void Draw(Renderer* render);
-    private:
-        void setupMesh();
+		void Init();
+		void Draw();
+		void DeInit();
+
+
+		JuliEngine::Material* material;
+		Color color;
+
+		void SetUniforms();
+		void UpdateShader();
+
+		Renderer* render;
+		std::vector<Vertex> vertexs;
+		std::vector<uint> indexes;
+		std::vector<Texture> textures;
+		uint VAO, VBO, EBO;
+
+		uint uniformColor;
+		uint uniformAlpha;
+		uint uniformBaseTexture;
+		uint uniformUseTexture;
+
+		uint locationPosition;
+		uint locationNormal;
+		uint locationTexCoord;
     };
 }
 
