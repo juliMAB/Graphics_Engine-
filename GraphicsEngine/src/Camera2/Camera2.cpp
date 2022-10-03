@@ -33,7 +33,11 @@ namespace JuliEngine
 	void Camera2::Update()
 	{
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
+<<<<<<< Updated upstream
 			pos = (_target->getposition());
+=======
+			SetPos(_target->getPos());
+>>>>>>> Stashed changes
 		UpdateCameraVectors();
 		_render->UseShader();
 		_render->UpdateVec3(_uniformViewPos,pos);
@@ -66,7 +70,11 @@ namespace JuliEngine
 			return;
 		case CAMERA_TYPE::TPS:
 			if (_target != NULL)
+<<<<<<< Updated upstream
 				SetViewMatrix(pos, _target->getposition(), Up);
+=======
+				SetViewMatrix(getPos(), _target->getPos(), Up);
+>>>>>>> Stashed changes
 			return;
 		case CAMERA_TYPE::FC:
 			SetViewMatrix(pos, pos + Front, Up);
@@ -111,7 +119,11 @@ namespace JuliEngine
 			_fov = 45.0f;
 		UpdateProjection();
 		if (_target != NULL && _cameraType == CAMERA_TYPE::TPS)
+<<<<<<< Updated upstream
 			SetViewMatrix(pos, _target->getposition(), Up);
+=======
+			SetViewMatrix(getPos(), _target->getPos(), Up);
+>>>>>>> Stashed changes
 	}
 	void Camera2::ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch)
 	{

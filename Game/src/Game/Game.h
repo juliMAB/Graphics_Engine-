@@ -11,9 +11,18 @@ class Game : BaseGame {
 	//Sprite* _pjS;
 	Sprite* _Wall1;
 	JuliEngine::Entity2* _a;
+<<<<<<< Updated upstream
 	JuliEngine::Entity3D* _entity3d;
 	JuliEngine::Entity3D* _entity3d2;
 	JuliEngine::Model* _modeltest;
+=======
+	JuliEngine::Entity2* _b;
+	list< JuliEngine::Entity2*> planos;
+	list< JuliEngine::Entity2*> tankesitos;
+	//JuliEngine::Entity3D* _entity3d;
+	JuliEngine::Entity3D* _entity3dScene;
+	JuliEngine::Model* _modeloTanke;
+>>>>>>> Stashed changes
 	JuliEngine::Model* _modeltest2;
 	JuliEngine::Camera2* _cam;
 	JuliEngine::plane* _planeXample;

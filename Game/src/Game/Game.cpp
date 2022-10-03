@@ -48,12 +48,19 @@ Game::Game() {
 		_Wall1 = nullptr;
 	if (_a					!=nullptr)
 		_a					  =nullptr;
+<<<<<<< Updated upstream
 	if (_floor!=nullptr)
 		_floor				  =nullptr;
 	if (_tex != nullptr)
 		_tex				  =nullptr;
 	if (_tex2 != nullptr)
 		_tex2				  =nullptr;
+=======
+	if (_b					!= nullptr)
+		_b					= nullptr;
+	//if (_floor!=nullptr)
+	//	_floor				  =nullptr;
+>>>>>>> Stashed changes
 	if (_dirLight != nullptr)
 		_dirLight			  =nullptr;
 	for (int i = 0; i < 4; i++)
@@ -78,6 +85,7 @@ void Game::Init() {
 	_cam = _mainCamera2;
 	color::RGBA colorFondoRGBA(glm::vec4(0,0,0,0));
 	SetBackGroundColor(colorFondoRGBA);
+<<<<<<< Updated upstream
 	_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
 	_entity3d2 = new JuliEngine::Entity3D(_renderer, "res/i/A2.dae");
 	_modeltest = _entity3d->model;
@@ -87,10 +95,47 @@ void Game::Init() {
 	_modeltest2->GetBaseNode()->Init();
 	_modeltest->GetBaseNode()->SetPos({0,0,0});
 	_modeltest->GetBaseNode()->SetScale({ 1,1,1 });
+=======
+	//_entity3d = new JuliEngine::Entity3D(_renderer, "res/h/model.obj");
+	_entity3dScene = new JuliEngine::Entity3D(_renderer, "res/i/scene.fbx");
+	//_entity3d->model->GetBaseNode()->Init();
+
+	JuliEngine::Entity2* wantedPlano1 = _entity3dScene->model->GetBaseNode()->GetNode("bsp_plano1");
+	//JuliEngine::Entity2* wantedPlano2 = _entity3dScene->model->GetBaseNode()->GetNode("bsp_plano2");
+	//JuliEngine::Entity2* wantedPlano3 = _entity3dScene->model->GetBaseNode()->GetNode("bsp_plano3");
+	JuliEngine::Entity2* wantedNode = _entity3dScene->model->GetBaseNode()->GetNode("Tanke");
+	//JuliEngine::Entity2* wantedNode1 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke1");
+	//JuliEngine::Entity2* wantedNode2 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke2");
+	JuliEngine::Entity2* wantedNode3 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke3");
+
+	planos.push_front(wantedPlano1);
+	//planos.push_front(wantedPlano2);
+	//planos.push_front(wantedPlano3);
+	tankesitos.push_front(wantedNode);
+	//tankesitos.push_front(wantedNode1);
+	//tankesitos.push_front(wantedNode2);
+	tankesitos.push_front(wantedNode3);
+	if (wantedNode != nullptr)
+	{
+		_modeloTanke = new JuliEngine::Model(GetRenderer());
+		_modeloTanke->SetBaseNode(wantedNode);
+	}
+	//if (wantedNodeBsp!= nullptr)
+	//{
+	//	_b = wantedNodeBsp;
+	//}
+
+	if (_modeloTanke == nullptr)
+	{
+		_modeloTanke = _entity3dScene->model;
+	}
+	_modeloTanke->GetBaseNode()->Init();
+>>>>>>> Stashed changes
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	JuliEngine::OcclusionCulling::Init(_cam);
 
+<<<<<<< Updated upstream
 	//--------FLOOR----------
 	_floor = new Sprite(_renderer);
 	_floor->Init(SPRITE_TYPE::QUAD);
@@ -110,6 +155,8 @@ void Game::Init() {
 	_Wall1->SetScale(10);
 	//----------------------
 
+=======
+>>>>>>> Stashed changes
 
 	_dirLight = new JuliEngine::DirectionLight(_renderer);
 	_dirLight->Init();
@@ -153,6 +200,7 @@ void Game::Init() {
 
 	_bsp = new JuliEngine::BSP(_renderer, _cam);
 
+<<<<<<< Updated upstream
 
 
 	for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
@@ -164,6 +212,11 @@ void Game::Init() {
 	vec3 xc = _Wall1->getPos() + vec3(0, 1, 0);
 	_planeXample = new JuliEngine::plane(xa, xb, xc);
 	_bsp->AddPlane(_planeXample);
+=======
+	_a = _cam;
+
+	_renderer->SetBackgroundColor(vec4((float)(255.f/255.f), (float)(192.f/255.f), (float)(203.f/255.f),0.5f));
+>>>>>>> Stashed changes
 }
 
 void Game::Deinit() {
@@ -181,13 +234,23 @@ void Game::Update()
 	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
+<<<<<<< Updated upstream
 	_floor->Draw();
 	_Wall1->Draw();
 	//_modeltest->GetBaseNode()->setDraw();
 	//_modeltest2->GetBaseNode()->setDraw();
 	_bsp->Draw();
+=======
+	//_modeloTanke->GetBaseNode()->setDraw();
+>>>>>>> Stashed changes
 	for (int i = 0; i < 4; i++)
-		_lightcubes[i]->Draw();
+		//_lightcubes[i]->Draw();
+	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
+		if ((*it)!=nullptr)
+			(*it)->setDraw();
+	for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
+		if ((*it) != nullptr)
+			(*it)->setDraw();
 
 }
 void Game::UpdateImgui()
@@ -232,4 +295,34 @@ void Game::processInput()
 		_cam->UpdateCameraType();
 	if (Input::IsKeyDown(Input::KEY_SPACE))
 		_cam->ToogleEjes();
+<<<<<<< Updated upstream
+=======
+
+	if (Input::IsKeyDown(Input::KEY_UP))
+		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.end())
+			{
+				it2--;
+				_a = *it2;
+			}
+	if (Input::IsKeyDown(Input::KEY_DOWN))
+		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.begin())
+			{
+				it2--;
+				_a = *it2;
+			}
+	glm::vec3 b(0);
+
+	if (_b!= nullptr)
+	{
+		if (Input::IsKeyDown(Input::KEY_0))
+			b += _b->GetRight();
+		if (Input::IsKeyDown(Input::KEY_1))
+			b -= _b->GetRight();
+		_b->Move(b * _time->_deltaTime * speed);
+		if (Input::IsKeyDown(Input::KEY_2))
+			_b->DebugInfo();
+	}
+>>>>>>> Stashed changes
 }

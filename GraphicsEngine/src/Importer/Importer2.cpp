@@ -38,6 +38,7 @@ namespace JuliEngine
         currentParent->SetMeshes(nodeMeshes);
         currentParent->setName(node->mName.C_Str());
 
+<<<<<<< Updated upstream
         vector<Entity2*> childrenNodes;
         childrenNodes.clear();
 
@@ -49,6 +50,68 @@ namespace JuliEngine
             mynode->setName(node->mChildren[i]->mName.C_Str());
             mynode->SetParent(currentParent);
             childrenNodes.push_back(mynode);
+=======
+        if (name.find("$AssimpFbx$") != std::string::npos && node->mNumMeshes == 0)
+        {
+            entityNode = parent;
+        
+            if (name.find("RotationPivot") != std::string::npos && name.find("Inverse") == std::string::npos)
+            {
+                aiMatrix4x4 matrix = node->mTransformation;
+        
+                mat[0][0] = (float)matrix.a1; mat[0][1] = (float)matrix.b1;  mat[0][2] = (float)matrix.c1; mat[0][3] = (float)matrix.d1;
+                mat[1][0] = (float)matrix.a2; mat[1][1] = (float)matrix.b2;  mat[1][2] = (float)matrix.c2; mat[1][3] = (float)matrix.d2;
+                mat[2][0] = (float)matrix.a3; mat[2][1] = (float)matrix.b3;  mat[2][2] = (float)matrix.c3; mat[2][3] = (float)matrix.d3;
+                mat[3][0] = (float)matrix.a4; mat[3][1] = (float)matrix.b4;  mat[3][2] = (float)matrix.c4; mat[3][3] = (float)matrix.d4;
+            }
+            if (name.find("Pivot") == std::string::npos)
+            {
+                glm::mat4 m;
+                aiMatrix4x4 matrix = node->mTransformation;
+        
+                m[0][0] = (float)matrix.a1; m[0][1] = (float)matrix.b1;  m[0][2] = (float)matrix.c1; m[0][3] = (float)matrix.d1;
+                m[1][0] = (float)matrix.a2; m[1][1] = (float)matrix.b2;  m[1][2] = (float)matrix.c2; m[1][3] = (float)matrix.d2;
+                m[2][0] = (float)matrix.a3; m[2][1] = (float)matrix.b3;  m[2][2] = (float)matrix.c3; m[2][3] = (float)matrix.d3;
+                m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
+        
+                mat *= m;
+            }
+        }
+        else
+        {
+            entityNode = new Entity2(render);
+            aiMatrix4x4 matrix = node->mTransformation;
+            glm::mat4 m;
+
+            m[0][0] = (float)matrix.a1; m[0][1] = (float)matrix.b1;  m[0][2] = (float)matrix.c1; m[0][3] = (float)matrix.d1;
+            m[1][0] = (float)matrix.a2; m[1][1] = (float)matrix.b2;  m[1][2] = (float)matrix.c2; m[1][3] = (float)matrix.d2;
+            m[2][0] = (float)matrix.a3; m[2][1] = (float)matrix.b3;  m[2][2] = (float)matrix.c3; m[2][3] = (float)matrix.d3;
+            m[3][0] = (float)matrix.a4; m[3][1] = (float)matrix.b4;  m[3][2] = (float)matrix.c4; m[3][3] = (float)matrix.d4;
+            m *= mat;
+            //mat = m;
+            //entityNode->SetParent(parent);
+            entityNode->SetMatrix(m);
+            entityNode->setName(name);
+            entityNode->UseLocalMatrix();
+            if (node->mNumMeshes > 0)
+            {
+                std::vector<Mesh*> meshes = std::vector<Mesh*>();
+                for (uint i = 0; i < node->mNumMeshes; i++)
+                {
+                    aiMesh* aiMesh = scene->mMeshes[node->mMeshes[i]];
+                    meshes.push_back(ProcessMesh(aiMesh, scene));
+                }
+                entityNode->SetMeshes( meshes);
+                //entityNode->SetMatrix(m);
+            }
+            else
+            {
+                entityNode = new Entity2(render);
+                entityNode->setName(name + "pivot");
+                //entityNode->SetMatrix(m);
+
+            }
+>>>>>>> Stashed changes
         }
 
         if (childrenNodes.size() > 0)

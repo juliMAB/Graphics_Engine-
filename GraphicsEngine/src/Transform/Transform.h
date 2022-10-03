@@ -17,6 +17,7 @@ namespace JuliEngine
 		Transform(GameObject* gameObject, Entity2* ourEntity);
 		~Transform();
 
+<<<<<<< Updated upstream
 		vec3 getposition()			        { return m_pos			; };
 		vec3 geteulerAngles()		        { return m_eulerRot		; };
 		vec3 getlocalScale()		        { return m_scale		; };
@@ -33,35 +34,87 @@ namespace JuliEngine
 		void setposition   (vec3 v) { m_pos      = v; };
 		void seteulerAngles(vec3 v) { m_eulerRot = v; updateTransformRotation(); };
 		void setlocalScale (vec3 v) { m_scale    = v;};
+=======
+		//---Seters---
+		void setPos		  (vec3 v);
+		void setRot		  (vec3 v);
+		void setRotRadians(vec3 v);
+		void setScale	  (vec3 v);
 
-		void setForward(vec3 v);
-		void setRight  (vec3 v);
-		void setUp     (vec3 v);
+		void setRotX(float x);
+		void setRotY(float y);
+		void setRotZ(float z);
 
+		void setWorldModelWithParentModel(glm::mat4 localModel);
+		void setMatrix(glm::mat4 mat);
 
-		void setWorldModel (mat4 v) { worldModel  = v; }
-		void setLocalModel (mat4 v) { localModel  = v; }
-		void setParentModel(mat4 v) { parentModel = v; }
+		
 
+		//---Getters---
+		vec3 getPos();
+		vec3 getRot();
+		vec3 getScale();
+>>>>>>> Stashed changes
 
+		vec3 getPos(glm::mat4 mat);
+		vec3 getRot(glm::mat4 mat);
+		vec3 getScale(glm::mat4 mat);
+
+		quat getRotationByMatrix(glm::mat4 mat);
+
+		vec3 getRight();
+		vec3 getUp();
+		vec3 getBackward();
+		vec3 getForward();
+
+		mat4 getModel();
+		mat4 getLocalModel();
+
+<<<<<<< Updated upstream
 		void updateLocalModelMatrix();
-	protected:
-	private:
+=======
+		void updateModelMatrix();
 
-		vec3 m_pos;
-		vec3 m_eulerRot;
-		vec3 m_scale;
+		void UseLocalMatrix();
+
+		
+>>>>>>> Stashed changes
+	protected:
+		glm::vec3 globalPos;
+		glm::vec3 globalRot;
+		glm::vec3 globalScale;
+
+		glm::vec3 localPos;
+		glm::vec3 localRot;
+		glm::vec3 localScale;
 
 		glm::mat4 worldModel;
 		glm::mat4 localModel;
 		glm::mat4 parentModel;
 
+		glm::mat4 modelMatrix;
+
+		glm::mat4 matlocalTranslate;
+		glm::mat4 matlocalRotateX;
+		glm::mat4 matlocalRotateY;
+		glm::mat4 matlocalRotateZ;
+		glm::mat4 matlocalScale;
+
+		bool useLocalMatrix;
+	private:
+
+
 		void updateTransformRotation();
+
+		
 		
 	};
 #pragma region OTHERS
 	vec3 static QuatToVec(quat quat, vec3 vec);
 	quat static EulerToQuat(vec3 euler);
+	vec3 static toEulerRad(quat rot);
+	vec3 static normalizeAngles(vec3 angles);
+	float static normalizeAngle(float angle);
 #pragma endregion
 
 }

@@ -17,17 +17,26 @@ namespace JuliEngine
 		~Entity2();
 		////------------------
 		////----SetPos--------
-		void SetPos(glm::vec3 pos);
-		void SetPos(float x, float y, float z)	{SetPos(vec3(x	   , y    , z		  )); }
-		void SetPos(float x, float y)			{SetPos(vec3(x	   , y    , getPos().z)); }
-		void SetPos(glm::vec2 pos)				{SetPos(vec3(pos.x, pos.y, getPos().z)); }
+		void SetPos(glm::vec3 pos			 );
+		void SetPos(glm::vec2 pos			 );
+		void SetPos(float x, float y, float z);
+		void SetPos(float x, float y		 );
 		////------------------
 		////----SetRot--------
+<<<<<<< Updated upstream
 		void SetRotations(glm::vec3 rotation);
 		void SetRotX(float x)					 {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(x, a.y, a.z)); }
 		void SetRotY(float y)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, y, a.z)); }
 		void SetRotZ(float z)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, a.y, z)); }
 		void SetRotations(float x, float y, float z)								  { SetRotations(vec3(x, y, z));	 }
+=======
+		void SetRot(glm::vec3 rotation);
+		void SetRotRadians(glm::vec3 rot);
+		void SetRotX(float x);
+		void SetRotY(float y);
+		void SetRotZ(float z);
+		void SetRot(float x, float y, float z);
+>>>>>>> Stashed changes
 		////------------------
 		////----SetScale------
 		void SetScale(glm::vec3 v);
@@ -36,9 +45,15 @@ namespace JuliEngine
 		void SetScaleAllSame(float v)			 { SetScale(v, v, v);					}
 		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
+<<<<<<< Updated upstream
 		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
 		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
 		glm::vec3 getScale()	{ return getTransform()->getlocalScale (); }
+=======
+		glm::vec3 getPos()		{ return getTransform()->getPos		(); }
+		glm::vec3 getRot()		{ return getTransform()->getRot		(); }
+		glm::vec3 getScale()	{ return getTransform()->getScale	(); }
+>>>>>>> Stashed changes
 		glm::vec3 GetUp()		{ return getTransform()->getUp		   (); }
 		glm::vec3 GetFront()	{ return getTransform()->getForward	   (); }
 		glm::vec3 GetRight()	{ return getTransform()->getRight	   (); }
@@ -50,13 +65,20 @@ namespace JuliEngine
 			_color = v; _renderer->UpdateColor(_uniformColor, _color); 
 		};
 		void DebugInfo();
+<<<<<<< Updated upstream
 
 		void Update();
 
+=======
+		void AddChildren(Entity2* children);
+		void Update();
+>>>>>>> Stashed changes
 		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
 		Model* getModelPtr() { return _modelPtr; };
 		aabb* getVolume() { return volume; }
 		void setVolume(aabb* vol) { volume = vol; }
+
+		void UseLocalMatrix();
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 
@@ -72,6 +94,8 @@ namespace JuliEngine
 
 		void generateAABB();
 		bool canDrawThisFrame();
+
+		void draw();
 	private:
 		friend class MyImGui;
 	protected:
@@ -107,7 +131,7 @@ namespace JuliEngine
 
 		vector<glm::vec3> getLocalAABB();
 
-		void draw();
+		
 
 		//void updateAABBPositions();
 
