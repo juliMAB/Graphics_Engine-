@@ -195,7 +195,10 @@ void Game::Update()
 	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
-	_modeloTanke->GetBaseNode()->setDraw();
+	
+	for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
+		(*it2)->draw();
+	//_modeloTanke->GetBaseNode()->draw();
 	//_modeltest2->GetBaseNode()->setDraw();
 	//_bsp->Draw();
 	for (int i = 0; i < 4; i++)

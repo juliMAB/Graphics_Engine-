@@ -27,112 +27,111 @@ namespace JuliEngine
 
 	void Entity2::SetPos(glm::vec3 pos)
 	{
-		getTransform()->setposition(pos);
-		updateModelMatrix();
+		getTransform()->setPos(pos);
 	}
 
-	void Entity2::SetRotations(glm::vec3 rotation)
+	void Entity2::SetPos(float x, float y, float z)
 	{
-		getTransform()->seteulerAngles(rotation);
-		updateModelMatrix();
+		SetPos(vec3(x, y, z));
 	}
 
-	void Entity2::SetScale(glm::vec3 v)
+	void Entity2::SetPos(float x, float y)
 	{
-		getTransform()->setlocalScale(v);
-		updateModelMatrix();
+		SetPos(vec3(x, y, getPos().z));
 	}
 
-	void Entity2::SetMatrix(glm::mat4 mat)
+	void Entity2::SetPos(glm::vec2 pos)
 	{
-		SetPos(GetPos(mat));
-		SetRotRadian(GetRot(mat));
-		SetScale(GetScale(mat));
-	}
-
-	mat4 Entity2::getGlobMat()
-	{
-		if (parent == nullptr)
-			return getTransform()->getLocalModel();
-		else
-			getGlobMat(parent) * getTransform()->getLocalModel();
-	}
-	mat4 Entity2::getGlobMat(Entity2* matParent)
-	{
-		if (matParent->parent == nullptr)
-			return getTransform()->getLocalModel();
-		else
-			return getGlobMat(matParent->parent) * getTransform()->getLocalModel();
-	}
-	glm::vec3 Entity2::GetPosGlobalMat()
-	{
-		vec3 text1 = GetPos(getTransform()->getLocalModel());
-		vec3 text2 = GetPos(getTransform()->getLocalModel());
-		text2 = GetPos(getTransform()->getWorldModel());
-
-
-		return GetPos(getTransform()->getWorldModel());
+		SetPos(vec3(pos.x, pos.y, getPos().z));
 	}
 
 	void Entity2::SetRot(glm::vec3 rot)
 	{
-		getTransform()->seteulerAngles(rot);
-
-		updateModelMatrix();
-
-		getTransform()->updateLocalModelMatrix();
+		getTransform()->setRot(rot);
 	}
 
-	void Entity2::SetRotRadian(glm::vec3 rot)
+	void Entity2::SetRotX(float x)
 	{
-		getTransform()->setRotX(glm::radians(rot.x));
-		getTransform()->setRotY(glm::radians(rot.y));
-		getTransform()->setRotZ(glm::radians(rot.z));
-		updateModelMatrix();
+		vec3 v = getRot();
+		SetRot(x, v.y, v.z);
 	}
 
-
-
-
-	glm::vec3 Entity2::GetPos(glm::mat4 mat)
+	void Entity2::SetRotY(float y)
 	{
-		return glm::vec3(mat[3][0], mat[3][1], mat[3][2]);
+		vec3 v = getRot();
+		SetRot(v.x, y, v.z);
 	}
 
-	glm::vec3 Entity2::GetRot(glm::mat4 mat)
+	void Entity2::SetRotZ(float z)
 	{
-		return ToEulerRad(GetRotationByMatrix(mat));
+		vec3 v = getRot();
+		SetRot(v.x, v.y, z);
 	}
-	glm::quat Entity2::GetRotationByMatrix(glm::mat4 mat)
+
+	void Entity2::SetRot(float x, float y, float z)
 	{
-		glm::vec3 s = GetScale(mat);
+		SetRot(vec3(x, y, z));
+	}
 
-		float m00 = mat[0].x / s.x;
-		float m01 = mat[0].y / s.y;
-		float m02 = mat[0].z / s.z;
-		float m10 = mat[1].x / s.x;
-		float m11 = mat[1].y / s.y;
-		float m12 = mat[1].z / s.z;
-		float m20 = mat[2].x / s.x;
-		float m21 = mat[2].y / s.y;
-		float m22 = mat[2].z / s.z;
+	void Entity2::SetScale(glm::vec3 v)
+	{
+		getTransform()->setScl(v);
+	}
 
-		glm::quat q = glm::quat();
-		q.w = glm::sqrt(glm::max(0.f, 1.f + m00 + m11 + m22)) / 2.f;
-		q.x = glm::sqrt(glm::max(0.f, 1.f + m00 - m11 - m22)) / 2.f;
-		q.y = glm::sqrt(glm::max(0.f, 1.f - m00 + m11 - m22)) / 2.f;
-		q.z = glm::sqrt(glm::max(0.f, 1.f - m00 - m11 + m22)) / 2.f;
-		q.x *= glm::sign(q.x * (m21 - m12));
-		q.y *= glm::sign(q.y * (m02 - m20));
-		q.z *= glm::sign(q.z * (m10 - m01));
+	void Entity2::SetScale(float x, float y)
+	{
+		SetScale(vec3(x, y, getScale().z));
+	}
 
-		float qMagnitude = glm::sqrt(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
-		q.w /= qMagnitude;
-		q.x /= qMagnitude;
-		q.y /= qMagnitude;
-		q.z /= qMagnitude;
+	void Entity2::SetScale(float x, float y, float z)
+	{
+		SetScale(vec3(x, y, z));
+	}
 
-		return q;
+	void Entity2::SetScaleAllSame(float v)
+	{
+		SetScale(vec3(v, v, v));
+	}
+
+	void Entity2::SetScaleMulty(float v)
+	{
+		vec3 s = getScale();
+		SetScale(s.x * v, s.y * v, s.z * v);
+	}
+
+	glm::vec3 Entity2::getPos()
+	{
+		return getTransform()->getpos();
+	}
+
+	glm::vec3 Entity2::getRot()
+	{
+		return getTransform()->getrot();
+	}
+
+	glm::vec3 Entity2::getScale()
+	{
+		return getTransform()->getscl();
+	}
+
+	glm::vec3 Entity2::GetUp()
+	{
+		return getTransform()->getUp();
+	}
+
+	glm::vec3 Entity2::GetFront()
+	{
+		return getTransform()->getForward();
+	}
+
+	glm::vec3 Entity2::GetRight()
+	{
+		return getTransform()->getRight();
+	}
+
+	void Entity2::SetMatrix(glm::mat4 mat)
+	{
+		getTransform()->setMatrix(mat);
 	}
 
 	Entity2* Entity2::GetNode(std::string nodeName)
@@ -176,81 +175,16 @@ namespace JuliEngine
 		return nullptr;
 	}
 
-
-	glm::vec3 Entity2::GetScale(glm::mat4 mat)
-	{
-		glm::vec4 m0 = glm::vec4(mat[0].x, mat[0].y, mat[0].z, mat[0].w);
-		glm::vec4 m1 = glm::vec4(mat[1].x, mat[1].y, mat[1].z, mat[1].w);
-		glm::vec4 m2 = glm::vec4(mat[2].x, mat[2].y, mat[2].z, mat[2].w);
-		return glm::vec3(glm::length(m0), glm::length(m1), glm::length(m2));
-
-	}
-
-	glm::vec3 Entity2::ToEulerRad(glm::quat rot)
-	{
-		float sqw = rot.w * rot.w;
-		float sqx = rot.x * rot.x;
-		float sqy = rot.y * rot.y;
-		float sqz = rot.z * rot.z;
-		float unit = sqx + sqy + sqz + sqw;
-		float test = rot.x * rot.w - rot.y * rot.z;
-
-		glm::vec3 v = glm::vec3();
-
-		if (test > 0.4995f * unit)
-		{
-			v.y = 2.f * atan2(rot.y, rot.x);
-			v.x = glm::pi<float>() / 2.f;
-			v.z = 0.f;
-
-			return NormalizeAngles(v * 57.29578f);
-		}
-		if (test < -0.4995f * unit)
-		{
-			v.y = -2.f * atan2(rot.y, rot.x);
-			v.x = -glm::pi<float>() / 2.f;
-			v.z = 0.f;
-
-			return NormalizeAngles(v * 57.29578f);
-		}
-
-		glm::vec4 q = glm::vec4(rot.w, rot.z, rot.x, rot.y);
-		v.y = atan2(2.f * q.x * q.w + 2.f * q.y * q.z, 1.f - 2.f * (q.z * q.z + q.w * q.w));
-		v.x = asin(2.f * (q.x * q.z - q.w * q.y));
-		v.z = atan2(2.f * q.x * q.y + 2.f * q.z * q.w, 1.f - 2.f * (q.y * q.y + q.z * q.z));
-
-		return NormalizeAngles(v * 57.29578f);
-	}
-
-	glm::vec3 Entity2::NormalizeAngles(glm::vec3 angles)
-	{
-		angles.x = NormalizeAngle(angles.x);
-		angles.y = NormalizeAngle(angles.y);
-		angles.z = NormalizeAngle(angles.z);
-
-		return angles;
-	}
-
-	float Entity2::NormalizeAngle(float angle)
-	{
-		while (angle > 360.f)
-			angle -= 360.f;
-		while (angle < 0.f)
-			angle += 360.f;
-
-		return angle;
-	}
-
 	void Entity2::DebugInfo()
 	{
 		cout << endl << "-----ExampleDebugInfoEntity2------" << endl;
 		Transform* transform = getTransform();
-		cout << "pos: " + VecToString::vec3toString(transform->getposition())		<< std::endl;
-		cout << "rot: " + VecToString::vec3toString(transform->geteulerAngles())		<< std::endl;
-		cout << "sca: " + VecToString::vec3toString(transform->getlocalScale())		<< std::endl;
-		cout << "for: " + VecToString::vec3toString(transform->getForward())			<< std::endl;
-		cout << "up:  " + VecToString::vec3toString(transform->getUp())				<< std::endl;
-		cout << "rig: " + VecToString::vec3toString(transform->getRight())			<< std::endl;
+		cout << "pos: " + VecToString::vec3toString(transform->getpos())		<< std::endl;
+		cout << "rot: " + VecToString::vec3toString(transform->getrot())		<< std::endl;
+		cout << "sca: " + VecToString::vec3toString(transform->getscl())		<< std::endl;
+		cout << "for: " + VecToString::vec3toString(transform->getForward())	<< std::endl;
+		cout << "up:  " + VecToString::vec3toString(transform->getUp())			<< std::endl;
+		cout << "rig: " + VecToString::vec3toString(transform->getRight())		<< std::endl;
 	}
 	void Entity2::Update()
 	{
@@ -284,35 +218,60 @@ namespace JuliEngine
 	{
 		this->children.push_back(children);
 	}
-	void Entity2::setDraw()
+	void Entity2::draw()
 	{
-		drawThisFrame = false;
-
-		for (int i = 0; i < getChildren().size(); i++)
+		if (volume!=NULL && meshes.size() > 0)
 		{
-			//al child le paso la matriz del padere, para que en la proxima valor de i, ya se pase la posicion actualizada.
-			getChildren()[i]->setWorldModelWithParentModel(getTransform()->getWorldModel());
-			//con la nueva posicion del padre, se hace recursiva esta funcion en cada hijo, hasta no tener hijo.
-			getChildren()[i]->setDraw();
-			//una vez que llege al ultimo hijo, se comienza a actualizar el aabb.
-			addBoundsToAABB(getChildren()[i]->getLocalAABB());
-		}
-		//despues de actualizar los aabb y las posiciones procede a dibujarse siempre que se encuentre en el frustrum.
-		if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getWorldModel()))
-		{
+			cout << "Si" << endl;
 			drawThisFrame = true;
-			draw();
 		}
-		if (children.size()>0)
+		if (drawThisFrame && volume != NULL && volume->isOnFrustum(getTransform()->getModel()))
 		{
-			for (int i = 0; i < children.size(); i++)
-				if (children[i]->drawThisFrame)
+			if (meshes.size() > 0)
+			{
+				_renderer->UpdateModel(getTransform()->getModel());
+
+				for (int i = 0; i < meshes.size(); i++)
 				{
-					drawThisFrame = true;
-					break;
+					_renderer->drawMesh(meshes[i]->vertexs, meshes[i]->indexes, meshes[i]->textures, meshes[i]->VAO, _color);
 				}
+			}
+
+			for (int i = 0; i < children.size(); i++)
+			{
+				children[i]->draw();
+			}
 		}
 	}
+	//void Entity2::setDraw()
+	//{
+	//	drawThisFrame = false;
+	//
+	//	for (int i = 0; i < getChildren().size(); i++)
+	//	{
+	//		//al child le paso la matriz del padere, para que en la proxima valor de i, ya se pase la posicion actualizada.
+	//		getChildren()[i]->setWorldModelWithParentModel(getTransform()->getWorldModel());
+	//		//con la nueva posicion del padre, se hace recursiva esta funcion en cada hijo, hasta no tener hijo.
+	//		getChildren()[i]->setDraw();
+	//		//una vez que llege al ultimo hijo, se comienza a actualizar el aabb.
+	//		addBoundsToAABB(getChildren()[i]->getLocalAABB());
+	//	}
+	//	//despues de actualizar los aabb y las posiciones procede a dibujarse siempre que se encuentre en el frustrum.
+	//	if (!drawThisFrame && meshes.size() > 0 && volume!=NULL && volume->isOnFrustum(getTransform()->getWorldModel()))
+	//	{
+	//		drawThisFrame = true;
+	//		draw();
+	//	}
+	//	if (children.size()>0)
+	//	{
+	//		for (int i = 0; i < children.size(); i++)
+	//			if (children[i]->drawThisFrame)
+	//			{
+	//				drawThisFrame = true;
+	//				break;
+	//			}
+	//	}
+	//}
 	void Entity2::Init()
 	{
 		for (int i = 0; i < children.size(); i++)
@@ -320,12 +279,6 @@ namespace JuliEngine
 			children[i]->Init();
 		}
 		generateAABB();
-	}
-	void Entity2::setWorldModelWithParentModel(glm::mat4 parentModel)
-	{
-		getTransform()->setParentModel(parentModel);
-
-		updateModelMatrix();
 	}
 
 	void Entity2::generateAABB()
@@ -353,20 +306,6 @@ namespace JuliEngine
 			}
 
 			volume = new JuliEngine::aabb(minAABB, maxAABB);
-		}
-	}
-
-	void Entity2::updateModelMatrix()
-	{
-			getTransform()->updateLocalModelMatrix();
-		if (getParent() != NULL)
-		{
-			getTransform()->setLocalModel(getTransform()->getLocalModel());
-			getTransform()->setWorldModel(getTransform()->getParentModel() * getTransform()->getLocalModel());
-		}
-		else
-		{
-			getTransform()->setWorldModel(getTransform()->getLocalModel());
 		}
 	}
 
@@ -404,12 +343,5 @@ namespace JuliEngine
 	vector<glm::vec3> Entity2::getLocalAABB()
 	{
 		return localAABB;
-	}
-	void Entity2::draw()
-	{
-		_renderer->UpdateMVP(getTransform()->getWorldModel());
-
-		for (int i = 0; i < meshes.size(); i++)
-			meshes[i]->Draw();
 	}
 }

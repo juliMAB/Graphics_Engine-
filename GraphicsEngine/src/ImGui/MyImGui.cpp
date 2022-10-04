@@ -172,7 +172,7 @@ void baseEntity2Edit(Entity2* it)
         if (ImGui::SliderFloat3(("pos "+(it)->getName()).c_str(), (float*)&pos, -15.0f, 15.0f))
             (it)->SetPos(pos);
         if (ImGui::SliderFloat3(("rot "+(it)->getName()).c_str(), (float*)&rot, -180.0f, 180.0f))
-            (it)->SetRotations(rot);
+            (it)->SetRot(rot);
         if (ImGui::SliderFloat3(("scl "+(it)->getName()).c_str(), (float*)&scale, -0.0f, 3.0f))
             (it)->SetScale(scale);
         if (ImGui::ColorEdit3(("clo " + (it)->getName()).c_str(), (float*)&color))

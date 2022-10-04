@@ -34,7 +34,7 @@ namespace JuliEngine
 				}
 			}
 			if (dibujable)
-				(*it2)->setDraw();
+				(*it2)->draw();
 		}
 	}
 
