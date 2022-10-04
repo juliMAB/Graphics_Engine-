@@ -18,31 +18,33 @@ namespace JuliEngine
 		////------------------
 		////----SetPos--------
 		void SetPos(glm::vec3 pos);
-		void SetPos(float x, float y, float z);
-		void SetPos(float x, float y);
-		void SetPos(glm::vec2 pos);
+		void SetPos(float x, float y, float z)	{SetPos(vec3(x	   , y    , z		  )); }
+		void SetPos(float x, float y)			{SetPos(vec3(x	   , y    , getPos().z)); }
+		void SetPos(glm::vec2 pos)				{SetPos(vec3(pos.x, pos.y, getPos().z)); }
 		////------------------
 		////----SetRot--------
-		void SetRot(glm::vec3 rot);
-		void SetRotX(float x);
-		void SetRotY(float y);
-		void SetRotZ(float z);
-		void SetRot(float x, float y, float z);
+		void SetRotations(glm::vec3 rotation);
+		void SetRotX(float x)					 {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(x, a.y, a.z)); }
+		void SetRotY(float y)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, y, a.z)); }
+		void SetRotZ(float z)                    {vec3 a = getTransform()->geteulerAngles(); SetRotations(vec3(a.x, a.y, z)); }
+		void SetRotations(float x, float y, float z)								  { SetRotations(vec3(x, y, z));	 }
+		void setRotX(float x);
 		
 		////------------------
 		////----SetScale------
 		void SetScale(glm::vec3 v);
-		void SetScale(float x, float y);
-		void SetScale(float x, float y, float z);
-		void SetScaleAllSame(float v);
-		void SetScaleMulty(float v);
+		void SetScale(float x, float y)			 { SetScale(vec3(x, y, getScale().z	)); }
+		void SetScale(float x, float y, float z) { SetScale(vec3(x, y, z));				}
+		void SetScaleAllSame(float v)			 { SetScale(v, v, v);					}
+		void SetScaleMulty(float v)				 { vec3 a = getScale(); SetScale(a.x * v,a.y*v,a.z*v); }
 		////----Getters-------
-		glm::vec3 getPos()		;
-		glm::vec3 getRot()		;
-		glm::vec3 getScale()	;
-		glm::vec3 GetUp()		;
-		glm::vec3 GetFront()	;
-		glm::vec3 GetRight()	;
+		glm::vec3 getPos()		{ return getTransform()->getposition   (); }
+		glm::vec3 getGlobPos()  { return getTransform()->getMatPos     (); }
+		glm::vec3 getRot()		{ return getTransform()->geteulerAngles(); }
+		glm::vec3 getScale()	{ return getTransform()->getlocalScale (); }
+		glm::vec3 GetUp()		{ return getTransform()->getUp		   (); }
+		glm::vec3 GetFront()	{ return getTransform()->getForward	   (); }
+		glm::vec3 GetRight()	{ return getTransform()->getRight	   (); }
 		Renderer* getRender()	{ return _renderer; }
 		////---other---
 		vec3 getColor() { return _color; };
@@ -50,11 +52,14 @@ namespace JuliEngine
 		{ 
 			_color = v; _renderer->UpdateColor(_uniformColor, _color); 
 		};
+		void SetRotRadian(glm::vec3 rot);
 		void SetMatrix(glm::mat4 mat);
 
 		void DebugInfo();
+		glm::vec3 GetPosGlobalMat();
 		void AddChildren(Entity2* children);
 		void Update();
+		void SetRot(glm::vec3 rot);
 		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
 		Model* getModelPtr() { return _modelPtr; };
 		aabb* getVolume() { return volume; }
@@ -62,13 +67,22 @@ namespace JuliEngine
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
 
+
+		mat4 getGlobMat(Entity2* parent);
+		mat4 getGlobMat();
 		void SetMeshes(vector<Mesh*> meshes);
 		void AddMesh(Mesh* mesh) { this->meshes.push_back(mesh); };
 		void SetParent(Entity2* parent);
 		void setChildren(vector<Entity2*> children);
-		//void setDraw();
+		void setDraw();
 		void Init();
-
+		glm::vec3 GetPos(glm::mat4 mat);
+		glm::quat GetRotationByMatrix(glm::mat4 mat);
+		glm::vec3 GetRot(glm::mat4 mat);
+		glm::vec3 ToEulerRad(glm::quat rot);
+		glm::vec3 GetScale(glm::mat4 mat);
+		float NormalizeAngle(float angle);
+		glm::vec3 NormalizeAngles(glm::vec3 angles);
 		vector<Entity2*> getChildren() { return children; };
 		Entity2* getParent() { return parent; };
 		vector<Mesh*> getMeshes() { return meshes; };
@@ -77,8 +91,6 @@ namespace JuliEngine
 
 		void generateAABB();
 		bool canDrawThisFrame();
-
-		void draw();
 	private:
 		friend class MyImGui;
 	protected:
@@ -98,14 +110,25 @@ namespace JuliEngine
 		uint _locationTexCoord;
 		uint _uniformColor;
 
+
 		virtual void SetUniforms();
 
+
+		
+
+		void setWorldModelWithParentModel(glm::mat4 parentModel);
+
+		
+
+		void updateModelMatrix();
 
 		void addBoundsToAABB(vector<glm::vec3> childAABB);
 
 		vector<glm::vec3> getLocalAABB();
 
-		
+		void draw();
+
+		//void updateAABBPositions();
 
 
 		vector<Entity2*> children;
