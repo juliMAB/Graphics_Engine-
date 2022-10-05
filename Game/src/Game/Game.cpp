@@ -205,7 +205,7 @@ void Game::Update()
 	LightsUpdate();
 	processInput();
 	JuliEngine::OcclusionCulling::Update();
-
+	
 }
 void Game::Draw() {
 	_bsp->Draw();

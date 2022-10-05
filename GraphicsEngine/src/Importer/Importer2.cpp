@@ -37,11 +37,6 @@ namespace JuliEngine
     {
         Entity2* entityNode = nullptr;
         std::string name = node->mName.C_Str();
-        cout << name << endl;
-        if (name == ("Tanke1"))
-        {
-            cout << name << endl;
-        }
 
         if (name.find("$AssimpFbx$") != std::string::npos)
         {
@@ -106,10 +101,6 @@ namespace JuliEngine
         for (uint i = 0; i < node->mNumChildren; i++)
         {
             ProcessNode(entityNode, mat, node->mChildren[i], scene);
-        }
-        if (name == "Tanke")
-        {
-            cout << "a" << endl;
         }
         if (entityNode != nullptr)
         {

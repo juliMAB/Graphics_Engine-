@@ -319,10 +319,6 @@ namespace JuliEngine
 		{
 			children[i]->Init();
 		}
-		if (getName()== "Tanke")
-		{
-			cout << "e" << endl;
-		}
 			generateAABB();
 	}
 	void Entity2::setWorldModelWithParentModel(glm::mat4 parentModel)

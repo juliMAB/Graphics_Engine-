@@ -47,11 +47,17 @@ namespace JuliEngine
 	{
 		for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
 		{
-			if (AskBox((*it), e))
+			bool dibujar = true;
+			if (!AskBox((*it), e))
+			{
+				dibujar = false;
+				break;
+			}
+			if (dibujar)
 			{
 				if (e->getMeshes().size() > 0)
 					e->draw();
-				if (e->getChildren().size()>0)
+				if (e->getChildren().size() > 0)
 				{
 					for (int i = 0; i < e->getChildren().size(); i++)
 					{
