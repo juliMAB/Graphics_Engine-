@@ -81,8 +81,12 @@ void Game::Init() {
 	JuliEngine::Entity2* wantedNode2 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke2");
 	JuliEngine::Entity2* wantedNode3 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke3");
 	JuliEngine::Entity2* wantedNode4 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke4");
-	JuliEngine::Entity2* wantedNodeBsp = _entity3dScene->model->GetBaseNode()->GetNode("bsp");
-	
+	JuliEngine::Entity2* wantedNodeBsp1 = _entity3dScene->model->GetBaseNode()->GetNode("bsp1");
+	JuliEngine::Entity2* wantedNodeBsp2 = _entity3dScene->model->GetBaseNode()->GetNode("bsp2");
+	JuliEngine::Entity2* wantedNodeBsp3 = _entity3dScene->model->GetBaseNode()->GetNode("bsp3");
+	planos.push_back(wantedNodeBsp1);
+	planos.push_back(wantedNodeBsp2);
+	planos.push_back(wantedNodeBsp3);
 	tankesitos.push_back(wantedNode);
 	tankesitos.push_back(wantedNode1);
 	tankesitos.push_back(wantedNode2);
@@ -94,11 +98,6 @@ void Game::Init() {
 		_modeloTanke = new JuliEngine::Model(GetRenderer());
 		_modeloTanke->SetBaseNode(wantedNode);
 	}
-	if (wantedNodeBsp!= nullptr)
-	{
-		_b = wantedNodeBsp;
-	}
-
 	if (_modeloTanke == nullptr)
 	{
 		_modeloTanke = _entity3dScene->model;
@@ -186,7 +185,11 @@ void Game::Init() {
 	_bsp->AddEntity(wantedNode1);
 	_bsp->AddEntity(wantedNode2);
 	_bsp->AddEntity(wantedNode3);
-	_bsp->AddPlane(wantedNodeBsp);
+	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
+	{
+		_bsp->AddPlane((*it));
+	}
+	
 
 	_renderer->SetBackgroundColor(vec4((float)(255.f/255.f), (float)(192.f/255.f), (float)(203.f/255.f),0.5f));
 }
@@ -202,9 +205,12 @@ void Game::Update()
 	LightsUpdate();
 	processInput();
 	JuliEngine::OcclusionCulling::Update();
+
 }
 void Game::Draw() {
 	_bsp->Draw();
+	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
+		(*it)->setDraw();
 	//_modeloTanke->GetBaseNode()->setDraw();
 	//for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
 	//	if((*it)!= nullptr)
@@ -231,8 +237,23 @@ void Game::LightsUpdate()
 }
 void Game::processInput()
 {
-	glm::vec3 a(0);
+	vec3 z(0);
+	if (Input::IsKeyPressed(Input::KEY_U))
+		z += _cam->GetFront();
+	if (Input::IsKeyPressed(Input::KEY_J))
+		z -= _cam->GetFront();
+	if (Input::IsKeyPressed(Input::KEY_H))
+		z -= _cam->GetRight();
+	if (Input::IsKeyPressed(Input::KEY_K))
+		z += _cam->GetRight();
+	if (Input::IsKeyPressed(Input::KEY_Y))
+		z += _cam->GetUp();
+	if (Input::IsKeyPressed(Input::KEY_I))
+		z -= _cam->GetUp();
+	_cam->Move(z * _time->_deltaTime*speed);
 
+
+	glm::vec3 a(0);
 	if (Input::IsKeyPressed(Input::KEY_W))
 		a += _a->GetFront();
 	if (Input::IsKeyPressed(Input::KEY_S))
@@ -258,19 +279,21 @@ void Game::processInput()
 
 	if (Input::IsKeyDown(Input::KEY_UP))
 		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
-			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.end())
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.begin())
 			{
 				it2--;
 				_a = *it2;
 			}
 	if (Input::IsKeyDown(Input::KEY_DOWN))
 		for (std::list<JuliEngine::Entity2*>::iterator it2 = JuliEngine::Entity2::EntitysLists.begin(); it2 != JuliEngine::Entity2::EntitysLists.end(); ++it2)
-			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.begin())
+			if (*it2 == _a && it2 != JuliEngine::Entity2::EntitysLists.end())
 			{
-				it2--;
+				it2++;
 				_a = *it2;
 			}
 	glm::vec3 b(0);
+	if (_b!=nullptr)
+	{
 
 	if (Input::IsKeyDown(Input::KEY_0))
 		b += _b->GetRight();
@@ -279,5 +302,6 @@ void Game::processInput()
 	_b->Move(b * _time->_deltaTime * speed);
 	if (Input::IsKeyDown(Input::KEY_2))
 		_b->DebugInfo();
+	}
 		//cout <<"x: "  << _b->getPos().x << " y: " << _b->getPos().y << " z: " << _b->getPos().z << endl;;
 }

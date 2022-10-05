@@ -13,6 +13,7 @@ class Game : BaseGame {
 	JuliEngine::Entity2* _a;
 	JuliEngine::Entity2* _b;
 	list <JuliEngine::Entity2*> tankesitos;
+	list <JuliEngine::Entity2*> planos;
 	//JuliEngine::Entity3D* _entity3d;
 	JuliEngine::Entity3D* _entity3dScene;
 	JuliEngine::Model* _modeloTanke;

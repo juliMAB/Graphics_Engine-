@@ -10,7 +10,10 @@ namespace JuliEngine
 		aabb();
 		aabb(glm::vec3 min, glm::vec3 max);
 		aabb(glm::vec3 center, float extX, float extY, float extZ);
+		void update(glm::vec3 min, glm::vec3 max);
 		~aabb();
+
+		aabb getGlobalVolume(glm::mat4 worldModel);
 
 		bool isOnFrustum(glm::mat4 worldModel) override;
 

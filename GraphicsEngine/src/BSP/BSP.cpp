@@ -24,6 +24,10 @@ namespace JuliEngine
 	{
 		for (std::list<Entity2*>::iterator it2 = entities.begin(); it2 != entities.end(); ++it2)
 		{
+			if ((*it2)!=nullptr)
+			{
+				(*it2)->setTransformations();
+			}
 			bool dibujable = true;
 			for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
 			{
@@ -35,20 +39,34 @@ namespace JuliEngine
 				}
 			}
 			if (dibujable)
-				(*it2)->setDraw();
+				DrawOnlyEntity(*it2);
+		}
+	}
+
+	void BSP::DrawOnlyEntity(Entity2* e)
+	{
+		for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
+		{
+			if (AskBox((*it), e))
+			{
+				if (e->getMeshes().size() > 0)
+					e->draw();
+				if (e->getChildren().size()>0)
+				{
+					for (int i = 0; i < e->getChildren().size(); i++)
+					{
+						DrawOnlyEntity(e->getChildren()[i]);
+					}
+				}
+			}
 		}
 	}
 
 	bool BSP::AskBox(plane* plan, Entity2* entity)
 	{
-		if (entity->getVolume() == nullptr)
-		{
-			return false;
-			cout << "esta entidad no tiene volumen: " + entity->getName() << endl;
-		}
 		bool sameSide=false;
-		vec3 center = entity->getVolume()->center;
-		vec3 extend = entity->getVolume()->extents;
+		vec3 center = entity->getVolume()->getGlobalVolume(entity->getTransform()->getWorldModel()).center;
+		vec3 extend = entity->getVolume()->getGlobalVolume(entity->getTransform()->getWorldModel()).extents;
 		vec3 extremo[8] = {
 			center + vec3(extend.x,extend.y,extend.z),
 			center + vec3(extend.x,extend.y,-extend.z),
@@ -92,7 +110,8 @@ namespace JuliEngine
 	{
 		if (entity->getName().find("bsp") != std::string::npos)
 		{
-			plane* plan = new JuliEngine::plane(entity->GetFront(), entity->getPos());
+			glm::vec3 forward = normalize(entity->GetUp());
+			plane* plan = new JuliEngine::plane(forward, entity->getPos());
 			planes.push_back(plan);
 		}
 	}

@@ -355,8 +355,55 @@ namespace JuliEngine
 					maxAABB.z = glm::max(maxAABB.z, vertex.Position.z);
 				}
 			}
-
 			volume = new JuliEngine::aabb(minAABB, maxAABB);
+			originVolume = new JuliEngine::aabb(minAABB, maxAABB);
+		}
+	}
+	void Entity2::updateAABBWithChildren(Entity2* child)
+	{
+		if (child->getVolume() != NULL)
+		{
+			JuliEngine::aabb* childVolume = child->getVolume();
+
+			glm::vec3 minAABB = glm::vec3(std::numeric_limits<float>::max());
+			glm::vec3 maxAABB = glm::vec3(std::numeric_limits<float>::min());
+
+			if (volume != NULL)
+			{
+				minAABB.x = glm::min(volume->min.x, childVolume->min.x);
+				minAABB.y = glm::min(volume->min.y, childVolume->min.y);
+				minAABB.z = glm::min(volume->min.z, childVolume->min.z);
+
+				maxAABB.x = glm::max(volume->max.x, childVolume->max.x);
+				maxAABB.y = glm::max(volume->max.y, childVolume->max.y);
+				maxAABB.z = glm::max(volume->max.z, childVolume->max.z);
+
+				volume->update(minAABB, maxAABB);
+			}
+			else
+			{
+				volume = new JuliEngine::aabb(childVolume->min, childVolume->max);
+			}
+		}
+		//else
+		//{
+		//	child->updateAABBWithChildren();
+		//}
+	}
+
+	void Entity2::setTransformations()
+	{
+		if (meshes.size() > 0)
+		{
+			volume->update(originVolume->min, originVolume->max);
+		}
+
+		for (int i = 0; i < getChildren().size(); i++)
+		{
+			children[i]->setWorldModelWithParentModel(getTransform()->getWorldModel());
+			children[i]->setTransformations();
+
+			updateAABBWithChildren(children[i]);
 		}
 	}
 

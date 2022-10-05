@@ -63,6 +63,7 @@ namespace JuliEngine
 		void setModelPtr(Model* ptr) { _modelPtr = ptr; };
 		Model* getModelPtr() { return _modelPtr; };
 		aabb* getVolume() { return volume; }
+		aabb* getGlobalVolume() { return volume; }
 		void setVolume(aabb* vol) { volume = vol; }
 
 		void Move(vec3 v) { SetPos(getPos() + v); };
@@ -90,7 +91,11 @@ namespace JuliEngine
 		Entity2* GetNode(std::string nodeName, std::string data);
 
 		void generateAABB();
+		void updateAABBWithChildren(Entity2* child);
+		void setTransformations();
 		bool canDrawThisFrame();
+
+		void draw();
 	private:
 		friend class MyImGui;
 	protected:
@@ -105,6 +110,8 @@ namespace JuliEngine
 		bool drawThisFrame;
 
 		JuliEngine::aabb* volume;
+		JuliEngine::aabb* originVolume;
+
 		uint _locationPosition;
 		uint _locationNormal;
 		uint _locationTexCoord;
@@ -126,7 +133,7 @@ namespace JuliEngine
 
 		vector<glm::vec3> getLocalAABB();
 
-		void draw();
+		
 
 		//void updateAABBPositions();
 
