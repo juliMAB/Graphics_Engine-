@@ -12,6 +12,7 @@ class Game : BaseGame {
 	//Sprite* _Wall1;
 	JuliEngine::Entity2* _a;
 	JuliEngine::Entity2* _b;
+	list <JuliEngine::Entity2*> tankesitos;
 	//JuliEngine::Entity3D* _entity3d;
 	JuliEngine::Entity3D* _entity3dScene;
 	JuliEngine::Model* _modeloTanke;

@@ -67,6 +67,8 @@ public:
 	void ClearScreen();
 	void PostRender(Window* window);
 	void CleanTexture();
+	void UseTexture(bool v);
+	void UseMaterial(bool v);
 	void UseTexture(int number, uint id);
 	void TextureEnable(uint textureId);
 	void TextureEnableDiffuse(uint textureId);

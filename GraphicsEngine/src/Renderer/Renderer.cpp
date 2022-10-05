@@ -206,6 +206,9 @@ void Renderer::UpdateColor(uint uniformBaseColor, uint uniformAlpha, glm::vec4 b
 void Renderer::UpdateColor(uint uniformBaseColor, glm::vec3 baseColor)
 {
 	glUniform3fv(uniformBaseColor, 1, glm::value_ptr(glm::vec3(baseColor.r, baseColor.g, baseColor.b)));
+	uint a;
+	SetUniform(a,"a");
+	UpdateFloatValue(a, 1);
 }
 void Renderer::UpdateBoolValue(uint uniformStatus, bool status)
 {
@@ -310,6 +313,18 @@ void Renderer::PostRender(Window* window)
 void Renderer::CleanTexture()
 {
 	glActiveTexture(GL_TEXTURE0);
+}
+void Renderer::UseTexture(bool v)
+{
+	uint a;
+	SetUniform(a, "useTexture");
+	UpdateBoolValue(a, v);
+}
+void Renderer::UseMaterial(bool v)
+{
+	uint a;
+	SetUniform(a, "useMaterial");
+	UpdateBoolValue(a, v);
 }
 void Renderer::UseTexture(int number, uint id)
 {

@@ -16,6 +16,8 @@ namespace JuliEngine
 
 		glm::vec3 center;
 		glm::vec3 extents;
+		glm::vec3 min;
+		glm::vec3 max;
 		bool isOnPlane(plane plane) override;
 	private:
 	};

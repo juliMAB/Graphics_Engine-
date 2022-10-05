@@ -57,7 +57,6 @@ namespace JuliEngine
 	void Shape::Draw()
 	{
 		_renderer->UseShader();
-		_renderer->UpdateColor(_uniformColor, _color);
 		Entity2D::Draw();
 		_renderer->CleanShader();
 	}

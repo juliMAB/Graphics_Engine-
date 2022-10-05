@@ -78,8 +78,17 @@ void Game::Init() {
 	//_entity3d->model->GetBaseNode()->Init();
 	JuliEngine::Entity2* wantedNode = _entity3dScene->model->GetBaseNode()->GetNode("Tanke");
 	JuliEngine::Entity2* wantedNode1 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke1");
+	JuliEngine::Entity2* wantedNode2 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke2");
+	JuliEngine::Entity2* wantedNode3 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke3");
+	JuliEngine::Entity2* wantedNode4 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke4");
 	JuliEngine::Entity2* wantedNodeBsp = _entity3dScene->model->GetBaseNode()->GetNode("bsp");
 	
+	tankesitos.push_back(wantedNode);
+	tankesitos.push_back(wantedNode1);
+	tankesitos.push_back(wantedNode2);
+	tankesitos.push_back(wantedNode3);
+	tankesitos.push_back(wantedNode4);
+	//tankesitos.push_back(wantedNodeBsp);
 	if (wantedNode != nullptr)
 	{
 		_modeloTanke = new JuliEngine::Model(GetRenderer());
@@ -89,9 +98,7 @@ void Game::Init() {
 	{
 		_b = wantedNodeBsp;
 	}
-	//_modeloTanke = _entity3dScene->model;
-	//_entity3d->model->GetBaseNode()->SetPos(0, 0, 5);
-	//_modeloTanke->GetBaseNode()->Init();
+
 	if (_modeloTanke == nullptr)
 	{
 		_modeloTanke = _entity3dScene->model;
@@ -173,11 +180,13 @@ void Game::Init() {
 	_a = _cam;
 
 
-	//_bsp->AddEntity(wantedNode);
 	//_bsp->AddEntity(wantedNode1);
 	
-
-	//_bsp->AddPlane(wantedNodeBsp);
+	_bsp->AddEntity(wantedNode);
+	_bsp->AddEntity(wantedNode1);
+	_bsp->AddEntity(wantedNode2);
+	_bsp->AddEntity(wantedNode3);
+	_bsp->AddPlane(wantedNodeBsp);
 
 	_renderer->SetBackgroundColor(vec4((float)(255.f/255.f), (float)(192.f/255.f), (float)(203.f/255.f),0.5f));
 }
@@ -195,11 +204,15 @@ void Game::Update()
 	JuliEngine::OcclusionCulling::Update();
 }
 void Game::Draw() {
-	_modeloTanke->GetBaseNode()->setDraw();
+	_bsp->Draw();
+	//_modeloTanke->GetBaseNode()->setDraw();
+	//for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
+	//	if((*it)!= nullptr)
+	//		(*it)->setDraw();
 	//_modeltest2->GetBaseNode()->setDraw();
 	//_bsp->Draw();
-	for (int i = 0; i < 4; i++)
-		_lightcubes[i]->Draw();
+	//for (int i = 0; i < 4; i++)
+		//_lightcubes[i]->Draw();
 
 }
 void Game::UpdateImgui()

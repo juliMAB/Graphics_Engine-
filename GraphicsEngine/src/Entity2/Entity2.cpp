@@ -128,9 +128,9 @@ namespace JuliEngine
 
 		float qMagnitude = glm::sqrt(q.w * q.w + q.x * q.x + q.y * q.y + q.z * q.z);
 		q.w /= qMagnitude;
-		q.x /= qMagnitude;
-		q.y /= qMagnitude;
-		q.z /= qMagnitude;
+		q.x /= qMagnitude*-1;
+		q.y /= qMagnitude*-1;
+		q.z /= qMagnitude*-1;
 
 		return q;
 	}
@@ -319,7 +319,11 @@ namespace JuliEngine
 		{
 			children[i]->Init();
 		}
-		generateAABB();
+		if (getName()== "Tanke")
+		{
+			cout << "e" << endl;
+		}
+			generateAABB();
 	}
 	void Entity2::setWorldModelWithParentModel(glm::mat4 parentModel)
 	{

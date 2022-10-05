@@ -27,6 +27,7 @@ namespace JuliEngine
 			bool dibujable = true;
 			for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
 			{
+				//(*it)->setDraw();
 				if (!AskBox((*it), (*it2)))
 				{
 					dibujable = false;

@@ -107,6 +107,14 @@ namespace JuliEngine
         {
             ProcessNode(entityNode, mat, node->mChildren[i], scene);
         }
+        if (name == "Tanke")
+        {
+            cout << "a" << endl;
+        }
+        if (entityNode != nullptr)
+        {
+            entityNode->Init();
+        }
 
         if (name.find("$AssimpFbx$") == std::string::npos)
         {
