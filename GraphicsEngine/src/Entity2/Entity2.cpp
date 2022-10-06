@@ -284,6 +284,37 @@ namespace JuliEngine
 	{
 		this->children.push_back(children);
 	}
+
+	void Entity2::UpdateAABB()
+	{
+		for (int i = 0; i < getChildren().size(); i++)
+		{
+			getChildren()[i]->UpdateAABB();
+		}
+		if (getVolume()!=nullptr)
+		{
+
+		
+		vec3 center = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).center;
+		vec3 extend = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).extents;
+		vector<vec3> extremo = {
+			center + vec3(extend.x,extend.y,extend.z),
+			center + vec3(extend.x,extend.y,-extend.z),
+			center + vec3(extend.x,-extend.y,extend.z),
+			center + vec3(-extend.x,extend.y,extend.z),
+			center + vec3(extend.x,-extend.y,-extend.z),
+			center + vec3(-extend.x,-extend.y,extend.z),
+			center + vec3(-extend.x,extend.y,-extend.z),
+			center + vec3(-extend.x,-extend.y,-extend.z),
+		};
+		localAABB.clear();
+			for (int i = 0; i < extremo.size(); i++)
+			{
+				localAABB.push_back(extremo[i]);
+				cout << getName() << endl;
+			}
+		}
+	}
 	void Entity2::setDraw()
 	{
 		drawThisFrame = false;
@@ -415,6 +446,8 @@ namespace JuliEngine
 		{
 			getTransform()->setWorldModel(getTransform()->getLocalModel());
 		}
+		UpdateAABB();
+		
 	}
 
 	void Entity2::addBoundsToAABB(vector<glm::vec3> childAABB)

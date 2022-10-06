@@ -75,6 +75,7 @@ namespace JuliEngine
 		void AddMesh(Mesh* mesh) { this->meshes.push_back(mesh); };
 		void SetParent(Entity2* parent);
 		void setChildren(vector<Entity2*> children);
+		void UpdateAABB();
 		void setDraw();
 		void Init();
 		glm::vec3 GetPos(glm::mat4 mat);
@@ -96,6 +97,8 @@ namespace JuliEngine
 		bool canDrawThisFrame();
 
 		void draw();
+
+		vector<glm::vec3> GetlocalAABB() { return localAABB; };
 	private:
 		friend class MyImGui;
 	protected:
