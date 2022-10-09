@@ -211,14 +211,6 @@ void Game::Draw() {
 	_bsp->Draw();
 	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
 		(*it)->setDraw();
-	//_modeloTanke->GetBaseNode()->setDraw();
-	//for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
-	//	if((*it)!= nullptr)
-	//		(*it)->setDraw();
-	//_modeltest2->GetBaseNode()->setDraw();
-	//_bsp->Draw();
-	//for (int i = 0; i < 4; i++)
-		//_lightcubes[i]->Draw();
 
 }
 void Game::UpdateImgui()

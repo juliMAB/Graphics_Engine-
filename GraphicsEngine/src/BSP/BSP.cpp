@@ -24,10 +24,6 @@ namespace JuliEngine
 	{
 		for (std::list<Entity2*>::iterator it2 = entities.begin(); it2 != entities.end(); ++it2)
 		{
-			if ((*it2)!=nullptr)
-			{
-				(*it2)->setTransformations();
-			}
 			bool dibujable = true;
 			for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
 			{
@@ -70,25 +66,9 @@ namespace JuliEngine
 
 	bool BSP::AskBox(plane* plan, Entity2* entity)
 	{
-		//bool sameSide=false;
-		//vec3 center = entity->getVolume()->getGlobalVolume(entity->getTransform()->getWorldModel()).center;
-		//vec3 extend = entity->getVolume()->getGlobalVolume(entity->getTransform()->getWorldModel()).extents;
-		//vec3 extremo[8] = {
-		//	center + vec3(extend.x,extend.y,extend.z),
-		//	center + vec3(extend.x,extend.y,-extend.z),
-		//	center + vec3(extend.x,-extend.y,extend.z),
-		//	center + vec3(-extend.x,extend.y,extend.z),
-		//	center + vec3(extend.x,-extend.y,-extend.z),
-		//	center + vec3(-extend.x,-extend.y,extend.z),
-		//	center + vec3(-extend.x,extend.y,-extend.z),
-		//	center + vec3(-extend.x,-extend.y,-extend.z),
-		//};
-		for (int i = 0; i < entity->GetlocalAABB().size(); i++)
-			if ((plan->GetSide(camera->getPos()) == plan->GetSide(entity->GetlocalAABB()[i])))
+		for (int i = 0; i < entity->getExtremos().size(); i++)
+			if ((plan->GetSide(camera->getPos()) == plan->GetSide(entity->getExtremos()[i])))
 				return true;	
-		//for (int i = 0; i < 8; i++)
-		//	if ((plan->GetSide(camera->getPos()) == plan->GetSide(extremo[i])))
-		//		return true;
 		return false;
 	}
 

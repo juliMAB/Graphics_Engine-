@@ -19,6 +19,7 @@ namespace JuliEngine
 		meshes = vector<Mesh*>();
 		parent = nullptr;
 		volume = nullptr;
+		generateAABB();
 	}
 	Entity2::~Entity2()
 	{
@@ -271,6 +272,8 @@ namespace JuliEngine
 	void Entity2::SetMeshes(vector<Mesh*> meshes)
 	{
 		this->meshes = meshes;
+
+		setAABBView(this->meshes);
 	}
 	void Entity2::SetParent(Entity2* parent)
 	{
@@ -285,35 +288,23 @@ namespace JuliEngine
 		this->children.push_back(children);
 	}
 
-	void Entity2::UpdateAABB()
-	{
-		for (int i = 0; i < getChildren().size(); i++)
-		{
-			getChildren()[i]->UpdateAABB();
-		}
+	void Entity2::UpdateExtremos() {
+	
 		if (getVolume()!=nullptr)
 		{
-
-		
-		vec3 center = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).center;
-		vec3 extend = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).extents;
-		vector<vec3> extremo = {
-			center + vec3(extend.x,extend.y,extend.z),
-			center + vec3(extend.x,extend.y,-extend.z),
-			center + vec3(extend.x,-extend.y,extend.z),
-			center + vec3(-extend.x,extend.y,extend.z),
-			center + vec3(extend.x,-extend.y,-extend.z),
-			center + vec3(-extend.x,-extend.y,extend.z),
-			center + vec3(-extend.x,extend.y,-extend.z),
-			center + vec3(-extend.x,-extend.y,-extend.z),
-		};
-		localAABB.clear();
-			for (int i = 0; i < extremo.size(); i++)
-			{
-				localAABB.push_back(extremo[i]);
-				cout << getName() << endl;
-			}
+			vec3 center = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).center;
+			vec3 extend = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).extents;
+			extremos.push_back(center + vec3(extend.x, extend.y, extend.z));
+			extremos.push_back(center + vec3(extend.x, extend.y, -extend.z));
+			extremos.push_back(center + vec3(extend.x, -extend.y, extend.z));
+			extremos.push_back(center + vec3(-extend.x, extend.y, extend.z));
+			extremos.push_back(center + vec3(extend.x, -extend.y, -extend.z));
+			extremos.push_back(center + vec3(-extend.x, -extend.y, extend.z));
+			extremos.push_back(center + vec3(-extend.x, extend.y, -extend.z));
+			extremos.push_back(center + vec3(-extend.x, -extend.y, -extend.z));
 		}
+		
+	
 	}
 	void Entity2::setDraw()
 	{
@@ -385,6 +376,11 @@ namespace JuliEngine
 			volume = new JuliEngine::aabb(minAABB, maxAABB);
 			originVolume = new JuliEngine::aabb(minAABB, maxAABB);
 		}
+		else
+		{
+			volume = new JuliEngine::aabb(vec3(0), vec3(0));
+			originVolume = new JuliEngine::aabb(vec3(0), vec3(0));
+		}
 	}
 	void Entity2::updateAABBWithChildren(Entity2* child)
 	{
@@ -422,6 +418,7 @@ namespace JuliEngine
 	{
 		if (meshes.size() > 0)
 		{
+			volume = new JuliEngine::aabb(originVolume->min, originVolume->max);
 			volume->update(originVolume->min, originVolume->max);
 		}
 
@@ -431,7 +428,70 @@ namespace JuliEngine
 			children[i]->setTransformations();
 
 			updateAABBWithChildren(children[i]);
+			UpdateExtremos();
+			addBoundsToVisualAABB(children[i]->getLocalAABB());
 		}
+	}
+
+	void Entity2::addBoundsToVisualAABB(vector<glm::vec3> childAABB)
+	{
+		if (childAABB.size() < 1)
+		{
+			return;
+		}
+		else if (localAABB.size() < 1)
+		{
+			localAABB.clear();
+			localAABB.push_back(childAABB[0]);
+			localAABB.push_back(childAABB[1]);
+
+			aabb.clear();
+			aabb.push_back(childAABB[0]);
+			aabb.push_back(childAABB[1]);
+
+			return;
+		}
+
+		localAABB.clear();
+		localAABB.push_back(aabb[0]);
+		localAABB.push_back(aabb[1]);
+
+		if (childAABB[0].x < localAABB[0].x) localAABB[0].x = childAABB[0].x;
+		if (childAABB[1].x > localAABB[1].x) localAABB[1].x = childAABB[1].x;
+		if (childAABB[0].y < localAABB[0].y) localAABB[0].y = childAABB[0].y;
+		if (childAABB[1].y > localAABB[1].y) localAABB[1].y = childAABB[1].y;
+		if (childAABB[0].z < localAABB[0].z) localAABB[0].z = childAABB[0].z;
+		if (childAABB[1].z > localAABB[1].z) localAABB[1].z = childAABB[1].z;
+	}
+
+	void Entity2::setAABBView(vector<Mesh*> meshes)
+	{
+		if (meshes.size() < 1)
+		{
+			return;
+		}
+
+		aabb.push_back(glm::vec3());
+		aabb.push_back(glm::vec3());
+
+		aabb[0].x = aabb[1].x = meshes[0]->vertexs[0].Position.x;
+		aabb[0].y = aabb[1].y = meshes[0]->vertexs[0].Position.y;
+		aabb[0].z = aabb[1].z = meshes[0]->vertexs[0].Position.z;
+
+		for (int i = 0; i < meshes.size(); i++)
+		{
+			for (int j = 0; j < meshes[i]->vertexs.size(); j++) {
+				if (meshes[i]->vertexs[j].Position.x < aabb[0].x) aabb[0].x = meshes[i]->vertexs[j].Position.x;
+				if (meshes[i]->vertexs[j].Position.x > aabb[1].x) aabb[1].x = meshes[i]->vertexs[j].Position.x;
+				if (meshes[i]->vertexs[j].Position.y < aabb[0].y) aabb[0].y = meshes[i]->vertexs[j].Position.y;
+				if (meshes[i]->vertexs[j].Position.y > aabb[1].y) aabb[1].y = meshes[i]->vertexs[j].Position.y;
+				if (meshes[i]->vertexs[j].Position.z < aabb[0].z) aabb[0].z = meshes[i]->vertexs[j].Position.z;
+				if (meshes[i]->vertexs[j].Position.z > aabb[1].z) aabb[1].z = meshes[i]->vertexs[j].Position.z;
+			}
+		}
+
+		localAABB.push_back(aabb[0]);
+		localAABB.push_back(aabb[1]);
 	}
 
 	void Entity2::updateModelMatrix()
@@ -446,7 +506,7 @@ namespace JuliEngine
 		{
 			getTransform()->setWorldModel(getTransform()->getLocalModel());
 		}
-		UpdateAABB();
+		setTransformations();
 		
 	}
 
