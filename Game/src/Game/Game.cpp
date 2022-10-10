@@ -211,6 +211,12 @@ void Game::Draw() {
 	_bsp->Draw();
 	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
 		(*it)->setDraw();
+	//for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
+	//	if ((*it)!=nullptr)
+		//{
+			//(*it)->setDraw();
+
+		//}
 
 }
 void Game::UpdateImgui()

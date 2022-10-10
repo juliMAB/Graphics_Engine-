@@ -289,11 +289,14 @@ namespace JuliEngine
 	}
 
 	void Entity2::UpdateExtremos() {
-	
+		vec3 center = getPos();
+		vec3 extend = vec3(0);
 		if (getVolume()!=nullptr)
 		{
-			vec3 center = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).center;
-			vec3 extend = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).extents;
+			center = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).center;
+			extend = getVolume()->getGlobalVolume(getTransform()->getWorldModel()).extents;
+		}
+			extremos.clear();
 			extremos.push_back(center + vec3(extend.x, extend.y, extend.z));
 			extremos.push_back(center + vec3(extend.x, extend.y, -extend.z));
 			extremos.push_back(center + vec3(extend.x, -extend.y, extend.z));
@@ -302,7 +305,6 @@ namespace JuliEngine
 			extremos.push_back(center + vec3(-extend.x, -extend.y, extend.z));
 			extremos.push_back(center + vec3(-extend.x, extend.y, -extend.z));
 			extremos.push_back(center + vec3(-extend.x, -extend.y, -extend.z));
-		}
 		
 	
 	}
@@ -420,6 +422,7 @@ namespace JuliEngine
 		{
 			volume = new JuliEngine::aabb(originVolume->min, originVolume->max);
 			volume->update(originVolume->min, originVolume->max);
+			
 		}
 
 		for (int i = 0; i < getChildren().size(); i++)
@@ -428,9 +431,10 @@ namespace JuliEngine
 			children[i]->setTransformations();
 
 			updateAABBWithChildren(children[i]);
-			UpdateExtremos();
+			
 			addBoundsToVisualAABB(children[i]->getLocalAABB());
 		}
+		UpdateExtremos();
 	}
 
 	void Entity2::addBoundsToVisualAABB(vector<glm::vec3> childAABB)
