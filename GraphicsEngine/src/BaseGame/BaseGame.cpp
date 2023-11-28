@@ -1,94 +1,68 @@
 #include "BaseGame.h"
 
-
-
-
-
 BaseGame::BaseGame() {
-	_input = nullptr;
-	_mainCamera = nullptr;
-	_mainCamera2 = nullptr;
-	_renderer = nullptr;
-	_time = nullptr;
 	_window = nullptr;
-	//_input2 = nullptr;
-	//backgroundColor = glm::vec4();
-
 }
 BaseGame::~BaseGame() {
 	if (_window != nullptr) {
 		_window = nullptr;
 		delete _window;
 	}
-	if (_renderer != nullptr) {
-		_renderer = nullptr;
-		delete _renderer;
-	}
 }
-
-int BaseGame::MainLoop(int width, int height, const char* windowName)
+int BaseGame::Init(int width,int heigth,const char * title ){
+	if (!InitEngine(width, heigth, title))
+		return -1;
+}
+void processInput(GLFWwindow* window)
 {
-	if (InitEngine(width, height, windowName))
-	{
-		Init();
-		while (!glfwWindowShouldClose(_window->GetWindow())) {
-			
-			_renderer->ClearScreen();
-			_time->Update();
-			if (imGuiEnabled)
-			{
-				_myImgui->Update();
-				UpdateImgui();
-			}
-			Update();
-			if (imGuiEnabled)
-			_myImgui->Draw();
-			Draw();
-			_renderer->PostRender(GetWindow());
-		}
-	}
-	Deinit();
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+}
+bool BaseGame::IsRunning() {
+	return !glfwWindowShouldClose(_window->GetWindow());
+}
+void BaseGame::Deinit()
+{
 	DeinitEngine();
-	return 0;
 }
-void BaseGame::DeinitEngine()
+void BaseGame::ClearClolor()
 {
-	glfwTerminate();
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
 }
-Window* BaseGame::GetWindow() {
-	return _window;
+void BaseGame::EndDraw()
+{
+	glfwSwapBuffers(_window->GetWindow());
+	glfwPollEvents();
+}
+void BaseGame::EndUpdate()
+{
+	glfwPollEvents();
 }
 bool BaseGame::InitEngine(int windowSizeX, int windowSizeY, std::string windowName)
 {
 	std::cout << "+Init Engine" << std::endl;
-	glfwSetErrorCallback(glfw_error_callback);
 	if (!glfwInit())
 		return false;
 	if (!InitWindow(windowSizeX,windowSizeY,windowName))
 		return false;
 	if (!InitGlew())
 		return false;
-	InitRender();
-	InitTime();
-	InitCamera();
-	InitInput();
-	if (imGuiEnabled)
-	InitImgur();
-	std::cout << "-Init Engine" << std::endl;
+
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	return true;
 }
-Renderer* BaseGame::GetRenderer() {
-	return _renderer;
+void BaseGame::DeinitEngine()
+{
+	glfwTerminate();
 }
-
 double BaseGame::getCurrentTime()
 {
 	return glfwGetTime();
 }
-bool BaseGame::IsKeyDown(Input::KeyCode key) { return Input::IsKeyDown(key); }
-bool BaseGame::IsKeyRelease(Input::KeyCode key) { return Input::IsKeyPressed(key); }
-bool BaseGame::IsKeyUp(Input::KeyCode key) { return Input::IsKeyUp(key); }
-
 bool BaseGame::InitGlew() {
 	if (glewInit() != GLEW_OK) // tiene que ir despues de la creacion del contexto de glfw si o si
 	{
@@ -97,24 +71,6 @@ bool BaseGame::InitGlew() {
 	}
 	return true;
 }
-
-void BaseGame::InitImgur()
-{
-	_myImgui = new MyImGui();
-	_myImgui->Init();
-	_myImgui->InitAfterWindow(_window);
-}
-void BaseGame::InitInput() {
-	Input::SetWindow(_window);
-	Input::StartInputSystem();
-	Input::SetCam(_mainCamera2);
-}
-void BaseGame::InitCamera() {
-	_mainCamera = new Camera();
-	_mainCamera->Init(_renderer,_window);
-	_mainCamera2 = new JuliEngine::Camera2(_renderer,_window);
-}
-
 bool BaseGame::InitWindow(int windowSizeX, int windowSizeY, std::string windowName) {
 	_window = new Window(windowSizeX, windowSizeY, windowName);
 	if (!_window->GetWindow())
@@ -125,16 +81,4 @@ bool BaseGame::InitWindow(int windowSizeX, int windowSizeY, std::string windowNa
 	}
 	_window->Start();
 	return true;
-}
-
-void BaseGame::InitRender() {
-	_renderer = new Renderer();
-	_renderer->Init();
-}
-void BaseGame::InitTime() {
-	_time = new Time();
-}
-
-void BaseGame::SetBackGroundColor(color::RGBA color) {
-	_renderer->SetBackgroundColor(color.GetColorV4());
 }

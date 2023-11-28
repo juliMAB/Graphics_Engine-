@@ -2,10 +2,22 @@
 
 int main() {
     Game* game = new Game();
-    if (game) {
-        game->Init();
+
+    game->Init();
+
+    while (game->isRunning())
+    {
+        game->Update();
+
+        game->Draw();
+    }
+
+    //if game is not null, then it will be deleted.
+    if (game != nullptr) 
+    {
         game->Deinit();
         delete game;
     }
 	return 0;
 }
+

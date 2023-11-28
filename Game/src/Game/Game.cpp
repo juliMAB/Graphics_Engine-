@@ -1,25 +1,24 @@
 #include "Game.h"
 
-
 Game::Game() { 
-	MainLoop(960, 540, "In Lovyng");
-}
-Game::~Game() {}
-void Game::Init() {
 	
+}
+Game::~Game() {
+
+}
+void Game::Init() {
+	BaseGame::Init(wt, ht, "In Lovyng");
+	std::cout << "+Game";
 }
 
 void Game::Deinit() {
+	BaseGame::Deinit();
 	std::cout << "-Game";
 }
 void Game::Update()
 {	
-	
+	BaseGame::EndUpdate();
 }
 void Game::Draw() {
-	
-}
-void Game::UpdateImgui()
-{
-
+	BaseGame::EndDraw();
 }
