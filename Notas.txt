@@ -1,0 +1,3 @@
+Al utilizar GLFWwindow*& [window] estás declarando window como una referencia a un puntero a GLFWwindow.
+ Luego, al asignar window = glfwCreateWindow(...), estás asignando la dirección de memoria del nuevo objeto GLFWwindow
+ creado a window en el índice correspondiente del array windows.

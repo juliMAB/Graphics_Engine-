@@ -1,17 +1,17 @@
 #ifndef GAME_H
 #define GAME_H
-#include "BaseGame/BaseGame.h"
-
-class Game : BaseGame {
-	const int wt = 960;
-	const int ht = 540;
+#include "GLEW/glew.h"
+#include "GLFW/glfw3.h"
+class Game {
 public:
-	bool isRunning() {return BaseGame::IsRunning(); };
+	static const int MAX_WINDOWS = 2;
+	GLFWwindow* _windows[MAX_WINDOWS];
 	Game();
 	~Game();
-	void Init();
-	void Deinit();
+	int Init();
+	int Deinit();
 	void Update();
 	void Draw();
+	bool IsRunning();
 };
 #endif
