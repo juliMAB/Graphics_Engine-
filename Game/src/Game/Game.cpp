@@ -1,24 +1,19 @@
 #include "Game.h"
-
 #include <iostream>
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window);
+//void processInput(GLFWwindow* window);
 
 Game::Game() { 
-    if (_windows != nullptr)
-        for (int i = 0; i < MAX_WINDOWS; i++)
-            _windows[i] = nullptr;
+    _window = nullptr;
 }
 Game::~Game() {
-
+    if (_window != nullptr) delete(_window); _window = nullptr;
 }
-int Game::Init() {
-    const unsigned int SCR_WIDTH = 800;
-    const unsigned int SCR_HEIGHT = 600;
-
+int GLFWINIT()
+{
     // glfw: initialize and configure
     // ------------------------------
-    glfwInit();
+    if (glfwInit() == GLFW_FALSE) return -1;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -26,29 +21,11 @@ int Game::Init() {
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
+    return 0;
+}
 
-    if (_windows == nullptr)
-        return -1;
-
-    for (int i = 0; i < MAX_WINDOWS; i++)
-    {
-        GLFWwindow*& window = _windows[i];
-        window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-        if (window == NULL)
-        {
-            std::cout << "Failed to create GLFW window" << std::endl;
-            glfwTerminate();
-            return -1;
-        }
-        glfwMakeContextCurrent(window);
-        glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    }
-
-    // glfw window creation
-    // --------------------
-    
-
-
+int GLEWINIT()
+{
     // glew: load all OpenGL function pointers
     // ---------------------------------------
     if (glewInit() != GLEW_OK) // tiene que ir despues de la creacion del contexto de glfw si o si
@@ -56,26 +33,51 @@ int Game::Init() {
         std::cout << "Glew error" << std::endl;
         return -1;
     }
-return 0;
+    return 0;
+}
+int Game::WINDOWINIT()
+{
+    _window = new Window();
+    _window->Init(600, 600, "name");
+    _window->SelectWindowAtCurrentContext();
+    return 0;
+}
+int Game::WINDOWDEINIT()
+{
+    if (_window == nullptr) return 0;
+    delete(_window);
+    _window = nullptr;
 }
 
+int Game::Init() {
+    const unsigned int SCR_WIDTH = 800;
+    const unsigned int SCR_HEIGHT = 600;
+
+    if (GLFWINIT() == -1) return -1;
+
+    if (WINDOWINIT() == -1) return -1;
+
+        //glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    
+
+    
+    if (GLEWINIT() == -1) return -1;
+
+    
+return 0;
+}
 int Game::Deinit() {
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
     glfwTerminate();
+    WINDOWDEINIT();
     return 0;
 }
 void Game::Update()
 {	
-    // input
-        // -----
-    for (int i = 0; i < MAX_WINDOWS; i++)
-    {
-        GLFWwindow* window = _windows[i];
-		if (window == nullptr)
-			continue;
-		processInput(window);
-    }
+    //_window->OnProcessInput();
+	//processInput(_window);
+    
 
     // render
     // ------
@@ -84,13 +86,7 @@ void Game::Update()
 
     // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
     // -------------------------------------------------------------------------------
-    for (int i = 0; i < MAX_WINDOWS; i++)
-    {
-        GLFWwindow* window = _windows[i];
-        if (window == nullptr)
-            continue;
-        glfwSwapBuffers(window);
-    }
+    _window->SwapBuffers();
 
     glfwPollEvents();
 }
@@ -99,28 +95,13 @@ void Game::Draw() {
 }
 bool Game::IsRunning() {
 
-    bool running = false;
-    for (int i = 0; i < MAX_WINDOWS; i++)
-    {
-        GLFWwindow* window = _windows[i];
-        if (window == nullptr)
-            continue;
-        if (!glfwWindowShouldClose(window))
-        {
-            return true;
-        }
-    }
-
-	return running;
+    return !_window->WindowShouldClose();
 }
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window)
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
 }
-
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

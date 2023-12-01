@@ -1,11 +1,11 @@
 #ifndef GAME_H
 #define GAME_H
-#include "GLEW/glew.h"
-#include "GLFW/glfw3.h"
+#include <GLEW/glew.h>
+#include <GLFW/glfw3.h>
+#include "Window/Window.h"
 class Game {
 public:
-	static const int MAX_WINDOWS = 2;
-	GLFWwindow* _windows[MAX_WINDOWS];
+	Window* _window;
 	Game();
 	~Game();
 	int Init();
@@ -13,5 +13,8 @@ public:
 	void Update();
 	void Draw();
 	bool IsRunning();
+private:
+	int WINDOWINIT();
+	int WINDOWDEINIT();
 };
 #endif
