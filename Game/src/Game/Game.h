@@ -13,6 +13,7 @@ public:
 	void Update();
 	void Draw();
 	bool IsRunning();
+	
 private:
 	int WINDOWINIT();
 	int WINDOWDEINIT();
