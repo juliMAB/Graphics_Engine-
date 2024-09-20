@@ -80,7 +80,6 @@ void Game::Init() {
 	JuliEngine::Entity2* wantedNode1 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke1");
 	JuliEngine::Entity2* wantedNode2 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke2");
 	JuliEngine::Entity2* wantedNode3 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke3");
-	JuliEngine::Entity2* wantedNode4 = _entity3dScene->model->GetBaseNode()->GetNode("Tanke4");
 	JuliEngine::Entity2* wantedNodeBsp1 = _entity3dScene->model->GetBaseNode()->GetNode("bsp1");
 	JuliEngine::Entity2* wantedNodeBsp2 = _entity3dScene->model->GetBaseNode()->GetNode("bsp2");
 	JuliEngine::Entity2* wantedNodeBsp3 = _entity3dScene->model->GetBaseNode()->GetNode("bsp3");
@@ -91,18 +90,35 @@ void Game::Init() {
 	tankesitos.push_back(wantedNode1);
 	tankesitos.push_back(wantedNode2);
 	tankesitos.push_back(wantedNode3);
-	tankesitos.push_back(wantedNode4);
-	//tankesitos.push_back(wantedNodeBsp);
 	if (wantedNode != nullptr)
 	{
 		_modeloTanke = new JuliEngine::Model(GetRenderer());
 		_modeloTanke->SetBaseNode(wantedNode);
+		_modeloTanke->GetBaseNode()->Init();
+		_modeloTanke->GetBaseNode()->SetPos(0,2,0);
 	}
-	if (_modeloTanke == nullptr)
+	if (wantedNode1 != nullptr)
 	{
-		_modeloTanke = _entity3dScene->model;
+		_modeloTanke1 = new JuliEngine::Model(GetRenderer());
+		_modeloTanke1->SetBaseNode(wantedNode1);
+		_modeloTanke1->GetBaseNode()->Init();
+		_modeloTanke1->GetBaseNode()->SetPos(0, -2, 15);
 	}
-	_modeloTanke->GetBaseNode()->Init();
+	if (wantedNode2 != nullptr)
+	{
+		_modeloTanke2 = new JuliEngine::Model(GetRenderer());
+		_modeloTanke2->SetBaseNode(wantedNode2);
+		_modeloTanke2->GetBaseNode()->Init();
+		_modeloTanke2->GetBaseNode()->SetPos(0, 5, -15);
+	}
+	if (wantedNode3 != nullptr)
+	{
+		_modeloTanke3 = new JuliEngine::Model(GetRenderer());
+		_modeloTanke3->SetBaseNode(wantedNode3);
+		_modeloTanke3->GetBaseNode()->Init();
+		_modeloTanke3->GetBaseNode()->SetPos(15, -5, 0);
+	}
+
 	_cam->SetSensitivity(0.25f);
 	_cam->SetOffset(10.f);
 	JuliEngine::OcclusionCulling::Init(_cam);
@@ -211,13 +227,13 @@ void Game::Draw() {
 	_bsp->Draw();
 	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
 		(*it)->setDraw();
-	//for (std::list<Entity2*>::iterator it = tankesitos.begin(); it != tankesitos.end(); it++)
-	//	if ((*it)!=nullptr)
-		//{
-			//(*it)->setDraw();
 
-		//}
-
+	/*for (std::list<Entity2*>::iterator it2 = tankesitos.begin(); it2 != tankesitos.end(); it2++)
+		if ((*it2) != nullptr)
+		{
+			cout << (*it2)->getName();
+			(*it2)->setDraw();
+		}*/
 }
 void Game::UpdateImgui()
 {

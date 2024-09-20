@@ -382,6 +382,10 @@ namespace JuliEngine
 		{
 			volume = new JuliEngine::aabb(vec3(0), vec3(0));
 			originVolume = new JuliEngine::aabb(vec3(0), vec3(0));
+			for (int i = 0; i < children.size(); i++)
+			{
+				updateAABBWithChildren(getChildren()[i]);
+			}
 		}
 	}
 	void Entity2::updateAABBWithChildren(Entity2* child)

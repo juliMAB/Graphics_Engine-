@@ -45,23 +45,40 @@ namespace JuliEngine
 	{
 		for (std::list<plane*>::iterator it = planes.begin(); it != planes.end(); ++it)
 		{
+			if (e->getName() == "Tanke2")
+			{
+				cout << "mesi";
+			}
 			bool dibujar = true;
-			if (!AskBox((*it), e))
+			if (!AskBox((*it), e)) // pregunto si la camara y si unoo de los puntos esta en la misma cara del plano
 			{
 				dibujar = false;
 				break;
 			}
 			if (dibujar)
 			{
-				if (e->getMeshes().size() > 0)
+				drawrequ(e);
+				/*if (e->getMeshes().size() > 0)
 					e->draw();
 				if (e->getChildren().size() > 0)
 				{
 					for (int i = 0; i < e->getChildren().size(); i++)
 					{
-						DrawOnlyEntity(e->getChildren()[i]);
+						drawrequ(e->getChildren()[i]);
 					}
-				}
+				}*/
+			}
+		}
+	}
+	void BSP::drawrequ(Entity2* e)
+	{
+		if (e->getMeshes().size() > 0)
+			e->draw();
+		if (e->getChildren().size() > 0)
+		{
+			for (int i = 0; i < e->getChildren().size(); i++)
+			{
+				drawrequ(e->getChildren()[i]);
 			}
 		}
 	}
@@ -69,8 +86,14 @@ namespace JuliEngine
 	bool BSP::AskBox(plane* plan, Entity2* entity)
 	{
 		for (int i = 0; i < entity->getExtremos().size(); i++)
-			if ((plan->GetSide(camera->getPos()) == plan->GetSide(entity->getExtremos()[i])))
+		{
+			bool A = plan->GetSide(camera->getPos());
+
+			bool B = plan->GetSide(entity->getExtremos()[i]);
+
+			if (A == B)
 				return true;	
+		}
 		return false;
 	}
 

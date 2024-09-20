@@ -17,6 +17,9 @@ class Game : BaseGame {
 	//JuliEngine::Entity3D* _entity3d;
 	JuliEngine::Entity3D* _entity3dScene;
 	JuliEngine::Model* _modeloTanke;
+	JuliEngine::Model* _modeloTanke1;
+	JuliEngine::Model* _modeloTanke2;
+	JuliEngine::Model* _modeloTanke3;
 	JuliEngine::Model* _modeltest2;
 	JuliEngine::Camera2* _cam;
 	JuliEngine::plane* _planeXample;
