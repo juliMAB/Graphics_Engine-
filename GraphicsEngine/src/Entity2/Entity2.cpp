@@ -4,6 +4,7 @@ namespace JuliEngine
 {
 	int Entity2::CuantityEntitys = 0;
 	std::list<Entity2*> Entity2::EntitysLists;
+	std::list<Entity2*> Entity2::PersonalList;
 	Entity2::Entity2(Renderer* renderer) : GameObject(this)
 	{
 		_renderer = renderer;
@@ -269,6 +270,10 @@ namespace JuliEngine
 	{
 		return drawThisFrame;
 	}
+	void Entity2::SetcanDrawThisFrame(bool value)
+	{
+		drawThisFrame = value;
+	}
 	void Entity2::SetMeshes(vector<Mesh*> meshes)
 	{
 		this->meshes = meshes;
@@ -311,7 +316,10 @@ namespace JuliEngine
 	void Entity2::setDraw()
 	{
 		drawThisFrame = false;
-
+		if (this->getName() == "Tanke")
+		{
+			cout << "mesi";
+		}
 		for (int i = 0; i < getChildren().size(); i++)
 		{
 			//al child le paso la matriz del padere, para que en la proxima valor de i, ya se pase la posicion actualizada.
@@ -555,9 +563,22 @@ namespace JuliEngine
 	}
 	void Entity2::draw()
 	{
+		if (!getactive()) return;
+		if (!AllParentActive()) return;
 		_renderer->UpdateMVP(getTransform()->getWorldModel());
 
 		for (int i = 0; i < meshes.size(); i++)
 			meshes[i]->Draw();
+	}
+	bool Entity2::AllParentActive()
+	{
+		if (getParent()!=nullptr)
+		{
+					if (!getParent()->getactive())
+				return false;
+			else
+				return getParent()->AllParentActive();
+		}
+		return true;
 	}
 }

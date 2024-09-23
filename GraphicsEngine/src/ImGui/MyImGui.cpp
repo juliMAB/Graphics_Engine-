@@ -74,6 +74,10 @@ void MyImGui::Update()
     {
         UpdateWindowsLights();
     }
+    if (ShowMyEntitiesList)
+    {
+        UpdateWindowsEntity2My();
+    }
 }
 
 void MyImGui::Draw()
@@ -106,6 +110,9 @@ void MyImGui::UpdateMainWindows()
     if (ImGui::Button("ENTITY2",ImVec2(ImGui::GetWindowWidth(),20)))
     {
         ShowEntity2List = !ShowEntity2List;
+    }if (ImGui::Button("ENTITY2MY", ImVec2(ImGui::GetWindowWidth(), 20)))
+    {
+        ShowMyEntitiesList = !ShowMyEntitiesList;
     }
     if (ImGui::Button("MODEL", ImVec2(ImGui::GetWindowWidth(), 20)))
     {
@@ -177,35 +184,37 @@ void baseEntity2Edit(Entity2* it)
             (it)->SetScale(scale);
         if (ImGui::ColorEdit3(("clo " + (it)->getName()).c_str(), (float*)&color))
             (it)->SetColor(color);
+
+        if ((it)->getChildren().size() > 0)
+        {
+            ImGui::Text("HIJOS: ");
+            for (int i = 0; i < (it)->getChildren().size(); i++)
+                ImGui::Text((it)->getChildren()[i]->getName().c_str());
+        }
+        else
+        {
+            ImGui::Text("HIJOS: NULL");
+        }
+        if ((it)->getChildren().size() > 0)
+            for (int i = 0; i < (it)->getChildren().size(); i++)
+                baseEntity2Edit((it)->getChildren()[i]);
+        if ((it)->getParent() != nullptr)
+        {
+            ImGui::Text(("PADRE: " + (it)->getParent()->getName()).c_str());
+        }
+        else
+        {
+            ImGui::Text("PADRE: NULL");
+        }
+        if ((it)->getMeshes().size() > 0)
+        {
+            int a = (it)->getMeshes().size();
+
+            std::string val("MESHES:" + std::to_string(a));
+            ImGui::Text(val.c_str());
+        }
     }
-    if ((it)->getChildren().size() > 0)
-    {
-        ImGui::Text("HIJOS: ");
-        for (int i = 0; i < (it)->getChildren().size(); i++)
-            ImGui::Text((it)->getChildren()[i]->getName().c_str());
-    }
-    else
-    {
-        ImGui::Text("HIJOS: NULL");
-    }
-    if ((it)->getChildren().size()>0)
-        for (int i = 0; i < (it)->getChildren().size(); i++)
-            baseEntity2Edit((it)->getChildren()[i]);
-    if ((it)->getParent()!=nullptr)
-    {
-        ImGui::Text(("PADRE: "+ (it)->getParent()->getName()).c_str());
-    }
-    else
-    {
-        ImGui::Text("PADRE: NULL");
-    }
-    if ((it)->getMeshes().size()>0)
-    {
-        int a = (it)->getMeshes().size();
-        
-        std::string val("MESHES:" + std::to_string(a));
-        ImGui::Text(val.c_str());
-    }
+    
     ImGui::Text("-------------");
 }
 void baseLight2Edit(Light* it)
@@ -250,6 +259,18 @@ void MyImGui::UpdateWindowsEntity2()
     if (Entity2::EntitysLists.size()>0)
     {
         for (std::list<Entity2*>::iterator it = Entity2::EntitysLists.begin(); it != Entity2::EntitysLists.end(); it++)
+        {
+            baseEntity2Edit(*it);
+        }
+    }
+    ImGui::End();
+}
+void MyImGui::UpdateWindowsEntity2My()
+{
+    ImGui::Begin("Entity2My");
+    if (Entity2::PersonalList.size() > 0)
+    {
+        for (std::list<Entity2*>::iterator it = Entity2::PersonalList.begin(); it != Entity2::PersonalList.end(); it++)
         {
             baseEntity2Edit(*it);
         }

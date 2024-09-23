@@ -47,6 +47,7 @@ public:
 	void UpdateMainWindows();
 
 	void UpdateWindowsEntity2();
+	void UpdateWindowsEntity2My();
 	void UpdateWindowsLights();
 	void UpdateWindowsDirectionLights();
 	void UpdateWindowsModel();
@@ -55,6 +56,7 @@ private:
 	const char* glsl_version;
 	Window* _window;
 	bool ShowEntity2List;
+	bool ShowMyEntitiesList;
 	bool ShowModelList;
 	bool ShowCamera2;
 	bool ShowLights;

@@ -12,6 +12,7 @@ namespace JuliEngine
 	public:
 		static int CuantityEntitys;
 		static std::list<Entity2*> EntitysLists;
+		static std::list<Entity2*> PersonalList;
 		
 		Entity2(Renderer* renderer);
 		~Entity2();
@@ -99,7 +100,11 @@ namespace JuliEngine
 		void setAABBView(vector<Mesh*> meshes);
 		bool canDrawThisFrame();
 
+		void SetcanDrawThisFrame(bool value);
+
 		void draw();
+
+		bool AllParentActive();
 
 		vector<glm::vec3> GetlocalAABB() { return localAABB; };
 	private:

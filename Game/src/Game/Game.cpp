@@ -96,6 +96,7 @@ void Game::Init() {
 		_modeloTanke->SetBaseNode(wantedNode);
 		_modeloTanke->GetBaseNode()->Init();
 		_modeloTanke->GetBaseNode()->SetPos(0,2,0);
+		Entity2::PersonalList.push_back(wantedNode);
 	}
 	if (wantedNode1 != nullptr)
 	{
@@ -227,13 +228,6 @@ void Game::Draw() {
 	_bsp->Draw();
 	for (std::list<Entity2*>::iterator it = planos.begin(); it != planos.end(); it++)
 		(*it)->setDraw();
-
-	/*for (std::list<Entity2*>::iterator it2 = tankesitos.begin(); it2 != tankesitos.end(); it2++)
-		if ((*it2) != nullptr)
-		{
-			cout << (*it2)->getName();
-			(*it2)->setDraw();
-		}*/
 }
 void Game::UpdateImgui()
 {
