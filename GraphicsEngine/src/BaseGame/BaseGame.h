@@ -16,6 +16,7 @@ public:
 	//-----------Main Loop-------
 	int Init(int width, int heigth, const char* title);
 	bool IsRunning();
+	virtual void Draw() = 0;
 	void Deinit();
 	void ClearClolor();
 	void EndDraw();

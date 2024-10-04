@@ -1,17 +1,11 @@
 #include "Game/Game.h"
 
 int main() {
-    int returnValue = 0;
-
     Game* game = new Game();
 
-    returnValue = game->Init();
+    game->Init();
 
-    if (returnValue != 0)
-        return returnValue;
-    
-
-    while (game->IsRunning())
+    while (game->isRunning())
     {
         game->Update();
 
@@ -21,11 +15,9 @@ int main() {
     //if game is not null, then it will be deleted.
     if (game != nullptr) 
     {
-        returnValue = game->Deinit();
-        if (returnValue != 0)
-            return returnValue;
+        game->Deinit();
         delete game;
     }
-	return returnValue;
+	return 0;
 }
 
