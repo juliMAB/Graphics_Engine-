@@ -16,11 +16,9 @@ public:
 	~Window();
 	//processInput OnProcessInput;
 	void Init(int W, int H, const char* name);
-	void PollEvents();
 	void SwapBuffers();
 	bool WindowShouldClose();
 	void SelectWindowAtCurrentContext();
-	void SetFramebufferSizeCallback(GLFWframebuffersizefun callback);
 };
 #endif
 

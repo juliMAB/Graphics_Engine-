@@ -18,11 +18,6 @@ void Window::Init(int W, int H,const char* name)
     }
 }
 
-void Window::PollEvents()
-{
-    glfwPollEvents();
-}
-
 void Window::SwapBuffers()
 {
     glfwSwapBuffers(_glfWindow);
@@ -36,8 +31,4 @@ bool Window::WindowShouldClose()
 void Window::SelectWindowAtCurrentContext()
 {
     glfwMakeContextCurrent(_glfWindow);
-}
-void Window::SetFramebufferSizeCallback(GLFWframebuffersizefun callback)
-{
-    glfwSetFramebufferSizeCallback(_glfWindow, callback);
 }
